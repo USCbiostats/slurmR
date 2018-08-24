@@ -1,1 +1,7 @@
-options(sluRm.job_name = "sluRm")
+#' @title A lightweight wrapper for HPC with Slurm
+#' @docType package
+#' @name sluRm
+NULL
+
+#' @importFrom utils sessionInfo
+NULL

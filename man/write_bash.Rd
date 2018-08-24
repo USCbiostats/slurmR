@@ -4,16 +4,16 @@
 \alias{write_bash}
 \title{Functio to write out a bash file calling R for slurm}
 \usage{
-write_bash(file, Rscript_flags = "--vanilla",
-  job_name = getOption("sluRm.job_name", "sluRm"),
-  output = sprintf("\%s-\%\%a.out", job_name), ...)
+write_bash(file, job_name, job_path = NULL,
+  Rscript_flags = "--vanilla", output = sprintf("\%s-\%\%a.out",
+  job_name), ...)
 }
 \arguments{
 \item{file}{Full path to the R script to be submitted to Slurm.}
 
-\item{Rscript_flags}{Character specifying flags to pass to Rscript.}
-
 \item{job_name}{Character. Name of the job to be passed via \code{SBATCH}.}
+
+\item{Rscript_flags}{Character specifying flags to pass to Rscript.}
 
 \item{output}{Character. Format of the output file to be passed to \code{SBATCH}.}
 }

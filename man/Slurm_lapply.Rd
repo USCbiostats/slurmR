@@ -4,16 +4,16 @@
 \alias{Slurm_lapply}
 \title{The Slurm version of the \code{lapply}  function}
 \usage{
-Slurm_lapply(X, fun, ..., job_name = getOption("sluRm.job_name", "sluRm"),
-  path = tempdir())
+Slurm_lapply(X, FUN, ..., mc.cores = getOption("mc.cores", 2L),
+  job_name = getOption("sluRm.job_name", "sluRm"), job_path = NULL)
 }
 \arguments{
-\item{X, fun, ...}{See \link{lapply}.}
+\item{X, FUN, mc.cores, ...}{Arguments passed to \link[parallel:mclapply]{parallel::mclapply}.}
 
-\item{job_name}{Character. Name of the job to be passed to `Slurm`.}
+\item{job_name}{Character. Name of the job to be passed to \code{Slurm}.}
 
 \item{job_path}{Character. Path to the directory where all the data (including
-scripts) will be stored.}
+scripts) will be stored (See \link{options_sluRm}).}
 }
 \description{
 The Slurm version of the \code{lapply}  function

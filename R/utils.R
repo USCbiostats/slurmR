@@ -4,16 +4,15 @@
 list_loaded_pkgs <- function() {
 
   # Getting the name spaces
-  pkgs <- rev(loadedNamespaces())
+  pkgs <- rev(sessionInfo()$otherPkgs)
 
   # Session
 
   structure(
     lapply(pkgs, function(p) {
-      p <- packageDescription(p)
-      gsub(sprintf("/%s/Meta/package[.]rds$", p$Package), "", attr(p, "file"))
+      gsub(sprintf("/%s/.+", p$Package), "/", attr(p, "file"))
     }),
-    names = pkgs,
+    names = names(pkgs),
     class = "sluRm_loaded_packages"
   )
 
@@ -36,6 +35,15 @@ print.sluRm_plaintext <- function(x, ...) {
   invisible(x)
 }
 
+c.sluRm_plaintext <- function(...) {
+
+  structure(
+    .Data = do.call(c, lapply(list(...), unclass)),
+    class = "sluRm_plaintext"
+  )
+
+}
+
 write_rbash <- function() {
 
 }
@@ -54,12 +62,16 @@ bash_header <- function() {
 #' @export
 write_bash <- function(
   file,
-  job_path,
-  job_name      = getOption("sluRm.job_name", "sluRm"),
+  job_name,
+  job_path      = NULL,
   Rscript_flags = "--vanilla",
   output        = sprintf("%s-%%a.out", job_name),
   ...
   ) {
+
+  # Getting the current job path
+  if (!length(job_path))
+    job_path <- options_sluRm$get_job_path()
 
   # Collecting extra arguments
   dots <- c(list(...), list(`job-name` = job_name, output = output))
@@ -86,10 +98,14 @@ write_bash <- function(
 
 save_objects <- function(
   objects,
-  job_path,
   job_name = getOption("sluRm.job_name", "sluRm"),
+  job_path = NULL,
   ...
   ) {
+
+  # Getting the current job path
+  if (!length(job_path))
+    job_path <- options_sluRm$get_job_path()
 
   # Creating and checking  path
   path <- paste(job_path, job_name, sep="/")

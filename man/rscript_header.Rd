@@ -4,7 +4,7 @@
 \alias{rscript_header}
 \title{Creates an R script}
 \usage{
-rscript_header(pkgs = loaded_packages())
+rscript_header(pkgs = list_loaded_pkgs())
 }
 \arguments{
 \item{pkgs}{A named list of R packages to load.}

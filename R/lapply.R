@@ -26,7 +26,7 @@ Slurm_lapply <- function(
   obj_names <- save_objects(dat, job_path = job_path, job_name = job_name)
 
   # Writing the reading
-  rscript   <- ".slurmARRAY_ID <- as.numeric(Sys.getenv('SLURM_ARRAY_TASK_ID'))"
+  rscript   <- ".slurmARRAY_ID <- as.integer(Sys.getenv(\"SLURM_ARRAY_TASK_ID\"))"
   rscript   <- c(
     rscript,
     sprintf(".slurm%s <- readRDS(\"%s/%s/%1$s.rds\")", obj_names, job_path, job_name)

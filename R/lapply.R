@@ -32,7 +32,7 @@ Slurm_lapply <- function(
     sprintf(".slurm%s <- readRDS(\"%s/%s/%1$s.rds\")", obj_names, job_path, job_name)
   )
 
-  rscript[3] <- paste0(rscript[3], "[.slurmINDICES[[.slurmARRAY_ID]]]")
+  rscript[3] <- paste0(rscript[3], "[.slurmINDICES[[.slurmARRAY_ID + 1]]]")
 
   # Listing the output
   rscript <- c(

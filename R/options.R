@@ -20,8 +20,8 @@
 #' @export
 options_sluRm <- (function() {
 
-  # Default job_path
-  job_path <- getwd()
+  # Default job_path is null and will be set at the first call of the function
+  job_path <- NULL
 
   # Function to set job path
   set_job_path <- function(path, recursive = TRUE) {
@@ -37,6 +37,8 @@ options_sluRm <- (function() {
 
   # Function to get the path
   get_job_path <- function() {
+    if (!length(job_path))
+      job_path <- getwd()
     job_path
   }
 

@@ -2,6 +2,7 @@
 
 S3method(c,sluRm_plaintext)
 S3method(print,sluRm_plaintext)
+S3method(print,slurm_call)
 export(Slurm_lapply)
 export(options_sluRm)
 export(write_bash)

@@ -55,7 +55,7 @@ Slurm_lapply <- function(
   )
   )
 
-  # Creating file name and writing
+  # Writing the R script out ---------------------------------------------------
   fn_r <- sprintf("%s/%s/rscript.r", job_path, job_name)
 
   writeLines(
@@ -63,6 +63,7 @@ Slurm_lapply <- function(
     fn_r
     )
 
+  # Writing the bash script out ------------------------------------------------
   bashfile <- write_bash(fn_r, job_name = job_name, job_path = job_path,
                          nodes = nodes)
 
@@ -72,14 +73,19 @@ Slurm_lapply <- function(
     fn_sh
   )
 
-  rscript <- structure(
-    rscript,
-    robjects = obj_names,
-    job_name = job_name,
-    job_path = job_path
+  # Returning ------------------------------------------------------------------
+  structure(
+    list(
+      call     = match.call(),
+      rscript  = rscript,
+      bashfile = bashfile,
+      robjects = obj_names,
+      job_name = job_name,
+      job_path = job_path,
+      nodes    = nodes
+    ),
+    class    = "slurm_call"
     )
 
-
-  invisible(rscript)
-
 }
+

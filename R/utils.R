@@ -97,7 +97,7 @@ write_bash <- function(
 
   # Collecting extra arguments
   dots <- c(list(...), list(`job-name` = job_name, output = output,
-                            array = sprinf("0-%i", nodes - 1)))
+                            array = sprintf("0-%i", nodes - 1)))
 
   # Adding quotation
   dots <- lapply(dots, function(d) {

@@ -30,11 +30,13 @@ rscript_header <- function(pkgs = list_loaded_pkgs()) {
 
 }
 
+#' @export
 print.sluRm_plaintext <- function(x, ...) {
   cat(x, sep="\n")
   invisible(x)
 }
 
+#' @export
 c.sluRm_plaintext <- function(...) {
 
   structure(
@@ -54,18 +56,38 @@ bash_header <- function() {
 
 #' Functio to write out a bash file calling R for slurm
 #' @param file Full path to the R script to be submitted to Slurm.
+#' @template slurm
 #' @param Rscript_flags Character specifying flags to pass to Rscript.
-#' @param job_name Character. Name of the job to be passed via `SBATCH`.
 #' @param output Character. Format of the output file to be passed to `SBATCH`.
+#' @param ... List of arguments passed to `SBATCH` (see details).
 #'
-#' @details  See
+#' @details
+#' The `...` argument allows passing options via `SBATCH` in the script, for
+#' example, if the user wants to use account `user1` and require a minimum of
+#' 2 CPUS per node, the user can pass the argument:
+#'
+#' ```
+#' list(account="user1", mincpus=2)
+#' ```
+#'
+#' Which will translate into
+#'
+#' ```
+#' #SBATCH --account="user1"
+#' #SBATCH --mincpus=2
+#' ```
+#'
+#' In the bash file. Available options can be found
+#' https://slurm.schedmd.com/sbatch.html#OPTIONS.
+#'
 #' @export
 write_bash <- function(
   file,
   job_name,
   job_path      = NULL,
+  nodes         = 2,
   Rscript_flags = "--vanilla",
-  output        = sprintf("%s-%%a.out", job_name),
+  output        = paste0(job_name, "-%a.out"),
   ...
   ) {
 
@@ -74,7 +96,16 @@ write_bash <- function(
     job_path <- options_sluRm$get_job_path()
 
   # Collecting extra arguments
-  dots <- c(list(...), list(`job-name` = job_name, output = output))
+  dots <- c(list(...), list(`job-name` = job_name, output = output, nodes = nodes))
+
+  # Adding quotation
+  dots <- lapply(dots, function(d) {
+    if (is.character(d))
+      paste0("\"", d,"\"")
+    else d
+    })
+
+  # Creating the bash
   SBATCH <- if (length(dots))
     sprintf("#SBATCH --%s=%s", names(dots), unlist(dots))
   else
@@ -89,7 +120,7 @@ write_bash <- function(
     c(
       "#!/bin/sh",
       SBATCH,
-      sprintf("%sscript %s %s", Sys.getenv("R_HOME"), Rscript_flags, file)
+      sprintf("%s/bin/Rscript %s %s", R.home(), Rscript_flags, file)
     ),
     class = c("sluRm_plaintext", "sluRm_bash")
   )

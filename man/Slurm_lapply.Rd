@@ -4,11 +4,14 @@
 \alias{Slurm_lapply}
 \title{The Slurm version of the \code{lapply}  function}
 \usage{
-Slurm_lapply(X, FUN, ..., mc.cores = getOption("mc.cores", 2L),
+Slurm_lapply(X, FUN, ..., write_bash_args = list(), nodes = 2,
+  mc.cores = getOption("mc.cores", 2L),
   job_name = getOption("sluRm.job_name", "sluRm"), job_path = NULL)
 }
 \arguments{
 \item{X, FUN, mc.cores, ...}{Arguments passed to \link[parallel:mclapply]{parallel::mclapply}.}
+
+\item{write_bash_args}{List of arguments passed to \link{write_bash_args}.}
 
 \item{job_name}{Character. Name of the job to be passed to \code{Slurm}.}
 
@@ -17,4 +20,7 @@ scripts) will be stored (See \link{options_sluRm}).}
 }
 \description{
 The Slurm version of the \code{lapply}  function
+}
+\examples{
+Slurm_lapply(1:20, mean)
 }

@@ -4,22 +4,37 @@
 \alias{write_bash}
 \title{Functio to write out a bash file calling R for slurm}
 \usage{
-write_bash(file, job_name, job_path = NULL,
-  Rscript_flags = "--vanilla", output = sprintf("\%s-\%\%a.out",
-  job_name), ...)
+write_bash(file, job_name, job_path = NULL, nodes = 2,
+  Rscript_flags = "--vanilla", output = paste0(job_name, "-\%a.out"),
+  ...)
 }
 \arguments{
 \item{file}{Full path to the R script to be submitted to Slurm.}
 
-\item{job_name}{Character. Name of the job to be passed via \code{SBATCH}.}
+\item{job_name}{Character. Name of the job to be passed to \code{Slurm}.}
+
+\item{job_path}{Character. Path to the directory where all the data (including
+scripts) will be stored (See \link{options_sluRm}).}
 
 \item{Rscript_flags}{Character specifying flags to pass to Rscript.}
 
 \item{output}{Character. Format of the output file to be passed to \code{SBATCH}.}
+
+\item{...}{List of arguments passed to \code{SBATCH} (see details).}
 }
 \description{
 Functio to write out a bash file calling R for slurm
 }
 \details{
-See
+The \code{...} argument allows passing options via \code{SBATCH} in the script, for
+example, if the user wants to use account \code{user1} and require a minimum of
+2 CPUS per node, the user can pass the argument:\preformatted{list(account="user1", mincpus=2)
+}
+
+Which will translate into\preformatted{#SBATCH --account="user1"
+#SBATCH --mincpus=2
+}
+
+In the bash file. Available options can be found
+https://slurm.schedmd.com/sbatch.html#OPTIONS.
 }

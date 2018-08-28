@@ -96,7 +96,8 @@ write_bash <- function(
     job_path <- options_sluRm$get_job_path()
 
   # Collecting extra arguments
-  dots <- c(list(...), list(`job-name` = job_name, output = output, nodes = nodes))
+  dots <- c(list(...), list(`job-name` = job_name, output = output,
+                            array = sprinf("0-%i", nodes - 1)))
 
   # Adding quotation
   dots <- lapply(dots, function(d) {

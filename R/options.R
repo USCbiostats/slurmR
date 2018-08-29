@@ -27,6 +27,9 @@ options_sluRm <- (function() {
   # Function to set job path
   set_job_path <- function(path, recursive = TRUE) {
 
+    if (!length(path))
+      return(get_job_path())
+
     if (!dir.exists(path)) {
       dir.create(path, recursive = recursive)
     }
@@ -36,8 +39,6 @@ options_sluRm <- (function() {
     invisible()
   }
 
-
-
   # Function to get the path
   get_job_path <- function() {
     if (!length(job_path))
@@ -45,23 +46,30 @@ options_sluRm <- (function() {
     job_path
   }
 
-  set_job_name <- function(path) {
+  set_job_name <- function(path, check = TRUE, overwrite = TRUE) {
+
+    if (check && !length(path))
+      stop("`path` cannot be NULL.", call. = FALSE)
+    else if (!check && !length(path))
+      return()
 
     fn <- sprintf("%s/%s", get_job_path(), path)
-    if (file.exists(fn)) {
+    if (overwrite && file.exists(fn)) {
       warning("The path '", fn, "' already exists and will be overwritten.",
               call. = FALSE)
       status <- file.remove(list.files(fn, full.names = TRUE))
     }
-    else
+    else if (!file.exists(fn))
       dir.create(fn)
+
+    job_name <<- path
 
     invisible()
 
   }
 
-  get_job_name <- function() {
-    if (!length(job_name))
+  get_job_name <- function(check=TRUE) {
+    if (check && !length(job_name))
       stop("Slurm job has not been initialized", call. = FALSE)
     job_name
   }
@@ -79,22 +87,28 @@ options_sluRm <- (function() {
 
 
 #' Function to create filenames with full paths for sluRm.
-#' @param type can be either of r, sh, or rds, and depending on that
+#' @param type can be either of r, sh, out, or rds, and depending on that
 #' @noRd
 snames <- function(type, array_id) {
+
+  if (!missing(array_id) && length(array_id) > 1)
+    return(sapply(array_id, snames, type = type))
 
   type <- switch (type,
     r   = "00-rscript.r",
     sh  = "01-bash.sh",
-    rds = sprintf("02-answer-%02i", array_id),
-    stop("Invalid type, the only valid types are `r`, `sh`, and `rds`.",
+    out = return("02-output%a.out"),
+    rds = sprintf("03-answer-%03i.rds", array_id),
+    fin = sprintf("04-finito-%03i.fin", array_id),
+    stop("Invalid type, the only valid types are `r`, `sh`, out, and `rds`.",
          call. = FALSE)
   )
 
   sprintf(
     "%s/%s/%s",
     options_sluRm$get_job_path(),
-    options_sluRm$get_job_name()
+    options_sluRm$get_job_name(),
+    type
     )
 
 }

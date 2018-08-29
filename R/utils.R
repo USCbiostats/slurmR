@@ -82,22 +82,19 @@ bash_header <- function() {
 #'
 #' @export
 write_bash <- function(
-  file,
-  job_name,
-  job_path      = NULL,
   nodes         = 2,
   Rscript_flags = "--vanilla",
-  output        = paste0(job_name, "-%a.out"),
   ...
   ) {
 
-  # Getting the current job path
-  if (!length(job_path))
-    job_path <- options_sluRm$get_job_path()
-
   # Collecting extra arguments
-  dots <- c(list(...), list(`job-name` = job_name, output = output,
-                            array = sprintf("0-%i", nodes - 1)))
+  dots <- c(
+    list(...),
+    list(
+      `job-name` = options_sluRm$get_job_name(),
+      output     = snames("out"),
+      array      = sprintf("1-%i", nodes))
+    )
 
   # Adding quotation
   dots <- lapply(dots, function(d) {
@@ -112,16 +109,12 @@ write_bash <- function(
   else
     NULL
 
-  # Checking whether the file exists or not
-  if (!file.exists(file))
-    stop("The file `", file, "` does not exists.", call. = FALSE)
-
   # Putting everything together
   structure(
     c(
       "#!/bin/sh",
       SBATCH,
-      sprintf("%s/bin/Rscript %s %s", R.home(), Rscript_flags, file)
+      sprintf("%s/bin/Rscript %s %s", R.home(), Rscript_flags, snames("r"))
     ),
     class = c("sluRm_plaintext", "sluRm_bash")
   )
@@ -130,19 +123,15 @@ write_bash <- function(
 
 save_objects <- function(
   objects,
-  job_name = getOption("sluRm.job_name", "sluRm"),
-  job_path = NULL,
   ...
   ) {
 
-  # Getting the current job path
-  if (!length(job_path))
-    job_path <- options_sluRm$get_job_path()
-
   # Creating and checking  path
-  path <- paste(job_path, job_name, sep="/")
-  if (!file.exists(path))
-    dir.create(path)
+  path <- paste(
+    options_sluRm$get_job_path(),
+    options_sluRm$get_job_name(),
+    sep="/"
+    )
 
   # Saving objects
   Map(

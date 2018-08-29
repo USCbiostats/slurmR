@@ -41,8 +41,10 @@ Slurm_lapply <- function(
       "ans <- parallel::mclapply(\n%s\n)",
       paste(sprintf("    %s = .slurm%1$s", obj_names[-1]), collapse=",\n")
     ),
+    sprintf("options_sluRm$set_job_path(\"%s\")", job_path),
+    sprintf("options_sluRm$set_job_name(\"%s\")", job_name),
     sprintf(
-      "saveRDS(ans, sprintf(\"%s/%s/ans%%02i.rds\", .slurmARRAY_ID))",
+      "saveRDS(ans, options_sluRm$sname(\"rds\", .slurmARRAY_ID))",
       job_path, job_name
     )
   )
@@ -56,22 +58,14 @@ Slurm_lapply <- function(
   )
 
   # Writing the R script out ---------------------------------------------------
-  fn_r <- sprintf("%s/%s/rscript.r", job_path, job_name)
-
-  writeLines(
-    rscript,
-    fn_r
-    )
+  fn_r <- snames("r")
+  writeLines(rscript, fn_r)
 
   # Writing the bash script out ------------------------------------------------
   bashfile <- write_bash(fn_r, job_name = job_name, job_path = job_path,
                          nodes = nodes)
 
-  fn_sh <- sprintf("%s/%s/bash.sh", job_path, job_name)
-  writeLines(
-    bashfile,
-    fn_sh
-  )
+  writeLines(bashfile, snames("sh"))
 
   # Returning ------------------------------------------------------------------
   structure(

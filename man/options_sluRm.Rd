@@ -4,7 +4,7 @@
 \name{options_sluRm}
 \alias{options_sluRm}
 \title{Get and set default options for slurm}
-\format{An object of class \code{environment} of length 2.}
+\format{An object of class \code{environment} of length 4.}
 \usage{
 options_sluRm
 }

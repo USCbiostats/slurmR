@@ -14,7 +14,7 @@ Slurm_lapply <- function(
   mc.cores = getOption("mc.cores", 2L),
   job_name = getOption("sluRm.job_name", "sluRm"),
   job_path = NULL,
-  run      = TRUE
+  submit   = TRUE
   ) {
 
   # Setting the job name
@@ -63,31 +63,28 @@ Slurm_lapply <- function(
   )
 
   # Writing the R script out ---------------------------------------------------
-  fn_r <- snames("r")
-  writeLines(rscript, fn_r)
+  writeLines(rscript, snames("r"))
 
   # Writing the bash script out ------------------------------------------------
-  bashfile <- write_bash(nodes = nodes)
-
-  writeLines(bashfile, snames("sh"))
+  writeLines(write_bash(nodes = nodes), snames("sh"))
 
   # Returning ------------------------------------------------------------------
   ans <- structure(
     list(
-      call     = match.call(),
-      rscript  = rscript,
-      batchfile = bashfile,
-      robjects = obj_names,
-      job_name = options_sluRm$get_job_name(),
-      job_path = options_sluRm$get_job_path(),
-      nodes    = nodes,
-      job_id   = NA
+      call      = match.call(),
+      rscript   = snames("r"),
+      batchfile = snames("sh"),
+      robjects  = obj_names,
+      job_name  = options_sluRm$get_job_name(),
+      job_path  = options_sluRm$get_job_path(),
+      nodes     = nodes,
+      job_id    = NA
     ),
     class    = "slurm_job"
     )
 
-  if (run)
-    return(sbatch(ans))
+  if (submit)
+    return(sbatch(submit))
 
   ans
 

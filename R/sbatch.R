@@ -13,7 +13,7 @@ sbatch.slurm_job <- function(x) {
 
   ans <- tryCatch(system(paste0("sbatch ", x$batchfile), intern=TRUE), error=function(e) e)
   if (inherits(ans, "error"))
-    stop("An error has occurred when calling `sbatch`: ", ans$message)
+    stop("An error has occurred when calling `sbatch` (do you have Slurm?): ", ans$message, call. = FALSE)
 
   x$job_id <- as.integer(gsub(pattern = ".+ (?=[0-9]+$)", "", ans, perl=TRUE))
 

@@ -7,7 +7,7 @@
 Slurm_lapply(X, FUN, ..., write_bash_args = list(), nodes = 2,
   mc.cores = getOption("mc.cores", 2L),
   job_name = getOption("sluRm.job_name", "sluRm"), job_path = NULL,
-  run = TRUE)
+  submit = TRUE)
 }
 \arguments{
 \item{X, FUN, mc.cores, ...}{Arguments passed to \link[parallel:mclapply]{parallel::mclapply}.}

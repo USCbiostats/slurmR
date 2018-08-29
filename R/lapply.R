@@ -84,7 +84,7 @@ Slurm_lapply <- function(
     )
 
   if (submit)
-    return(sbatch(submit))
+    return(sbatch(ans))
 
   ans
 

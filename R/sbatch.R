@@ -11,7 +11,7 @@ sbatch.slurm_job <- function(x) {
   if (!is.na(x$job_id))
     stop("Job ", x$job_id," is already running.")
 
-  ans <- tryCatch(system(paste0("sbatch ", x$job_id), intern=TRUE), error=function(e) e)
+  ans <- tryCatch(system(paste0("sbatch ", x$batchfile), intern=TRUE), error=function(e) e)
   if (inherits(ans, "error"))
     stop("An error has occurred when calling `sbatch`: ", ans$message)
 

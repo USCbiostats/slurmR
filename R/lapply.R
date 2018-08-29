@@ -76,7 +76,7 @@ Slurm_lapply <- function(
     list(
       call     = match.call(),
       rscript  = rscript,
-      bashfile = bashfile,
+      batchfile = bashfile,
       robjects = obj_names,
       job_name = options_sluRm$get_job_name(),
       job_path = options_sluRm$get_job_path(),

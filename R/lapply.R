@@ -48,9 +48,9 @@ Slurm_lapply <- function(
       paste(sprintf("    %s = .slurm%1$s", obj_names[-1]), collapse=",\n")
     ),
     sprintf("options_sluRm$set_job_path(\"%s\")", options_sluRm$get_job_path()),
-    sprintf("options_sluRm$set_job_name(\"%s\")", options_sluRm$get_job_name()),
-    "saveRDS(ans, sname(\"rds\", .slurmARRAY_ID))",
-    "cat('0', file = sname(\"fin\", .slurmARRAY_ID))"
+    sprintf("options_sluRm$set_job_name(\"%s\", overwrite = FALSE)", options_sluRm$get_job_name()),
+    "saveRDS(ans, sluRm:::snames(\"rds\", .slurmARRAY_ID))",
+    "cat('0', file = sluRm:::snames(\"fin\", .slurmARRAY_ID))"
   )
 
   rscript <- c(

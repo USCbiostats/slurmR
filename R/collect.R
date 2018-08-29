@@ -30,4 +30,11 @@ Slurm_collect.slurm_call <- function(x, ...) {
     ), sep=""
     )
 
+  if (any(test))
+    structure(
+      lapply(fn[test], readRDS),
+      names = which(test))
+  else
+    NULL
+
 }

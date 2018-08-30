@@ -71,7 +71,16 @@ Slurm_lapply <- function(
   writeLines(rscript, snames("r"))
 
   # Writing the bash script out ------------------------------------------------
-  writeLines(write_bash(nodes = nodes), snames("sh"))
+  writeLines(
+    write_bash(
+      nodes = nodes,
+      chdir = sprintf(
+        "%s/%s",
+        options_sluRm$get_job_path(),
+        options_sluRm$get_job_name()
+      )
+      ), snames("sh")
+    )
 
   # Returning ------------------------------------------------------------------
   ans <- structure(

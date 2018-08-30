@@ -1,126 +1,7 @@
 
-#' List loaded packages together with `lib.loc`
-#' @noRd
-list_loaded_pkgs <- function() {
-
-  # Getting the name spaces
-  pkgs <- rev(sessionInfo()$otherPkgs)
-
-  # Session
-
-  structure(
-    lapply(pkgs, function(p) {
-      gsub(sprintf("/%s/.+", p$Package), "/", attr(p, "file"))
-    }),
-    names = names(pkgs),
-    class = "sluRm_loaded_packages"
-  )
-
-}
-
-#' Creates an R script
-#' @noRd
-#' @param pkgs A named list of R packages to load.
-rscript_header <- function(pkgs = list_loaded_pkgs()) {
-
-  structure(
-    sprintf("library(%s, lib.loc = \"%s\")", names(pkgs), unlist(pkgs)),
-    class = c("sluRm_plaintext", "sluRm_rscript")
-  )
-
-
-}
-
-#' @export
-print.sluRm_plaintext <- function(x, ...) {
-  cat(x, sep="\n")
-  invisible(x)
-}
-
-#' @export
-c.sluRm_plaintext <- function(...) {
-
-  structure(
-    .Data = do.call(c, lapply(list(...), unclass)),
-    class = "sluRm_plaintext"
-  )
-
-}
-
-write_rbash <- function() {
-
-}
-
-bash_header <- function() {
-
-}
-
-#' Functio to write out a bash file calling R for slurm
-#' @param nodes Integer, number of nodes to specify.
-#' @param Rscript_flags Character specifying flags to pass to Rscript.
-#' @param ... List of arguments passed to `SBATCH` (see details).
-#'
-#' @details
-#' The `...` argument allows passing options via `SBATCH` in the script, for
-#' example, if the user wants to use account `user1` and require a minimum of
-#' 2 CPUS per node, the user can pass the argument:
-#'
-#' ```
-#' list(account="user1", mincpus=2)
-#' ```
-#'
-#' Which will translate into
-#'
-#' ```
-#' #SBATCH --account="user1"
-#' #SBATCH --mincpus=2
-#' ```
-#'
-#' In the bash file. Available options can be found
-#' https://slurm.schedmd.com/sbatch.html#OPTIONS.
-#' @noRd
-write_bash <- function(
-  nodes         = 2,
-  Rscript_flags = "--vanilla",
-  ...
-  ) {
-
-  # Collecting extra arguments
-  dots <- c(
-    list(...),
-    list(
-      `job-name` = options_sluRm$get_job_name(),
-      output     = snames("out"),
-      array      = sprintf("1-%i", nodes))
-    )
-
-  # Adding quotation
-  dots <- lapply(dots, function(d) {
-    if (is.character(d))
-      paste0("\"", d,"\"")
-    else d
-    })
-
-  # Creating the bash
-  SBATCH <- if (length(dots))
-    sprintf("#SBATCH --%s=%s", names(dots), unlist(dots))
-  else
-    NULL
-
-  # Putting everything together
-  structure(
-    c(
-      "#!/bin/sh",
-      SBATCH,
-      sprintf("%s/bin/Rscript %s %s", R.home(), Rscript_flags, snames("r"))
-    ),
-    class = c("sluRm_plaintext", "sluRm_bash")
-  )
-
-}
-
 save_objects <- function(
   objects,
+  compress = TRUE,
   ...
   ) {
 
@@ -133,7 +14,7 @@ save_objects <- function(
 
   # Saving objects
   Map(
-    function(n, x) saveRDS(x, n, ...),
+    function(n, x) saveRDS(x, n, compress = compress, ...),
     x = objects,
     n = sprintf("%s/%s.rds", path, names(objects))
   )
@@ -142,6 +23,57 @@ save_objects <- function(
 
 }
 
+process_flags <- function(x) {
+
+  # If no flags are passed, then return ""
+  if (!length(x))
+    return("")
+
+  option <- ifelse(
+    nchar(names(x)) > 1,
+    paste0("--", names(x)),
+    paste0("-", names(x))
+  )
+
+  vals <- character(length(option))
+  for (i in seq_along(x)) {
+    if (is.logical(x[[i]]) && !x[[i]])
+      option[i] <- ""
+    else if (!is.logical(x[[i]]))
+      vals[i] <- paste0("=", x[[i]])
+  }
+
+  sprintf("%s%s", option, vals)
+}
+
+#' Function to create filenames with full paths for sluRm.
+#' @param type can be either of r, sh, out, or rds, and depending on that
+#' @noRd
+snames <- function(type, array_id) {
+
+  if (!missing(array_id) && length(array_id) > 1)
+    return(sapply(array_id, snames, type = type))
 
 
-# write_bash("x.r", array="0-1")
+  type <- switch (
+    type,
+    r   = "00-rscript.r",
+    sh  = "01-bash.sh",
+    out = return("02-output%a.out"),
+    rds = sprintf("03-answer-%03i.rds", array_id),
+    fin = sprintf("04-finito-%03i.fin", array_id),
+    stop(
+      "Invalid type, the only valid types are `r`, `sh`, out, and `rds`.",
+      call. = FALSE
+    )
+  )
+
+  sprintf(
+    "%s/%s/%s",
+    options_sluRm$get_job_path(),
+    options_sluRm$get_job_name(),
+    type
+  )
+
+}
+

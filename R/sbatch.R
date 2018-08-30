@@ -7,25 +7,6 @@
 #' @export
 sbatch <- function(x, wait=TRUE, ...) UseMethod("sbatch")
 
-process_dots <- function(...) {
-  dots   <- list(...)
-  option <- ifelse(
-    nchar(names(dots)) > 1,
-    paste0("--", names(dots)),
-    paste0("-", names(dots))
-  )
-
-  vals <- character(length(option))
-  for (i in seq_along(dots)) {
-    if (is.logical(dots[[i]]) && !dots[[i]])
-      option[i] <- ""
-    else if (!is.logical(dots[[i]]))
-      vals[i] <- paste0("=", dots[[i]])
-  }
-
-  sprintf("%s%s", option, vals)
-}
-
 check_error <- function(cmd, ans) {
   if (inherits(ans, "error")) {
     stop("`",cmd,"` not found. It seems that your system does not have Slurm. ",
@@ -45,8 +26,11 @@ sbatch.slurm_job <- function(x, wait=TRUE, ...) {
     stop("Job ", x$job_id," is already running.")
 
   # Preparing options
-  option <- c(sprintf("%s/%s && sbatch", x$job_path, x$job_name),
-              process_dots(..., wait=wait), x$batchfile)
+  option <- c(
+    sprintf("%s/%s && sbatch", x$job_path, x$job_name),
+    process_flags(list(..., wait=wait)),
+    x$bashfile
+    )
 
   message("Submitting job...")
   ans <- suppressWarnings({
@@ -78,7 +62,7 @@ scancel.slurm_job <- function(x, ...) {
   }
 
   # Preparing options
-  option <- c(process_dots(...), x$job_id)
+  option <- c(process_flags(list(...)), x$job_id)
 
   ans <- suppressWarnings({
     tryCatch(system2("scancel", option, stdout=TRUE, stderr = TRUE),

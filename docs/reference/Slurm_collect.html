@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get and set default options for slurm — options_sluRm • sluRm</title>
+<title>Collect the results — Slurm_collect • sluRm</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Get and set default options for slurm — options_sluRm" />
+<meta property="og:title" content="Collect the results — Slurm_collect" />
 
-<meta property="og:description" content="Get and set default options for slurm" />
+<meta property="og:description" content="Collect the results" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -92,45 +92,42 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get and set default options for slurm</h1>
+    <h1>Collect the results</h1>
     
-    <div class="hidden name"><code>options_sluRm.Rd</code></div>
+    <div class="hidden name"><code>Slurm_collect.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Get and set default options for slurm</p>
+    <p>Collect the results</p>
     
     </div>
 
-    <pre class="usage"><span class='no'>options_sluRm</span></pre>
-        
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <pre class="usage"><span class='fu'>Slurm_collect</span>(<span class='no'>...</span>)
 
-    <p>An object of class <code>environment</code> of length 4.</p>
+<span class='co'># S3 method for slurm_call</span>
+<span class='fu'>Slurm_collect</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Current supported options are:</p><ul>
-<li><p><code>job_path</code>: This can be retrieved as</p><pre>options_sluRm$get_job_path()
-</pre>
-    <p>Likewise it can be set as</p><pre>options_sluRm$get_job_path("some_path")
-</pre>
-    <p>Currently, the default value is set when loading the package and is the
-current working directory.</p></li>
-<li><p>``</p></li>
-</ul>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>...</th>
+      <td><p>Further arguments passed to the method.</p></td>
+    </tr>
+    <tr>
+      <th>x</th>
+      <td><p>An object of class <code>slurm_call</code>.</p></td>
+    </tr>
+    </table>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
-      <li><a href="#format">Format</a></li>
-
-      <li><a href="#details">Details</a></li>
-          </ul>
+      <li><a href="#arguments">Arguments</a></li>
+                </ul>
 
   </div>
 </div>

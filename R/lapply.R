@@ -1,15 +1,17 @@
 #' The Slurm version of the `lapply`  function
 #' @param X,FUN,mc.cores,... Arguments passed to [parallel::mclapply].
-#' @param write_bash_args List of arguments passed to [write_bash_args].
+#' @param submit Logical, when `TRUE` calls [sbatch] to submit the job to slurm.
 #' @template slurm
+#' @param nodes Integer. Number of nodes to specity.
 #' @export
 #' @examples
-#' Slurm_lapply(1:20, mean)
+#' \dontrun{
+#'   Slurm_lapply(1:20, mean)
+#' }
 Slurm_lapply <- function(
   X,
   FUN,
   ...,
-  write_bash_args = list(),
   nodes    = 2,
   mc.cores = getOption("mc.cores", 2L),
   job_name = getOption("sluRm.job_name", "sluRm"),

@@ -9,6 +9,11 @@ Slurm_collect(...)
 
 \method{Slurm_collect}{slurm_call}(x, ...)
 }
+\arguments{
+\item{...}{Further arguments passed to the method.}
+
+\item{x}{An object of class \code{slurm_call}.}
+}
 \description{
 Collect the results
 }

@@ -4,24 +4,27 @@
 \alias{Slurm_lapply}
 \title{The Slurm version of the \code{lapply}  function}
 \usage{
-Slurm_lapply(X, FUN, ..., write_bash_args = list(), nodes = 2,
-  mc.cores = getOption("mc.cores", 2L),
+Slurm_lapply(X, FUN, ..., nodes = 2, mc.cores = getOption("mc.cores", 2L),
   job_name = getOption("sluRm.job_name", "sluRm"), job_path = NULL,
   submit = TRUE)
 }
 \arguments{
 \item{X, FUN, mc.cores, ...}{Arguments passed to \link[parallel:mclapply]{parallel::mclapply}.}
 
-\item{write_bash_args}{List of arguments passed to \link{write_bash_args}.}
+\item{nodes}{Integer. Number of nodes to specity.}
 
-\item{job_name}{Character. Name of the job to be passed to \code{Slurm}.}
+\item{job_name}{Character. Name of the job to be passed to `Slurm`.}
 
 \item{job_path}{Character. Path to the directory where all the data (including
-scripts) will be stored (See \link{options_sluRm}).}
+scripts) will be stored (See [options_sluRm]).}
+
+\item{submit}{Logical, when \code{TRUE} calls \link{sbatch} to submit the job to slurm.}
 }
 \description{
 The Slurm version of the \code{lapply}  function
 }
 \examples{
-Slurm_lapply(1:20, mean)
+\dontrun{
+  Slurm_lapply(1:20, mean)
+}
 }

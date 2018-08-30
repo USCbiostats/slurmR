@@ -11,9 +11,19 @@ sbatch.slurm_job <- function(x) {
   if (!is.na(x$job_id))
     stop("Job ", x$job_id," is already running.")
 
-  ans <- tryCatch(system(paste0("sbatch ", x$batchfile), intern=TRUE), error=function(e) e)
-  if (inherits(ans, "error"))
-    stop("An error has occurred when calling `sbatch` (do you have Slurm?): ", ans$message, call. = FALSE)
+  ans <- suppressWarnings({
+    tryCatch(system2("sbatch", x$batchfile, stdout=TRUE, stderr = TRUE),
+                  error=function(e) e)
+  })
+
+  if (inherits(ans, "error")) {
+    stop("`sbatch` not found. It seems that your system does not have Slurm. ",
+         call. = FALSE)
+  } else if (length(attr(ans, "status")) && (attr(ans, "status") != 0)) {
+    stop(
+      "An error has occurred when calling `sbatch`:\n",
+      paste(ans, collapse="\n"), call. = FALSE)
+  }
 
   x$job_id <- as.integer(gsub(pattern = ".+ (?=[0-9]+$)", "", ans, perl=TRUE))
 

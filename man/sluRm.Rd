@@ -4,7 +4,9 @@
 \name{sluRm}
 \alias{sluRm}
 \alias{sluRm-package}
-\title{A lightweight wrapper for HPC with Slurm}
+\title{A lightweight wrapper for HPC with Slurm
+A lightweight wrapper for HPC with Slurm}
 \description{
+A lightweight wrapper for HPC with Slurm
 A lightweight wrapper for HPC with Slurm
 }

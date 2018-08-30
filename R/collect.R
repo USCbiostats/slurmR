@@ -1,4 +1,6 @@
 #' Collect the results
+#' @param ... Further arguments passed to the method.
+#' @param x An object of class `slurm_call`.
 #' @export
 Slurm_collect <- function(...) UseMethod("Slurm_collect")
 

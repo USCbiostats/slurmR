@@ -19,6 +19,7 @@ list_loaded_pkgs <- function() {
 }
 
 #' Creates an R script
+#' @noRd
 #' @param pkgs A named list of R packages to load.
 rscript_header <- function(pkgs = list_loaded_pkgs()) {
 
@@ -55,10 +56,8 @@ bash_header <- function() {
 }
 
 #' Functio to write out a bash file calling R for slurm
-#' @param file Full path to the R script to be submitted to Slurm.
-#' @template slurm
+#' @param nodes Integer, number of nodes to specify.
 #' @param Rscript_flags Character specifying flags to pass to Rscript.
-#' @param output Character. Format of the output file to be passed to `SBATCH`.
 #' @param ... List of arguments passed to `SBATCH` (see details).
 #'
 #' @details
@@ -79,8 +78,7 @@ bash_header <- function() {
 #'
 #' In the bash file. Available options can be found
 #' https://slurm.schedmd.com/sbatch.html#OPTIONS.
-#'
-#' @export
+#' @noRd
 write_bash <- function(
   nodes         = 2,
   Rscript_flags = "--vanilla",

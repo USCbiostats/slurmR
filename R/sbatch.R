@@ -42,7 +42,7 @@ check_error <- function(cmd, ans) {
 sbatch.slurm_job <- function(x, wait=TRUE, ...) {
 
   # Change dir argument
-  chdir <- sprintf("%s/%s", x$job_path(), x$job_name())
+  chdir <- sprintf("%s/%s", x$job_path, x$job_name)
 
   if (!is.na(x$job_id))
     stop("Job ", x$job_id," is already running.")

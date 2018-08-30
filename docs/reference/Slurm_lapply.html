@@ -103,9 +103,9 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>Slurm_lapply</span>(<span class='no'>X</span>, <span class='no'>FUN</span>, <span class='no'>...</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>mc.cores</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mc.cores"</span>, <span class='fl'>2L</span>),
-  <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"sluRm.job_name"</span>, <span class='st'>"sluRm"</span>), <span class='kw'>job_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>submit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>Slurm_lapply</span>(<span class='no'>X</span>, <span class='no'>FUN</span>, <span class='no'>...</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>mc.cores</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mc.cores"</span>,
+  <span class='fl'>2L</span>), <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"sluRm.job_name"</span>, <span class='st'>"sluRm"</span>),
+  <span class='kw'>job_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>submit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -120,16 +120,21 @@
     </tr>
     <tr>
       <th>job_name</th>
-      <td><p>Character. Name of the job to be passed to `Slurm`.</p></td>
+      <td><p>Character. Name of the job to be passed to <code>Slurm</code>.</p></td>
     </tr>
     <tr>
       <th>job_path</th>
       <td><p>Character. Path to the directory where all the data (including
-scripts) will be stored (See [options_sluRm]).</p></td>
+scripts) will be stored (See <a href='options_sluRm.html'>options_sluRm</a>).</p></td>
     </tr>
     <tr>
       <th>submit</th>
       <td><p>Logical, when <code>TRUE</code> calls <a href='sbatch.html'>sbatch</a> to submit the job to slurm.</p></td>
+    </tr>
+    <tr>
+      <th>wait</th>
+      <td><p>Logical scalar. When <code>TRUE</code> waits for the output to return.
+(see <a href='sbatch.html'>sbatch</a>).</p></td>
     </tr>
     </table>
     

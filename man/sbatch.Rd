@@ -7,16 +7,21 @@
 \alias{scancel.slurm_job}
 \title{A wrapper of \code{sbatch}.}
 \usage{
-sbatch(x)
+sbatch(x, wait = TRUE, ...)
 
-\method{sbatch}{slurm_job}(x)
+\method{sbatch}{slurm_job}(x, wait = TRUE, ...)
 
-scancel(x)
+scancel(x, ...)
 
-\method{scancel}{slurm_job}(x)
+\method{scancel}{slurm_job}(x, ...)
 }
 \arguments{
 \item{x}{An object of class \code{slurm_job}.}
+
+\item{wait}{Logical scalar. When \code{TRUE} the function will pass the \code{--wait}
+flag to \code{Slurm} and set \code{wait=TRUE} in the \link{system2} call.}
+
+\item{...}{Further flags passed to the command line function.}
 }
 \description{
 A wrapper of \code{sbatch}.

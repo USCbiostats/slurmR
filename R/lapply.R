@@ -2,6 +2,8 @@
 #' @param X,FUN,mc.cores,... Arguments passed to [parallel::mclapply].
 #' @param submit Logical, when `TRUE` calls [sbatch] to submit the job to slurm.
 #' @template slurm
+#' @param wait Logical scalar. When `TRUE` waits for the output to return.
+#' (see [sbatch]).
 #' @param nodes Integer. Number of nodes to specity.
 #' @export
 #' @examples
@@ -16,7 +18,8 @@ Slurm_lapply <- function(
   mc.cores = getOption("mc.cores", 2L),
   job_name = getOption("sluRm.job_name", "sluRm"),
   job_path = NULL,
-  submit   = TRUE
+  submit   = TRUE,
+  wait     = TRUE
   ) {
 
   # Setting the job name
@@ -86,7 +89,7 @@ Slurm_lapply <- function(
     )
 
   if (submit)
-    return(sbatch(ans))
+    return(sbatch(ans, wait = wait))
 
   ans
 

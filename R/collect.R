@@ -6,7 +6,7 @@ Slurm_collect <- function(...) UseMethod("Slurm_collect")
 
 #' @export
 #' @rdname Slurm_collect
-Slurm_collect.slurm_call <- function(x, ...) {
+Slurm_collect.slurm_job <- function(x, ...) {
 
   # Making sure the previous setup is kept -------------------------------------
   old_job_name <- options_sluRm$get_job_name(check = FALSE)
@@ -33,10 +33,7 @@ Slurm_collect.slurm_call <- function(x, ...) {
     )
 
   if (any(test))
-    structure(
-        do.call("c", lapply(snames("rds", which(test)), readRDS)),
-        names = which(test)
-    )
+    do.call("c", lapply(snames("rds", which(test)), readRDS))
   else
     NULL
 

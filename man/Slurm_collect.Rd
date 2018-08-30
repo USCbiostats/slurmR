@@ -2,12 +2,12 @@
 % Please edit documentation in R/collect.R
 \name{Slurm_collect}
 \alias{Slurm_collect}
-\alias{Slurm_collect.slurm_call}
+\alias{Slurm_collect.slurm_job}
 \title{Collect the results}
 \usage{
 Slurm_collect(...)
 
-\method{Slurm_collect}{slurm_call}(x, ...)
+\method{Slurm_collect}{slurm_job}(x, ...)
 }
 \arguments{
 \item{...}{Further arguments passed to the method.}

@@ -41,18 +41,16 @@ check_error <- function(cmd, ans) {
 #' @rdname sbatch
 sbatch.slurm_job <- function(x, wait=TRUE, ...) {
 
-  # Change dir argument
-  chdir <- sprintf("%s/%s", x$job_path, x$job_name)
-
   if (!is.na(x$job_id))
     stop("Job ", x$job_id," is already running.")
 
   # Preparing options
-  option <- c(process_dots(..., wait=wait, chdir=chdir), x$batchfile)
+  option <- c(sprintf("%s/%s && sbatch", x$job_path, x$job_name),
+              process_dots(..., wait=wait), x$batchfile)
 
   message("Submitting job...")
   ans <- suppressWarnings({
-    tryCatch(system2("sbatch", option, stdout=TRUE, stderr = TRUE, wait=wait),
+    tryCatch(system2("cd", option, stdout=TRUE, stderr = TRUE, wait=wait),
                   error=function(e) e)
   })
 

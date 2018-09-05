@@ -42,7 +42,7 @@ options_sluRm <- (function() {
   # Function to get the path
   get_job_path <- function() {
     if (!length(job_path))
-      job_path <- getwd()
+      job_path <<- getwd()
     job_path
   }
 

@@ -6,8 +6,9 @@
 \usage{
 Slurm_lapply(X, FUN, ..., njobs = 2, mc.cores = getOption("mc.cores",
   2L), job_name = getOption("sluRm.job_name", "sluRm"),
-  job_path = NULL, submit = TRUE, wait = TRUE, sbatch_opt = list(),
-  rscript_opt = list(vanilla = TRUE), compress = TRUE)
+  job_path = NULL, submit = TRUE, wait = TRUE,
+  sbatch_opt = list(nodes = njobs), rscript_opt = list(vanilla = TRUE),
+  compress = TRUE)
 }
 \arguments{
 \item{X, FUN, mc.cores, ...}{Arguments passed to \link[parallel:mclapply]{parallel::mclapply}.}

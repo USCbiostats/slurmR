@@ -42,7 +42,7 @@ Slurm_lapply <- function(
   job_path = NULL,
   submit   = TRUE,
   wait     = TRUE,
-  sbatch_opt  = list(),
+  sbatch_opt  = list(nodes=njobs),
   rscript_opt = list(vanilla=TRUE),
   compress = TRUE
   ) {
@@ -84,7 +84,7 @@ Slurm_lapply <- function(
   # Writing the bash script out ------------------------------------------------
   bash <- new_bash(njobs = njobs)
 
-  if (length(sbatch_opt) && !length(sbatch_opt$`cpus-per-task`))
+  if (!length(sbatch_opt) | (length(sbatch_opt) && !length(sbatch_opt$`cpus-per-task`)))
     sbatch_opt$`cpus-per-task` <- mc.cores
 
   bash$add_SBATCH(sbatch_opt)

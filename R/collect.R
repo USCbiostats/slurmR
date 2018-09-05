@@ -22,12 +22,12 @@ Slurm_collect.slurm_job <- function(x, ...) {
   options_sluRm$set_job_path(x$job_path)
 
   # Getting the filenames
-  fn <- snames("fin", 1:x$nodes)
+  fn <- snames("fin", 1:x$njobs)
 
   test <- file.exists(fn)
   cat(sprintf("Status of job '%s':\n", x$job_name))
   cat(sprintf(
-    " - Task %03i/%03i: %s\n", 1:x$nodes, x$nodes,
+    " - Task %03i/%03i: %s\n", 1:x$njobs, x$njobs,
     ifelse(test, "Complete.", "Pending.")
     ), sep=""
     )

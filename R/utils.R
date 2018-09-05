@@ -23,7 +23,24 @@ save_objects <- function(
 
 }
 
-process_flags <- function(x) {
+#' Utility function
+#' @param ... Options to be parsed bash flags.
+#' @examples
+#' cat(parse_flags(a=1, b=TRUE, hola=2, y="I have spaces", ms=2, `cpus-per-task`=4))
+#' # -a=1 -b --hola=2 -y="I have spaces" --ms=2 --cpus-per-task=4
+#' @export
+parse_flags <- function(...) UseMethod("parse_flags")
+
+#' @export
+#' @rdname parse_flags
+parse_flags.default <- function(...) {
+  parse_flags.list(list(...))
+}
+
+#' @export
+#' @param x A named list.
+#' @rdname parse_flags
+parse_flags.list <- function(x, ...) {
 
   # If no flags are passed, then return ""
   if (!length(x))
@@ -39,8 +56,10 @@ process_flags <- function(x) {
   for (i in seq_along(x)) {
     if (is.logical(x[[i]]) && !x[[i]])
       option[i] <- ""
-    else if (!is.logical(x[[i]]))
+    else if (!is.logical(x[[i]]) && !is.character(x[[i]]))
       vals[i] <- paste0("=", x[[i]])
+    else if (is.character(x[[i]]))
+      vals[i] <- sprintf("=\"%s\"", x[[i]])
   }
 
   sprintf("%s%s", option, vals)

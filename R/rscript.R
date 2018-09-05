@@ -75,7 +75,7 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
 
     # Recursion
     if (length(x) > 1)
-      return(invisible(sapply(x, env$add_rds, idx = idx)))
+      return(invisible(sapply(x, env$add_rds, index = index)))
 
     # Writing the line
     line <- sprintf(
@@ -85,7 +85,7 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
       options_sluRm$get_job_name()
       )
 
-    if (idx)
+    if (index)
       line <- paste0(line, "[.slurmINDICES[[.slurmARRAY_ID]]]")
 
     env$dat <- c(env$dat, line)

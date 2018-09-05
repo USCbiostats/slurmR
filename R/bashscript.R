@@ -1,5 +1,5 @@
 #' Functio to write out a bash file calling R for slurm
-#' @param nodes Integer, number of nodes to specify.
+#' @param njobs Integer, number of jobs to specify.
 #' @param Rscript_flags Character specifying flags to pass to Rscript.
 #' @param ... List of arguments passed to `SBATCH` (see details).
 #'
@@ -22,7 +22,7 @@
 #' In the bash file. Available options can be found
 #' https://slurm.schedmd.com/sbatch.html#OPTIONS.
 #' @noRd
-new_bash <- function(nodes = 2) {
+new_bash <- function(njobs = 2) {
 
   # Creating the new environment -----------------------------------------------
   env <- new.env(parent = emptyenv())
@@ -43,7 +43,7 @@ new_bash <- function(nodes = 2) {
 
     # Adding whatever options are there
     if (length(x))
-      env$append(paste("#SBATCH", process_flags(x)))
+      env$append(paste("#SBATCH", parse_flags(x)))
 
     invisible()
   }
@@ -51,7 +51,7 @@ new_bash <- function(nodes = 2) {
   # Finalizing the script ------------------------------------------------------
   env$finalize <- function(Rscript_flags) {
 
-    Rscript_flags <- process_flags(Rscript_flags)
+    Rscript_flags <- parse_flags(Rscript_flags)
 
     env$dat <- c(
       env$dat,
@@ -71,7 +71,7 @@ new_bash <- function(nodes = 2) {
     list(
       `job-name` = options_sluRm$get_job_name(),
       output     = snames("out"),
-      array      = sprintf("1-%i", nodes)
+      array      = sprintf("1-%i", njobs)
     )
   )
 

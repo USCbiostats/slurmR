@@ -1,3 +1,43 @@
+#' Slurm Jobs
+#' @param call The original call
+#' @param rscript,bashfile The R script and bash file path.
+#' @param robjects A character vector of R objects that will be imported in the job.
+#' @param job_name,job_path Character. Name and path of the job.
+#' @param njobs Integer. Number of jobs to start (array).
+#' @export
+new_slurm_job <- function(
+  call,
+  rscript,
+  bashfile,
+  robjects,
+  job_name,
+  job_path,
+  njobs
+  ) {
+
+  job <- list2env(
+    list(
+      call     = call,
+      rscript  = rscript,
+      bashfile = bashfile,
+      robjects = robjects,
+      job_name = job_name,
+      job_path = job_path,
+      njobs    = njobs,
+      job_id   = NA
+    ),
+    envir = new.env(parent = emptyenv())
+  )
+
+  structure(
+    job,
+    class = "slurm_job"
+  )
+
+}
+
+
+
 #' A wrapper of `sbatch`.
 #'
 #' @param x An object of class `slurm_job`.
@@ -28,7 +68,7 @@ sbatch.slurm_job <- function(x, wait=TRUE, ...) {
   # Preparing options
   option <- c(
     sprintf("%s/%s && sbatch", x$job_path, x$job_name),
-    process_flags(list(..., wait=wait)),
+    parse_flags(..., wait=wait),
     x$bashfile
     )
 
@@ -44,9 +84,56 @@ sbatch.slurm_job <- function(x, wait=TRUE, ...) {
   # Warning that the call has been made and storing the id
   x$job_id <- as.integer(gsub(pattern = ".+ (?=[0-9]+$)", "", ans, perl=TRUE))
 
-  x
+  # Not necesary
+  invisible(x)
 
 }
+
+
+#' @export
+#' @rdname sbatch
+squeue <- function(x, ...) UseMethod("squeue")
+
+#' @export
+#' @rdname sbatch
+squeue.slurm_job <- function(x, ...) {
+
+  # Preparing options
+  option <- c(
+    sprintf("-j%i", x$job_id),
+    parse_flags(...)
+  )
+
+  message("Submitting job...")
+  ans <- suppressWarnings({
+    tryCatch(system2("squeue", option, stdout=TRUE, stderr = TRUE, wait=TRUE),
+             error=function(e) e)
+  })
+
+  ans
+
+}
+
+#' @export
+print.slurm_job <- function(x, ...) {
+
+  cat("Call:\n", paste(deparse(x$call), collapse="\n"), "\n")
+  cat(
+    sprintf("job_name : %s\n", x$job_name),
+    sprintf("path     : %s/%s\n", x$job_path, x$job_name),
+    sprintf("job ID   : %s\n",
+            ifelse(
+              is.na(x$job_id),
+              "Not submitted",
+              as.character(x$job_id)
+            )
+    ), sep=""
+  )
+
+  invisible(x)
+}
+
+
 
 #' @export
 #' @rdname sbatch
@@ -62,7 +149,7 @@ scancel.slurm_job <- function(x, ...) {
   }
 
   # Preparing options
-  option <- c(process_flags(list(...)), x$job_id)
+  option <- c(parse_flags(...), x$job_id)
 
   ans <- suppressWarnings({
     tryCatch(system2("scancel", option, stdout=TRUE, stderr = TRUE),
@@ -71,6 +158,8 @@ scancel.slurm_job <- function(x, ...) {
 
   # Checking errors
   check_error("sbatch", ans)
+
+  x$job_id <- NA
 
   invisible()
 

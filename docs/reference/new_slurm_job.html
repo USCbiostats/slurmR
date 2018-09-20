@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A wrapper of <code>sbatch</code>. — sbatch • sluRm</title>
+<title>Slurm Jobs — new_slurm_job • sluRm</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="A wrapper of <code>sbatch</code>. — sbatch" />
+<meta property="og:title" content="Slurm Jobs — new_slurm_job" />
 
-<meta property="og:description" content="A wrapper of sbatch." />
+<meta property="og:description" content="Slurm Jobs" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -92,47 +92,41 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A wrapper of <code>sbatch</code>.</h1>
+    <h1>Slurm Jobs</h1>
     
-    <div class="hidden name"><code>sbatch.Rd</code></div>
+    <div class="hidden name"><code>new_slurm_job.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>A wrapper of <code>sbatch</code>.</p>
+    <p>Slurm Jobs</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>sbatch</span>(<span class='no'>x</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for slurm_job</span>
-<span class='fu'>sbatch</span>(<span class='no'>x</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
-
-<span class='fu'>squeue</span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for slurm_job</span>
-<span class='fu'>squeue</span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='fu'>scancel</span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for slurm_job</span>
-<span class='fu'>scancel</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>new_slurm_job</span>(<span class='no'>call</span>, <span class='no'>rscript</span>, <span class='no'>bashfile</span>, <span class='no'>robjects</span>, <span class='no'>job_name</span>, <span class='no'>job_path</span>, <span class='no'>njobs</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>An object of class <code>slurm_job</code>.</p></td>
+      <th>call</th>
+      <td><p>The original call</p></td>
     </tr>
     <tr>
-      <th>wait</th>
-      <td><p>Logical scalar. When <code>TRUE</code> the function will pass the <code>--wait</code>
-flag to <code>Slurm</code> and set <code>wait=TRUE</code> in the system2 call.</p></td>
+      <th>rscript, bashfile</th>
+      <td><p>The R script and bash file path.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Further flags passed to the command line function.</p></td>
+      <th>robjects</th>
+      <td><p>A character vector of R objects that will be imported in the job.</p></td>
+    </tr>
+    <tr>
+      <th>job_name, job_path</th>
+      <td><p>Character. Name and path of the job.</p></td>
+    </tr>
+    <tr>
+      <th>njobs</th>
+      <td><p>Integer. Number of jobs to start (array).</p></td>
     </tr>
     </table>
     

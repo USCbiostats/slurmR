@@ -4,14 +4,16 @@
 \alias{Slurm_lapply}
 \title{The Slurm version of the \code{lapply}  function}
 \usage{
-Slurm_lapply(X, FUN, ..., nodes = 2, mc.cores = getOption("mc.cores",
+Slurm_lapply(X, FUN, ..., njobs = 2, mc.cores = getOption("mc.cores",
   2L), job_name = getOption("sluRm.job_name", "sluRm"),
-  job_path = NULL, submit = TRUE, wait = TRUE)
+  job_path = NULL, submit = TRUE, wait = TRUE,
+  sbatch_opt = list(nodes = njobs), rscript_opt = list(vanilla = TRUE),
+  compress = TRUE)
 }
 \arguments{
 \item{X, FUN, mc.cores, ...}{Arguments passed to \link[parallel:mclapply]{parallel::mclapply}.}
 
-\item{nodes}{Integer. Number of nodes to specity.}
+\item{njobs}{Integer. Number of jobs to specity.}
 
 \item{job_name}{Character. Name of the job to be passed to \code{Slurm}.}
 
@@ -22,12 +24,38 @@ scripts) will be stored (See \link{options_sluRm}).}
 
 \item{wait}{Logical scalar. When \code{TRUE} waits for the output to return.
 (see \link{sbatch}).}
+
+\item{sbatch_opt, rscript_opt}{List. Options to be passed via flags to
+the bash file as \code{#SBATCH} and to \code{Rscript} respectively.}
+
+\item{compress}{Logical scalar (default \code{TRUE}). Passed to \link{saveRDS}. Setting
+this value to \code{FALSE} can be useful when the user requires faster read/write
+of R objects on disk.}
 }
 \description{
 The Slurm version of the \code{lapply}  function
 }
 \examples{
 \dontrun{
-  Slurm_lapply(1:20, mean)
+  # A job drawing 1e6 uniforms on 10 jobs (array)
+  # The option wait=TRUE makes it return only once the job is completed.
+  job1 <- Slurm_lapply(1:20, function(i) runif(1e6), njobs=10, wait = TRUE)
+
+  # We can collect
+  ans <- Slurm_collect(ans1)
+
+  # Same as before, but not waiting this time, and we are passing more
+  # arguments to the function
+  job1 <- Slurm_lapply(1:20, function(i, a) runif(1e6, a), a = -1, njobs=10,
+      wait = FALSE)
+
+  # We can submit
+  job1 <- sbatch(job1)
+
+  # And cancel a job
+  scancel(job1)
 }
+}
+\references{
+Job Array Support https://slurm.schedmd.com/job_array.html
 }

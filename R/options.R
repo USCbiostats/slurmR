@@ -42,7 +42,7 @@ options_sluRm <- (function() {
   # Function to get the path
   get_job_path <- function() {
     if (!length(job_path))
-      job_path <- getwd()
+      job_path <<- getwd()
     job_path
   }
 
@@ -86,30 +86,4 @@ options_sluRm <- (function() {
 })()
 
 
-#' Function to create filenames with full paths for sluRm.
-#' @param type can be either of r, sh, out, or rds, and depending on that
-#' @noRd
-snames <- function(type, array_id) {
-
-  if (!missing(array_id) && length(array_id) > 1)
-    return(sapply(array_id, snames, type = type))
-
-  type <- switch (type,
-    r   = "00-rscript.r",
-    sh  = "01-bash.sh",
-    out = return("02-output%a.out"),
-    rds = sprintf("03-answer-%03i.rds", array_id),
-    fin = sprintf("04-finito-%03i.fin", array_id),
-    stop("Invalid type, the only valid types are `r`, `sh`, out, and `rds`.",
-         call. = FALSE)
-  )
-
-  sprintf(
-    "%s/%s/%s",
-    options_sluRm$get_job_path(),
-    options_sluRm$get_job_name(),
-    type
-    )
-
-}
 

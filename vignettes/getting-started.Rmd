@@ -1,0 +1,123 @@
+---
+title: "Getting Started with sluRm"
+author: "George G. Vega Yon"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with sluRm}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduccion
+
+[Slurm Work Manager]() (formerly *Simple Linux Utility for Resource Manager*), 
+
+# Implementation of the `sluRrm` package
+
+Just like `rslurm`, `sluRm` has two levels of job distribution: Slurm Jobs (via
+the `Slurm_lapply` function), and within each job via `parallel::mclapply` (task
+forking).
+
+In general, the function `Slurm_lapply` is implemented as follows:
+
+1.  List whatever R packages are loaded, including the path to the R package.
+
+2.  List all the objects passed via elipsis (`...`), and, together with `X` and
+    `FUN`, save them at `[job_path]/[job_name]/` as `[object-name].rds`.
+
+3.  Write out the corresponding R script and Slurm bash file, and save them as
+    `[job_path]/[job_name]/00-rscript.r`, and `[job_path]/[job_name]/01-bash.sh`
+    respectively.
+
+4.  If `submit = TRUE` (the default), the job will be submitted to the queue,
+    which implies that `Slurm_lapply` will call `sbatch()`. Then return.
+    
+5.  Once `sbatch()` is called, a Job Array will be submitted in which each R
+    job will lunch up to `mc.cores` forked processes (2nd layer of parallelization)
+    
+    
+Users can collect their results using the function `Slurm_collect`.
+  
+
+# Examples
+
+## Simulating Pi
+
+We would like to implement a simulation algorithm to be run in a cluster. In this
+case, we have the very simple function we would like to parallelize:
+
+```r
+simpi <- function(n) {
+  points <- matrix(runif(n*2), ncol=2)
+  mean(rowSums(points^2) <= 1)*4
+}
+```
+
+This simple function generates Pi. Using `parallel::mclapply`, we could just type
+
+```r
+set.seed(12)
+ans <- parallel::mclapply(rep(1e6, 100), simpi)
+mean(unlist(ans))
+```
+
+But there's another way, using `Slurm_lapply`, we can write
+
+
+```r
+job <- Slurm_lapply(rep(1e6, 100), simpi, njobs=10, mc.cores=10, wait = TRUE)
+ans <- Slurm_collect(job)
+mean(unlist(ans))
+```
+
+
+
+```bash
+#!/bin/bash
+#SBATCH
+Rscript --vanilla myjob.R
+```
+
+```bash
+$ sbatch run_jobs.sh
+```
+
+```r
+library(sluRm)
+library(parallel) # Example library you would like to load
+
+dat <- sample.int(1000, 10, TRUE)
+job <- Slurm_lapply(dat, mean, wait = TRUE)
+
+ans <- Slurm_collect(job)
+ans
+```
+# Common options to pass via `sbatch_opt`
+
+Options to `sbatch` can be passed via `sbatch_opt` as a list. For example, the
+following
+
+```r
+list(
+  `job-name`    = "my-fancy-slurm-job",
+  `mem-per-cpu` = "4G",
+  time          = "12:00:00",
+  ntasks        = 10
+)
+```
+
+Advices Slurm to allocate 4G of memory per task, set a maximum time limit of 12
+hours, and specify that you will be running 10 tasks per job.
+
+A comprehensive list of options can be found [here](https://slurm.schedmd.com/sbatch.html).
+
+# Appendix
+
+Extract from the FAQs at the Slurm website:
+
+> **30. Slurm documentation refers to CPUs, cores and threads. What exactly is considered a CPU?**
+If your nodes are configured with hyperthreading, then a CPU is equivalent to a hyperthread. Otherwise a CPU is equivalent to a core. You can determine if your nodes have more than one thread per core using the command "scontrol show node" and looking at the values of "ThreadsPerCore".
+>
+> *Note that even on systems with hyperthreading enabled, the resources will generally be allocated to jobs at the level of a core* (see NOTE below). Two different jobs will not share a core except through the use of a partition OverSubscribe configuration parameter. For example, a job requesting resources for three tasks on a node with ThreadsPerCore=2 will be allocated two full cores. Note that Slurm commands contain a multitude of options to control resource allocation with respect to base boards, sockets, cores and threads. --- [FAQ #30](https://slurm.schedmd.com/faq.html#cpu_count)
+

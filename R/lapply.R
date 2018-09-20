@@ -22,6 +22,27 @@ Slurm_lapply <- function(
   wait     = TRUE
   ) {
 
+  # Checks
+  if (!is.function(FUN))
+    stop("FUN should be a function, instead it is: ", class(FUN), call. = FALSE)
+
+  if (!is.list(X)) {
+    warning(
+      "`X` is not a list. The function will coerce it into one using `as.list`",
+      call. = FALSE
+      )
+    X <- as.list(X)
+  }
+
+  # Checking function args
+  FUNargs <- args(FUN)
+  dots    <- list(...)
+
+  if (length(setdiff(names(dots), FUNargs)))
+    stop("Some arguments passed via `...` are not part of `FUN`:\n -",
+         paste(setdiff(names(dots), FUNargs), collapse="\n -"), call. = FALSE)
+
+
   # Setting the job name
   options_sluRm$set_job_path(job_path)
   options_sluRm$set_job_name(job_name)
@@ -30,7 +51,7 @@ Slurm_lapply <- function(
   INDICES   <- parallel::splitIndices(length(X), nodes)
   dat       <- c(
     list(INDICES = INDICES, X = X, FUN = FUN, mc.cores=mc.cores),
-    list(...)
+    dots
     )
   obj_names <- save_objects(dat)
 

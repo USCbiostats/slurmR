@@ -13,6 +13,166 @@ vignette: >
 
 [Slurm Work Manager]() (formerly *Simple Linux Utility for Resource Manager*), 
 
+Some important definitions
+
+1.  **Node** A single computer in the HPC.
+2.  **Partition** A group of nodes in HPC (see `--partition`).
+3.  **Account** Accounts associated with partitions. Accounts can have privileges to use a partition or set of nodes. (see `--account`)
+4.  **Job** A job submited to slurm either via `sbatch`, `salloc`, or `srun`.
+5.  **Task** A step within a job. A particular job can have multiple tasks.
+6.  **CPU** (see `--cpus-per-task`, `--`)
+
+https://slurm.schedmd.com/cpu_management.html
+
+<table style="page-break-inside: avoid; font-family: Arial,Helvetica,sans-serif;" border="1" bordercolor="#000000" cellpadding="3" cellspacing="0" width="591">
+		<colgroup><col width="210">
+		<col width="16">
+		<col width="16">
+		<col width="16">
+		<col width="16">
+		<col width="16">
+		<col width="16">
+		<col width="16">
+		<col width="16">
+		<col width="16">
+		<col width="16">
+		<col width="20">
+		<col width="20">
+		<col width="20">
+		<col width="20">
+		<col width="20">
+		<col width="19">
+		</colgroup><tbody><tr>
+			<td bgcolor="#e0e0e0" width="210">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>Nodename</b></font></p>
+			</td>
+			<td colspan="16" bgcolor="#e0e0e0" width="367">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>n3</b></font></p>
+			</td>
+		</tr>
+		<tr>
+			<td bgcolor="#e0e0e0" width="210">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>Socket id</b></font></p>
+			</td>
+			<td colspan="8" bgcolor="#e0e0e0" width="170">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>0</b></font></p>
+			</td>
+			<td colspan="8" bgcolor="#e0e0e0" width="191">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>1</b></font></p>
+			</td>
+		</tr>
+		<tr>
+			<td bgcolor="#e0e0e0" width="210">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>Core id</b></font></p>
+			</td>
+			<td colspan="2" bgcolor="#e0e0e0" width="38">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>0</b></font></p>
+			</td>
+			<td colspan="2" bgcolor="#e0e0e0" width="38">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>1</b></font></p>
+			</td>
+			<td colspan="2" bgcolor="#e0e0e0" width="38">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>2</b></font></p>
+			</td>
+			<td colspan="2" bgcolor="#e0e0e0" width="38">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>3</b></font></p>
+			</td>
+			<td colspan="2" bgcolor="#e0e0e0" width="38">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>0</b></font></p>
+			</td>
+			<td colspan="2" bgcolor="#e0e0e0" width="45">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>1</b></font></p>
+			</td>
+			<td colspan="2" bgcolor="#e0e0e0" width="45">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>2</b></font></p>
+			</td>
+			<td colspan="2" bgcolor="#e0e0e0" width="44">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>3</b></font></p>
+			</td>
+		</tr>
+		<tr>
+			<td bgcolor="#e0e0e0" width="210">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>CPU id</b></font></p>
+			</td>
+			<td bgcolor="#e0e0e0" width="16">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>0</b></font></p>
+			</td>
+			<td bgcolor="#e0e0e0" width="16">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>1</b></font></p>
+			</td>
+			<td bgcolor="#e0e0e0" width="16">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>2</b></font></p>
+			</td>
+			<td bgcolor="#e0e0e0" width="16">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>3</b></font></p>
+			</td>
+			<td bgcolor="#e0e0e0" width="16">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>4</b></font></p>
+			</td>
+			<td bgcolor="#e0e0e0" width="16">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>5</b></font></p>
+			</td>
+			<td bgcolor="#e0e0e0" width="16">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>6</b></font></p>
+			</td>
+			<td bgcolor="#e0e0e0" width="16">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>7</b></font></p>
+			</td>
+			<td bgcolor="#e0e0e0" width="16">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>8</b></font></p>
+			</td>
+			<td bgcolor="#e0e0e0" width="16">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>9</b></font></p>
+			</td>
+			<td bgcolor="#e0e0e0" width="20">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>10</b></font></p>
+			</td>
+			<td bgcolor="#e0e0e0" width="20">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>11</b></font></p>
+			</td>
+			<td bgcolor="#e0e0e0" width="20">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>12</b></font></p>
+			</td>
+			<td bgcolor="#e0e0e0" width="20">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>13</b></font></p>
+			</td>
+			<td bgcolor="#e0e0e0" width="20">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>14</b></font></p>
+			</td>
+			<td bgcolor="#e0e0e0" width="19">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>15</b></font></p>
+			</td>
+		</tr>
+		<tr>
+			<td bgcolor="#e0e0e0" width="210">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>Number of
+				Allocated CPUs</b></font></p>
+			</td>
+			<td colspan="8" width="170">
+				<p align="CENTER"><font style="font-size: 8pt" size="1">4</font></p>
+			</td>
+			<td colspan="8" width="191">
+				<p align="CENTER"><font style="font-size: 8pt" size="1">4</font></p>
+			</td>
+		</tr>
+		<tr>
+			<td bgcolor="#e0e0e0" width="210">
+				<p align="CENTER"><font style="font-size: 8pt" size="1"><b>Allocated
+				CPU ids</b></font></p>
+			</td>
+			<td colspan="8" width="170">
+				<p align="CENTER"><font style="font-size: 8pt" size="1">0
+				  2   4   6</font></p>
+			</td>
+			<td colspan="8" width="191">
+				<p align="CENTER"><font style="font-size: 8pt" size="1">8
+				 10  12  14</font></p>
+			</td>
+		</tr>
+	</tbody></table>
+	
+> Unless overcommitment of CPUs to tasks is specified for the job, the number of tasks distributed to a node is constrained by the number of CPUs allocated on the node and the number of CPUs per task -- [Slurm CPU Management](https://slurm.schedmd.com/cpu_management.html)
+
 # Implementation of the `sluRrm` package
 
 Just like `rslurm`, `sluRm` has two levels of job distribution: Slurm Jobs (via

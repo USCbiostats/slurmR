@@ -63,7 +63,7 @@ Slurm_lapply <- function(
   FUNargs <- args(FUN)
   dots    <- list(...)
 
-  if (length(setdiff(names(dots), FUNargs)))
+  if (length(dots) && length(setdiff(names(dots), FUNargs)))
     stop("Some arguments passed via `...` are not part of `FUN`:\n -",
          paste(setdiff(names(dots), FUNargs), collapse="\n -"), call. = FALSE)
 

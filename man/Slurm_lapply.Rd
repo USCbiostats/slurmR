@@ -4,11 +4,11 @@
 \alias{Slurm_lapply}
 \title{The Slurm version of the \code{lapply}  function}
 \usage{
-Slurm_lapply(X, FUN, ..., njobs = 2, mc.cores = getOption("mc.cores",
-  2L), job_name = getOption("sluRm.job_name", "sluRm"),
+Slurm_lapply(X, FUN, ..., njobs = 2L, mc.cores = getOption("mc.cores",
+  2L), job_name = getOption("sluRm.job_name", "sluRm-lapply-job"),
   job_path = NULL, submit = TRUE, wait = TRUE,
-  sbatch_opt = list(nodes = njobs), rscript_opt = list(vanilla = TRUE),
-  compress = TRUE)
+  sbatch_opt = list(ntasks = 1L, `cpus-per-task` = mc.cores),
+  rscript_opt = list(vanilla = TRUE), compress = TRUE)
 }
 \arguments{
 \item{X, FUN, mc.cores, ...}{Arguments passed to \link[parallel:mclapply]{parallel::mclapply}.}

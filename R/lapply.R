@@ -36,13 +36,13 @@ Slurm_lapply <- function(
   X,
   FUN,
   ...,
-  njobs    = 2,
+  njobs    = 2L,
   mc.cores = getOption("mc.cores", 2L),
-  job_name = getOption("sluRm.job_name", "sluRm"),
+  job_name = getOption("sluRm.job_name", "sluRm-lapply-job"),
   job_path = NULL,
   submit   = TRUE,
   wait     = TRUE,
-  sbatch_opt  = list(nodes=njobs),
+  sbatch_opt  = list(ntasks=1L, `cpus-per-task`=mc.cores),
   rscript_opt = list(vanilla=TRUE),
   compress = TRUE
   ) {
@@ -107,6 +107,8 @@ Slurm_lapply <- function(
 
   if (!length(sbatch_opt) | (length(sbatch_opt) && !length(sbatch_opt$`cpus-per-task`)))
     sbatch_opt$`cpus-per-task` <- mc.cores
+  if (!length(sbatch_opt) | (length(sbatch_opt) && !length(sbatch_opt$ntasks)))
+    sbatch_opt$ntasks <- 1L
 
   bash$add_SBATCH(sbatch_opt)
   bash$finalize(rscript_opt)

@@ -78,11 +78,11 @@ snames <- function(type, array_id) {
     type,
     r   = "00-rscript.r",
     sh  = "01-bash.sh",
-    out = return("02-output%a.out"),
+    out = return("02-output-%A-%a.out"),
     rds = sprintf("03-answer-%03i.rds", array_id),
     fin = sprintf("04-finito-%03i.fin", array_id),
     stop(
-      "Invalid type, the only valid types are `r`, `sh`, out, and `rds`.",
+      "Invalid type, the only valid types are `r`, `sh`, `out`, and `rds`.",
       call. = FALSE
     )
   )

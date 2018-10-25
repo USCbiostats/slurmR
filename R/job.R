@@ -62,8 +62,9 @@ check_error <- function(cmd, ans) {
 #' @rdname sbatch
 sbatch.slurm_job <- function(x, wait=TRUE, ...) {
 
-  if (!is.na(x$job_id))
-    stop("Job ", x$job_id," is already running.")
+  # Checking the status of the job
+  if (!is.na(x$job_id) && squeue(x$job_id))
+      stop("Job ", x$job_id," is already running.")
 
   # Preparing options
   option <- c(
@@ -104,7 +105,7 @@ squeue.slurm_job <- function(x, ...) {
     parse_flags(...)
   )
 
-  message("Submitting job...")
+  # message("Submitting job...")
   ans <- suppressWarnings({
     tryCatch(system2("squeue", option, stdout=TRUE, stderr = TRUE, wait=TRUE),
              error=function(e) e)

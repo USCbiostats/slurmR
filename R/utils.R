@@ -42,6 +42,10 @@ parse_flags.default <- function(...) {
 #' @rdname parse_flags
 parse_flags.list <- function(x, ...) {
 
+  # Skipping NULL and NAs
+  if (length(x))
+    x <- x[which(sapply(x, function(z) (length(z) > 0) && !is.na(z) ))]
+
   # If no flags are passed, then return ""
   if (!length(x))
     return("")
@@ -58,8 +62,13 @@ parse_flags.list <- function(x, ...) {
       option[i] <- ""
     else if (!is.logical(x[[i]]) && !is.character(x[[i]]))
       vals[i] <- paste0("=", x[[i]])
-    else if (is.character(x[[i]]))
-      vals[i] <- sprintf("=\"%s\"", x[[i]])
+    else if (is.character(x[[i]])) {
+      if (grepl("\\s+", x[[i]]))
+        vals[i] <- sprintf("=\"%s\"", x[[i]])
+      else
+        vals[i] <- sprintf("=%s", x[[i]])
+
+    }
   }
 
   sprintf("%s%s", option, vals)

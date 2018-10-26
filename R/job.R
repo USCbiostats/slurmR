@@ -69,13 +69,13 @@ sbatch.slurm_job <- function(x, wait=TRUE, ...) {
   # Preparing options
   option <- c(
     sprintf("%s/%s && sbatch", x$job_path, x$job_name),
-    parse_flags(..., wait=wait),
+    parse_flags(...),
     x$bashfile
     )
 
-  message("Submitting job...")
+  message("Submitting job...", appendLF = FALSE)
   ans <- suppressWarnings({
-    tryCatch(system2("cd", option, stdout=TRUE, stderr = TRUE, wait=wait),
+    tryCatch(system2("cd", option, stdout = TRUE, wait=TRUE),
                   error=function(e) e)
   })
 
@@ -84,9 +84,43 @@ sbatch.slurm_job <- function(x, wait=TRUE, ...) {
 
   # Warning that the call has been made and storing the id
   x$job_id <- as.integer(gsub(pattern = ".+ (?=[0-9]+$)", "", ans, perl=TRUE))
+  message(" jobid:", x$job_id)
+
+  if (wait) {
+    message("Waiting...", appendLF = FALSE)
+    ans <- sbatch_dummy(`job-name` = x$job_name, dependency="singleton")
+    check_error("srun", ans)
+    message("Done.")
+  }
 
   # Not necesary
   invisible(x)
+
+}
+
+#' Waits for the `job_id` to be completed.
+#' @noRd
+sbatch_dummy <- function(...) {
+
+  flags <- parse_flags(
+    c(
+      list(
+        output = "/dev/null",
+        quiet  = TRUE,
+        wait   = TRUE
+        ),
+      ...)
+    )
+
+  # Dummy file to run sbatch
+  tmp <- tempfile(fileext = ".sbatch")
+  writeLines("#!/bin/sh\n\necho 0", tmp)
+
+  cmd <- sprintf("%s %s", paste(flags, collapse=" "), tmp)
+  ans <- system2("sbatch", cmd, wait = TRUE, stdout=TRUE)
+
+  structure(ans, cmd = paste("srun", cmd))
+
 
 }
 
@@ -131,6 +165,9 @@ print.slurm_job <- function(x, ...) {
     ), sep=""
   )
 
+  if (!is.na(x$job_id))
+    # cat(squeue(x), sep="\n")
+
   invisible(x)
 }
 
@@ -163,5 +200,38 @@ scancel.slurm_job <- function(x, ...) {
   x$job_id <- NA
 
   invisible()
+
+}
+
+#' @rdname sbatch
+#' @export
+sacct <- function(x) UseMethod("sacct")
+
+#' @export
+#' @rdname sbatch
+sacct.slurm_job <- function(x) {
+
+  sacct.default(x$job_id)
+
+}
+
+#' @export
+#' @rdname sbatch
+sacct.default <- function(x, ...) {
+
+  ans <- suppressWarnings({
+    system2("sacct", paste0("--brief --parsable --jobs=", x), stdout = TRUE)
+  })
+
+  check_error("sbatch", ans)
+
+  ans <- lapply(ans, strsplit, split="|", fixed=TRUE)
+  ans <- do.call(rbind, lapply(ans, unlist))
+
+  structure(
+    as.data.frame(ans[-1,]),
+    names = ans[1,]
+  )
+
 
 }

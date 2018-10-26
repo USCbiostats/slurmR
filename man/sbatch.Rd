@@ -7,6 +7,9 @@
 \alias{squeue.slurm_job}
 \alias{scancel}
 \alias{scancel.slurm_job}
+\alias{sacct}
+\alias{sacct.slurm_job}
+\alias{sacct.default}
 \title{A wrapper of \code{sbatch}.}
 \usage{
 sbatch(x, wait = TRUE, ...)
@@ -20,6 +23,12 @@ squeue(x, ...)
 scancel(x, ...)
 
 \method{scancel}{slurm_job}(x, ...)
+
+sacct(x)
+
+\method{sacct}{slurm_job}(x)
+
+\method{sacct}{default}(x, ...)
 }
 \arguments{
 \item{x}{An object of class \code{slurm_job}.}

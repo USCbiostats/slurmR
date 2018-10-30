@@ -84,11 +84,14 @@ sbatch.slurm_job <- function(x, wait=TRUE, ...) {
 
   # Warning that the call has been made and storing the id
   x$job_id <- as.integer(gsub(pattern = ".+ (?=[0-9]+$)", "", ans, perl=TRUE))
-  message(" jobid:", x$job_id)
+  message(" jobid:", x$job_id, ".")
 
   if (wait) {
-    message("Waiting...", appendLF = FALSE)
-    ans <- sbatch_dummy(`job-name` = x$job_name, dependency="singleton")
+    message("Waiting for the job to be done...", appendLF = FALSE)
+    ans <- sbatch_dummy(
+      `job-name` = paste0(x$job_name, "-dummy"),
+      dependency=paste0("afterany:", x$job_id)
+      )
     check_error("srun", ans)
     message("Done.")
   }
@@ -229,9 +232,23 @@ sacct.default <- function(x, ...) {
   ans <- do.call(rbind, lapply(ans, unlist))
 
   structure(
-    as.data.frame(ans[-1,]),
+    as.data.frame(ans[-1,], stringsAsFactors=FALSE),
     names = ans[1,]
   )
 
 
 }
+
+
+Slurm_status <- function(x) {
+
+  dat <- sacct(x)
+
+  if (!nrow(dat)) {
+    return(1)
+  } else if (all(dat$State == "COMPLETED"))
+    return(0)
+  else return(2)
+
+}
+

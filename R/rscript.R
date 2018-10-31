@@ -37,7 +37,7 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
   env$dat <- rscript_header(pkgs)
   env$dat <- c(
     env$dat,
-    ".slurmARRAY_ID <- as.integer(Sys.getenv(\"SLURM_ARRAY_TASK_ID\"))"
+    ".slurmARRAY_ID <- as.integer(Slurm_env(\"SLURM_ARRAY_TASK_ID\"))"
     )
 
   # Function to append a line
@@ -56,10 +56,10 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
 
     env$dat <- c(
       env$dat,
-      sprintf("options_sluRm$set_job_path(\"%s\")", options_sluRm$get_job_path()),
+      sprintf("opts_sluRm$set_chdir(\"%s\")", opts_sluRm$get_chdir()),
       sprintf(
-        "options_sluRm$set_job_name(\"%s\", overwrite = FALSE)",
-        options_sluRm$get_job_name(check)
+        "opts_sluRm$set_job_name(\"%s\", overwrite = FALSE)",
+        opts_sluRm$get_job_name(check)
         ),
       sprintf(
         "saveRDS(ans, sluRm:::snames(\"rds\", .slurmARRAY_ID), compress=%s)",
@@ -81,8 +81,8 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
     line <- sprintf(
       ".slurm%s <- readRDS(\"%s/%s/%1$s.rds\")",
       x,
-      options_sluRm$get_job_path(),
-      options_sluRm$get_job_name()
+      opts_sluRm$get_chdir(),
+      opts_sluRm$get_job_name()
       )
 
     if (index)
@@ -110,3 +110,4 @@ print.sluRm_rscript <- function(x, ...) {
   invisible(x)
 
 }
+

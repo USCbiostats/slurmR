@@ -9,23 +9,23 @@ Slurm_collect <- function(...) UseMethod("Slurm_collect")
 Slurm_collect.slurm_job <- function(x, ...) {
 
   # Making sure the previous setup is kept -------------------------------------
-  old_job_name <- options_sluRm$get_job_name(check = FALSE)
-  old_job_path <- options_sluRm$get_job_path()
+  old_job_name <- opts_sluRm$get_job_name(check = FALSE)
+  old_chdir    <- opts_sluRm$get_chdir()
 
   on.exit({
-    options_sluRm$set_job_name(old_job_name, check = FALSE, overwrite = FALSE)
-    options_sluRm$set_job_path(old_job_path)
+    opts_sluRm$set_job_name(old_job_name, check = FALSE, overwrite = FALSE)
+    opts_sluRm$set_chdir(old_chdir)
   })
 
   # Setting the job_status -----------------------------------------------------
-  options_sluRm$set_job_name(x$job_name, overwrite = FALSE)
-  options_sluRm$set_job_path(x$job_path)
+  opts_sluRm$set_job_name(x$job_opts$`job-name`, overwrite = FALSE)
+  opts_sluRm$set_chdir(x$job_opts$chdir)
 
   # Getting the filenames
   fn <- snames("fin", 1:x$njobs)
 
   test <- file.exists(fn)
-  cat(sprintf("Status of job '%s':\n", x$job_name))
+  cat(sprintf("Status of job '%s':\n", x$job_opts$`job-name`))
   cat(sprintf(
     " - Task %03i/%03i: %s\n", 1:x$njobs, x$njobs,
     ifelse(test, "Complete.", "Pending.")

@@ -5,8 +5,8 @@
 \title{The Slurm version of the \code{lapply}  function}
 \usage{
 Slurm_lapply(X, FUN, ..., njobs = 2L, mc.cores = getOption("mc.cores",
-  2L), job_name = getOption("sluRm.job_name", "sluRm-lapply-job"),
-  job_path = NULL, submit = TRUE, wait = TRUE,
+  2L), job_name = opts_sluRm$get_job_name(),
+  job_path = opts_sluRm$get_chdir(), submit = TRUE, wait = TRUE,
   sbatch_opt = list(ntasks = 1L, `cpus-per-task` = mc.cores),
   rscript_opt = list(vanilla = TRUE), compress = TRUE)
 }
@@ -31,6 +31,9 @@ the bash file as \code{#SBATCH} and to \code{Rscript} respectively.}
 \item{compress}{Logical scalar (default \code{TRUE}). Passed to \link{saveRDS}. Setting
 this value to \code{FALSE} can be useful when the user requires faster read/write
 of R objects on disk.}
+
+\item{debug}{Logical scalar. When \code{TRUE} the function call uses \code{sh} instead
+of \code{sbatch} to execute the bash file.}
 }
 \description{
 The Slurm version of the \code{lapply}  function

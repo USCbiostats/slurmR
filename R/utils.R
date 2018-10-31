@@ -7,8 +7,8 @@ save_objects <- function(
 
   # Creating and checking  path
   path <- paste(
-    options_sluRm$get_job_path(),
-    options_sluRm$get_job_name(),
+    opts_sluRm$get_chdir(),
+    opts_sluRm$get_job_name(),
     sep="/"
     )
 
@@ -87,7 +87,7 @@ snames <- function(type, array_id) {
     type,
     r   = "00-rscript.r",
     sh  = "01-bash.sh",
-    out = return("02-output-%A-%a.out"),
+    out = "02-output-%A-%a.out",
     rds = sprintf("03-answer-%03i.rds", array_id),
     fin = sprintf("04-finito-%03i.fin", array_id),
     stop(
@@ -98,10 +98,51 @@ snames <- function(type, array_id) {
 
   sprintf(
     "%s/%s/%s",
-    options_sluRm$get_job_path(),
-    options_sluRm$get_job_name(),
+    opts_sluRm$get_chdir(),
+    opts_sluRm$get_job_name(),
     type
   )
 
 }
 
+#' Check the Status of a Slurm JOB
+#' @param x Either a Job id, or an object of class `slurm_job`.
+#' @return An integer with an attribute `sacct`
+#' Codes:
+#' @export
+status <- function(x) UseMethod("status")
+
+#' @export
+#' @rdname status
+status.slurm_job <- function(x) status.default(x$jobid)
+
+#' @export
+#' @rdname status
+status.default <- function(x) {
+
+  dat <- sacct(x)
+
+  wrap <- function(val, dat) structure(val, data=dat)
+
+  if (!nrow(dat)) {
+    return(wrap(1, dat))
+  } else if (all(dat$State == "COMPLETED"))
+    return(wrap(0, dat))
+  else return(wrap(2, dat))
+
+}
+
+#' A wrapper of [Sys.getenv]
+#' @param x Character scalar. Environment variable to get.
+#' @export
+Slurm_env <- function(x) {
+
+  y <- Sys.getenv(x)
+
+  if ((x == "SLURM_ARRAY_TASK_ID") && y == "") {
+    return(1)
+  }
+
+  y
+
+}

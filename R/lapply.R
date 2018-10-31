@@ -10,6 +10,8 @@
 #' @param compress Logical scalar (default `TRUE`). Passed to [saveRDS]. Setting
 #' this value to `FALSE` can be useful when the user requires faster read/write
 #' of R objects on disk.
+#' @param debug Logical scalar. When `TRUE` the function call uses `sh` instead
+#' of `sbatch` to execute the bash file.
 #' @references Job Array Support https://slurm.schedmd.com/job_array.html
 #' @export
 #' @examples
@@ -38,8 +40,8 @@ Slurm_lapply <- function(
   ...,
   njobs    = 2L,
   mc.cores = getOption("mc.cores", 2L),
-  job_name = getOption("sluRm.job_name", "sluRm-lapply-job"),
-  job_path = NULL,
+  job_name = opts_sluRm$get_job_name(),
+  job_path = opts_sluRm$get_chdir(),
   submit   = TRUE,
   wait     = TRUE,
   sbatch_opt  = list(ntasks=1L, `cpus-per-task`=mc.cores),
@@ -69,8 +71,8 @@ Slurm_lapply <- function(
 
 
   # Setting the job name
-  options_sluRm$set_job_path(job_path)
-  options_sluRm$set_job_name(job_name)
+  opts_sluRm$set_chdir(job_path)
+  opts_sluRm$set_job_name(job_name)
 
   # Writing the data on the disk
   INDICES   <- parallel::splitIndices(length(X), njobs)
@@ -120,13 +122,15 @@ Slurm_lapply <- function(
     rscript  = snames("r"),
     bashfile = snames("sh"),
     robjects = obj_names,
-    job_name = options_sluRm$get_job_name(),
-    job_path = options_sluRm$get_job_path(),
-    njobs    = njobs
+    njobs    = njobs,
+    job_opts = opts_sluRm$get_opts()
   )
 
   if (submit)
     return(sbatch(ans, wait = wait))
+
+  warning("The job has not been submitted yet. You can use `submit` to do so.",
+          call. = FALSE)
 
   ans
 

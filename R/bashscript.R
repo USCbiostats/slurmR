@@ -69,7 +69,7 @@ new_bash <- function(njobs = 2) {
   # This bit is key (we need this info to properly track the job) --------------
   env$add_SBATCH(
     list(
-      `job-name` = options_sluRm$get_job_name(),
+      `job-name` = opts_sluRm$get_job_name(),
       output     = snames("out"),
       array      = sprintf("1-%i", njobs)
     )

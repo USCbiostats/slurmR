@@ -2,7 +2,7 @@
 #' @param call The original call
 #' @param rscript,bashfile The R script and bash file path.
 #' @param robjects A character vector of R objects that will be imported in the job.
-#' @param job_name,job_path Character. Name and path of the job.
+#' @param job_opts List. Arguments to be passed to [sbatch].
 #' @param njobs Integer. Number of jobs to start (array).
 #' @export
 new_slurm_job <- function(
@@ -10,9 +10,8 @@ new_slurm_job <- function(
   rscript,
   bashfile,
   robjects,
-  job_name,
-  job_path,
-  njobs
+  njobs,
+  job_opts
   ) {
 
   job <- list2env(
@@ -21,10 +20,9 @@ new_slurm_job <- function(
       rscript  = rscript,
       bashfile = bashfile,
       robjects = robjects,
-      job_name = job_name,
-      job_path = job_path,
       njobs    = njobs,
-      job_id   = NA
+      job_opts = job_opts,
+      jobid    = NA
     ),
     envir = new.env(parent = emptyenv())
   )
@@ -63,37 +61,44 @@ check_error <- function(cmd, ans) {
 sbatch.slurm_job <- function(x, wait=TRUE, ...) {
 
   # Checking the status of the job
-  if (!is.na(x$job_id) && squeue(x$job_id))
-      stop("Job ", x$job_id," is already running.")
+  if (!is.na(x$jobid) && squeue(x$jobid))
+      stop("Job ", x$jobid," is already running.")
 
   # Preparing options
-  option <- c(
-    sprintf("%s/%s && sbatch", x$job_path, x$job_name),
-    parse_flags(...),
-    x$bashfile
-    )
+  option <- x$bashfile
+
+  if (!opts_sluRm$get_debug())
+    option <- c(parse_flags(c(x$job_opts,...)), option)
+  else
+    option <- c(option, paste(">", snames("out"), ifelse(wait, "", "&")))
 
   message("Submitting job...", appendLF = FALSE)
   ans <- suppressWarnings({
-    tryCatch(system2("cd", option, stdout = TRUE, wait=TRUE),
+    tryCatch(system2(opts_sluRm$get_cmd(), option, stdout = TRUE, wait=TRUE),
                   error=function(e) e)
   })
 
   # Checking errors
-  check_error("sbatch", ans)
+  check_error(opts_sluRm$get_cmd(), ans)
 
   # Warning that the call has been made and storing the id
-  x$job_id <- as.integer(gsub(pattern = ".+ (?=[0-9]+$)", "", ans, perl=TRUE))
-  message(" jobid:", x$job_id, ".")
+  if (!opts_sluRm$get_debug()) {
+    x$jobid <-as.integer(gsub(pattern = ".+ (?=[0-9]+$)", "", ans, perl=TRUE))
+    message(" jobid:", x$jobid, ".")
+  } else
+    x$jobid <- NA
 
   if (wait) {
-    message("Waiting for the job to be done...", appendLF = FALSE)
+
     ans <- sbatch_dummy(
-      `job-name` = paste0(x$job_name, "-dummy"),
-      dependency=paste0("afterany:", x$job_id)
+      sh_cmd     = x$sh_cmd,
+      `job-name` = paste0(x$job_opts$`job-name`, "-dummy"),
+      dependency = paste0("afterany:", x$jobid),
+      partition  = x$job_opts$partition,
+      account    = x$job_opts$account
       )
     check_error("srun", ans)
-    message("Done.")
+
   }
 
   # Not necesary
@@ -101,9 +106,16 @@ sbatch.slurm_job <- function(x, wait=TRUE, ...) {
 
 }
 
-#' Waits for the `job_id` to be completed.
+#' Waits for the `jobid` to be completed.
 #' @noRd
 sbatch_dummy <- function(...) {
+
+  if (opts_sluRm$get_debug()) {
+    warning("Waiting is not available in debug mode.")
+    return(0)
+  }
+
+  message("Waiting for the job to be done...", appendLF = FALSE)
 
   flags <- parse_flags(
     c(
@@ -122,6 +134,8 @@ sbatch_dummy <- function(...) {
   cmd <- sprintf("%s %s", paste(flags, collapse=" "), tmp)
   ans <- system2("sbatch", cmd, wait = TRUE, stdout=TRUE)
 
+  message("Done.")
+
   structure(ans, cmd = paste("srun", cmd))
 
 
@@ -138,7 +152,7 @@ squeue.slurm_job <- function(x, ...) {
 
   # Preparing options
   option <- c(
-    sprintf("-j%i", x$job_id),
+    sprintf("-j%i", x$jobid),
     parse_flags(...)
   )
 
@@ -158,17 +172,17 @@ print.slurm_job <- function(x, ...) {
   cat("Call:\n", paste(deparse(x$call), collapse="\n"), "\n")
   cat(
     sprintf("job_name : %s\n", x$job_name),
-    sprintf("path     : %s/%s\n", x$job_path, x$job_name),
+    sprintf("path     : %s/%s\n", x$job_opts$chdir, x$job_opts$`job-name`),
     sprintf("job ID   : %s\n",
             ifelse(
-              is.na(x$job_id),
+              is.na(x$jobid),
               "Not submitted",
-              as.character(x$job_id)
+              as.character(x$jobid)
             )
     ), sep=""
   )
 
-  if (!is.na(x$job_id))
+  if (!is.na(x$jobid))
     # cat(squeue(x), sep="\n")
 
   invisible(x)
@@ -184,13 +198,13 @@ scancel <- function(x, ...) UseMethod("scancel")
 #' @rdname sbatch
 scancel.slurm_job <- function(x, ...) {
 
-  if (is.na(x$job_id)) {
+  if (is.na(x$jobid)) {
     warning("This job hasn't started yet. Nothing to cancel.", call. = FALSE)
     return()
   }
 
   # Preparing options
-  option <- c(parse_flags(...), x$job_id)
+  option <- c(parse_flags(...), x$jobid)
 
   ans <- suppressWarnings({
     tryCatch(system2("scancel", option, stdout=TRUE, stderr = TRUE),
@@ -200,7 +214,7 @@ scancel.slurm_job <- function(x, ...) {
   # Checking errors
   check_error("sbatch", ans)
 
-  x$job_id <- NA
+  x$jobid <- NA
 
   invisible()
 
@@ -214,7 +228,7 @@ sacct <- function(x) UseMethod("sacct")
 #' @rdname sbatch
 sacct.slurm_job <- function(x) {
 
-  sacct.default(x$job_id)
+  sacct.default(x$jobid)
 
 }
 
@@ -239,16 +253,4 @@ sacct.default <- function(x, ...) {
 
 }
 
-
-Slurm_status <- function(x) {
-
-  dat <- sacct(x)
-
-  if (!nrow(dat)) {
-    return(1)
-  } else if (all(dat$State == "COMPLETED"))
-    return(0)
-  else return(2)
-
-}
 

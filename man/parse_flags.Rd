@@ -24,3 +24,7 @@ Utility function
 cat(parse_flags(a=1, b=TRUE, hola=2, y="I have spaces", ms=2, `cpus-per-task`=4))
 # -a=1 -b --hola=2 -y="I have spaces" --ms=2 --cpus-per-task=4
 }
+\seealso{
+Other Utility: \code{\link{snames}}, \code{\link{status}}
+}
+\concept{Utility}

@@ -1,3 +1,27 @@
+check_error <- function(cmd, ans) {
+  if (inherits(ans, "error")) {
+    stop("`",cmd,"` not found. It seems that your system does not have Slurm. ",
+         call. = FALSE)
+  } else if (length(attr(ans, "status")) && (attr(ans, "status") != 0)) {
+    stop(
+      "An error has occurred when calling `", cmd,"`:\n",
+      paste(ans, collapse="\n"), call. = FALSE)
+  }
+}
+
+silent_system2 <- function(...) {
+
+  fun_name <- as.character(sys.call()[[1]])
+
+  ans <- suppressWarnings({
+    tryCatch(system2(...), error = function(e) e)
+  })
+
+  check_error(fun_name, ans)
+  ans
+
+}
+
 #' Slurm Jobs
 #' @param call The original call
 #' @param rscript,bashfile The R script and bash file path.
@@ -45,16 +69,7 @@ new_slurm_job <- function(
 #' @export
 sbatch <- function(x, wait=TRUE, ...) UseMethod("sbatch")
 
-check_error <- function(cmd, ans) {
-  if (inherits(ans, "error")) {
-    stop("`",cmd,"` not found. It seems that your system does not have Slurm. ",
-         call. = FALSE)
-  } else if (length(attr(ans, "status")) && (attr(ans, "status") != 0)) {
-    stop(
-      "An error has occurred when calling `", cmd,"`:\n",
-      paste(ans, collapse="\n"), call. = FALSE)
-  }
-}
+
 
 #' @export
 #' @rdname sbatch
@@ -67,19 +82,14 @@ sbatch.slurm_job <- function(x, wait=TRUE, ...) {
   # Preparing options
   option <- x$bashfile
 
-  if (!opts_sluRm$get_debug())
+  if (!opts_sluRm$get_debug()) {
     option <- c(parse_flags(c(x$job_opts,...)), option)
-  else
+  } else {
     option <- c(option, paste(">", snames("out"), ifelse(wait, "", "&")))
+  }
 
   message("Submitting job...", appendLF = FALSE)
-  ans <- suppressWarnings({
-    tryCatch(system2(opts_sluRm$get_cmd(), option, stdout = TRUE, wait=TRUE),
-                  error=function(e) e)
-  })
-
-  # Checking errors
-  check_error(opts_sluRm$get_cmd(), ans)
+  ans <- silent_system2(opts_sluRm$get_cmd(), option, stdout = TRUE, wait=TRUE)
 
   # Warning that the call has been made and storing the id
   if (!opts_sluRm$get_debug()) {
@@ -132,7 +142,7 @@ sbatch_dummy <- function(...) {
   writeLines("#!/bin/sh\n\necho 0", tmp)
 
   cmd <- sprintf("%s %s", paste(flags, collapse=" "), tmp)
-  ans <- system2("sbatch", cmd, wait = TRUE, stdout=TRUE)
+  ans <- silent_system2("sbatch", cmd, wait = TRUE, stdout=TRUE)
 
   message("Done.")
 
@@ -157,10 +167,7 @@ squeue.slurm_job <- function(x, ...) {
   )
 
   # message("Submitting job...")
-  ans <- suppressWarnings({
-    tryCatch(system2("squeue", option, stdout=TRUE, stderr = TRUE, wait=TRUE),
-             error=function(e) e)
-  })
+  ans <- silent_system2("squeue", option, stdout=TRUE, stderr = TRUE, wait=TRUE)
 
   ans
 
@@ -183,7 +190,7 @@ print.slurm_job <- function(x, ...) {
   )
 
   if (!is.na(x$jobid))
-    # cat(squeue(x), sep="\n")
+    print(sacct(x))
 
   invisible(x)
 }
@@ -206,13 +213,7 @@ scancel.slurm_job <- function(x, ...) {
   # Preparing options
   option <- c(parse_flags(...), x$jobid)
 
-  ans <- suppressWarnings({
-    tryCatch(system2("scancel", option, stdout=TRUE, stderr = TRUE),
-             error=function(e) e)
-  })
-
-  # Checking errors
-  check_error("sbatch", ans)
+  ans <- silent_system2("scancel", option, stdout=TRUE, stderr = TRUE)
 
   x$jobid <- NA
 
@@ -222,25 +223,26 @@ scancel.slurm_job <- function(x, ...) {
 
 #' @rdname sbatch
 #' @export
-sacct <- function(x) UseMethod("sacct")
+sacct <- function(x, ...) UseMethod("sacct")
 
 #' @export
 #' @rdname sbatch
-sacct.slurm_job <- function(x) {
+sacct.slurm_job <- function(x, ...) {
 
-  sacct.default(x$jobid)
+  sacct.default(x$jobid, ...)
 
 }
 
 #' @export
+#' @param brief Logical. Passed to `sacct`.
+#' @param parsable Logical. Passed to `sacct`.
 #' @rdname sbatch
-sacct.default <- function(x, ...) {
+sacct.default <- function(x, brief=TRUE, parsable = TRUE, ...) {
 
-  ans <- suppressWarnings({
-    system2("sacct", paste0("--brief --parsable --jobs=", x), stdout = TRUE)
-  })
+  flags <- parse_flags(c(list(brief=brief, parsable=parsable), list(...)))
+  flags <- c(flags, paste0("--jobs=", x))
 
-  check_error("sbatch", ans)
+  ans <- silent_system2("sacct", flags, stdout = TRUE)
 
   ans <- lapply(ans, strsplit, split="|", fixed=TRUE)
   ans <- do.call(rbind, lapply(ans, unlist))

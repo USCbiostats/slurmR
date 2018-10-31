@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sluRm</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.0.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.9000</span>
       </span>
     </div>
 
@@ -75,6 +75,18 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/getting-started.html">Getting Started with sluRm</a>
+    </li>
+  </ul>
 </li>
       </ul>
       
@@ -116,7 +128,15 @@
 <span class='fu'>scancel</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for slurm_job</span>
-<span class='fu'>scancel</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>scancel</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='fu'>sacct</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for slurm_job</span>
+<span class='fu'>sacct</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>sacct</span>(<span class='no'>x</span>, <span class='kw'>brief</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>parsable</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -133,6 +153,14 @@ flag to <code>Slurm</code> and set <code>wait=TRUE</code> in the system2 call.</
     <tr>
       <th>...</th>
       <td><p>Further flags passed to the command line function.</p></td>
+    </tr>
+    <tr>
+      <th>brief</th>
+      <td><p>Logical. Passed to <code>sacct</code>.</p></td>
+    </tr>
+    <tr>
+      <th>parsable</th>
+      <td><p>Logical. Passed to <code>sacct</code>.</p></td>
     </tr>
     </table>
     

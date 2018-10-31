@@ -5,8 +5,10 @@
 Slurm_collect <- function(...) UseMethod("Slurm_collect")
 
 #' @export
+#' @param any Logical. When `TRUE`, it will collect any output available regardless
+#' of whether the job is completed or not.
 #' @rdname Slurm_collect
-Slurm_collect.slurm_job <- function(x, ...) {
+Slurm_collect.slurm_job <- function(x, any = TRUE, ...) {
 
   # Making sure the previous setup is kept -------------------------------------
   old_job_name <- opts_sluRm$get_job_name(check = FALSE)
@@ -18,23 +20,28 @@ Slurm_collect.slurm_job <- function(x, ...) {
   })
 
   # Setting the job_status -----------------------------------------------------
-  opts_sluRm$set_job_name(x$job_opts$`job-name`, overwrite = FALSE)
   opts_sluRm$set_chdir(x$job_opts$chdir)
+  opts_sluRm$set_job_name(x$job_opts$`job-name`, overwrite = FALSE)
 
-  # Getting the filenames
-  fn <- snames("fin", 1:x$njobs)
+  if (!opts_sluRm$get_debug()) {
+    S <- status(x)
 
-  test <- file.exists(fn)
-  cat(sprintf("Status of job '%s':\n", x$job_opts$`job-name`))
-  cat(sprintf(
-    " - Task %03i/%03i: %s\n", 1:x$njobs, x$njobs,
-    ifelse(test, "Complete.", "Pending.")
-    ), sep=""
-    )
+    # Getting the filenames
+    if (!S)
+      do.call("c", lapply(snames("rds", 1:x$njobs), readRDS))
+    else if (any && (S == 1))
+      do.call("c", lapply(snames("rds", attr(S, "State")$done), readRDS))
+    else
+      stop("Nothing to retrieve. (see ?status).", call. = FALSE)
 
-  if (any(test))
-    do.call("c", lapply(snames("rds", which(test)), readRDS))
-  else
-    NULL
+  } else {
+
+    fn <- snames("rds", 1L)
+    if (file.exists(fn))
+      readRDS(fn)
+    else
+      stop("No result yet from the script.", call. = FALSE)
+
+  }
 
 }

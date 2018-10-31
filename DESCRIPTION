@@ -1,6 +1,6 @@
 Package: sluRm
 Title: A lightweight wrapper for HPC with Slurm
-Version: 0.0.0.9000
+Version: 0.0.9000
 Authors@R: person("George", "Vega Yon", email = "g.vegayon@gmail.com", role = c("aut", "cre"),
   comment = c(ORCID = "0000-0002-3171-0844"))
 Description: Provides a set of "apply" family functions to be used with Slurm, the

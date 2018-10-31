@@ -62,10 +62,9 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
         opts_sluRm$get_job_name(check)
         ),
       sprintf(
-        "saveRDS(ans, sluRm:::snames(\"rds\", .slurmARRAY_ID), compress=%s)",
+        "saveRDS(ans, sluRm::snames(\"rds\", .slurmARRAY_ID), compress=%s)",
         ifelse(compress, "TRUE", "FALSE")
-        ),
-      "cat('0', file = sluRm:::snames(\"fin\", .slurmARRAY_ID))"
+        )
       )
 
     invisible()

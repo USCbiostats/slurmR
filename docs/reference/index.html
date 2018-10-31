@@ -58,7 +58,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sluRm</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.0.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.9000</span>
       </span>
     </div>
 
@@ -72,6 +72,18 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/getting-started.html">Getting Started with sluRm</a>
+    </li>
+  </ul>
 </li>
       </ul>
       
@@ -116,6 +128,12 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="Slurm_env.html">Slurm_env()</a></code> </p>
+        </td>
+        <td><p>A wrapper of Sys.getenv</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="Slurm_lapply.html">Slurm_lapply()</a></code> </p>
         </td>
         <td><p>The Slurm version of the <code>lapply</code>  function</p></td>
@@ -128,9 +146,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="options_sluRm.html">options_sluRm</a></code> </p>
+          <p><code><a href="opts_sluRm.html">opts_sluRm</a></code> </p>
         </td>
-        <td><p>Get and set default options for slurm</p></td>
+        <td><p>Get and set default options for <code>sbatch</code> and <code>sluRm</code> internals</p></td>
       </tr><tr>
         
         <td>
@@ -140,7 +158,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="sbatch.html">sbatch()</a></code> <code><a href="sbatch.html">squeue()</a></code> <code><a href="sbatch.html">scancel()</a></code> </p>
+          <p><code><a href="sbatch.html">sbatch()</a></code> <code><a href="sbatch.html">squeue()</a></code> <code><a href="sbatch.html">scancel()</a></code> <code><a href="sbatch.html">sacct()</a></code> </p>
         </td>
         <td><p>A wrapper of <code>sbatch</code>.</p></td>
       </tr><tr>
@@ -150,6 +168,18 @@
         </td>
         <td><p>A lightweight wrapper for HPC with Slurm
 A lightweight wrapper for HPC with Slurm</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="snames.html">snames()</a></code> </p>
+        </td>
+        <td><p>Full path names for Slurm jobs</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="status.html">status()</a></code> <code><a href="status.html">JOB_STATE_CODES</a></code> </p>
+        </td>
+        <td><p>Check the Status of a Slurm JOB</p></td>
       </tr>
     </tbody>
     </table>

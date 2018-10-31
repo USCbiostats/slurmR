@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A lightweight wrapper for HPC with Slurm
-A lightweight wrapper for HPC with Slurm — sluRm • sluRm</title>
+<title>Full path names for Slurm jobs — snames • sluRm</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -31,11 +30,11 @@ A lightweight wrapper for HPC with Slurm — sluRm • sluRm</title>
 
 
 
-<meta property="og:title" content="A lightweight wrapper for HPC with Slurm
-A lightweight wrapper for HPC with Slurm — sluRm" />
+<meta property="og:title" content="Full path names for Slurm jobs — snames" />
 
-<meta property="og:description" content="A lightweight wrapper for HPC with Slurm
-A lightweight wrapper for HPC with Slurm" />
+<meta property="og:description" content="Using opts_sluRm$get_chdir and opts_sluRm$get_job_name it creates
+file names with full path to the objects. This function is inteded for
+internal use only." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -107,26 +106,48 @@ A lightweight wrapper for HPC with Slurm" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A lightweight wrapper for HPC with Slurm
-A lightweight wrapper for HPC with Slurm</h1>
+    <h1>Full path names for Slurm jobs</h1>
     
-    <div class="hidden name"><code>sluRm.Rd</code></div>
+    <div class="hidden name"><code>snames.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>A lightweight wrapper for HPC with Slurm
-A lightweight wrapper for HPC with Slurm</p>
+    <p>Using <a href='opts_sluRm.html'>opts_sluRm</a><code>$get_chdir</code> and <a href='opts_sluRm.html'>opts_sluRm</a><code>$get_job_name</code> it creates
+file names with full path to the objects. This function is inteded for
+internal use only.</p>
     
     </div>
 
-        
+    <pre class="usage"><span class='fu'>snames</span>(<span class='no'>type</span>, <span class='no'>array_id</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>type</th>
+      <td><p>can be either of r, sh, out, or rds, and depending on that</p></td>
+    </tr>
+    <tr>
+      <th>array_id</th>
+      <td><p>Integer. ID of the array to create the name.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other Utility: <code><a href='parse_flags.html'>parse_flags</a></code>,
+  <code><a href='status.html'>status</a></code></p></div>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
   </div>
 </div>

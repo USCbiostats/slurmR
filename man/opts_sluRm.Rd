@@ -3,26 +3,48 @@
 \docType{data}
 \name{opts_sluRm}
 \alias{opts_sluRm}
-\title{Get and set default options for slurm}
+\title{Get and set default options for \code{sbatch} and \code{sluRm} internals}
 \format{An object of class \code{opts_sluRm} of length 10.}
 \usage{
 opts_sluRm
 }
 \description{
-Get and set default options for slurm
+Most of the functions in the \code{sluRm} package use \code{chdir} and \code{job-name}
+options to write and submit jobs to \strong{Slurm}. These options have global
+defaults that are set and retrieved using \code{opts_sluRm}.
 }
 \details{
 Current supported options are:
 \itemize{
-\item \code{chdir}: This can be retrieved as\preformatted{opts_sluRm$get_chdir()
+\item \code{debug_off : function ()} Deactivates the debug mode.
+\item \code{debug_on : function ()} Activates the debug mode.
+\item \code{get_chdir : function ()} Gets \code{chdir}
+\item \code{get_cmd : function ()} Gets the bash command (see the \emph{Debug code} section)
+\item \code{get_debug : function ()} Returns \code{TRUE} if the debug mode is on. \code{FALSE}
+otherwise.
+\item \code{get_job_name : function (check = TRUE)} Returns the current value of \code{job-name}
+\item \code{set_chdir : function (path, recursive = TRUE)} Changes \code{chdir}.
+\item \code{set_job_name : function (path, check = TRUE, overwrite = TRUE)} Changes
+the \code{job-name}. When changing the name of the job the function will check
+whether the folder \code{chdir/job-name} is empty or not. If empty/not created
+it will create it, otherwise it will delete its contents (if \code{overwrite = TRUE},
+else it will return with an Error).
 }
 
-Likewise it can be set as\preformatted{opts_sluRm$get_chdir("some_path")
+For general set/retrieve options
+\itemize{
+\item \code{get_opts : function (...)}
+\item \code{set_opts : function (...)}
+}
+}
+\examples{
+
+# Common setup
+\dontrun{
+opts_sluRm$set_chdir("/staging/pdt/vegayon")
+opts_sluRm$set_job_name("simulations-1")
+opts_slurm$set_opts(partition="thomas", account="lc_pdt")
 }
 
-Currently, the default value is set when loading the package and is the
-current working directory.
-\item ``
-}
 }
 \keyword{datasets}

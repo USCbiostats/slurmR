@@ -7,12 +7,15 @@
 \usage{
 Slurm_collect(...)
 
-\method{Slurm_collect}{slurm_job}(x, ...)
+\method{Slurm_collect}{slurm_job}(x, any = TRUE, ...)
 }
 \arguments{
 \item{...}{Further arguments passed to the method.}
 
 \item{x}{An object of class \code{slurm_call}.}
+
+\item{any}{Logical. When \code{TRUE}, it will collect any output available regardless
+of whether the job is completed or not.}
 }
 \description{
 Collect the results

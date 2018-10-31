@@ -1,22 +1,50 @@
 
-#' Get and set default options for slurm
+#' Get and set default options for `sbatch` and `sluRm` internals
+#'
+#' Most of the functions in the `sluRm` package use `chdir` and `job-name`
+#' options to write and submit jobs to **Slurm**. These options have global
+#' defaults that are set and retrieved using `opts_sluRm`.
+#'
 #' @details Current supported options are:
-#' -  `chdir`: This can be retrieved as
 #'
-#'    ```
-#'    opts_sluRm$get_chdir()
-#'    ```
+#' - `debug_off : function ()` Deactivates the debug mode.
 #'
-#'    Likewise it can be set as
+#' - `debug_on : function ()` Activates the debug mode.
 #'
-#'    ```
-#'    opts_sluRm$get_chdir("some_path")
-#'    ```
+#' - `get_chdir : function ()` Gets `chdir`
 #'
-#'    Currently, the default value is set when loading the package and is the
-#'    current working directory.
+#' - `get_cmd : function ()` Gets the bash command (see the *Debug code* section)
 #'
-#' -  ``
+#' - `get_debug : function ()` Returns `TRUE` if the debug mode is on. `FALSE`
+#'   otherwise.
+#'
+#' - `get_job_name : function (check = TRUE)` Returns the current value of `job-name`
+#'
+#' - `set_chdir : function (path, recursive = TRUE)` Changes `chdir`.
+#'
+#' - `set_job_name : function (path, check = TRUE, overwrite = TRUE)` Changes
+#'   the `job-name`. When changing the name of the job the function will check
+#'   whether the folder `chdir/job-name` is empty or not. If empty/not created
+#'   it will create it, otherwise it will delete its contents (if `overwrite = TRUE`,
+#'   else it will return with an Error).
+#'
+#'
+#' For general set/retrieve options
+#'
+#' - `get_opts : function (...)`
+#'
+#' - `set_opts : function (...)`
+#'
+#'
+#' @examples
+#'
+#' # Common setup
+#' \dontrun{
+#' opts_sluRm$set_chdir("/staging/pdt/vegayon")
+#' opts_sluRm$set_job_name("simulations-1")
+#' opts_slurm$set_opts(partition="thomas", account="lc_pdt")
+#' }
+#'
 #' @export
 opts_sluRm <- (function() {
 
@@ -32,7 +60,10 @@ opts_sluRm <- (function() {
 
   # JOB PATH -------------------------------------------------------------------
   # Function to set job path
-  set_chdir <- function(path, recursive = TRUE) {
+  set_chdir <- function(path, recursive = TRUE, overwrite = FALSE) {
+
+    # Path normalization
+    path <- normalizePath(path)
 
     if (!length(path))
       return(get_chdir())
@@ -42,6 +73,10 @@ opts_sluRm <- (function() {
     }
 
     OPTS_SLURM$chdir <- path
+
+    # Move location of the files
+    if (length(OPTS_SLURM$`job-name`) && (get_chdir() != path))
+      set_job_name(get_job_name(), overwrite = overwrite)
 
     invisible()
   }
@@ -120,7 +155,7 @@ opts_sluRm <- (function() {
     OPTS_R$cmd   <- "sh"
     message("Debug mode is now active. Which means that jobs will be called via",
             " `sh` and not `sbatch`. You can de-activate debug mode by calling",
-            " opts_sluRm$debug_off().")
+            " opts_sluRm$debug_off().\n\n")
     invisible()
   }
 

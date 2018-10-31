@@ -29,6 +29,7 @@ save_objects <- function(
 #' cat(parse_flags(a=1, b=TRUE, hola=2, y="I have spaces", ms=2, `cpus-per-task`=4))
 #' # -a=1 -b --hola=2 -y="I have spaces" --ms=2 --cpus-per-task=4
 #' @export
+#' @family Utility
 parse_flags <- function(...) UseMethod("parse_flags")
 
 #' @export
@@ -74,9 +75,16 @@ parse_flags.list <- function(x, ...) {
   sprintf("%s%s", option, vals)
 }
 
-#' Function to create filenames with full paths for sluRm.
+#' Full path names for Slurm jobs
+#'
+#' Using [opts_sluRm]`$get_chdir` and [opts_sluRm]`$get_job_name` it creates
+#' file names with full path to the objects. This function is inteded for
+#' internal use only.
+#'
 #' @param type can be either of r, sh, out, or rds, and depending on that
-#' @noRd
+#' @param array_id Integer. ID of the array to create the name.
+#' @family Utility
+#' @export
 snames <- function(type, array_id) {
 
   if (!missing(array_id) && length(array_id) > 1)
@@ -89,7 +97,6 @@ snames <- function(type, array_id) {
     sh  = "01-bash.sh",
     out = "02-output-%A-%a.out",
     rds = sprintf("03-answer-%03i.rds", array_id),
-    fin = sprintf("04-finito-%03i.fin", array_id),
     stop(
       "Invalid type, the only valid types are `r`, `sh`, `out`, and `rds`.",
       call. = FALSE
@@ -109,7 +116,18 @@ snames <- function(type, array_id) {
 #' @param x Either a Job id, or an object of class `slurm_job`.
 #' @return An integer with an attribute `sacct`
 #' Codes:
+#' - `-1`: Job not found. This may be a false negative since Slurm may still
+#'   be scheduling the job.
+#'
+#' - `0`: Job completed. In this case all the components of the job
+#'   have finalized without any errors.
+#'
+#' - `1`: Some jobs are still running/pending.
+#'
+#' - `2`: One or more jobs have failed.
+#'
 #' @export
+#' @family Utility
 status <- function(x) UseMethod("status")
 
 #' @export
@@ -118,17 +136,42 @@ status.slurm_job <- function(x) status.default(x$jobid)
 
 #' @export
 #' @rdname status
+JOB_STATE_CODES <- list(
+  done    = "COMPLETED",
+  failed  = c("BOOT_FAIL", "CANCELLED", "DEADLINE", "FAILED", "NODE_FAIL",
+              "OUT_OF_MEMORY", "PREEMPTED", "REVOKED", "TIMEOUT"),
+  running = c("RUNNING"),
+  pending = c("PENDING", "REQUEUED", "RESIZING", "SUSPENDED")
+)
+
+#' @export
+#' @rdname status
 status.default <- function(x) {
 
+  wrap <- function(val, dat, State) structure(val, data=dat, State=State)
+
+  # Checking the data
   dat <- sacct(x)
 
-  wrap <- function(val, dat) structure(val, data=dat)
+  if (!nrow(dat))
+    return(wrap(-1, dat, NULL))
 
-  if (!nrow(dat)) {
-    return(wrap(1, dat))
-  } else if (all(dat$State == "COMPLETED"))
-    return(wrap(0, dat))
-  else return(wrap(2, dat))
+  # How many are done?
+  JobID <- dat$JobID
+  which_rows <- grepl("^[0-9]+[_][0-9]+$", JobID)
+  JobID <- JobID[which_rows]
+  JobID <- as.integer(gsub(".+[_]", "", JobID))
+  State <- dat$State[which_rows]
+  njobs <- length(State)
+  State <- lapply(JOB_STATE_CODES, function(jsc) JobID[which(State %in% jsc)])
+
+  if (length(State$done) == njobs)
+    return(wrap(0, dat, State))
+  else if (length(State$failed) == 0)
+    return(wrap(1, dat, State))
+  else
+    return(wrap(2, dat, State))
+
 
 }
 

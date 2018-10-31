@@ -24,11 +24,11 @@ scancel(x, ...)
 
 \method{scancel}{slurm_job}(x, ...)
 
-sacct(x)
+sacct(x, ...)
 
-\method{sacct}{slurm_job}(x)
+\method{sacct}{slurm_job}(x, ...)
 
-\method{sacct}{default}(x, ...)
+\method{sacct}{default}(x, brief = TRUE, parsable = TRUE, ...)
 }
 \arguments{
 \item{x}{An object of class \code{slurm_job}.}
@@ -37,6 +37,10 @@ sacct(x)
 flag to \code{Slurm} and set \code{wait=TRUE} in the \link{system2} call.}
 
 \item{...}{Further flags passed to the command line function.}
+
+\item{brief}{Logical. Passed to \code{sacct}.}
+
+\item{parsable}{Logical. Passed to \code{sacct}.}
 }
 \description{
 A wrapper of \code{sbatch}.

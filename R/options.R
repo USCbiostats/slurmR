@@ -68,9 +68,9 @@ opts_sluRm <- (function() {
     if (!length(path))
       return(get_chdir())
 
-    if (!dir.exists(path)) {
-      dir.create(path, recursive = recursive)
-    }
+    # if (!dir.exists(path)) {
+    #   dir.create(path, recursive = recursive)
+    # }
 
     OPTS_SLURM$chdir <- path
 
@@ -91,19 +91,20 @@ opts_sluRm <- (function() {
   # JOB NAME -------------------------------------------------------------------
   set_job_name <- function(path, check = TRUE, overwrite = TRUE) {
 
-    if (check && !length(path))
-      stop("`path` cannot be NULL.", call. = FALSE)
-    else if (!check && !length(path))
-      return()
+    if (!length(path))
+      stop("`path` cannot be NULL", call.=FALSE)
+    else if (path == "")
+      stop("`path` must be a meaningful name. Cannot be \"\" (empty).", call.=FALSE)
 
     fn <- sprintf("%s/%s", get_chdir(), path)
+
     if (overwrite && file.exists(fn)) {
       warning("The path '", fn, "' already exists and will be overwritten.",
               call. = FALSE)
       status <- file.remove(list.files(fn, full.names = TRUE))
     }
-    else if (!file.exists(fn))
-      dir.create(fn)
+    # else if (!file.exists(fn))
+    #   dir.create(fn)
 
     OPTS_SLURM$`job-name` <- path
 
@@ -123,7 +124,7 @@ opts_sluRm <- (function() {
     dots <- list(...)
 
     # Checking if one or more have already set
-    test <- names(dots)[which(names(dots) %in% ls(envir = OPTS_SLURM))]
+    test <- names(dots)[which(names(dots) %in% c('job-name', "chdir"))]
     if (length(test))
       warning("The following options can be set via `opts_sluRm$set_*`: `",
               paste0(test, collapse="`, `"), "`.")
@@ -198,4 +199,12 @@ print.opts_sluRm <- function(x, ...) {
 
 }
 
+.onLoad <- function(libname, pkgname) {
+  opts_sluRm$set_chdir(getwd())
+
+  tmp <- tempfile("sluRm-job-", opts_sluRm$get_chdir())
+  tmp <- gsub(".+(?=sluRm-job-)", "", tmp, perl = TRUE)
+
+  opts_sluRm$set_job_name(tmp)
+}
 

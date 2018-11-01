@@ -31,9 +31,6 @@ the bash file as \code{#SBATCH} and to \code{Rscript} respectively.}
 \item{compress}{Logical scalar (default \code{TRUE}). Passed to \link{saveRDS}. Setting
 this value to \code{FALSE} can be useful when the user requires faster read/write
 of R objects on disk.}
-
-\item{debug}{Logical scalar. When \code{TRUE} the function call uses \code{sh} instead
-of \code{sbatch} to execute the bash file.}
 }
 \description{
 The Slurm version of the \code{lapply}  function

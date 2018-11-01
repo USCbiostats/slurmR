@@ -1,9 +1,29 @@
+#' Utility function
+#' If the job folder doesn't exists, it creates it.
+#' @noRd
+check_path <- function() {
+
+  # Path specification
+  path <- sprintf(
+    "%s/%s",
+    opts_sluRm$get_chdir(), opts_sluRm$get_job_name()
+    )
+
+  # The thing
+  if (!dir.exists(path))
+    dir.create(path, recursive = TRUE)
+
+  invisible()
+}
 
 save_objects <- function(
   objects,
   compress = TRUE,
   ...
   ) {
+
+  # Checks if the folder exists
+  check_path()
 
   # Creating and checking  path
   path <- paste(
@@ -87,9 +107,11 @@ parse_flags.list <- function(x, ...) {
 #' @export
 snames <- function(type, array_id) {
 
+  # Checks if the folder exists
+  check_path()
+
   if (!missing(array_id) && length(array_id) > 1)
     return(sapply(array_id, snames, type = type))
-
 
   type <- switch (
     type,
@@ -187,5 +209,23 @@ Slurm_env <- function(x) {
   }
 
   y
+
+}
+
+#' Clean a session.
+#' @param x An object of class `slurm_job`.
+#' @export
+Slurm_clean <- function(x) {
+
+  # Path specification
+  path <- sprintf(
+    "%s/%s",
+    opts_sluRm$get_chdir(), opts_sluRm$get_job_name()
+  )
+
+  if (dir.exists(path))
+    unlink(path, recursive = TRUE, force = TRUE)
+  else
+    invisible(10)
 
 }

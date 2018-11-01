@@ -10,8 +10,6 @@
 #' @param compress Logical scalar (default `TRUE`). Passed to [saveRDS]. Setting
 #' this value to `FALSE` can be useful when the user requires faster read/write
 #' of R objects on disk.
-#' @param debug Logical scalar. When `TRUE` the function call uses `sh` instead
-#' of `sbatch` to execute the bash file.
 #' @references Job Array Support https://slurm.schedmd.com/job_array.html
 #' @export
 #' @examples

@@ -24,13 +24,13 @@ Slurm_collect.slurm_job <- function(x, any = TRUE, ...) {
   opts_sluRm$set_job_name(x$job_opts$`job-name`, overwrite = FALSE)
 
   if (!opts_sluRm$get_debug()) {
-    S <- status(x)
+    S <- state(x)
 
     # Getting the filenames
     if (!S)
       do.call("c", lapply(snames("rds", 1:x$njobs), readRDS))
     else if (any && (S == 1))
-      do.call("c", lapply(snames("rds", attr(S, "State")$done), readRDS))
+      do.call("c", lapply(snames("rds", attr(S, "done")), readRDS))
     else
       stop("Nothing to retrieve. (see ?status).", call. = FALSE)
 

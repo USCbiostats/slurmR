@@ -18,6 +18,6 @@ internal use only.
 }
 \seealso{
 Other Utility: \code{\link{parse_flags}},
-  \code{\link{status}}
+  \code{\link{state}}
 }
 \concept{Utility}

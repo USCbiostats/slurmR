@@ -134,9 +134,11 @@ snames <- function(type, array_id) {
 
 }
 
-#' Check the Status of a Slurm JOB
+#' Check the State (status) of a Slurm JOB
+#'
 #' @param x Either a Job id, or an object of class `slurm_job`.
 #' @return An integer with an attribute `sacct`
+#'
 #' Codes:
 #' - `-1`: Job not found. This may be a false negative since Slurm may still
 #'   be scheduling the job.
@@ -150,14 +152,14 @@ snames <- function(type, array_id) {
 #'
 #' @export
 #' @family Utility
-status <- function(x) UseMethod("status")
+state <- function(x) UseMethod("state")
 
 #' @export
-#' @rdname status
-status.slurm_job <- function(x) status.default(x$jobid)
+#' @rdname state
+state.slurm_job <- function(x) state.default(x$jobid)
 
 #' @export
-#' @rdname status
+#' @rdname state
 JOB_STATE_CODES <- list(
   done    = "COMPLETED",
   failed  = c("BOOT_FAIL", "CANCELLED", "DEADLINE", "FAILED", "NODE_FAIL",
@@ -167,16 +169,16 @@ JOB_STATE_CODES <- list(
 )
 
 #' @export
-#' @rdname status
-status.default <- function(x) {
+#' @rdname state
+state.default <- function(x) {
 
-  wrap <- function(val, dat, State) structure(val, data=dat, State=State)
+  wrap <- function(val, S) do.call(structure, c(list(.Data = val), S))
 
   # Checking the data
   dat <- sacct(x)
 
   if (!nrow(dat))
-    return(wrap(-1, dat, NULL))
+    return(wrap(-1, NULL))
 
   # How many are done?
   JobID <- dat$JobID
@@ -188,11 +190,11 @@ status.default <- function(x) {
   State <- lapply(JOB_STATE_CODES, function(jsc) JobID[which(State %in% jsc)])
 
   if (length(State$done) == njobs)
-    return(wrap(0, dat, State))
+    return(wrap(0, State))
   else if (length(State$failed) == 0)
-    return(wrap(1, dat, State))
+    return(wrap(1, State))
   else
-    return(wrap(2, dat, State))
+    return(wrap(2, State))
 
 
 }
@@ -217,6 +219,12 @@ Slurm_env <- function(x) {
 #' @export
 Slurm_clean <- function(x) {
 
+  # Checking if the job is running
+  s <- state(x)
+  if (s == 1)
+    stop("Some jobs are still running/pending (",
+         paste(attr(s, "pending"), collapse=", "), ".", call. = FALSE)
+
   # Path specification
   path <- sprintf(
     "%s/%s",
@@ -226,6 +234,6 @@ Slurm_clean <- function(x) {
   if (dir.exists(path))
     unlink(path, recursive = TRUE, force = TRUE)
   else
-    invisible(10)
+    invisible(0)
 
 }

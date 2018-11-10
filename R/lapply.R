@@ -60,7 +60,7 @@ Slurm_lapply <- function(
   }
 
   # Checking function args
-  FUNargs <- args(FUN)
+  FUNargs <- names(formals(FUN))
   dots    <- list(...)
 
   if (length(dots) && length(setdiff(names(dots), FUNargs)))

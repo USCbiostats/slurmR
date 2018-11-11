@@ -84,7 +84,7 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
       opts_sluRm$get_job_name()
       )
 
-    # if (index)
+    if (index)
       line <- paste0(line, "[.sINDICES[[.slurmARRAY_ID]]]")
 
     env$dat <- c(env$dat, line)

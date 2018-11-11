@@ -93,7 +93,7 @@ Slurm_lapply <- function(
   rscript$append(
     sprintf(
       "ans <- parallel::mclapply(\n%s\n)",
-      paste(sprintf("    %s = .slurm%1$s", obj_names[-1]), collapse=",\n")
+      paste(sprintf("    %-16s = .s%1$s", obj_names[-1]), collapse=",\n")
     )
   )
 

@@ -96,7 +96,8 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
   env$set_seed <- function(x, kind = NULL, normal.kind = NULL) {
 
     # Reading the seeds
-    env$add_rds("seeds", index = TRUE)
+    invisible(save_objects(list(seeds = x)))
+    env$add_rds("seeds", index = FALSE)
     line <- sprintf("set.seed(.sseeds[.sARRAY_ID], kind = %s, normal.kind = %s)",
                     ifelse(length(kind), kind, "NULL"),
                     ifelse(length(normal.kind), normal.kind, "NULL"))

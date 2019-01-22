@@ -19,7 +19,7 @@
 #'   job1 <- Slurm_lapply(1:20, function(i) runif(1e6), njobs=10, wait = TRUE)
 #'
 #'   # We can collect
-#'   ans <- Slurm_collect(ans1)
+#'   ans <- Slurm_collect(job1)
 #'
 #'   # Same as before, but not waiting this time, and we are passing more
 #'   # arguments to the function
@@ -31,6 +31,9 @@
 #'
 #'   # And cancel a job
 #'   scancel(job1)
+#'
+#'   # And we can clean up
+#'   Slurm_clean(job1)
 #' }
 Slurm_lapply <- function(
   X,
@@ -111,6 +114,7 @@ Slurm_lapply <- function(
     sbatch_opt$ntasks <- 1L
 
   bash$add_SBATCH(sbatch_opt)
+  bash$append("export OMP_NUM_THREADS=1") # Otherwise mclapply may crash
   bash$finalize(rscript_opt)
   bash$write()
 

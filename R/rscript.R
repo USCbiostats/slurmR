@@ -85,7 +85,7 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
       )
 
     if (index)
-      line <- paste0(line, "[.sINDICES[[.slurmARRAY_ID]]]")
+      line <- paste0(line, "[.sINDICES[[.sARRAY_ID]]]")
 
     env$dat <- c(env$dat, line)
 

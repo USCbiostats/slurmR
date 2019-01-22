@@ -42,7 +42,7 @@ The Slurm version of the \code{lapply}  function
   job1 <- Slurm_lapply(1:20, function(i) runif(1e6), njobs=10, wait = TRUE)
 
   # We can collect
-  ans <- Slurm_collect(ans1)
+  ans <- Slurm_collect(job1)
 
   # Same as before, but not waiting this time, and we are passing more
   # arguments to the function
@@ -54,6 +54,9 @@ The Slurm version of the \code{lapply}  function
 
   # And cancel a job
   scancel(job1)
+
+  # And we can clean up
+  Slurm_clean(job1)
 }
 }
 \references{

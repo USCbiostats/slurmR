@@ -8,7 +8,8 @@ Slurm_lapply(X, FUN, ..., njobs = 2L, mc.cores = getOption("mc.cores",
   2L), job_name = opts_sluRm$get_job_name(),
   job_path = opts_sluRm$get_chdir(), submit = TRUE, wait = TRUE,
   sbatch_opt = list(ntasks = 1L, `cpus-per-task` = mc.cores),
-  rscript_opt = list(vanilla = TRUE), compress = TRUE)
+  rscript_opt = list(vanilla = TRUE), seeds = 1L:njobs,
+  compress = TRUE)
 }
 \arguments{
 \item{X, FUN, mc.cores, ...}{Arguments passed to \link[parallel:mclapply]{parallel::mclapply}.}
@@ -27,6 +28,9 @@ scripts) will be stored (See \link{options_sluRm}).}
 
 \item{sbatch_opt, rscript_opt}{List. Options to be passed via flags to
 the bash file as \code{#SBATCH} and to \code{Rscript} respectively.}
+
+\item{seeds}{Integer vector of length \code{njobs}. Seeds to be passed to each
+job.}
 
 \item{compress}{Logical scalar (default \code{TRUE}). Passed to \link{saveRDS}. Setting
 this value to \code{FALSE} can be useful when the user requires faster read/write

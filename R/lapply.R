@@ -10,6 +10,8 @@
 #' @param compress Logical scalar (default `TRUE`). Passed to [saveRDS]. Setting
 #' this value to `FALSE` can be useful when the user requires faster read/write
 #' of R objects on disk.
+#' @param seeds Integer vector of length `njobs`. Seeds to be passed to each
+#' job.
 #' @references Job Array Support https://slurm.schedmd.com/job_array.html
 #' @export
 #' @examples
@@ -39,15 +41,16 @@ Slurm_lapply <- function(
   X,
   FUN,
   ...,
-  njobs    = 2L,
-  mc.cores = getOption("mc.cores", 2L),
-  job_name = opts_sluRm$get_job_name(),
-  job_path = opts_sluRm$get_chdir(),
-  submit   = TRUE,
-  wait     = TRUE,
+  njobs       = 2L,
+  mc.cores    = getOption("mc.cores", 2L),
+  job_name    = opts_sluRm$get_job_name(),
+  job_path    = opts_sluRm$get_chdir(),
+  submit      = TRUE,
+  wait        = TRUE,
   sbatch_opt  = list(ntasks=1L, `cpus-per-task`=mc.cores),
   rscript_opt = list(vanilla=TRUE),
-  compress = TRUE
+  seeds       = 1L:njobs,
+  compress    = TRUE
   ) {
 
   # Checks
@@ -91,6 +94,9 @@ Slurm_lapply <- function(
   # Adding readRDS
   rscript$add_rds(obj_names[-2])
   rscript$add_rds(obj_names[2], TRUE)
+
+  # Setting the seeds
+  rscript$set_seed(seeds)
 
   # Adding actual code
   rscript$append(

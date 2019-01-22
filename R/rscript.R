@@ -20,7 +20,7 @@ list_loaded_pkgs <- function() {
 #' Creates an R script
 #' @noRd
 #' @param pkgs A named list of R packages to load.
-rscript_header <- function(pkgs) {
+rscript_header <- function(pkgs, seeds = NULL) {
 
   sprintf("library(%s, lib.loc = \"%s\")", names(pkgs), unlist(pkgs))
 
@@ -87,6 +87,19 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
     if (index)
       line <- paste0(line, "[.sINDICES[[.sARRAY_ID]]]")
 
+    env$dat <- c(env$dat, line)
+
+    invisible()
+
+  }
+
+  env$set_seed <- function(x, kind = NULL, normal.kind = NULL) {
+
+    # Reading the seeds
+    env$add_rds("seeds", index = TRUE)
+    line <- sprintf("set.seed(.sseeds[.sARRAY_ID], kind = %s, normal.kind = %s)",
+                    ifelse(length(kind), kind, "NULL"),
+                    ifelse(length(normal.kind), normal.kind, "NULL"))
     env$dat <- c(env$dat, line)
 
     invisible()

@@ -5,7 +5,6 @@ output: github_document
 [![Travis build status](https://travis-ci.org/USCbiostats/sluRm.svg?branch=master)](https://travis-ci.org/USCbiostats/sluRm)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r setup, include = FALSE}
@@ -16,6 +15,7 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
+
 # sluRm
 
 Take a look at the vignette [here](vignettes/getting-started.Rmd).

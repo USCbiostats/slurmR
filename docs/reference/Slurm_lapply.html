@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The Slurm version of the <code>lapply</code>  function — Slurm_lapply • sluRm</title>
+<title>The Slurm version of the <code>lapply</code>  function — Slurm_Map • sluRm</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="The Slurm version of the <code>lapply</code>  function — Slurm_lapply" />
+<meta property="og:title" content="The Slurm version of the <code>lapply</code>  function — Slurm_Map" />
 
 <meta property="og:description" content="The Slurm version of the lapply  function" />
 <meta name="twitter:card" content="summary" />
@@ -115,19 +115,23 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>Slurm_lapply</span>(<span class='no'>X</span>, <span class='no'>FUN</span>, <span class='no'>...</span>, <span class='kw'>njobs</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='kw'>mc.cores</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mc.cores"</span>,
+    <pre class="usage"><span class='fu'>Slurm_Map</span>(<span class='no'>f</span>, <span class='no'>...</span>, <span class='kw'>njobs</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='kw'>mc.cores</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mc.cores"</span>, <span class='fl'>2L</span>),
+  <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_job_name</span>(),
+  <span class='kw'>job_path</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_chdir</span>(), <span class='kw'>submit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>sbatch_opt</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>ntasks</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>`cpus-per-task`</span> <span class='kw'>=</span> <span class='no'>mc.cores</span>),
+  <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>seeds</span> <span class='kw'>=</span> <span class='fl'>1L</span>:<span class='no'>njobs</span>,
+  <span class='kw'>compress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='fu'>Slurm_lapply</span>(<span class='no'>X</span>, <span class='no'>FUN</span>, <span class='no'>...</span>, <span class='kw'>njobs</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='kw'>mc.cores</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mc.cores"</span>,
   <span class='fl'>2L</span>), <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_job_name</span>(),
   <span class='kw'>job_path</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_chdir</span>(), <span class='kw'>submit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>sbatch_opt</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>ntasks</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>`cpus-per-task`</span> <span class='kw'>=</span> <span class='no'>mc.cores</span>),
-  <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>compress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>seeds</span> <span class='kw'>=</span> <span class='fl'>1L</span>:<span class='no'>njobs</span>,
+  <span class='kw'>compress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>X, FUN, mc.cores, ...</th>
-      <td><p>Arguments passed to <a href='http://www.rdocumentation.org/packages/parallel/topics/mclapply'>parallel::mclapply</a>.</p></td>
-    </tr>
     <tr>
       <th>njobs</th>
       <td><p>Integer. Number of jobs to specity.</p></td>
@@ -139,7 +143,7 @@
     <tr>
       <th>job_path</th>
       <td><p>Character. Path to the directory where all the data (including
-scripts) will be stored (See options_sluRm).</p></td>
+scripts) will be stored (See <a href='opts_sluRm.html'>opts_sluRm</a>).</p></td>
     </tr>
     <tr>
       <th>submit</th>
@@ -156,15 +160,20 @@ scripts) will be stored (See options_sluRm).</p></td>
 the bash file as <code>#SBATCH</code> and to <code>Rscript</code> respectively.</p></td>
     </tr>
     <tr>
+      <th>seeds</th>
+      <td><p>Integer vector of length <code>njobs</code>. Seeds to be passed to each
+job.</p></td>
+    </tr>
+    <tr>
       <th>compress</th>
       <td><p>Logical scalar (default <code>TRUE</code>). Passed to saveRDS. Setting
 this value to <code>FALSE</code> can be useful when the user requires faster read/write
 of R objects on disk.</p></td>
     </tr>
     <tr>
-      <th>debug</th>
-      <td><p>Logical scalar. When <code>TRUE</code> the function call uses <code>sh</code> instead
-of <code>sbatch</code> to execute the bash file.</p></td>
+      <th>X, FUN, f, mc.cores, ...</th>
+      <td><p>Arguments passed to either <a href='http://www.rdocumentation.org/packages/parallel/topics/mclapply'>parallel::mclapply</a> or
+<a href='http://www.rdocumentation.org/packages/parallel/topics/mclapply'>parallel::mcMap</a>.</p></td>
     </tr>
     </table>
     
@@ -180,7 +189,7 @@ of <code>sbatch</code> to execute the bash file.</p></td>
   <span class='no'>job1</span> <span class='kw'>&lt;-</span> <span class='fu'>Slurm_lapply</span>(<span class='fl'>1</span>:<span class='fl'>20</span>, <span class='kw'>function</span>(<span class='no'>i</span>) <span class='fu'>runif</span>(<span class='fl'>1e6</span>), <span class='kw'>njobs</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
   <span class='co'># We can collect</span>
-  <span class='no'>ans</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Slurm_collect.html'>Slurm_collect</a></span>(<span class='no'>ans1</span>)
+  <span class='no'>ans</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Slurm_collect.html'>Slurm_collect</a></span>(<span class='no'>job1</span>)
 
   <span class='co'># Same as before, but not waiting this time, and we are passing more</span>
   <span class='co'># arguments to the function</span>
@@ -192,6 +201,9 @@ of <code>sbatch</code> to execute the bash file.</p></td>
 
   <span class='co'># And cancel a job</span>
   <span class='fu'><a href='sbatch.html'>scancel</a></span>(<span class='no'>job1</span>)
+
+  <span class='co'># And we can clean up</span>
+  <span class='fu'><a href='Slurm_clean.html'>Slurm_clean</a></span>(<span class='no'>job1</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -72,7 +72,7 @@
       <h1>Getting Started with sluRm</h1>
                         <h4 class="author">George G. Vega Yon</h4>
             
-            <h4 class="date">2018-10-31</h4>
+            <h4 class="date">2019-02-12</h4>
       
       
       <div class="hidden name"><code>getting-started.Rmd</code></div>
@@ -81,10 +81,10 @@
 
     
     
-<div id="introduccion" class="section level1">
+<div id="introduction" class="section level1">
 <h1 class="hasAnchor">
-<a href="#introduccion" class="anchor"></a>Introduccion</h1>
-<p><a href="">Slurm Work Manager</a> (formerly <em>Simple Linux Utility for Resource Manager</em>),</p>
+<a href="#introduction" class="anchor"></a>Introduction</h1>
+<p><a href="https://slurm.schedmd.com/">Slurm Work Manager</a> (formerly <em>Simple Linux Utility for Resource Manager</em>),</p>
 <p>Some important definitions</p>
 <ol style="list-style-type: decimal">
 <li>
@@ -100,227 +100,7 @@
 <li>
 <strong>CPU</strong> (see <code>--cpus-per-task</code>, <code>--</code>)</li>
 </ol>
-<p><a href="https://slurm.schedmd.com/cpu_management.html">https://slurm.schedmd.com/cpu_management.html</a></p>
-<table style="page-break-inside: avoid; font-family: Arial,Helvetica,sans-serif;" border="1" bordercolor="#000000" cellpadding="3" cellspacing="0" width="591" class="table">
-<colgroup>
-<col width="210">
-<col width="16">
-<col width="16">
-<col width="16">
-<col width="16">
-<col width="16">
-<col width="16">
-<col width="16">
-<col width="16">
-<col width="16">
-<col width="16">
-<col width="20">
-<col width="20">
-<col width="20">
-<col width="20">
-<col width="20">
-<col width="19">
-</colgroup>
-<tbody>
-<tr>
-<td bgcolor="#e0e0e0" width="210">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>Nodename</b></font>
-</p>
-            </td>
-            <td colspan="16" bgcolor="#e0e0e0" width="367">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>n3</b></font>
-</p>
-            </td>
-        </tr>
-<tr>
-<td bgcolor="#e0e0e0" width="210">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>Socket id</b></font>
-</p>
-            </td>
-            <td colspan="8" bgcolor="#e0e0e0" width="170">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>0</b></font>
-</p>
-            </td>
-            <td colspan="8" bgcolor="#e0e0e0" width="191">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>1</b></font>
-</p>
-            </td>
-        </tr>
-<tr>
-<td bgcolor="#e0e0e0" width="210">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>Core id</b></font>
-</p>
-            </td>
-            <td colspan="2" bgcolor="#e0e0e0" width="38">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>0</b></font>
-</p>
-            </td>
-            <td colspan="2" bgcolor="#e0e0e0" width="38">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>1</b></font>
-</p>
-            </td>
-            <td colspan="2" bgcolor="#e0e0e0" width="38">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>2</b></font>
-</p>
-            </td>
-            <td colspan="2" bgcolor="#e0e0e0" width="38">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>3</b></font>
-</p>
-            </td>
-            <td colspan="2" bgcolor="#e0e0e0" width="38">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>0</b></font>
-</p>
-            </td>
-            <td colspan="2" bgcolor="#e0e0e0" width="45">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>1</b></font>
-</p>
-            </td>
-            <td colspan="2" bgcolor="#e0e0e0" width="45">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>2</b></font>
-</p>
-            </td>
-            <td colspan="2" bgcolor="#e0e0e0" width="44">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>3</b></font>
-</p>
-            </td>
-        </tr>
-<tr>
-<td bgcolor="#e0e0e0" width="210">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>CPU id</b></font>
-</p>
-            </td>
-            <td bgcolor="#e0e0e0" width="16">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>0</b></font>
-</p>
-            </td>
-            <td bgcolor="#e0e0e0" width="16">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>1</b></font>
-</p>
-            </td>
-            <td bgcolor="#e0e0e0" width="16">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>2</b></font>
-</p>
-            </td>
-            <td bgcolor="#e0e0e0" width="16">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>3</b></font>
-</p>
-            </td>
-            <td bgcolor="#e0e0e0" width="16">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>4</b></font>
-</p>
-            </td>
-            <td bgcolor="#e0e0e0" width="16">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>5</b></font>
-</p>
-            </td>
-            <td bgcolor="#e0e0e0" width="16">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>6</b></font>
-</p>
-            </td>
-            <td bgcolor="#e0e0e0" width="16">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>7</b></font>
-</p>
-            </td>
-            <td bgcolor="#e0e0e0" width="16">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>8</b></font>
-</p>
-            </td>
-            <td bgcolor="#e0e0e0" width="16">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>9</b></font>
-</p>
-            </td>
-            <td bgcolor="#e0e0e0" width="20">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>10</b></font>
-</p>
-            </td>
-            <td bgcolor="#e0e0e0" width="20">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>11</b></font>
-</p>
-            </td>
-            <td bgcolor="#e0e0e0" width="20">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>12</b></font>
-</p>
-            </td>
-            <td bgcolor="#e0e0e0" width="20">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>13</b></font>
-</p>
-            </td>
-            <td bgcolor="#e0e0e0" width="20">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>14</b></font>
-</p>
-            </td>
-            <td bgcolor="#e0e0e0" width="19">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>15</b></font>
-</p>
-            </td>
-        </tr>
-<tr>
-<td bgcolor="#e0e0e0" width="210">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>Number of Allocated CPUs</b></font>
-</p>
-            </td>
-            <td colspan="8" width="170">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1">4</font>
-</p>
-            </td>
-            <td colspan="8" width="191">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1">4</font>
-</p>
-            </td>
-        </tr>
-<tr>
-<td bgcolor="#e0e0e0" width="210">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1"><b>Allocated CPU ids</b></font>
-</p>
-            </td>
-            <td colspan="8" width="170">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1">0 2 4 6</font>
-</p>
-            </td>
-            <td colspan="8" width="191">
-                <p align="CENTER">
-<font style="font-size: 8pt" size="1">8 10 12 14</font>
-</p>
-            </td>
-        </tr>
-</tbody>
-</table>
+<p><a href="https://slurm.schedmd.com/cpu_management.html" class="uri">https://slurm.schedmd.com/cpu_management.html</a></p>
 <blockquote>
 <p>Unless overcommitment of CPUs to tasks is specified for the job, the number of tasks distributed to a node is constrained by the number of CPUs allocated on the node and the number of CPUs per task – <a href="https://slurm.schedmd.com/cpu_management.html">Slurm CPU Management</a></p>
 </blockquote>
@@ -328,11 +108,11 @@
 <div id="implementation-of-the-slurrm-package" class="section level1">
 <h1 class="hasAnchor">
 <a href="#implementation-of-the-slurrm-package" class="anchor"></a>Implementation of the <code>sluRrm</code> package</h1>
-<p>Just like <code>rslurm</code>, <code>sluRm</code> has two levels of job distribution: Slurm Jobs (via the <code>Slurm_lapply</code> function), and within each job via <code><a href="http://www.rdocumentation.org/packages/parallel/topics/mclapply">parallel::mclapply</a></code> (task forking).</p>
-<p>In general, the function <code>Slurm_lapply</code> is implemented as follows:</p>
+<p>Just like <code>rslurm</code>, <code>sluRm</code> has two levels of job distribution: Slurm Jobs (via the <code>Slurm_lapply</code> and <code>Slurm_Map</code> functions), and within each job via <code><a href="http://www.rdocumentation.org/packages/parallel/topics/mclapply">parallel::mclapply</a></code> and <code><a href="http://www.rdocumentation.org/packages/parallel/topics/mclapply">parallel::mcMap</a></code> (task forking).</p>
+<p>In general, the function <code>Slurm_*</code> is implemented as follows:</p>
 <ol style="list-style-type: decimal">
 <li><p>List whatever R packages are loaded, including the path to the R package.</p></li>
-<li><p>List all the objects passed via elipsis (<code>...</code>), and, together with <code>X</code> and <code>FUN</code>, save them at <code>[job_path]/[job_name]/</code> as <code>[object-name].rds</code>.</p></li>
+<li><p>List all the objects passed via elipsis (<code>...</code>), and, together with <code>X</code> and <code>FUN</code> or <code>f</code>, save them at <code>[job_path]/[job_name]/</code> as <code>[object-name].rds</code>.</p></li>
 <li><p>Write out the corresponding R script and Slurm bash file, and save them as <code>[job_path]/[job_name]/00-rscript.r</code>, and <code>[job_path]/[job_name]/01-bash.sh</code> respectively.</p></li>
 <li><p>If <code>submit = TRUE</code> (the default), the job will be submitted to the queue, which implies that <code>Slurm_lapply</code> will call <code><a href="../reference/sbatch.html">sbatch()</a></code>. Then return.</p></li>
 <li><p>Once <code><a href="../reference/sbatch.html">sbatch()</a></code> is called, a Job Array will be submitted in which each R job will lunch up to <code>mc.cores</code> forked processes (2nd layer of parallelization)</p></li>
@@ -346,30 +126,64 @@
 <h2 class="hasAnchor">
 <a href="#simulating-pi" class="anchor"></a>Simulating Pi</h2>
 <p>We would like to implement a simulation algorithm to be run in a cluster. In this case, we have the very simple function we would like to parallelize:</p>
-<pre class="sourceCode r"><code class="sourceCode r">simpi &lt;-<span class="st"> </span>function(n) {
-  points &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(n*<span class="dv">2</span>), <span class="dt">ncol=</span><span class="dv">2</span>)
-  <span class="kw">mean</span>(<span class="kw">rowSums</span>(points^<span class="dv">2</span>) &lt;=<span class="st"> </span><span class="dv">1</span>)*<span class="dv">4</span>
-}</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">simpi &lt;-<span class="st"> </span><span class="cf">function</span>(n) {</a>
+<a class="sourceLine" id="cb1-2" title="2">  points &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(n<span class="op">*</span><span class="dv">2</span>), <span class="dt">ncol=</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb1-3" title="3">  <span class="kw">mean</span>(<span class="kw">rowSums</span>(points<span class="op">^</span><span class="dv">2</span>) <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1</span>)<span class="op">*</span><span class="dv">4</span></a>
+<a class="sourceLine" id="cb1-4" title="4">}</a></code></pre></div>
 <p>This simple function generates Pi. Using <code><a href="http://www.rdocumentation.org/packages/parallel/topics/mclapply">parallel::mclapply</a></code>, we could just type</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">12</span>)
-ans &lt;-<span class="st"> </span>parallel::<span class="kw">mclapply</span>(<span class="kw">rep</span>(<span class="fl">1e6</span>, <span class="dv">100</span>), simpi)
-<span class="kw">mean</span>(<span class="kw">unlist</span>(ans))</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">set.seed</span>(<span class="dv">12</span>)</a>
+<a class="sourceLine" id="cb2-2" title="2">ans &lt;-<span class="st"> </span>parallel<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/parallel/topics/mclapply">mclapply</a></span>(<span class="kw">rep</span>(<span class="fl">1e6</span>, <span class="dv">100</span>), simpi)</a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="kw">mean</span>(<span class="kw">unlist</span>(ans))</a></code></pre></div>
 <p>But there’s another way, using <code>Slurm_lapply</code>, we can write</p>
-<pre class="sourceCode r"><code class="sourceCode r">job &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Slurm_lapply.html">Slurm_lapply</a></span>(<span class="kw">rep</span>(<span class="fl">1e6</span>, <span class="dv">100</span>), simpi, <span class="dt">njobs=</span><span class="dv">10</span>, <span class="dt">mc.cores=</span><span class="dv">10</span>, <span class="dt">wait =</span> <span class="ot">TRUE</span>)
-ans &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Slurm_collect.html">Slurm_collect</a></span>(job)
-<span class="kw">mean</span>(<span class="kw">unlist</span>(ans))</code></pre>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
-<span class="co">#SBATCH</span>
-<span class="kw">Rscript</span> --vanilla myjob.R</code></pre>
-<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw"><a href="../reference/sbatch.html">sbatch</a></span> run_jobs.sh</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sluRm)
-<span class="kw">library</span>(parallel) <span class="co"># Example library you would like to load</span>
-
-dat &lt;-<span class="st"> </span><span class="kw">sample.int</span>(<span class="dv">1000</span>, <span class="dv">10</span>, <span class="ot">TRUE</span>)
-job &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Slurm_lapply.html">Slurm_lapply</a></span>(dat, mean, <span class="dt">wait =</span> <span class="ot">TRUE</span>)
-
-ans &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Slurm_collect.html">Slurm_collect</a></span>(job)
-ans</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">library</span>(sluRm)</a></code></pre></div>
+<pre><code>## On load, `sluRm` sets default options for your jobs (`chdir`, which is the default directory where sluRm will use to create the auxiliar files, and `job-name`, which is the option of the same name in Slurm. You can view/set these at:
+##    ?opts_sluRm
+## or you could just type
+##    "opts_sluRm".</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># Setting required parameters</span></a>
+<a class="sourceLine" id="cb5-2" title="2">opts_sluRm<span class="op">$</span><span class="kw">set_chdir</span>(<span class="kw">tempdir</span>())</a>
+<a class="sourceLine" id="cb5-3" title="3">opts_sluRm<span class="op">$</span><span class="kw">set_job_name</span>(<span class="st">"test1"</span>)</a>
+<a class="sourceLine" id="cb5-4" title="4"></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="co"># Optional parameters are set via set_opts</span></a>
+<a class="sourceLine" id="cb5-6" title="6">opts_sluRm<span class="op">$</span><span class="kw">set_opts</span>(<span class="dt">partition=</span><span class="st">"conti"</span>, <span class="dt">account=</span><span class="st">"lc_dvc"</span>)</a>
+<a class="sourceLine" id="cb5-7" title="7"></a>
+<a class="sourceLine" id="cb5-8" title="8"><span class="co"># We can look at the setup</span></a>
+<a class="sourceLine" id="cb5-9" title="9">opts_sluRm</a></code></pre></div>
+<pre><code>## Current default for Slurm jobs:
+## 
+## List of 4
+##  $ partition: chr "conti"
+##  $ chdir    : chr "/tmp/RtmpcA8UQ1"
+##  $ account  : chr "lc_dvc"
+##  $ job-name : chr "test1"
+## 
+## To get and set options for Slurm jobs creation use (see ?opts_sluRm):
+## 
+## debug_off : function ()  
+## debug_on : function ()  
+## get_chdir : function ()  
+## get_cmd : function ()  
+## get_debug : function ()  
+## get_job_name : function (check = TRUE)  
+## get_opts : function (...)  
+## set_chdir : function (path, recursive = TRUE, overwrite = FALSE)  
+## set_job_name : function (path, check = TRUE, overwrite = TRUE)  
+## set_opts : function (...)</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">job &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Slurm_lapply.html">Slurm_lapply</a></span>(<span class="kw">rep</span>(<span class="fl">1e6</span>, <span class="dv">100</span>), simpi, <span class="dt">njobs=</span><span class="dv">10</span>, <span class="dt">mc.cores=</span><span class="dv">10</span>, <span class="dt">wait =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb7-2" title="2">ans &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Slurm_collect.html">Slurm_collect</a></span>(job)</a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="kw">mean</span>(<span class="kw">unlist</span>(ans))</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" title="1"><span class="co">#!/bin/bash</span></a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="co">#SBATCH</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="ex">Rscript</span> --vanilla myjob.R</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" title="1">$ <span class="ex">sbatch</span> run_jobs.sh</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">library</span>(sluRm)</a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="kw">library</span>(parallel) <span class="co"># Example package you would like to load</span></a>
+<a class="sourceLine" id="cb10-3" title="3"></a>
+<a class="sourceLine" id="cb10-4" title="4">dat &lt;-<span class="st"> </span><span class="kw">sample.int</span>(<span class="dv">1000</span>, <span class="dv">10</span>, <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb10-5" title="5">job &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Slurm_lapply.html">Slurm_lapply</a></span>(dat, mean, <span class="dt">wait =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb10-6" title="6"></a>
+<a class="sourceLine" id="cb10-7" title="7">ans &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Slurm_collect.html">Slurm_collect</a></span>(job)</a>
+<a class="sourceLine" id="cb10-8" title="8">ans</a></code></pre></div>
 </div>
 </div>
 <div id="common-options-to-pass-via-sbatch_opt" class="section level1">
@@ -377,12 +191,12 @@ ans</code></pre>
 <a href="#common-options-to-pass-via-sbatch_opt" class="anchor"></a>Common options to pass via <code>sbatch_opt</code>
 </h1>
 <p>Options to <code>sbatch</code> can be passed via <code>sbatch_opt</code> as a list. For example, the following</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">list</span>(
-  <span class="st">`</span><span class="dt">job-name</span><span class="st">`</span>    =<span class="st"> "my-fancy-slurm-job"</span>,
-  <span class="st">`</span><span class="dt">mem-per-cpu</span><span class="st">`</span> =<span class="st"> "4G"</span>,
-  <span class="dt">time          =</span> <span class="st">"12:00:00"</span>,
-  <span class="dt">ntasks        =</span> <span class="dv">10</span>
-)</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb11-2" title="2">  <span class="st">`</span><span class="dt">job-name</span><span class="st">`</span>    =<span class="st"> "my-fancy-slurm-job"</span>,</a>
+<a class="sourceLine" id="cb11-3" title="3">  <span class="st">`</span><span class="dt">mem-per-cpu</span><span class="st">`</span> =<span class="st"> "4G"</span>,</a>
+<a class="sourceLine" id="cb11-4" title="4">  <span class="dt">time          =</span> <span class="st">"12:00:00"</span>,</a>
+<a class="sourceLine" id="cb11-5" title="5">  <span class="dt">ntasks        =</span> <span class="dv">10</span></a>
+<a class="sourceLine" id="cb11-6" title="6">)</a></code></pre></div>
 <p>Advices Slurm to allocate 4G of memory per task, set a maximum time limit of 12 hours, and specify that you will be running 10 tasks per job.</p>
 <p>A comprehensive list of options can be found <a href="https://slurm.schedmd.com/sbatch.html">here</a>.</p>
 </div>
@@ -402,7 +216,7 @@ ans</code></pre>
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#introduccion">Introduccion</a></li>
+<li><a href="#introduction">Introduction</a></li>
       <li><a href="#implementation-of-the-slurrm-package">Implementation of the <code>sluRrm</code> package</a></li>
       <li>
 <a href="#examples">Examples</a><ul class="nav nav-pills nav-stacked">

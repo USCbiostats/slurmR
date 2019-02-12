@@ -23,7 +23,8 @@ list_loaded_pkgs <- function() {
 rscript_header <- function(pkgs, seeds = NULL) {
 
   # For testing purposes, the instalation of the package is somewhere else
-  intestthat <- as.integer(trimws(Sys.getenv("SLURM_TEST"), "both")) == 1L
+  intestthat <- identical(Sys.getenv("TESTTHAT"), "true")
+
   if (intestthat)
     pkgs[names(pkgs) == "sluRm"] <- NULL
 

@@ -9,9 +9,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# Introduccion
+# Introduction
 
-[Slurm Work Manager]() (formerly *Simple Linux Utility for Resource Manager*), 
+[Slurm Work Manager](https://slurm.schedmd.com/) (formerly *Simple Linux Utility for Resource Manager*), 
 
 Some important definitions
 
@@ -29,15 +29,15 @@ https://slurm.schedmd.com/cpu_management.html
 # Implementation of the `sluRrm` package
 
 Just like `rslurm`, `sluRm` has two levels of job distribution: Slurm Jobs (via
-the `Slurm_lapply` function), and within each job via `parallel::mclapply` (task
-forking).
+the `Slurm_lapply` and `Slurm_Map` functions), and within each job via `parallel::mclapply`
+and `parallel::mcMap` (task forking).
 
-In general, the function `Slurm_lapply` is implemented as follows:
+In general, the function `Slurm_*` is implemented as follows:
 
 1.  List whatever R packages are loaded, including the path to the R package.
 
 2.  List all the objects passed via elipsis (`...`), and, together with `X` and
-    `FUN`, save them at `[job_path]/[job_name]/` as `[object-name].rds`.
+    `FUN` or `f`, save them at `[job_path]/[job_name]/` as `[object-name].rds`.
 
 3.  Write out the corresponding R script and Slurm bash file, and save them as
     `[job_path]/[job_name]/00-rscript.r`, and `[job_path]/[job_name]/01-bash.sh`
@@ -112,7 +112,7 @@ $ sbatch run_jobs.sh
 
 ```r
 library(sluRm)
-library(parallel) # Example library you would like to load
+library(parallel) # Example package you would like to load
 
 dat <- sample.int(1000, 10, TRUE)
 job <- Slurm_lapply(dat, mean, wait = TRUE)

@@ -3,7 +3,6 @@ output: github_document
 ---
 
 [![Travis build status](https://travis-ci.org/USCbiostats/sluRm.svg?branch=master)](https://travis-ci.org/USCbiostats/sluRm)
-
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
 
@@ -19,15 +18,10 @@ knitr::opts_chunk$set(
 ```
 # sluRm
 
-The goal of sluRm is to ...
+Take a look at the vignette [here](vignettes/getting-started.Rmd).
 
 ## Installation
 
-You can install the released version of sluRm from [CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("sluRm")
-```
 
 And the development version from [GitHub](https://github.com/) with:
 

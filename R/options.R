@@ -130,7 +130,12 @@ opts_sluRm <- (function() {
               paste0(test, collapse="`, `"), "`.")
 
     Map(
-      function(x., value.) assign(x=x., value=value., envir = OPTS_SLURM),
+      function(x., value.) {
+         if (!length(value.))
+            rm(list = x., envir = OPTS_SLURM)
+         else
+            assign(x=x., value=value., envir = OPTS_SLURM)
+      },
       x. = names(dots), value. = unname(dots)
       )
 

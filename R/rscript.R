@@ -9,7 +9,7 @@ list_loaded_pkgs <- function() {
 
   structure(
     lapply(pkgs, function(p) {
-      gsub(sprintf("/%s/.+", p$Package), "/", attr(p, "file"))
+      gsub(sprintf("/%s/.+", p$Package), "", attr(p, "file"))
     }),
     names = names(pkgs),
     class = "sluRm_loaded_packages"
@@ -22,7 +22,17 @@ list_loaded_pkgs <- function() {
 #' @param pkgs A named list of R packages to load.
 rscript_header <- function(pkgs, seeds = NULL) {
 
-  sprintf("library(%s, lib.loc = \"%s\")", names(pkgs), unlist(pkgs))
+  # For testing purposes, the instalation of the package is somewhere else
+  intestthat <- as.integer(trimws(Sys.getenv("SLURM_TEST"), "both")) == 1L
+  if (intestthat)
+    pkgs[names(pkgs) == "sluRm"] <- NULL
+
+  ans <- sprintf("library(%s, lib.loc = \"%s\")", names(pkgs), unlist(pkgs))
+
+  if (intestthat)
+    c(ans, "library(sluRm)")
+  else
+    ans
 
 }
 

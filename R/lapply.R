@@ -1,5 +1,6 @@
 #' The Slurm version of the `lapply`  function
-#' @param X,FUN,mc.cores,... Arguments passed to [parallel::mclapply].
+#' @param X,FUN,f,mc.cores,... Arguments passed to either [parallel::mclapply] or
+#' [parallel::mcMap].
 #' @param submit Logical, when `TRUE` calls [sbatch] to submit the job to slurm.
 #' @template slurm
 #' @param wait Logical scalar. When `TRUE` waits for the output to return.

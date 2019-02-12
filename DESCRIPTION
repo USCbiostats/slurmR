@@ -15,7 +15,9 @@ RoxygenNote: 6.1.1
 Suggests: 
     rslurm,
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat,
+    covr
 Imports: 
     utils
 VignetteBuilder: knitr

@@ -4,7 +4,7 @@
 \name{opts_sluRm}
 \alias{opts_sluRm}
 \title{Get and set default options for \code{sbatch} and \code{sluRm} internals}
-\format{An object of class \code{opts_sluRm} of length 10.}
+\format{An object of class \code{opts_sluRm} of length 13.}
 \usage{
 opts_sluRm
 }
@@ -15,26 +15,38 @@ defaults that are set and retrieved using \code{opts_sluRm}.
 }
 \details{
 Current supported options are:
+
+Debuggin mode
 \itemize{
-\item \code{debug_off : function ()} Deactivates the debug mode.
-\item \code{debug_on : function ()} Activates the debug mode.
-\item \code{get_chdir : function ()} Gets \code{chdir}
-\item \code{get_cmd : function ()} Gets the bash command (see the \emph{Debug code} section)
-\item \code{get_debug : function ()} Returns \code{TRUE} if the debug mode is on. \code{FALSE}
-otherwise.
-\item \code{get_job_name : function (check = TRUE)} Returns the current value of \code{job-name}
-\item \code{set_chdir : function (path, recursive = TRUE)} Changes \code{chdir}.
-\item \code{set_job_name : function (path, check = TRUE, overwrite = TRUE)} Changes
-the \code{job-name}. When changing the name of the job the function will check
-whether the folder \code{chdir/job-name} is empty or not. If empty/not created
-it will create it, otherwise it will delete its contents (if \code{overwrite = TRUE},
-else it will return with an Error).
+\item \code{debug_on : function ()} \Sexpr{attr(sluRm::opts_sluRm$debug_on, "desc")}
+\item \code{debug_off : function ()} \Sexpr{attr(sluRm::opts_sluRm$debug_off, "desc")}
+\item \code{get_debug : function ()} \Sexpr{attr(sluRm::opts_sluRm$get_debug, "desc")}
+}
+
+Verbose mode
+\itemize{
+\item \code{verbose_on : function ()} \Sexpr{attr(sluRm::opts_sluRm$verbose_on, "desc")}
+\item \code{verbose_off : function ()} \Sexpr{attr(sluRm::opts_sluRm$verbose_off, "desc")}
+\item \code{get_verbose : function ()} \Sexpr{attr(sluRm::opts_sluRm$get_verbose, "desc")}
+}
+
+Slurm options
+\itemize{
+\item \code{set_chdir : function (path, recursive = TRUE)} \Sexpr{attr(sluRm::opts_sluRm$set_chdir, "desc")}
+\item \code{get_chdir : function ()} \Sexpr{attr(sluRm::opts_sluRm$get_chdir, "desc")}
+\item \code{set_job_name : function (path, check = TRUE, overwrite = TRUE)} \Sexpr{attr(sluRm::opts_sluRm$set_job_name, "desc")}.
+\item \code{get_job_name : function (check = TRUE)} \Sexpr{attr(sluRm::opts_sluRm$get_job_name, "desc")}
+}
+
+Other options
+\itemize{
+\item \code{get_cmd : function ()} \Sexpr{attr(sluRm::opts_sluRm$get_cmd, "desc")}
 }
 
 For general set/retrieve options
 \itemize{
-\item \code{get_opts : function (...)}
-\item \code{set_opts : function (...)}
+\item \code{set_opts : function (...)} \Sexpr{attr(sluRm::opts_sluRm$set_opts, "desc")}
+\item \code{get_opts : function (...)} \Sexpr{attr(sluRm::opts_sluRm$get_opts, "desc")}
 }
 }
 \examples{

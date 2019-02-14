@@ -1,4 +1,5 @@
 library(testthat)
-library(sluRm)
+
+suppressPackageStartupMessages(library(sluRm))
 
 test_check("sluRm")

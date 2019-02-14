@@ -7,33 +7,42 @@
 #'
 #' @details Current supported options are:
 #'
-#' - `debug_off : function ()` Deactivates the debug mode.
+#' Debuggin mode
 #'
-#' - `debug_on : function ()` Activates the debug mode.
+#' - `debug_on : function ()` \Sexpr{attr(sluRm::opts_sluRm$debug_on, "desc")}
 #'
-#' - `get_chdir : function ()` Gets `chdir`
+#' - `debug_off : function ()` \Sexpr{attr(sluRm::opts_sluRm$debug_off, "desc")}
 #'
-#' - `get_cmd : function ()` Gets the bash command (see the *Debug code* section)
+#' - `get_debug : function ()` \Sexpr{attr(sluRm::opts_sluRm$get_debug, "desc")}
 #'
-#' - `get_debug : function ()` Returns `TRUE` if the debug mode is on. `FALSE`
-#'   otherwise.
+#' Verbose mode
 #'
-#' - `get_job_name : function (check = TRUE)` Returns the current value of `job-name`
+#' - `verbose_on : function ()` \Sexpr{attr(sluRm::opts_sluRm$verbose_on, "desc")}
 #'
-#' - `set_chdir : function (path, recursive = TRUE)` Changes `chdir`.
+#' - `verbose_off : function ()` \Sexpr{attr(sluRm::opts_sluRm$verbose_off, "desc")}
 #'
-#' - `set_job_name : function (path, check = TRUE, overwrite = TRUE)` Changes
-#'   the `job-name`. When changing the name of the job the function will check
-#'   whether the folder `chdir/job-name` is empty or not. If empty/not created
-#'   it will create it, otherwise it will delete its contents (if `overwrite = TRUE`,
-#'   else it will return with an Error).
+#' - `get_verbose : function ()` \Sexpr{attr(sluRm::opts_sluRm$get_verbose, "desc")}
+#'
+#' Slurm options
+#'
+#' - `set_chdir : function (path, recursive = TRUE)` \Sexpr{attr(sluRm::opts_sluRm$set_chdir, "desc")}
+#'
+#' - `get_chdir : function ()` \Sexpr{attr(sluRm::opts_sluRm$get_chdir, "desc")}
+#'
+#' - `set_job_name : function (path, check = TRUE, overwrite = TRUE)` \Sexpr{attr(sluRm::opts_sluRm$set_job_name, "desc")}.
+#'
+#' - `get_job_name : function (check = TRUE)` \Sexpr{attr(sluRm::opts_sluRm$get_job_name, "desc")}
+#'
+#' Other options
+#'
+#' - `get_cmd : function ()` \Sexpr{attr(sluRm::opts_sluRm$get_cmd, "desc")}
 #'
 #'
 #' For general set/retrieve options
 #'
-#' - `get_opts : function (...)`
+#' - `set_opts : function (...)` \Sexpr{attr(sluRm::opts_sluRm$set_opts, "desc")}
 #'
-#' - `set_opts : function (...)`
+#' - `get_opts : function (...)` \Sexpr{attr(sluRm::opts_sluRm$get_opts, "desc")}
 #'
 #'
 #' @examples
@@ -53,9 +62,10 @@ opts_sluRm <- (function() {
   OPTS_SLURM$chdir      <- NULL
   OPTS_SLURM$`job-name` <- NULL
 
-  OPTS_R       <- new.env(parent = emptyenv())
-  OPTS_R$debug <- FALSE
-  OPTS_R$cmd   <- "sbatch"
+  OPTS_R         <- new.env(parent = emptyenv())
+  OPTS_R$debug   <- FALSE
+  OPTS_R$cmd     <- "sbatch"
+  OPTS_R$verbose <- FALSE
 
 
   # JOB PATH -------------------------------------------------------------------
@@ -88,6 +98,9 @@ opts_sluRm <- (function() {
     OPTS_SLURM$chdir
   }
 
+  attr(set_chdir, "desc") <- "Sets the working directory"
+  attr(set_chdir, "desc") <- "Retrieves the working directory"
+
   # JOB NAME -------------------------------------------------------------------
   set_job_name <- function(path, check = TRUE, overwrite = TRUE) {
 
@@ -117,6 +130,14 @@ opts_sluRm <- (function() {
       stop("Slurm job has not been initialized", call. = FALSE)
     OPTS_SLURM$`job-name`
   }
+
+  attr(set_job_name, "desc") <- paste(
+    "Changes the job-name. When changing the name of the job the function will",
+    "check whether the folder chdir/job-name is empty or not. If empty/not",
+    "created it will create it, otherwise it will delete its contents (if",
+    "`overwrite = TRUE``, else it will return with an Error).")
+
+  attr(get_job_name, "desc") <- "Returns the current value of `job-name`."
 
   # Generalized set/get function -----------------------------------------------
   set_opts <- function(...) {
@@ -156,21 +177,50 @@ opts_sluRm <- (function() {
 
   }
 
+  attr(set_opts, "desc") <- "A generic function to set options."
+  attr(get_opts, "desc") <- "A generic function to retrieve options."
+
+  # Debugging and Verbose ------------------------------------------------------
+
   debug_on <- function() {
-    OPTS_R$debug <- TRUE
-    OPTS_R$cmd   <- "sh"
+    OPTS_R$debug   <- TRUE
+    OPTS_R$cmd     <- "sh"
+    OPTS_R$verbose <- TRUE
     message("Debug mode is now active. Which means that jobs will be called via",
             " `sh` and not `sbatch`. You can de-activate debug mode by calling",
-            " opts_sluRm$debug_off().\n\n")
+            " opts_sluRm$debug_off(). Notice that only 1/njobs will be submitted",
+            ", so not all the data will be processed.")
     invisible()
   }
 
   debug_off <- function() {
-    OPTS_R$debug <- FALSE
-    OPTS_R$cmd   <- "sbatch"
+    OPTS_R$debug   <- FALSE
+    OPTS_R$cmd     <- "sbatch"
+    OPTS_R$verbose <- FALSE
     invisible()
   }
 
+  verbose_on <- function() {
+    OPTS_R$verbose <- TRUE
+    invisible()
+  }
+
+  verbose_off <- function() {
+    OPTS_R$verbose <- FALSE
+    invisible()
+  }
+
+  attr(debug_on, "desc")    <- paste(
+    "Activates the debugging mode. When active, jobs will be submitted using sh",
+    "and not sbatch. Also, only a single chunk of the data will be processed."
+  )
+  attr(debug_off, "desc")   <- "Deactivates the debugging mode."
+  attr(verbose_on, "desc")  <- paste(
+    "Deactivates the verbose mode. When ON, sbatch prints the Rscript and batch",
+    "files on screen so that the user knows what will be submitted to Slurm.")
+  attr(verbose_off, "desc") <- "Deactivates the verbose mode."
+
+  # Final structure ------------------------------------------------------------
   structure(list2env(
     list(
       set_chdir    = set_chdir,
@@ -181,8 +231,16 @@ opts_sluRm <- (function() {
       get_opts     = get_opts,
       debug_on     = debug_on,
       debug_off    = debug_off,
-      get_debug    = function() OPTS_R$debug,
-      get_cmd      = function() OPTS_R$cmd
+      get_debug    = structure(
+        function() OPTS_R$debug, desc="Returns TRUE of debug mode is on"),
+      verbose_on   = verbose_on,
+      verbose_off  = verbose_off,
+      get_verbose  = structure(
+        function() OPTS_R$verbose, desc="Returns TRUE if verbose mode is on."),
+      get_cmd      = structure(
+        function() OPTS_R$cmd,
+        desc =  "If debug mode is active, then it returns `sh`, otherwise `sbatch`"
+      )
     )
   ), class = "opts_sluRm")
 
@@ -197,8 +255,8 @@ print.opts_sluRm <- function(x, ...) {
   print(utils::ls.str(x))
 
   if(x$get_debug())
-    cat("Debugging mode is currently on, which means that `sbatch` will use `sh`",
-        " instead (to deactivate it use opts_sluRm$debug_off().\n")
+    cat("Debugging mode is currently active, which means that `sbatch` will use `sh`",
+        " instead (to deactivate it use opts_sluRm$debug_off()).\n")
 
   invisible(x)
 

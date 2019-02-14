@@ -12,7 +12,8 @@ Slurm_Map <- function(
   sbatch_opt  = list(ntasks=1L, `cpus-per-task`=mc.cores),
   rscript_opt = list(vanilla=TRUE),
   seeds       = 1L:njobs,
-  compress    = TRUE
+  compress    = TRUE,
+  export      = NULL
   ) {
 
   # Checks
@@ -38,10 +39,16 @@ Slurm_Map <- function(
   opts_sluRm$set_chdir(job_path)
   opts_sluRm$set_job_name(job_name)
 
-  # Writing the data on the disk
+  # Writing the data on the disk -----------------------------------------------
   INDICES   <- parallel::splitIndices(length(dots[[1]]), njobs)
   dat <- save_objects(
-    list(INDICES = INDICES, f = f, mc.cores=mc.cores),
+    c(
+      list(INDICES = INDICES, f = f, mc.cores=mc.cores),
+      if (length(export))
+        mget(export, envir=parent.frame())
+      else
+        NULL
+      ),
     compress = compress
     )
   obj_names <- save_objects(dots, compress = compress)
@@ -94,13 +101,7 @@ Slurm_Map <- function(
     job_opts = opts_sluRm$get_opts()
   )
 
-  if (submit)
-    return(sbatch(ans, wait = wait))
-
-  warning("The job has not been submitted yet. You can use `submit` to do so.",
-          call. = FALSE)
-
-  ans
+  return(sbatch(ans, wait = wait, submit = submit))
 
 }
 

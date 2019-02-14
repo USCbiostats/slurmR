@@ -200,7 +200,14 @@ state.default <- function(x) {
 }
 
 #' A wrapper of [Sys.getenv]
+#'
+#' This function is used within the R script written by `sluRm` to get the
+#' current value of `SLURM_ARRAY_TASK_ID`, an environment variable that Slurm
+#' creates when running an array. In the case that `opts_sluRm$get_debug() == TRUE`,
+#' the function will return a 1 (see [opts_sluRm]).
+#'
 #' @param x Character scalar. Environment variable to get.
+#'
 #' @export
 Slurm_env <- function(x) {
 
@@ -237,3 +244,4 @@ Slurm_clean <- function(x) {
     invisible(0)
 
 }
+

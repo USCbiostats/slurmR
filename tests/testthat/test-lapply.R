@@ -2,12 +2,14 @@ context("Lapply functions")
 
 test_that("Works in debug mode", {
 
-  # Tempdirectory
+  # Setting it up
   x <- tempdir()
-
-  opts_sluRm$set_chdir(x)
-  opts_sluRm$set_job_name("testthat")
-  opts_sluRm$debug_on()
+  suppressMessages({
+    opts_sluRm$set_chdir(x)
+    opts_sluRm$set_job_name("testthat")
+    opts_sluRm$debug_on()
+    opts_sluRm$verbose_off()
+  })
 
   b <- list(1:5, 1:10)
 

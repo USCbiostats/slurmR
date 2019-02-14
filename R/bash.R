@@ -65,15 +65,20 @@ new_slurm_job <- function(
 #' @param x An object of class `slurm_job`.
 #' @param wait Logical scalar. When `TRUE` the function will pass the `--wait`
 #' flag to `Slurm` and set `wait=TRUE` in the [system2] call.
+#' @param submit Logical, when `TRUE` calls [sbatch] to submit the job to slurm.
 #' @param ... Further flags passed to the command line function.
 #' @export
-sbatch <- function(x, wait=TRUE, ...) UseMethod("sbatch")
+sbatch <- function(x, wait=TRUE, submit = TRUE, ...) UseMethod("sbatch")
 
-
+hline <- function(..., sep="\n") {
+  cat("\n",rep("-", options("width")), "\n",sep="")
+  do.call(cat, c(list(...), sep=sep))
+  cat(rep("-", options("width")), "\n",sep="")
+}
 
 #' @export
 #' @rdname sbatch
-sbatch.slurm_job <- function(x, wait=TRUE, ...) {
+sbatch.slurm_job <- function(x, wait=TRUE, submit = TRUE, ...) {
 
   # Checking the status of the job
   if (!is.na(x$jobid) && squeue(x$jobid))
@@ -88,8 +93,38 @@ sbatch.slurm_job <- function(x, wait=TRUE, ...) {
     option <- c(option, paste(">", snames("out"), ifelse(wait, "", "&")))
   }
 
-  message("Submitting job...", appendLF = FALSE)
-  ans <- silent_system2(opts_sluRm$get_cmd(), option, stdout = TRUE, wait=TRUE)
+  if (opts_sluRm$get_verbose()) {
+    hline(
+      "`opts_sluRm$get_verbose() == TRUE`. The R script that will be used is located at:",
+      x$rscript, "and has the following contents:"
+      )
+    cat(readLines(x$rscript), sep = "\n")
+    hline(
+      "The bash file that will be used is located at:",
+      x$bashfile,
+      "and has the following contents:"
+      )
+    cat(readLines(x$bashfile), sep = "\n")
+    hline("EOF")
+  }
+
+
+  if (submit) {
+    message("Submitting job...", appendLF = FALSE)
+    ans <- silent_system2(opts_sluRm$get_cmd(), option, stdout = TRUE, wait=TRUE)
+  } else {
+    warning(
+      "`submit = FALSE`, which means that the job hasn't been submitted yet.",
+      " Use sbatch() to submit the job, or you can submit it via command line",
+      " using the following:\n", paste(
+        opts_sluRm$get_cmd(),
+        paste(option, collapse=" ")
+        ),
+      immediate. = TRUE,
+      call.      = FALSE
+      )
+    return(x)
+  }
 
   # Warning that the call has been made and storing the id
   if (!opts_sluRm$get_debug()) {

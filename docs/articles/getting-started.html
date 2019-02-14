@@ -72,7 +72,7 @@
       <h1>Getting Started with sluRm</h1>
                         <h4 class="author">George G. Vega Yon</h4>
             
-            <h4 class="date">2019-02-12</h4>
+            <h4 class="date">2019-02-13</h4>
       
       
       <div class="hidden name"><code>getting-started.Rmd</code></div>
@@ -153,7 +153,7 @@
 ## 
 ## List of 4
 ##  $ partition: chr "conti"
-##  $ chdir    : chr "/tmp/RtmpcA8UQ1"
+##  $ chdir    : chr "/tmp/RtmpRR95h7"
 ##  $ account  : chr "lc_dvc"
 ##  $ job-name : chr "test1"
 ## 
@@ -166,9 +166,12 @@
 ## get_debug : function ()  
 ## get_job_name : function (check = TRUE)  
 ## get_opts : function (...)  
+## get_verbose : function ()  
 ## set_chdir : function (path, recursive = TRUE, overwrite = FALSE)  
 ## set_job_name : function (path, check = TRUE, overwrite = TRUE)  
-## set_opts : function (...)</code></pre>
+## set_opts : function (...)  
+## verbose_off : function ()  
+## verbose_on : function ()</code></pre>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">job &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Slurm_lapply.html">Slurm_lapply</a></span>(<span class="kw">rep</span>(<span class="fl">1e6</span>, <span class="dv">100</span>), simpi, <span class="dt">njobs=</span><span class="dv">10</span>, <span class="dt">mc.cores=</span><span class="dv">10</span>, <span class="dt">wait =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb7-2" title="2">ans &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Slurm_collect.html">Slurm_collect</a></span>(job)</a>
 <a class="sourceLine" id="cb7-3" title="3"><span class="kw">mean</span>(<span class="kw">unlist</span>(ans))</a></code></pre></div>

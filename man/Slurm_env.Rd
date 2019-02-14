@@ -10,5 +10,8 @@ Slurm_env(x)
 \item{x}{Character scalar. Environment variable to get.}
 }
 \description{
-A wrapper of \link{Sys.getenv}
+This function is used within the R script written by \code{sluRm} to get the
+current value of \code{SLURM_ARRAY_TASK_ID}, an environment variable that Slurm
+creates when running an array. In the case that \code{opts_sluRm$get_debug() == TRUE},
+the function will return a 1 (see \link{opts_sluRm}).
 }

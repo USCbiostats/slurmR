@@ -123,28 +123,34 @@ defaults that are set and retrieved using <code>opts_sluRm</code>.</p>
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>An object of class <code>opts_sluRm</code> of length 10.</p>
+    <p>An object of class <code>opts_sluRm</code> of length 13.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Current supported options are:</p><ul>
-<li><p><code>debug_off : function ()</code> Deactivates the debug mode.</p></li>
-<li><p><code>debug_on : function ()</code> Activates the debug mode.</p></li>
-<li><p><code>get_chdir : function ()</code> Gets <code>chdir</code></p></li>
-<li><p><code>get_cmd : function ()</code> Gets the bash command (see the <em>Debug code</em> section)</p></li>
-<li><p><code>get_debug : function ()</code> Returns <code>TRUE</code> if the debug mode is on. <code>FALSE</code>
-otherwise.</p></li>
-<li><p><code>get_job_name : function (check = TRUE)</code> Returns the current value of <code>job-name</code></p></li>
-<li><p><code>set_chdir : function (path, recursive = TRUE)</code> Changes <code>chdir</code>.</p></li>
-<li><p><code>set_job_name : function (path, check = TRUE, overwrite = TRUE)</code> Changes
-the <code>job-name</code>. When changing the name of the job the function will check
-whether the folder <code>chdir/job-name</code> is empty or not. If empty/not created
-it will create it, otherwise it will delete its contents (if <code>overwrite = TRUE</code>,
-else it will return with an Error).</p></li>
+    <p>Current supported options are:</p>
+<p>Debuggin mode</p><ul>
+<li><p><code>debug_on : function ()</code> Activates the debugging mode. When active, jobs will be submitted using sh and not sbatch. Also, only a single chunk of the data will be processed.</p></li>
+<li><p><code>debug_off : function ()</code> Deactivates the debugging mode.</p></li>
+<li><p><code>get_debug : function ()</code> Returns TRUE of debug mode is on</p></li>
+</ul>
+    <p>Verbose mode</p><ul>
+<li><p><code>verbose_on : function ()</code> Deactivates the verbose mode. When ON, sbatch prints the Rscript and batch files on screen so that the user knows what will be submitted to Slurm.</p></li>
+<li><p><code>verbose_off : function ()</code> Deactivates the verbose mode.</p></li>
+<li><p><code>get_verbose : function ()</code> Returns TRUE if verbose mode is on.</p></li>
+</ul>
+    <p>Slurm options</p><ul>
+<li><p><code>set_chdir : function (path, recursive = TRUE)</code> Retrieves the working directory</p></li>
+<li><p><code>get_chdir : function ()</code></p></li>
+<li><p><code>set_job_name : function (path, check = TRUE, overwrite = TRUE)</code> Changes the job-name. When changing the name of the job the function will check whether the folder chdir/job-name is empty or not. If empty/not created it will create it, otherwise it will delete its contents (if `overwrite = TRUE``, else it will return with an Error).
+.</p></li>
+<li><p><code>get_job_name : function (check = TRUE)</code> Returns the current value of `job-name`.</p></li>
+</ul>
+    <p>Other options</p><ul>
+<li><p><code>get_cmd : function ()</code> If debug mode is active, then it returns `sh`, otherwise `sbatch`</p></li>
 </ul>
     <p>For general set/retrieve options</p><ul>
-<li><p><code>get_opts : function (...)</code></p></li>
-<li><p><code>set_opts : function (...)</code></p></li>
+<li><p><code>set_opts : function (...)</code> A generic function to set options.</p></li>
+<li><p><code>get_opts : function (...)</code> A generic function to retrieve options.</p></li>
 </ul>
     
 

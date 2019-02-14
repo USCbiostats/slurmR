@@ -32,7 +32,10 @@
 
 <meta property="og:title" content="A wrapper of Sys.getenv — Slurm_env" />
 
-<meta property="og:description" content="A wrapper of Sys.getenv" />
+<meta property="og:description" content="This function is used within the R script written by sluRm to get the
+current value of SLURM_ARRAY_TASK_ID, an environment variable that Slurm
+creates when running an array. In the case that opts_sluRm$get_debug() == TRUE,
+the function will return a 1 (see opts_sluRm)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -111,7 +114,10 @@
 
     <div class="ref-description">
     
-    <p>A wrapper of Sys.getenv</p>
+    <p>This function is used within the R script written by <code>sluRm</code> to get the
+current value of <code>SLURM_ARRAY_TASK_ID</code>, an environment variable that Slurm
+creates when running an array. In the case that <code>opts_sluRm$get_debug() == TRUE</code>,
+the function will return a 1 (see <a href='opts_sluRm.html'>opts_sluRm</a>).</p>
     
     </div>
 

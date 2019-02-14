@@ -12,9 +12,9 @@
 \alias{sacct.default}
 \title{A wrapper of \code{sbatch}.}
 \usage{
-sbatch(x, wait = TRUE, ...)
+sbatch(x, wait = TRUE, submit = TRUE, ...)
 
-\method{sbatch}{slurm_job}(x, wait = TRUE, ...)
+\method{sbatch}{slurm_job}(x, wait = TRUE, submit = TRUE, ...)
 
 squeue(x, ...)
 
@@ -35,6 +35,8 @@ sacct(x, ...)
 
 \item{wait}{Logical scalar. When \code{TRUE} the function will pass the \code{--wait}
 flag to \code{Slurm} and set \code{wait=TRUE} in the \link{system2} call.}
+
+\item{submit}{Logical, when \code{TRUE} calls \link{sbatch} to submit the job to slurm.}
 
 \item{...}{Further flags passed to the command line function.}
 

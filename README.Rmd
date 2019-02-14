@@ -8,6 +8,7 @@ output: github_document
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r setup, include = FALSE}
+options(width = 80)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -16,7 +17,32 @@ knitr::opts_chunk$set(
 )
 ```
 
+
 # sluRm
+
+Example
+
+```{r simple-example}
+library(sluRm)
+
+# Suppose that we have 100 vectors of length 50 ~ Unif(0,1)
+set.seed(881)
+x <- replicate(100, runif(50))
+```
+
+We can use the function `Slurm_lapply` to distribute computations
+
+```{r}
+ans <- Slurm_lapply(x, mean, submit = FALSE)
+```
+
+Notice the `submit = FALSE` option. To get more info, we can actually set the verbose mode on
+
+```{r}
+opts_sluRm$verbose_on()
+ans <- Slurm_lapply(x, mean, submit = FALSE)
+```
+
 
 Take a look at the vignette [here](vignettes/getting-started.Rmd).
 

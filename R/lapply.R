@@ -13,6 +13,7 @@
 #' of R objects on disk.
 #' @param seeds Integer vector of length `njobs`. Seeds to be passed to each
 #' job.
+#' @param export A named list with objects to be included in the Spawned sessions.
 #' @references Job Array Support https://slurm.schedmd.com/job_array.html
 #' @export
 #' @examples
@@ -51,7 +52,8 @@ Slurm_lapply <- function(
   sbatch_opt  = list(ntasks=1L, `cpus-per-task`=mc.cores),
   rscript_opt = list(vanilla=TRUE),
   seeds       = 1L:njobs,
-  compress    = TRUE
+  compress    = TRUE,
+  export      = NULL
   ) {
 
   # Checks
@@ -79,13 +81,19 @@ Slurm_lapply <- function(
   opts_sluRm$set_chdir(job_path)
   opts_sluRm$set_job_name(job_name)
 
-  # Writing the data on the disk
+  # Writing the data on the disk -----------------------------------------------
   INDICES   <- parallel::splitIndices(length(X), njobs)
-  dat       <- c(
-    list(INDICES = INDICES, X = X, FUN = FUN, mc.cores=mc.cores),
-    dots
-    )
-  obj_names <- save_objects(dat, compress = compress)
+  dat <- save_objects(
+    c(
+      list(X = X, INDICES = INDICES, FUN = FUN, mc.cores=mc.cores),
+      dots,
+      if (length(export))
+        mget(export, envir=parent.frame())
+      else
+        NULL
+    ),
+    compress = compress
+  )
 
   # R Script -------------------------------------------------------------------
 
@@ -93,8 +101,8 @@ Slurm_lapply <- function(
   rscript <- new_rscript()
 
   # Adding readRDS
-  rscript$add_rds(obj_names[-2])
-  rscript$add_rds(obj_names[2], TRUE)
+  rscript$add_rds(dat[-1])
+  rscript$add_rds(dat[1], TRUE)
 
   # Setting the seeds
   rscript$set_seed(seeds)
@@ -103,7 +111,7 @@ Slurm_lapply <- function(
   rscript$append(
     sprintf(
       "ans <- parallel::mclapply(\n%s\n)",
-      paste(sprintf("    %-16s = .s%1$s", obj_names[-1]), collapse=",\n")
+      paste(sprintf("    %-16s = .s%1$s", dat[-2]), collapse=",\n")
     )
   )
 
@@ -130,17 +138,12 @@ Slurm_lapply <- function(
     call     = match.call(),
     rscript  = snames("r"),
     bashfile = snames("sh"),
-    robjects = obj_names,
+    robjects = dat[-2],
     njobs    = njobs,
     job_opts = opts_sluRm$get_opts()
   )
 
-  if (submit)
-    return(sbatch(ans, wait = wait))
 
-  warning("The job has not been submitted yet. You can use `submit` to do so.",
-          call. = FALSE)
-
-  ans
+  return(sbatch(ans, wait = wait, submit = submit))
 
 }

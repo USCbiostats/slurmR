@@ -120,7 +120,7 @@
   <span class='kw'>job_path</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_chdir</span>(), <span class='kw'>submit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>sbatch_opt</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>ntasks</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>`cpus-per-task`</span> <span class='kw'>=</span> <span class='no'>mc.cores</span>),
   <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>seeds</span> <span class='kw'>=</span> <span class='fl'>1L</span>:<span class='no'>njobs</span>,
-  <span class='kw'>compress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+  <span class='kw'>compress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>export</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>Slurm_lapply</span>(<span class='no'>X</span>, <span class='no'>FUN</span>, <span class='no'>...</span>, <span class='kw'>njobs</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='kw'>mc.cores</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mc.cores"</span>,
   <span class='fl'>2L</span>), <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_job_name</span>(),

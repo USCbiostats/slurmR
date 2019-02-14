@@ -115,10 +115,10 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>sbatch</span>(<span class='no'>x</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>sbatch</span>(<span class='no'>x</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>submit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for slurm_job</span>
-<span class='fu'>sbatch</span>(<span class='no'>x</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+<span class='fu'>sbatch</span>(<span class='no'>x</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>submit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='fu'>squeue</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
@@ -149,6 +149,10 @@
       <th>wait</th>
       <td><p>Logical scalar. When <code>TRUE</code> the function will pass the <code>--wait</code>
 flag to <code>Slurm</code> and set <code>wait=TRUE</code> in the system2 call.</p></td>
+    </tr>
+    <tr>
+      <th>submit</th>
+      <td><p>Logical, when <code>TRUE</code> calls sbatch to submit the job to slurm.</p></td>
     </tr>
     <tr>
       <th>...</th>

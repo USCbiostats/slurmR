@@ -68,6 +68,10 @@ Slurm_lapply <- function(
     X <- as.list(X)
   }
 
+  if (length(export) && !is.character(export))
+    stop("`export` must be a character vector of object names.",
+         call. = FALSE)
+
   # Checking function args
   FUNargs <- names(formals(FUN))
   dots    <- list(...)
@@ -111,7 +115,10 @@ Slurm_lapply <- function(
   rscript$append(
     sprintf(
       "ans <- parallel::mclapply(\n%s\n)",
-      paste(sprintf("    %-16s = .s%1$s", dat[-2]), collapse=",\n")
+      paste(
+        sprintf("    %-16s = %1$s", setdiff(dat[-2], export)),
+        collapse=",\n"
+        )
     )
   )
 

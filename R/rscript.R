@@ -48,7 +48,7 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
   env$dat <- rscript_header(pkgs)
   env$dat <- c(
     env$dat,
-    sprintf(".s%-16s <- as.integer(Slurm_env(\"SLURM_ARRAY_TASK_ID\"))", "ARRAY_ID")
+    sprintf("%-16s <- as.integer(Slurm_env(\"SLURM_ARRAY_TASK_ID\"))", "ARRAY_ID")
     )
 
   # Function to append a line
@@ -73,7 +73,7 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
         opts_sluRm$get_job_name(check)
         ),
       sprintf(
-        "saveRDS(ans, sluRm::snames(\"rds\", .sARRAY_ID), compress=%s)",
+        "saveRDS(ans, sluRm::snames(\"rds\", ARRAY_ID), compress=%s)",
         ifelse(compress, "TRUE", "FALSE")
         )
       )
@@ -89,14 +89,14 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
 
     # Writing the line
     line <- sprintf(
-      ".s%-16s <- readRDS(\"%s/%s/%1$s.rds\")",
+      "%-16s <- readRDS(\"%s/%s/%1$s.rds\")",
       x,
       opts_sluRm$get_chdir(),
       opts_sluRm$get_job_name()
       )
 
     if (index)
-      line <- paste0(line, "[.sINDICES[[.sARRAY_ID]]]")
+      line <- paste0(line, "[INDICES[[ARRAY_ID]]]")
 
     env$dat <- c(env$dat, line)
 
@@ -109,7 +109,7 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
     # Reading the seeds
     invisible(save_objects(list(seeds = x)))
     env$add_rds("seeds", index = FALSE)
-    line <- sprintf("set.seed(.sseeds[.sARRAY_ID], kind = %s, normal.kind = %s)",
+    line <- sprintf("set.seed(seeds[ARRAY_ID], kind = %s, normal.kind = %s)",
                     ifelse(length(kind), kind, "NULL"),
                     ifelse(length(normal.kind), normal.kind, "NULL"))
     env$dat <- c(env$dat, line)

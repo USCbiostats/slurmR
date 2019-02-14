@@ -20,6 +20,10 @@ Slurm_Map <- function(
   if (!is.function(f))
     stop("f should be a function, instead it is: ", class(f), call. = FALSE)
 
+  if (length(export) && !is.character(export))
+    stop("`export` must be a character vector of object names.",
+         call. = FALSE)
+
   # Checking function args
   FUNargs <- names(formals(f))
   dots    <- list(...)
@@ -69,7 +73,13 @@ Slurm_Map <- function(
   rscript$append(
     sprintf(
       "ans <- parallel::mcMap(\n%s\n)",
-      paste(sprintf("    %-16s = .s%1$s", c(dat[-1], obj_names)), collapse=",\n")
+      paste(
+        sprintf(
+          "    %-16s = %1$s",
+          setdiff(c(dat[-1], obj_names), export)
+          ),
+        collapse=",\n"
+        )
     )
   )
 

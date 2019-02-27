@@ -148,7 +148,7 @@ opts_sluRm <- (function() {
     test <- names(dots)[which(names(dots) %in% c('job-name', "chdir"))]
     if (length(test))
       warning("The following options can be set via `opts_sluRm$set_*`: `",
-              paste0(test, collapse="`, `"), "`.")
+              paste0(test, collapse="`, `"), "`.", call. = FALSE)
 
     Map(
       function(x., value.) {

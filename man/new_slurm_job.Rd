@@ -2,7 +2,8 @@
 % Please edit documentation in R/bash.R
 \name{new_slurm_job}
 \alias{new_slurm_job}
-\title{Slurm Jobs}
+\alias{slurm_job}
+\title{Slurm jobs}
 \usage{
 new_slurm_job(call, rscript, bashfile, robjects, njobs, job_opts)
 }
@@ -18,5 +19,5 @@ new_slurm_job(call, rscript, bashfile, robjects, njobs, job_opts)
 \item{job_opts}{List. Arguments to be passed to \link{sbatch}.}
 }
 \description{
-Slurm Jobs
+Slurm jobs
 }

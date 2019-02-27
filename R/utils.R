@@ -245,3 +245,22 @@ Slurm_clean <- function(x) {
 
 }
 
+#' Information about where jobs are submitted
+#'
+#' This returns a named vector with the following variables:
+#' \Sexpr{paste(names(sluRm::WhoAmI()), collapse = ", ")}
+#' @export
+WhoAmI <- function() {
+
+  vars <- c(
+    "SLURM_LOCALID",
+    "SLURMD_NODENAME",
+    "SLURM_ARRAY_TASK_ID",
+    "SLURM_CLUSTER_NAME",
+    "SLURM_JOB_PARTITION",
+    "SLURM_TASK_PID"
+    )
+
+  structure(sapply(vars, Sys.getenv), names = vars)
+
+}

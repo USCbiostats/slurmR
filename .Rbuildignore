@@ -9,3 +9,4 @@
 ^man-roxygen$
 ^CODE_OF_CONDUCT\.md$
 ^sluRm$
+^sluRm-job.*$

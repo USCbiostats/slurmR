@@ -22,13 +22,14 @@ silent_system2 <- function(...) {
 
 }
 
-#' Slurm Jobs
+#' Slurm jobs
 #' @param call The original call
 #' @param rscript,bashfile The R script and bash file path.
 #' @param robjects A character vector of R objects that will be imported in the job.
 #' @param job_opts List. Arguments to be passed to [sbatch].
 #' @param njobs Integer. Number of jobs to start (array).
 #' @export
+#' @aliases slurm_job
 new_slurm_job <- function(
   call,
   rscript,
@@ -95,7 +96,7 @@ sbatch.slurm_job <- function(x, wait=TRUE, submit = TRUE, ...) {
 
   if (opts_sluRm$get_verbose()) {
     hline(
-      "`opts_sluRm$get_verbose() == TRUE`. The R script that will be used is located at:",
+      "[VERBOSE MODE ON] The R script that will be used is located at:",
       x$rscript, "and has the following contents:"
       )
     cat(readLines(x$rscript), sep = "\n")
@@ -114,7 +115,7 @@ sbatch.slurm_job <- function(x, wait=TRUE, submit = TRUE, ...) {
     ans <- silent_system2(opts_sluRm$get_cmd(), option, stdout = TRUE, wait=TRUE)
   } else {
     warning(
-      "`submit = FALSE`, which means that the job hasn't been submitted yet.",
+      "[submit = FALSE] The job hasn't been submitted yet.",
       " Use sbatch() to submit the job, or you can submit it via command line",
       " using the following:\n", paste(
         opts_sluRm$get_cmd(),
@@ -156,7 +157,7 @@ sbatch.slurm_job <- function(x, wait=TRUE, submit = TRUE, ...) {
 sbatch_dummy <- function(...) {
 
   if (opts_sluRm$get_debug()) {
-    warning("Waiting is not available in debug mode.")
+    warning("Waiting is not available in debug mode.", call.=FALSE)
     return(0)
   }
 

@@ -41,7 +41,7 @@ Slurm_EvalQ <- function(
     paste0(
       "ans <- list(tryCatch({\n",
       gsub("^", "   ", sexpr),
-      "\n}), error = function(e) e)"
+      "\n}, error = function(e) e))"
       )
     )
 

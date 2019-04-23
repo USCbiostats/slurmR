@@ -1,3 +1,4 @@
+^paper$
 ^codecov\.yml$
 ^\.travis\.yml$
 ^.*\.Rproj$

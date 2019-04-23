@@ -1,10 +1,14 @@
 Package: sluRm
-Title: A lightweight wrapper for HPC with Slurm
-Version: 0.0.9000
-Authors@R: person("George", "Vega Yon", email = "g.vegayon@gmail.com", role = c("aut", "cre"),
-  comment = c(ORCID = "0000-0002-3171-0844"))
-Description: Provides a set of "apply" family functions to be used with Slurm, the
-  High Performance Computing scheduler.
+Title: A lightweight wrapper for Slurm
+Version: 0.1-0
+Authors@R: c(person("George", "Vega Yon", email = "g.vegayon@gmail.com", role = c("aut", "cre"),
+  comment = c(ORCID = "0000-0002-3171-0844")),
+  person("Paul", "Marjoram", email = "pmarjora@usc.edu", role = c("ctb"),
+  comment = c(ORCID = "0000-0003-0824-7449")),
+  person("National Cancer Institute (NCI)", role = "fnd", comment = "Grant Number 5P01CA196569-02"))
+Description: Slurm workload manager is a popular Linux based software used to
+  schedule jobs in HPC clusters. This R package provides a lightweight wrapper
+  with a syntax similar to that find in the parallel R package.
 Depends: R (>= 3.3.0)
 License: MIT + file LICENSE
 BugReports: https://github.com/USCbiostats/sluRm/issues

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get and set default options for <code>sbatch</code> and <code>sluRm</code> internals — opts_sluRm • sluRm</title>
+<title>Submit an expression to be evaluated to multiple jobs — Slurm_EvalQ • sluRm</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,9 @@
 
 
 
-<meta property="og:title" content="Get and set default options for <code>sbatch</code> and <code>sluRm</code> internals — opts_sluRm" />
+<meta property="og:title" content="Submit an expression to be evaluated to multiple jobs — Slurm_EvalQ" />
 
-<meta property="og:description" content="Most of the functions in the sluRm package use chdir and job-name
-options to write and submit jobs to Slurm. These options have global
-defaults that are set and retrieved using opts_sluRm." />
+<meta property="og:description" content="Submit an expression to be evaluated to multiple jobs" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -110,74 +108,86 @@ defaults that are set and retrieved using opts_sluRm." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get and set default options for <code>sbatch</code> and <code>sluRm</code> internals</h1>
+    <h1>Submit an expression to be evaluated to multiple jobs</h1>
     
-    <div class="hidden name"><code>opts_sluRm.Rd</code></div>
+    <div class="hidden name"><code>Slurm_EvalQ.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Most of the functions in the <code>sluRm</code> package use <code>chdir</code> and <code>job-name</code>
-options to write and submit jobs to <strong>Slurm</strong>. These options have global
-defaults that are set and retrieved using <code>opts_sluRm</code>.</p>
+    <p>Submit an expression to be evaluated to multiple jobs</p>
     
     </div>
 
-    <pre class="usage"><span class='no'>opts_sluRm</span></pre>
-        
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>An object of class <code>opts_sluRm</code> of length 13.</p>
+    <pre class="usage"><span class='fu'>Slurm_EvalQ</span>(<span class='no'>expr</span>, <span class='kw'>njobs</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_job_name</span>(),
+  <span class='kw'>job_path</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_chdir</span>(), <span class='kw'>submit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>sbatch_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>ntasks</span> <span class='kw'>=</span> <span class='fl'>1L</span>), <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
+  <span class='kw'>seeds</span> <span class='kw'>=</span> <span class='fl'>1L</span>:<span class='no'>njobs</span>, <span class='kw'>compress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>export</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>collect</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Current supported options are:</p>
-<p>Debuggin mode</p><ul>
-<li><p><code>debug_on : function ()</code> Activates the debugging mode. When active, jobs will be submitted using sh and not sbatch. Also, only a single chunk of the data will be processed.</p></li>
-<li><p><code>debug_off : function ()</code> Deactivates the debugging mode.</p></li>
-<li><p><code>get_debug : function ()</code> Returns TRUE of debug mode is on</p></li>
-</ul>
-    <p>Verbose mode</p><ul>
-<li><p><code>verbose_on : function ()</code> Deactivates the verbose mode. When ON, sbatch prints the Rscript and batch files on screen so that the user knows what will be submitted to Slurm.</p></li>
-<li><p><code>verbose_off : function ()</code> Deactivates the verbose mode.</p></li>
-<li><p><code>get_verbose : function ()</code> Returns TRUE if verbose mode is on.</p></li>
-</ul>
-    <p>Slurm options</p><ul>
-<li><p><code>set_chdir : function (path, recursive = TRUE)</code> Retrieves the working directory</p></li>
-<li><p><code>get_chdir : function ()</code></p></li>
-<li><p><code>set_job_name : function (path, check = TRUE, overwrite = TRUE)</code> Changes the job-name. When changing the name of the job the function will check whether the folder chdir/job-name is empty or not. If empty/not created it will create it, otherwise it will delete its contents (if `overwrite = TRUE``, else it will return with an Error).
-.</p></li>
-<li><p><code>get_job_name : function (check = TRUE)</code> Returns the current value of `job-name`.</p></li>
-</ul>
-    <p>Other options</p><ul>
-<li><p><code>get_cmd : function ()</code> If debug mode is active, then it returns `sh`, otherwise `sbatch`</p></li>
-</ul>
-    <p>For general set/retrieve options</p><ul>
-<li><p><code>set_opts : function (...)</code> A generic function to set options.</p></li>
-<li><p><code>get_opts : function (...)</code> A generic function to retrieve options.</p></li>
-</ul>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>expr</th>
+      <td><p>An expression to be passed to Slurm</p></td>
+    </tr>
+    <tr>
+      <th>njobs</th>
+      <td><p>Integer. Number of jobs to specity.</p></td>
+    </tr>
+    <tr>
+      <th>job_name</th>
+      <td><p>Character. Name of the job to be passed to <code>Slurm</code>.</p></td>
+    </tr>
+    <tr>
+      <th>job_path</th>
+      <td><p>Character. Path to the directory where all the data (including
+scripts) will be stored (See <a href='opts_sluRm.html'>opts_sluRm</a>).</p></td>
+    </tr>
+    <tr>
+      <th>submit</th>
+      <td><p>Logical, when <code>TRUE</code> calls <a href='sbatch.html'>sbatch</a> to submit the job to slurm.</p></td>
+    </tr>
+    <tr>
+      <th>wait</th>
+      <td><p>Logical scalar. When <code>TRUE</code> waits for the output to return.
+(see <a href='sbatch.html'>sbatch</a>).</p></td>
+    </tr>
+    <tr>
+      <th>sbatch_opt, rscript_opt</th>
+      <td><p>List. Options to be passed via flags to
+the bash file as <code>#SBATCH</code> and to <code>Rscript</code> respectively.</p></td>
+    </tr>
+    <tr>
+      <th>seeds</th>
+      <td><p>Integer vector of length <code>njobs</code>. Seeds to be passed to each
+job.</p></td>
+    </tr>
+    <tr>
+      <th>compress</th>
+      <td><p>Logical scalar (default <code>TRUE</code>). Passed to <a href='https://www.rdocumentation.org/packages/base/topics/readRDS'>saveRDS</a>. Setting
+this value to <code>FALSE</code> can be useful when the user requires faster read/write
+of R objects on disk.</p></td>
+    </tr>
+    <tr>
+      <th>export</th>
+      <td><p>A named list with objects to be included in the Spawned sessions.</p></td>
+    </tr>
+    <tr>
+      <th>collect</th>
+      <td><p>Logical, when <code>TRUE</code>, if <code>submit = TRUE</code> and <code>wait = TRUE</code>,
+the results are collected right away, otherwise, an object of class <a href='new_slurm_job.html'>slurm_job</a>
+is returned.</p></td>
+    </tr>
+    </table>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-# Common setup
-</div><span class='co'># NOT RUN {</span>
-<span class='no'>opts_sluRm</span>$<span class='fu'>set_chdir</span>(<span class='st'>"/staging/pdt/vegayon"</span>)
-<span class='no'>opts_sluRm</span>$<span class='fu'>set_job_name</span>(<span class='st'>"simulations-1"</span>)
-<span class='no'>opts_slurm</span>$<span class='fu'>set_opts</span>(<span class='kw'>partition</span><span class='kw'>=</span><span class='st'>"thomas"</span>, <span class='kw'>account</span><span class='kw'>=</span><span class='st'>"lc_pdt"</span>)
-<span class='co'># }</span><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
-      <li><a href="#format">Format</a></li>
-
-      <li><a href="#details">Details</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      <li><a href="#arguments">Arguments</a></li>
+                </ul>
 
   </div>
 </div>

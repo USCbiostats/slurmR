@@ -177,7 +177,9 @@
        inkscape:label="background" />
     <g
        id="g3818"
-       style="stroke:#9c9c9c;stroke-opacity:1">
+       style="stroke:#9c9c9c;stroke-opacity:1"
+       inkscape:export-xdpi="201.92999"
+       inkscape:export-ydpi="201.92999">
       <path
          sodipodi:nodetypes="ccc"
          inkscape:connector-curvature="0"
@@ -200,7 +202,9 @@
     <g
        id="g3813"
        inkscape:label="cables-right"
-       style="stroke:#9c9c9c;stroke-opacity:1">
+       style="stroke:#9c9c9c;stroke-opacity:1"
+       inkscape:export-xdpi="201.92999"
+       inkscape:export-ydpi="201.92999">
       <path
          sodipodi:nodetypes="ccc"
          inkscape:connector-curvature="0"
@@ -212,7 +216,9 @@
        id="g3810"
        inkscape:label="cables-top"
        style="stroke:#9c9c9c;stroke-opacity:1"
-       transform="matrix(1.1423895,0,0,1,-8.7403429,0)">
+       transform="matrix(1.1423895,0,0,1,-8.7403429,0)"
+       inkscape:export-xdpi="201.92999"
+       inkscape:export-ydpi="201.92999">
       <path
          sodipodi:nodetypes="ccc"
          inkscape:connector-curvature="0"
@@ -243,11 +249,15 @@
        sodipodi:radius="11.930826"
        sodipodi:argument="-3.9269907"
        sodipodi:t0="0.57999998"
-       d="m 49.699366,197.0829 c 2.174767,-3.49825 6.311688,-5.37559 10.375364,-5.01074" />
+       d="m 49.699366,197.0829 c 2.174767,-3.49825 6.311688,-5.37559 10.375364,-5.01074"
+       inkscape:export-xdpi="201.92999"
+       inkscape:export-ydpi="201.92999" />
     <g
        id="g4026"
        inkscape:label="cluster-top"
-       clip-path="url(#clipPath4032)">
+       clip-path="url(#clipPath4032)"
+       inkscape:export-xdpi="201.92999"
+       inkscape:export-ydpi="201.92999">
       <g
          clip-path="none"
          inkscape:label="server4"
@@ -525,7 +535,9 @@
     <g
        id="g3939"
        inkscape:label="cluster-bottom"
-       clip-path="url(#clipPath3941)">
+       clip-path="url(#clipPath3941)"
+       inkscape:export-xdpi="201.92999"
+       inkscape:export-ydpi="201.92999">
       <g
          id="g2816-5-9-2"
          transform="matrix(0.7188541,0,0,0.7188541,46.764587,73.911343)"
@@ -915,7 +927,9 @@
     <g
        id="g4085"
        inkscape:label="cluster-right"
-       clip-path="url(#clipPath4087)">
+       clip-path="url(#clipPath4087)"
+       inkscape:export-xdpi="201.92999"
+       inkscape:export-ydpi="201.92999">
       <g
          inkscape:label="server2"
          transform="matrix(0.7188541,0,0,0.7188541,56.025004,48.51311)"
@@ -1092,7 +1106,9 @@
     <g
        id="g3732"
        inkscape:label="sluRm"
-       transform="matrix(1.1400534,0,0,1.1400534,-5.2064704,-27.455474)">
+       transform="matrix(1.1400534,0,0,1.1400534,-5.2064704,-27.455474)"
+       inkscape:export-xdpi="201.92999"
+       inkscape:export-ydpi="201.92999">
       <text
          inkscape:label="text"
          inkscape:export-ydpi="201.92999"

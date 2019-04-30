@@ -25,13 +25,21 @@ affiliations:
 
 # Summary
 
-Markov Chain Monte Carlo (MCMC) is used in a variety of statistical and computational venues such as: statistical inference, Markov quadrature (also known as Monte Carlo integration), stochastic optimization, among others. The **fmcmc** R [@R] package provides a flexible framework for implementing MCMC methods that use the Metropolis-Hastings algorithm [@hastings1970; @metropolis1953]. It allows a greater degree of flexibility than the widely-used metrop() function.  **fmcmc** provides the following out-of-the-box features that can be valuable for both practitioners of MCMC and educators: seamless efficient multiple-chain sampling using parallel computing, user-defined transition kernels, and automatic stop using convergence monitoring.
+Now a days, high-performance-computing (HPC) clusters are commonly available tool for either **in** or **out** cloud settings. [Slurm Workload Manager]() is a C program writte to manage these resources in such a way that the users take the most out of it while at the same time stablishing rules so that no user abuses the use of the resource.
 
-In the case of transition kernels, users can either use one of the transition kernels shipped with the package (e.g. the gaussian kernel and its bounded version, the gaussian kernel with reflective boundaries), this alows a degree of flexibility that is not possible with existing mcmc packages.
+While the R programming language has not been developed for HPC settings, there are currently several ways in which R can be enhance by means of HPC. The `sluRm` R package is one of those ways.
 
-In addition, we allow users to automatically check for convergence during execution, and stop the MCMC run once convergance has been reached, rather than having to pre-determine a fixed number of iterations. Users can either use one of the convergence monitoring checking functions that are part of the package, for example: The Gelman and Rubin's [@Gelman1992], Geweke's [@Geweke1991], etc. Or build their own to be used within the framework.
+The `sluRm` R package provides bidings for using R in HPC settings that work with Slurm. It provides wrappers and auxiliary functions that allow the user to seamlessly integrate they analysis pipeline with HPC, putting emphasis on providing the user with a family of functions similar to what the `parallel` R package provides.
 
-While there are several other R packages that either implement MCMC algorithms or provide wrappers for implementations in other languages [see for example: @Sturtz2005; @Morey2009; @Stan2018; @Geyer2019; @Scheidegger2019], to our knowledge, the `fmcmc` package is the first one to provide a framework as flexible as the one described here and to be implemented fully within R.
+While there are other tools for integrating R in a HPC envirnment that works with Slurm, `sluRm` has the following advantages:
+
+1.  Compared to `rslurm`, this R package is more lightweight as there are no dependencies other than R packages that are either recommended or developed by the R Core Team.
+    
+    In the same line, the syntax is closer to what users may expect when calling any function from the parallel R package.
+    
+2.  In the case of the R package future, and more especifically, the R package batch-tools. This `sluRm` is more flexible while at the same time tailored to be used with Slurm. The package provides a user API to build wrappers to use with Slurm.
+
+
 
 # Funding and Support
 

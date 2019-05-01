@@ -75,12 +75,7 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
   env <- new.env(parent = emptyenv())
 
   # The first statement is the task id number
-  env$rscript <- rscript_header(pkgs)
-  env$rscript <- paste0("Slurm_env <- ", paste(deparse(Slurm_env), collapse="\n"))
-  env$rscript <- c(
-    env$rscript,
-    sprintf("%-16s <- as.integer(Slurm_env(\"SLURM_ARRAY_TASK_ID\"))", "ARRAY_ID")
-    )
+  env$rscript <- NULL
 
   # Function to append a line
   env$append <- function(x) {
@@ -92,6 +87,10 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
     env$rscript <- c(env$rscript, x)
     invisible()
   }
+
+  env$append(rscript_header(pkgs))
+  env$append(paste0("Slurm_env <- ", paste(deparse(Slurm_env), collapse="\n")))
+  env$append(sprintf("%-16s <- as.integer(Slurm_env(\"SLURM_ARRAY_TASK_ID\"))", "ARRAY_ID"))
 
   # Function to finalize the Rscript
   env$finalize <- function(x, compress = TRUE) {

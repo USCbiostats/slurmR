@@ -45,17 +45,6 @@ Slurm_Map <- function(
 
   # Writing the data on the disk -----------------------------------------------
   INDICES   <- parallel::splitIndices(length(dots[[1]]), njobs)
-  dat <- save_objects(
-    c(
-      list(INDICES = INDICES, f = f, mc.cores=mc.cores),
-      if (length(export))
-        mget(export, envir=parent.frame())
-      else
-        NULL
-      ),
-    compress = compress
-    )
-  obj_names <- save_objects(dots, compress = compress)
 
   # R Script -------------------------------------------------------------------
 
@@ -63,8 +52,12 @@ Slurm_Map <- function(
   rscript <- new_rscript()
 
   # Adding readRDS
-  rscript$add_rds(dat)
-  rscript$add_rds(obj_names, TRUE)
+  rscript$add_rds(list(INDICES = INDICES), index = FALSE, compress = FALSE)
+  rscript$add_rds(list(f = f, mc.cores=mc.cores), index = FALSE, compress = compress)
+  rscript$add_rds(list(...), index = TRUE, compress = compress)
+
+  if (length(export))
+    rscript$add_rds(mget(export, envir=parent.frame()), index = FALSE, compress = compress)
 
   # Setting the seeds
   rscript$set_seed(seeds)
@@ -76,7 +69,7 @@ Slurm_Map <- function(
       paste(
         sprintf(
           "    %-16s = %1$s",
-          setdiff(c(dat[-1], obj_names), export)
+          setdiff(c(rscript$robjects[-1]), export)
           ),
         collapse=",\n"
         )
@@ -84,7 +77,7 @@ Slurm_Map <- function(
   )
 
   # Finalizing and writing it out
-  rscript$finalize(compress = compress)
+  rscript$finalize("ans", compress = compress)
   rscript$write()
 
 
@@ -106,7 +99,7 @@ Slurm_Map <- function(
     call     = match.call(),
     rscript  = snames("r"),
     bashfile = snames("sh"),
-    robjects = obj_names,
+    robjects = NULL,
     njobs    = njobs,
     job_opts = opts_sluRm$get_opts()
   )

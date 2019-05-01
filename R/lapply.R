@@ -73,19 +73,9 @@ Slurm_lapply <- function(
   opts_sluRm$set_chdir(job_path)
   opts_sluRm$set_job_name(job_name)
 
-  # Writing the data on the disk -----------------------------------------------
+  # Splitting the components across the number of jobs. This will be used
+  # later during the write of the RScript
   INDICES   <- parallel::splitIndices(length(X), njobs)
-  dat <- save_objects(
-    c(
-      list(X = X, INDICES = INDICES, FUN = FUN, mc.cores=mc.cores),
-      dots,
-      if (length(export))
-        mget(export, envir=parent.frame())
-      else
-        NULL
-    ),
-    compress = compress
-  )
 
   # R Script -------------------------------------------------------------------
 
@@ -93,8 +83,17 @@ Slurm_lapply <- function(
   rscript <- new_rscript()
 
   # Adding readRDS
-  rscript$add_rds(dat[-1])
-  rscript$add_rds(dat[1], TRUE)
+  rscript$add_rds(list(INDICES = INDICES), index = FALSE, compress = FALSE)
+  rscript$add_rds(list(X = X), index = TRUE, compress = compress)
+  rscript$add_rds(
+    c(
+      list(FUN = FUN, mc.cores=mc.cores),
+      dots,
+      if (length(export))
+        mget(export, envir=parent.frame())
+      else
+        NULL
+    ), index = FALSE, compress = compress)
 
   # Setting the seeds
   rscript$set_seed(seeds)
@@ -104,14 +103,14 @@ Slurm_lapply <- function(
     sprintf(
       "ans <- parallel::mclapply(\n%s\n)",
       paste(
-        sprintf("    %-16s = %1$s", setdiff(dat[-2], export)),
+        sprintf("    %-16s = %1$s", setdiff(rscript$robjects[-1], export)),
         collapse=",\n"
         )
     )
   )
 
   # Finalizing and writing it out
-  rscript$finalize(compress = compress)
+  rscript$finalize("ans", compress = compress)
   rscript$write()
 
 
@@ -133,7 +132,7 @@ Slurm_lapply <- function(
     call     = match.call(),
     rscript  = snames("r"),
     bashfile = snames("sh"),
-    robjects = dat[-2],
+    robjects = NULL,
     njobs    = njobs,
     job_opts = opts_sluRm$get_opts()
   )

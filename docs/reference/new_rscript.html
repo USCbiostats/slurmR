@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • sluRm</title>
+<title>General purpose function to write R scripts — new_rscript • sluRm</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="General purpose function to write R scripts — new_rscript" />
+
+<meta property="og:description" content="This function will create an object of class sluRm_rscript that can be used
+to write the R component in a batch job." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -50,7 +53,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -104,121 +107,70 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>General purpose function to write R scripts</h1>
+    
+    <div class="hidden name"><code>new_rscript.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    
+    <p>This function will create an object of class <code>sluRm_rscript</code> that can be used
+to write the R component in a batch job.</p>
+    
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
-
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="Slurm_EvalQ.html">Slurm_EvalQ()</a></code> </p>
-        </td>
-        <td><p>Submit an expression to be evaluated to multiple jobs</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="Slurm_clean.html">Slurm_clean()</a></code> </p>
-        </td>
-        <td><p>Clean a session.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="Slurm_collect.html">Slurm_collect()</a></code> </p>
-        </td>
-        <td><p>Collect the results</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="Slurm_env.html">Slurm_env()</a></code> </p>
-        </td>
-        <td><p>A wrapper of <a href='https://www.rdocumentation.org/packages/base/topics/Sys.getenv'>Sys.getenv</a></p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="Slurm_lapply.html">Slurm_Map()</a></code> <code><a href="Slurm_lapply.html">Slurm_lapply()</a></code> </p>
-        </td>
-        <td><p>The Slurm version of the <code>lapply</code>  function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="WhoAmI.html">WhoAmI()</a></code> </p>
-        </td>
-        <td><p>Information about where jobs are submitted</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="new_rscript.html">new_rscript()</a></code> </p>
-        </td>
-        <td><p>General purpose function to write R scripts</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="new_slurm_job.html">new_slurm_job()</a></code> </p>
-        </td>
-        <td><p>Slurm jobs</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="opts_sluRm.html">opts_sluRm</a></code> </p>
-        </td>
-        <td><p>Get and set default options for <code>sbatch</code> and <code>sluRm</code> internals</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="parse_flags.html">parse_flags()</a></code> </p>
-        </td>
-        <td><p>Utility function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sbatch.html">sbatch()</a></code> <code><a href="sbatch.html">squeue()</a></code> <code><a href="sbatch.html">scancel()</a></code> <code><a href="sbatch.html">sacct()</a></code> </p>
-        </td>
-        <td><p>A wrapper of <code>sbatch</code>.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sluRm.html">sluRm</a></code> </p>
-        </td>
-        <td><p>A lightweight wrapper for HPC with Slurm
-A lightweight wrapper for HPC with Slurm</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="snames.html">snames()</a></code> </p>
-        </td>
-        <td><p>Full path names for Slurm jobs</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="state.html">state()</a></code> <code><a href="state.html">JOB_STATE_CODES</a></code> </p>
-        </td>
-        <td><p>Check the State (status) of a Slurm JOB</p></td>
-      </tr>
-    </tbody>
+    <pre class="usage"><span class='fu'>new_rscript</span>(<span class='kw'>pkgs</span> <span class='kw'>=</span> <span class='fu'>list_loaded_pkgs</span>())</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>pkgs</th>
+      <td><p>A named list with packages to be included. Each element of the list
+must be a path to the R library, while the names of the list are the names of
+the R packages to be loaded.</p></td>
+    </tr>
     </table>
-  </div>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>An environment of class <code>sluRm_rscript</code>. This has the following accesible
+components:</p><ul>
+<li><p><code>add_rds</code> Add rds files to be loaded in each job.", <code>x</code> is a named list
+with the objects that should be loaded in the jobs. If <code>index = TRUE</code> the
+function assumes that the user will be accessing a particular subset of <code>x</code>
+during the job, which is accessed according to <code>INDICES[[ARRAY_ID]]</code>. The
+option <code>compress</code> is passed to <a href='https://www.rdocumentation.org/packages/base/topics/readRDS'>saveRDS</a>.</p>
+<p>One important side effect is that when this function is called, the object
+will be saved in the current job directory, this is <code>opts_sluRm$get_chdir()</code>.</p></li>
+<li><p><code>append</code> Adds a line to the R script. Its only argument, <code>x</code> is a character
+vector that will be added to the R script.</p></li>
+<li><p><code>rscript</code> A character vector. This is the actual R script that will be written
+at the end.</p></li>
+<li><p><code>finalize</code> Adds the final line of the R script. This function receives a
+character scalar <code>x</code> which is used as the name of the object to be saved.
+If missing, the function will save a NULL object. The <code>compress</code> argument
+is passed to <a href='https://www.rdocumentation.org/packages/base/topics/readRDS'>saveRDS</a>.</p></li>
+<li><p><code>set_seed</code> Adds a vector of seeds to be used across the jobs. This vector
+of seeds should be of length <code>njobs</code>. The other two parameters of the
+function are passed to <a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a>.</p></li>
+<li><p><code>write</code> Finalizes the process by writing the R script in the corresponding
+folder to be used with Slurm.</p></li>
+</ul>
+
+    
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
-    </ul>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+          </ul>
+
   </div>
 </div>
 

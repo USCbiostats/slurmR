@@ -13,11 +13,10 @@ output:
     df_print: paged
 bibliography: paper.bib
 tags:
-- metropolis-hastings
-- mcmc
-- markov chain monte carlo
-- transition kernel
-- automatic convergence
+- hpc
+- batch
+- slurm
+- parallel computing
 affiliations:
 - index: 1
   name: Department of Preventive Medicine, University of Southern California
@@ -35,20 +34,13 @@ While there are other tools for integrating R in a HPC envirnment that works wit
 
 1.  Compared to `rslurm` [@Marchand2018], this R package's workflow is closer to the `parallel` package. `sluRm` has wrappers such as `Slurm_lapply` and `Slurm_Map` that have a similar syntax to `parLapply` and `parMap` from the `parallel` package; which is not true for `rslurm` which depends on a single function `slurm_apply`.
 
-2.  Compared to `batchtools` [@Bischl2015], and to `future.batchtools` [@Bengtsson2019] `sluRm` is significantly more lightweight as it has 0 dependencies on R packages other than those shipped with R.
+2.  Compared to `batchtools` [@Bischl2015], and to `future.batchtools` [@Bengtsson2019] `sluRm` is significantly more lightweight as it has 0 dependencies on R packages other than those shipped with R. `batchtools` and `future.batchtools` have 20 and 24 dependencies each.[^date]
 
-3.  Finally, in terms of flexibility, `sluRm`'s API is significantly more flexible compared to the other R packages mentioned. While both `rslurm` and `batchtools` allow the user to provide template files to create personalized job configurations for Slurm, in `sluRm` job configurations are created programatically.
+3.  In terms of flexibility, `sluRm`'s API is significantly more flexible compared to the other R packages mentioned. While both `rslurm` and `batchtools` allow the user to provide template files to create personalized job configurations for Slurm, in `sluRm` job configurations are created programatically.
     
-The following table summarizes these
-
-| Package | Number of Dependencies[^date] | Similarity to R |
-|:--------|:----------------------:|-------:|
-| `sluRm`| 0                      |        |
-| `rslurm`| 1                      |        |
-| `batchtools`| 20                     |        |
-| `future.batchtools`| 24                     |        |
-
 [^date]: The number of dependencies was obtained from https://tinyverse.netlifly.com, which reports the number of recursive dependencies as of May 1st, 2019.
+
+Finally, the `sluRm` poses a specialized alternative for R users working in a HPC environment with Slurm.
 
 # Funding and Support
 

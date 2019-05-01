@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 # sluRm: A lightweight wrapper for Slurm <img src="man/figures/logo.svg" height="180px" align="right"/>
 
-Slurm Workload Manager is a popular HPC cluster job scheduler found in many of the top 500 super computers. The `sluRm` R package provides an R wrapper to it that matches the parallel package's syntax, this is, just like `parallel` provides the `parLapply`, `parMap`, `parSapply`, etc., `sluRm` provides `Slurm_lapply`, `Slurm_Map`, `Slurm_sapply`, etc.
+Slurm Workload Manager is a popular HPC cluster job scheduler found in many of the top 500 super computers. The `sluRm` R package provides an R wrapper to it that matches the parallel package's syntax, this is, just like `parallel` provides the `parLapply`, `parMap`, `parSapply`, etc., `sluRm` provides `Slurm_lapply`, `Slurm_Map`, ~~`Slurm_sapply`~~, etc.
 
 While there are other alternatives such as `future.batchtools` and `rslurm`, this R package has the following advantages over the other two:
 

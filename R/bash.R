@@ -44,7 +44,7 @@ new_slurm_job <- function(
       call     = call,
       rscript  = rscript,
       bashfile = bashfile,
-      robjects = robjects,
+      robjects = NULL,
       njobs    = njobs,
       job_opts = job_opts,
       jobid    = NA

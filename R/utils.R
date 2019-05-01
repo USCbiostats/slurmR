@@ -118,7 +118,9 @@ snames <- function(type, array_id) {
     r   = "00-rscript.r",
     sh  = "01-bash.sh",
     out = "02-output-%A-%a.out",
-    rds = sprintf("03-answer-%03i.rds", array_id),
+    rds = if (missing(array_id))
+      "03-answer-%03i.rds"
+    else sprintf("03-answer-%03i.rds", array_id),
     stop(
       "Invalid type, the only valid types are `r`, `sh`, `out`, and `rds`.",
       call. = FALSE

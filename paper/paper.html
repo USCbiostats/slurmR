@@ -1659,41 +1659,10 @@ $(document).ready(function () {
 <p>While there are other tools for integrating R in a HPC envirnment that works with Slurm, <code>sluRm</code> has some advantages regarding syntax, number of dependencies, and flexibility.</p>
 <ol style="list-style-type: decimal">
 <li><p>Compared to <code>rslurm</code> <span class="citation">(Marchand, Smorul, and Carrol 2017)</span>, this R package’s workflow is closer to the <code>parallel</code> package. <code>sluRm</code> has wrappers such as <code>Slurm_lapply</code> and <code>Slurm_Map</code> that have a similar syntax to <code>parLapply</code> and <code>parMap</code> from the <code>parallel</code> package; which is not true for <code>rslurm</code> which depends on a single function <code>slurm_apply</code>.</p></li>
-<li><p>Compared to <code>batchtools</code> <span class="citation">(Bischl et al. 2015)</span>, and to <code>future.batchtools</code> <span class="citation">(Bengtsson 2019)</span> <code>sluRm</code> is significantly more lightweight as it has 0 dependencies on R packages other than those shipped with R.</p></li>
-<li><p>Finally, in terms of flexibility, <code>sluRm</code>’s API is significantly more flexible compared to the other R packages mentioned. While both <code>rslurm</code> and <code>batchtools</code> allow the user to provide template files to create personalized job configurations for Slurm, in <code>sluRm</code> job configurations are created programatically.</p></li>
+<li><p>Compared to <code>batchtools</code> <span class="citation">(Bischl et al. 2015)</span>, and to <code>future.batchtools</code> <span class="citation">(Bengtsson 2019)</span> <code>sluRm</code> is significantly more lightweight as it has 0 dependencies on R packages other than those shipped with R. <code>batchtools</code> and <code>future.batchtools</code> have 20 and 24 dependencies each.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p></li>
+<li><p>In terms of flexibility, <code>sluRm</code>’s API is significantly more flexible compared to the other R packages mentioned. While both <code>rslurm</code> and <code>batchtools</code> allow the user to provide template files to create personalized job configurations for Slurm, in <code>sluRm</code> job configurations are created programatically.</p></li>
 </ol>
-<p>The following table summarizes these</p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Package</th>
-<th align="center">Number of Dependencies<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></th>
-<th align="right">Similarity to R</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left"><code>sluRm</code></td>
-<td align="center">0</td>
-<td align="right"></td>
-</tr>
-<tr class="even">
-<td align="left"><code>rslurm</code></td>
-<td align="center">1</td>
-<td align="right"></td>
-</tr>
-<tr class="odd">
-<td align="left"><code>batchtools</code></td>
-<td align="center">20</td>
-<td align="right"></td>
-</tr>
-<tr class="even">
-<td align="left"><code>future.batchtools</code></td>
-<td align="center">24</td>
-<td align="right"></td>
-</tr>
-</tbody>
-</table>
+<p>Finally, the <code>sluRm</code> poses a specialized alternative for R users working in a HPC environment with Slurm.</p>
 </div>
 <div id="funding-and-support" class="section level1">
 <h1>Funding and Support</h1>

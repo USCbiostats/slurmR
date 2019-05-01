@@ -31,8 +31,8 @@ Slurm_EvalQ <- function(
   rscript <- new_rscript()
 
   if (length(export)) {
-    objs    <- save_objects(mget(export, envir=parent.frame()), compress = compress)
-    rscript$add_rds(objs, index = FALSE)
+    rscript$add_rds(
+      mget(export, envir=parent.frame()), compress = compress, index = FALSE)
   }
 
   # Setting the seeds
@@ -46,7 +46,7 @@ Slurm_EvalQ <- function(
     )
 
   # Finalizing and writing it out
-  rscript$finalize(compress = compress)
+  rscript$finalize("ans", compress = compress)
   rscript$write()
 
   # BASH script ----------------------------------------------------------------

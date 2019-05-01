@@ -38,6 +38,23 @@ rscript_header <- function(pkgs, seeds = NULL) {
 }
 
 #' General purpose function to write R scripts
+#'
+#' This function will create an object of class `sluRm_rscript` that can be used
+#' to write the R component in a batch job.
+#' @param pkgs A named list with packages to be included. Each element of the list
+#' must be a path to the R library, while the names of the list are the names of
+#' the R packages to be loaded.
+#'
+#' @return An environment of class `sluRm_rscript`. This has the following accesible
+#' components:
+#'
+#' - `add_rds` This function is used to
+#' - `append`
+#' - `dat`
+#' - `finalize`
+#' - `set_seed`
+#' - `write`
+#'
 #' @noRd
 new_rscript <- function(pkgs = list_loaded_pkgs()) {
 
@@ -104,6 +121,13 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
 
   }
 
+  attr(env$add_rds, "desc") <- paste(
+    "Add rds files to be loaded in each job.", "`x` is a character vector with",
+    "the names of the files (without extension or path) that will be added.",
+    "If `index = TRUE` the function assumes that the user will be accessing",
+    "a particular subset of `x` during the job, which is accessed according to",
+    "`INDICES[[ARRAY_ID]]`.")
+
   env$set_seed <- function(x, kind = NULL, normal.kind = NULL) {
 
     # Reading the seeds
@@ -117,6 +141,8 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
     invisible()
 
   }
+
+  attr(env$set_seed, "desc") <- "ABC"
 
   env$write <- function() {
     writeLines(env$dat, snames("r"))

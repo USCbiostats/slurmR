@@ -2,7 +2,7 @@
 % Please edit documentation in R/evalq.R
 \name{Slurm_EvalQ}
 \alias{Slurm_EvalQ}
-\title{Submit an expression to be evaluated to multiple jobs}
+\title{Submit an expression to be evaluated to multiple jobs.}
 \usage{
 Slurm_EvalQ(expr, njobs = 2L, job_name = opts_sluRm$get_job_name(),
   job_path = opts_sluRm$get_chdir(), submit = TRUE, wait = TRUE,
@@ -10,7 +10,7 @@ Slurm_EvalQ(expr, njobs = 2L, job_name = opts_sluRm$get_job_name(),
   seeds = 1L:njobs, compress = TRUE, export = NULL, collect = TRUE)
 }
 \arguments{
-\item{expr}{An expression to be passed to Slurm}
+\item{expr}{An expression to be passed to Slurm.}
 
 \item{njobs}{Integer. Number of jobs to specity.}
 
@@ -41,5 +41,5 @@ the results are collected right away, otherwise, an object of class \link{slurm_
 is returned.}
 }
 \description{
-Submit an expression to be evaluated to multiple jobs
+Submit an expression to be evaluated to multiple jobs.
 }

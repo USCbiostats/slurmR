@@ -18,15 +18,23 @@ slurm_available <- function() {
 
 }
 
+#' Returns with an error if Slurm is not available
+#' @noRd
+stopifnot_slurm <- function() {
+
+  if (!slurm_available())
+    stop("Slurm is not available on this system.", call. = FALSE)
+
+}
+
 check_error <- function(cmd, ans) {
-  if (inherits(ans, "error")) {
-    stop("`",cmd,"` not found. It seems that your system does not have Slurm. ",
-         call. = FALSE)
-  } else if (length(attr(ans, "status")) && (attr(ans, "status") != 0)) {
+
+  if (length(attr(ans, "status")) && (attr(ans, "status") != 0)) {
     stop(
       "An error has occurred when calling `", cmd,"`:\n",
       paste(ans, collapse="\n"), call. = FALSE)
   }
+
 }
 
 silent_system2 <- function(...) {
@@ -42,7 +50,10 @@ silent_system2 <- function(...) {
 
 }
 
-#' Slurm jobs
+#' Creating Slurm jobs
+#'
+#' This function is intended to be used internally.
+#'
 #' @param call The original call
 #' @param rscript,bashfile The R script and bash file path.
 #' @param robjects A character vector of R objects that will be imported in the job.
@@ -81,13 +92,19 @@ new_slurm_job <- function(
 
 
 
-#' A wrapper of `sbatch`.
+#' R wrappers for ommands included in **Slurm**
 #'
 #' @param x An object of class `slurm_job`.
 #' @param wait Logical scalar. When `TRUE` the function will pass the `--wait`
-#' flag to `Slurm` and set `wait=TRUE` in the [system2] call.
+#' flag to `Slurm` and set `wait = TRUE` in the [system2] call.
 #' @param submit Logical, when `TRUE` calls [sbatch] to submit the job to slurm.
 #' @param ... Further flags passed to the command line function.
+#'
+#' @details
+#' In the case of `sbatch`, function takes an object of class `slurm_job` and
+#' submits it to the queue. In debug mode the job will be submitted via `sh`
+#' instead.
+#'
 #' @export
 sbatch <- function(x, wait=TRUE, submit = TRUE, ...) UseMethod("sbatch")
 
@@ -130,6 +147,11 @@ sbatch.slurm_job <- function(x, wait=TRUE, submit = TRUE, ...) {
   }
 
   if (submit) {
+
+    # If the command used to execute the job is slurm, then this is an error.
+    if (opts_sluRm$get_cmd() == "sbatch")
+      stopifnot_slurm()
+
     message("Submitting job...", appendLF = FALSE)
     ans <- silent_system2(opts_sluRm$get_cmd(), option, stdout = TRUE, wait=TRUE)
   } else {
@@ -156,7 +178,6 @@ sbatch.slurm_job <- function(x, wait=TRUE, submit = TRUE, ...) {
   if (wait) {
 
     ans <- sbatch_dummy(
-      # sh_cmd     = x$sh_cmd,
       `job-name` = paste0(x$job_opts$`job-name`, "-dummy"),
       dependency = paste0("afterany:", x$jobid),
       partition  = x$job_opts$partition,
@@ -171,7 +192,7 @@ sbatch.slurm_job <- function(x, wait=TRUE, submit = TRUE, ...) {
 
 }
 
-#' Waits for the `jobid` to be completed.
+#' Waits for the `jobid` to be completed
 #' @noRd
 sbatch_dummy <- function(...) {
 
@@ -191,6 +212,9 @@ sbatch_dummy <- function(...) {
         ),
       ...)
     )
+
+  # Checking for slurm
+  stopifnot_slurm()
 
   # Dummy file to run sbatch
   tmp <- tempfile(fileext = ".sbatch")
@@ -215,11 +239,8 @@ squeue <- function(x, ...) UseMethod("squeue")
 #' @rdname sbatch
 squeue.slurm_job <- function(x, ...) {
 
-  # if (is.na(x$jobid))
-  #   stop("The job hasn't been submitted yet. Use `sbatch`.", call. = FALSE)
-  #
-  # if (!slurm_available())
-  #   stop("Slurm is not available in the system.", call. = FALSE)
+  # Checking for slurm
+  stopifnot_slurm()
 
   # Preparing options
   option <- c(
@@ -266,6 +287,9 @@ scancel <- function(x, ...) UseMethod("scancel")
 #' @rdname sbatch
 scancel.slurm_job <- function(x, ...) {
 
+  # Checking for slurm
+  stopifnot_slurm()
+
   if (is.na(x$jobid)) {
     warning("This job hasn't started yet. Nothing to cancel.", call. = FALSE)
     return()
@@ -299,6 +323,9 @@ sacct.slurm_job <- function(x, ...) {
 #' @param parsable Logical. Passed to `sacct`.
 #' @rdname sbatch
 sacct.default <- function(x, brief=TRUE, parsable = TRUE, ...) {
+
+  # Checking for slurm
+  stopifnot_slurm()
 
   flags <- parse_flags(c(list(brief=brief, parsable=parsable), list(...)))
   flags <- c(flags, paste0("--jobs=", x))

@@ -10,7 +10,7 @@
 \alias{sacct}
 \alias{sacct.slurm_job}
 \alias{sacct.default}
-\title{A wrapper of \code{sbatch}.}
+\title{R wrappers for ommands included in \strong{Slurm}}
 \usage{
 sbatch(x, wait = TRUE, submit = TRUE, ...)
 
@@ -34,7 +34,7 @@ sacct(x, ...)
 \item{x}{An object of class \code{slurm_job}.}
 
 \item{wait}{Logical scalar. When \code{TRUE} the function will pass the \code{--wait}
-flag to \code{Slurm} and set \code{wait=TRUE} in the \link{system2} call.}
+flag to \code{Slurm} and set \code{wait = TRUE} in the \link{system2} call.}
 
 \item{submit}{Logical, when \code{TRUE} calls \link{sbatch} to submit the job to slurm.}
 
@@ -45,5 +45,10 @@ flag to \code{Slurm} and set \code{wait=TRUE} in the \link{system2} call.}
 \item{parsable}{Logical. Passed to \code{sacct}.}
 }
 \description{
-A wrapper of \code{sbatch}.
+R wrappers for ommands included in \strong{Slurm}
+}
+\details{
+In the case of \code{sbatch}, function takes an object of class \code{slurm_job} and
+submits it to the queue. In debug mode the job will be submitted via \code{sh}
+instead.
 }

@@ -12,14 +12,14 @@ output: github_document
 options(width = 80)
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
+  comment = "# ", 
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
 ```
 
 
-# sluRm: A lightweight wrapper for Slurm <img src="man/figures/logo.svg" height="180px" align="right"/>
+# sluRm: A lightweight wrapper for Slurm <img src="man/figures/logo.png" height="180px" align="right"/>
 
 Slurm Workload Manager is a popular HPC cluster job scheduler found in many of the top 500 super computers. The `sluRm` R package provides an R wrapper to it that matches the parallel package's syntax, this is, just like `parallel` provides the `parLapply`, `parMap`, `parSapply`, etc., `sluRm` provides `Slurm_lapply`, `Slurm_Map`, ~~`Slurm_sapply`~~, etc.
 
@@ -48,7 +48,7 @@ library(sluRm)
 
 # Suppose that we have 100 vectors of length 50 ~ Unif(0,1)
 set.seed(881)
-x <- replicate(100, runif(50))
+x <- replicate(100, runif(50), simplify = FALSE)
 ```
 
 We can use the function `Slurm_lapply` to distribute computations

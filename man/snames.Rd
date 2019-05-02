@@ -7,13 +7,13 @@
 snames(type, array_id)
 }
 \arguments{
-\item{type}{can be either of r, sh, out, or rds, and depending on that}
+\item{type}{can be any of r, sh, out, or rds.}
 
 \item{array_id}{Integer. ID of the array to create the name.}
 }
 \description{
-Using \link{opts_sluRm}\code{$get_chdir} and \link{opts_sluRm}\code{$get_job_name} it creates
-file names with full path to the objects. This function is inteded for
+Using \link{opts_sluRm}\code{$get_chdir} and \link{opts_sluRm}\code{$get_job_name} creates
+file names with full path to the objects. This function is intended for
 internal use only.
 }
 \seealso{

@@ -14,7 +14,7 @@ Slurm_collect(...)
 
 \item{x}{An object of class \code{slurm_call}.}
 
-\item{any}{Logical. When \code{TRUE}, it will collect any output available regardless
+\item{any}{Logical. When \code{TRUE}, will collect any output available regardless
 of whether the job is completed or not.}
 }
 \description{

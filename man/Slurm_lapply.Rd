@@ -56,21 +56,21 @@ The Slurm version of the \code{lapply}  function
   # The option wait=TRUE makes it return only once the job is completed.
   job1 <- Slurm_lapply(1:20, function(i) runif(1e6), njobs=10, wait = TRUE)
 
-  # We can collect
+  # To collect
   ans <- Slurm_collect(job1)
 
-  # Same as before, but not waiting this time, and we are passing more
+  # As before, but this time not waiting, and now we are passing more
   # arguments to the function
   job1 <- Slurm_lapply(1:20, function(i, a) runif(1e6, a), a = -1, njobs=10,
       wait = FALSE)
 
-  # We can submit
+  # We submit
   job1 <- sbatch(job1)
 
-  # And cancel a job
+  # In order to cancel a job
   scancel(job1)
 
-  # And we can clean up
+  # How to clean up
   Slurm_clean(job1)
 }
 }

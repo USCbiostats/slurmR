@@ -13,7 +13,7 @@ parse_flags(...)
 \method{parse_flags}{list}(x, ...)
 }
 \arguments{
-\item{...}{Options to be parsed bash flags.}
+\item{...}{Options to be parsed as bash flags.}
 
 \item{x}{A named list.}
 }

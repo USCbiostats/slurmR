@@ -204,7 +204,9 @@ Slurm_env <- function(x) {
 Slurm_clean <- function(x) {
 
   # Checking if the job is running
-  s <- state(x)
+  s <- if (opts_sluRm$get_debug() | !slurm_available()) 0
+    else state(x)
+
   if (s == 1)
     stop("Some jobs are still running/pending (",
          paste(attr(s, "pending"), collapse=", "), ".", call. = FALSE)

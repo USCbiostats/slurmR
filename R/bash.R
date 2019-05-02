@@ -1,3 +1,23 @@
+#' Check whether Slurm is available in the system
+#' @return A Logical scalar indicating whether Slurm is available (`TRUE`) or not
+#' (`FALSE`)
+#' @examples
+#' slurm_available()
+#'
+#' @export
+slurm_available <- function() {
+
+  x <- tryCatch(
+    system2("type", "sbatch", stderr = TRUE, stdout = TRUE),
+    error = function(e) e)
+
+  if (inherits(x, "error"))
+    FALSE
+  else
+    TRUE
+
+}
+
 check_error <- function(cmd, ans) {
   if (inherits(ans, "error")) {
     stop("`",cmd,"` not found. It seems that your system does not have Slurm. ",
@@ -109,7 +129,6 @@ sbatch.slurm_job <- function(x, wait=TRUE, submit = TRUE, ...) {
     hline("EOF")
   }
 
-
   if (submit) {
     message("Submitting job...", appendLF = FALSE)
     ans <- silent_system2(opts_sluRm$get_cmd(), option, stdout = TRUE, wait=TRUE)
@@ -137,7 +156,7 @@ sbatch.slurm_job <- function(x, wait=TRUE, submit = TRUE, ...) {
   if (wait) {
 
     ans <- sbatch_dummy(
-      sh_cmd     = x$sh_cmd,
+      # sh_cmd     = x$sh_cmd,
       `job-name` = paste0(x$job_opts$`job-name`, "-dummy"),
       dependency = paste0("afterany:", x$jobid),
       partition  = x$job_opts$partition,
@@ -195,6 +214,12 @@ squeue <- function(x, ...) UseMethod("squeue")
 #' @export
 #' @rdname sbatch
 squeue.slurm_job <- function(x, ...) {
+
+  # if (is.na(x$jobid))
+  #   stop("The job hasn't been submitted yet. Use `sbatch`.", call. = FALSE)
+  #
+  # if (!slurm_available())
+  #   stop("Slurm is not available in the system.", call. = FALSE)
 
   # Preparing options
   option <- c(

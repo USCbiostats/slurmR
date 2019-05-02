@@ -53,15 +53,17 @@ x <- replicate(100, runif(50))
 
 We can use the function `Slurm_lapply` to distribute computations
 
-```{r}
+```{r example1}
 ans <- Slurm_lapply(x, mean, submit = FALSE)
+Slurm_clean(ans) # Cleaning after you
 ```
 
 Notice the `submit = FALSE` option. To get more info, we can actually set the verbose mode on
 
-```{r}
+```{r example1-with-verb}
 opts_sluRm$verbose_on()
 ans <- Slurm_lapply(x, mean, submit = FALSE)
+Slurm_clean(ans) # Cleaning after you
 ```
 
 

@@ -75,13 +75,7 @@ save_objects <- function(
 
     }
   }
-  # Map(
-  #   function(n, x) saveRDS(x, n, compress = compress, ...),
-  #   x = objects,
-  #   n = sprintf("%s/%s.rds", path, names(objects))
-  # )
 
-  # names(objects)
   invisible()
 
 }
@@ -184,7 +178,7 @@ new_rscript <- function(njobs, pkgs = list_loaded_pkgs()) {
       # Writing the line
       line <- sprintf(
         if (split) {
-          "%-16s <- readRDS(sprintf(\"%s/%s/%1$s_%%04d.rds\", INDICES[[ARRAY_ID]]))"
+          "%-16s <- readRDS(sprintf(\"%s/%s/%1$s_%%04d.rds\", ARRAY_ID))"
         } else {
           "%-16s <- readRDS(\"%s/%s/%1$s.rds\")"
         },

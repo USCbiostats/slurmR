@@ -55,7 +55,8 @@ We can use the function `Slurm_lapply` to distribute computations
 ans <- Slurm_lapply(x, mean, submit = FALSE)
 #> Warning: `X` is not a list. The function will coerce it into one using `as.list`
 #> Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#> sbatch --chdir=/home/vegayon/Documents/sluRm --job-name=sluRm-job-146a32ded6e8 /home/vegayon/Documents/sluRm/sluRm-job-146a32ded6e8/01-bash.sh
+#> sbatch --chdir=/home/vegayon/Documents/sluRm --job-name=sluRm-job-3af35e84abf /home/vegayon/Documents/sluRm/sluRm-job-3af35e84abf/01-bash.sh
+Slurm_clean(ans) # Cleaning after you
 ```
 
 Notice the `submit = FALSE` option. To get more info, we can actually
@@ -65,12 +66,10 @@ set the verbose mode on
 opts_sluRm$verbose_on()
 ans <- Slurm_lapply(x, mean, submit = FALSE)
 #> Warning: `X` is not a list. The function will coerce it into one using `as.list`
-#> Warning: The path '/home/vegayon/Documents/sluRm/sluRm-job-146a32ded6e8' already
-#> exists and will be overwritten.
 #> 
 #> --------------------------------------------------------------------------------
 #> [VERBOSE MODE ON] The R script that will be used is located at:
-#> /home/vegayon/Documents/sluRm/sluRm-job-146a32ded6e8/00-rscript.r
+#> /home/vegayon/Documents/sluRm/sluRm-job-3af35e84abf/00-rscript.r
 #> and has the following contents:
 #> --------------------------------------------------------------------------------
 #> Slurm_env <- function (x) 
@@ -82,38 +81,39 @@ ans <- Slurm_lapply(x, mean, submit = FALSE)
 #>     y
 #> }
 #> ARRAY_ID         <- as.integer(Slurm_env("SLURM_ARRAY_TASK_ID"))
-#> INDICES          <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-146a32ded6e8/INDICES.rds")
-#> X                <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-146a32ded6e8/X.rds")[INDICES[[ARRAY_ID]]]
-#> FUN              <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-146a32ded6e8/FUN.rds")
-#> mc.cores         <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-146a32ded6e8/mc.cores.rds")
-#> seeds            <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-146a32ded6e8/seeds.rds")
+#> INDICES          <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-3af35e84abf/INDICES.rds")
+#> X                <- readRDS(sprintf("/home/vegayon/Documents/sluRm/sluRm-job-3af35e84abf/X_%04d.rds", ARRAY_ID))
+#> FUN              <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-3af35e84abf/FUN.rds")
+#> mc.cores         <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-3af35e84abf/mc.cores.rds")
+#> seeds            <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-3af35e84abf/seeds.rds")
 #> set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)
 #> ans <- parallel::mclapply(
 #>     X                = X,
 #>     FUN              = FUN,
 #>     mc.cores         = mc.cores
 #> )
-#> saveRDS(ans, sprintf("/home/vegayon/Documents/sluRm/sluRm-job-146a32ded6e8/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
+#> saveRDS(ans, sprintf("/home/vegayon/Documents/sluRm/sluRm-job-3af35e84abf/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
 #> 
 #> --------------------------------------------------------------------------------
 #> The bash file that will be used is located at:
-#> /home/vegayon/Documents/sluRm/sluRm-job-146a32ded6e8/01-bash.sh
+#> /home/vegayon/Documents/sluRm/sluRm-job-3af35e84abf/01-bash.sh
 #> and has the following contents:
 #> --------------------------------------------------------------------------------
 #> #!/bin/sh
-#> #SBATCH --job-name=sluRm-job-146a32ded6e8
-#> #SBATCH --output=/home/vegayon/Documents/sluRm/sluRm-job-146a32ded6e8/02-output-%A-%a.out
+#> #SBATCH --job-name=sluRm-job-3af35e84abf
+#> #SBATCH --output=/home/vegayon/Documents/sluRm/sluRm-job-3af35e84abf/02-output-%A-%a.out
 #> #SBATCH --array=1-2
 #> #SBATCH --ntasks=1
 #> #SBATCH --cpus-per-task=2
 #> export OMP_NUM_THREADS=1
-#> /usr/lib/R/bin/Rscript --vanilla /home/vegayon/Documents/sluRm/sluRm-job-146a32ded6e8/00-rscript.r
+#> /usr/lib/R/bin/Rscript --vanilla /home/vegayon/Documents/sluRm/sluRm-job-3af35e84abf/00-rscript.r
 #> 
 #> --------------------------------------------------------------------------------
 #> EOF
 #> --------------------------------------------------------------------------------
 #> Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#> sbatch --chdir=/home/vegayon/Documents/sluRm --job-name=sluRm-job-146a32ded6e8 /home/vegayon/Documents/sluRm/sluRm-job-146a32ded6e8/01-bash.sh
+#> sbatch --chdir=/home/vegayon/Documents/sluRm --job-name=sluRm-job-3af35e84abf /home/vegayon/Documents/sluRm/sluRm-job-3af35e84abf/01-bash.sh
+Slurm_clean(ans) # Cleaning after you
 ```
 
 Take a look at the vignette [here](vignettes/getting-started.Rmd).

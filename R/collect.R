@@ -5,7 +5,7 @@
 Slurm_collect <- function(...) UseMethod("Slurm_collect")
 
 #' @export
-#' @param any Logical. When `TRUE`, it will collect any output available regardless
+#' @param any Logical. When `TRUE`, will collect any output available regardless
 #' of whether the job is completed or not.
 #' @rdname Slurm_collect
 Slurm_collect.slurm_job <- function(x, any = TRUE, ...) {

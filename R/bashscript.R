@@ -1,4 +1,4 @@
-#' Functio to write out a bash file calling R for slurm
+#' Function to write out a bash file calling R for slurm.
 #' @param njobs Integer, number of jobs to specify.
 #' @param Rscript_flags Character specifying flags to pass to Rscript.
 #' @param ... List of arguments passed to `SBATCH` (see details).
@@ -19,7 +19,7 @@
 #' #SBATCH --mincpus=2
 #' ```
 #'
-#' In the bash file. Available options can be found
+#' In the bash file. Available options can be found at
 #' https://slurm.schedmd.com/sbatch.html#OPTIONS.
 #' @noRd
 new_bash <- function(njobs = 2) {

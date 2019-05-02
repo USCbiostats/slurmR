@@ -1,5 +1,5 @@
 #' Utility function
-#' If the job folder doesn't exists, it creates it.
+#' If the job folder doesn't exists, this creates it.
 #' @noRd
 check_path <- function() {
 
@@ -19,7 +19,7 @@ check_path <- function() {
 
 
 #' Utility function
-#' @param ... Options to be parsed bash flags.
+#' @param ... Options to be parsed as bash flags.
 #' @examples
 #' cat(parse_flags(a=1, b=TRUE, hola=2, y="I have spaces", ms=2, `cpus-per-task`=4))
 #' # -a=1 -b --hola=2 -y="I have spaces" --ms=2 --cpus-per-task=4
@@ -72,11 +72,11 @@ parse_flags.list <- function(x, ...) {
 
 #' Full path names for Slurm jobs
 #'
-#' Using [opts_sluRm]`$get_chdir` and [opts_sluRm]`$get_job_name` it creates
-#' file names with full path to the objects. This function is inteded for
+#' Using [opts_sluRm]`$get_chdir` and [opts_sluRm]`$get_job_name` creates
+#' file names with full path to the objects. This function is intended for
 #' internal use only.
 #'
-#' @param type can be either of r, sh, out, or rds, and depending on that
+#' @param type can be any of r, sh, out, or rds.
 #' @param array_id Integer. ID of the array to create the name.
 #' @family Utility
 #' @export

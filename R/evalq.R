@@ -28,7 +28,7 @@ Slurm_EvalQ <- function(
   sexpr <- deparse(substitute(expr))
 
   # RSCRIPT --------------------------------------------------------------------
-  rscript <- new_rscript()
+  rscript <- new_rscript(njobs)
 
   if (length(export)) {
     rscript$add_rds(

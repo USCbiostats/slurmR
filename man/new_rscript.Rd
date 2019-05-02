@@ -4,9 +4,11 @@
 \alias{new_rscript}
 \title{General purpose function to write R scripts}
 \usage{
-new_rscript(pkgs = list_loaded_pkgs())
+new_rscript(njobs, pkgs = list_loaded_pkgs())
 }
 \arguments{
+\item{njobs}{Integer scalar. Number of jobs to be submitted.}
+
 \item{pkgs}{A named list with packages to be included. Each element of the list
 must be a path to the R library, while the names of the list are the names of
 the R packages to be loaded.}

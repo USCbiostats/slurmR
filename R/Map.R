@@ -49,15 +49,15 @@ Slurm_Map <- function(
   # R Script -------------------------------------------------------------------
 
   # Initializing the script
-  rscript <- new_rscript()
+  rscript <- new_rscript(njobs)
 
   # Adding readRDS
-  rscript$add_rds(list(INDICES = INDICES), index = FALSE, compress = FALSE)
-  rscript$add_rds(list(f = f, mc.cores=mc.cores), index = FALSE, compress = compress)
-  rscript$add_rds(list(...), index = TRUE, compress = compress)
+  rscript$add_rds(list(INDICES = INDICES), split = FALSE, compress = FALSE)
+  rscript$add_rds(list(f = f, mc.cores=mc.cores), split = FALSE, compress = compress)
+  rscript$add_rds(list(...), split = TRUE, compress = compress)
 
   if (length(export))
-    rscript$add_rds(mget(export, envir=parent.frame()), index = FALSE, compress = compress)
+    rscript$add_rds(mget(export, envir=parent.frame()), split = FALSE, compress = compress)
 
   # Setting the seeds
   rscript$set_seed(seeds)

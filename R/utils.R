@@ -16,32 +16,7 @@ check_path <- function() {
   invisible()
 }
 
-save_objects <- function(
-  objects,
-  compress = TRUE,
-  ...
-  ) {
 
-  # Checks if the folder exists
-  check_path()
-
-  # Creating and checking  path
-  path <- paste(
-    opts_sluRm$get_chdir(),
-    opts_sluRm$get_job_name(),
-    sep="/"
-    )
-
-  # Saving objects
-  Map(
-    function(n, x) saveRDS(x, n, compress = compress, ...),
-    x = objects,
-    n = sprintf("%s/%s.rds", path, names(objects))
-  )
-
-  names(objects)
-
-}
 
 #' Utility function
 #' @param ... Options to be parsed bash flags.

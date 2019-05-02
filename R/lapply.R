@@ -80,11 +80,11 @@ Slurm_lapply <- function(
   # R Script -------------------------------------------------------------------
 
   # Initializing the script
-  rscript <- new_rscript()
+  rscript <- new_rscript(njobs)
 
   # Adding readRDS
-  rscript$add_rds(list(INDICES = INDICES), index = FALSE, compress = FALSE)
-  rscript$add_rds(list(X = X), index = TRUE, compress = compress)
+  rscript$add_rds(list(INDICES = INDICES), split = FALSE, compress = FALSE)
+  rscript$add_rds(list(X = X), split = TRUE, compress = compress)
   rscript$add_rds(
     c(
       list(FUN = FUN, mc.cores=mc.cores),
@@ -93,7 +93,7 @@ Slurm_lapply <- function(
         mget(export, envir=parent.frame())
       else
         NULL
-    ), index = FALSE, compress = compress)
+    ), split = FALSE, compress = compress)
 
   # Setting the seeds
   rscript$set_seed(seeds)

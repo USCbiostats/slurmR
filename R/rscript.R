@@ -30,10 +30,67 @@ rscript_header <- function(pkgs, seeds = NULL) {
 
 }
 
+save_objects <- function(
+  objects,
+  compress = TRUE,
+  njobs    = NULL,
+  ...
+) {
+
+  # Checks if the folder exists
+  check_path()
+
+  # Creating and checking  path
+  path <- paste(
+    opts_sluRm$get_chdir(),
+    opts_sluRm$get_job_name(),
+    sep="/"
+  )
+
+  # Saving objects
+  for (i in seq_along(objects)) {
+
+    if (!length(njobs)) {
+
+      saveRDS(
+        objects[[i]],
+        sprintf("%s/%s.rds", path, names(objects)[i]),
+        compress = compress
+      )
+
+    } else {
+
+      # Getting the splits
+      splits <- parallel::splitIndices(length(objects[[i]]), njobs)
+
+      for (j in seq_len(njobs)) {
+
+        saveRDS(
+          objects[[i]][splits[[j]]],
+          sprintf("%s/%s_%04d.rds", path, names(objects)[i], j),
+          compress = compress
+        )
+
+      }
+
+    }
+  }
+  # Map(
+  #   function(n, x) saveRDS(x, n, compress = compress, ...),
+  #   x = objects,
+  #   n = sprintf("%s/%s.rds", path, names(objects))
+  # )
+
+  # names(objects)
+  invisible()
+
+}
+
 #' General purpose function to write R scripts
 #'
 #' This function will create an object of class `sluRm_rscript` that can be used
 #' to write the R component in a batch job.
+#' @param njobs Integer scalar. Number of jobs to be submitted.
 #' @param pkgs A named list with packages to be included. Each element of the list
 #' must be a path to the R library, while the names of the list are the names of
 #' the R packages to be loaded.
@@ -69,13 +126,14 @@ rscript_header <- function(pkgs, seeds = NULL) {
 #'   folder to be used with Slurm.
 #'
 #' @export
-new_rscript <- function(pkgs = list_loaded_pkgs()) {
+new_rscript <- function(njobs, pkgs = list_loaded_pkgs()) {
 
   # Creating the environment
   env <- new.env(parent = emptyenv())
 
   # The first statement is the task id number
   env$rscript <- NULL
+  env$njobs   <- njobs
 
   # Function to append a line
   env$append <- function(x) {
@@ -107,7 +165,7 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
     invisible()
   }
 
-  env$add_rds <- function(x, index = FALSE, compress = TRUE) {
+  env$add_rds <- function(x, split = FALSE, compress = TRUE) {
 
     # Checking
     if (!is.list(x))
@@ -116,19 +174,27 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
       stop("`x` must be a named list.", call. = FALSE)
 
     # Saving the objects
-    save_objects(x, compress = compress)
+    save_objects(
+      x,
+      njobs = if (split) njobs else NULL,
+      compress = compress
+      )
 
     for (i in seq_along(x)) {
       # Writing the line
       line <- sprintf(
-        "%-16s <- readRDS(\"%s/%s/%1$s.rds\")",
+        if (split) {
+          "%-16s <- readRDS(sprintf(\"%s/%s/%1$s_%%04d.rds\", INDICES[[ARRAY_ID]]))"
+        } else {
+          "%-16s <- readRDS(\"%s/%s/%1$s.rds\")"
+        },
         names(x)[i],
         opts_sluRm$get_chdir(),
         opts_sluRm$get_job_name()
       )
 
-      if (index)
-        line <- paste0(line, "[INDICES[[ARRAY_ID]]]")
+      # if (split)
+      #   line <- paste0(line, "[INDICES[[ARRAY_ID]]]")
 
       env$rscript  <- c(env$rscript, line)
       env$robjects <- c(env$robjects, names(x)[i])
@@ -141,7 +207,7 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
   env$set_seed <- function(x, kind = NULL, normal.kind = NULL) {
 
     # Reading the seeds
-    env$add_rds(list(seeds = x), index = FALSE)
+    env$add_rds(list(seeds = x), split = FALSE)
     line <- sprintf("set.seed(seeds[ARRAY_ID], kind = %s, normal.kind = %s)",
                     ifelse(length(kind), kind, "NULL"),
                     ifelse(length(normal.kind), normal.kind, "NULL"))
@@ -165,7 +231,7 @@ new_rscript <- function(pkgs = list_loaded_pkgs()) {
 
 print.sluRm_rscript <- function(x, ...) {
 
-  cat(x$dat, sep = "\n")
+  cat(x$rscript, sep = "\n")
 
   invisible(x)
 

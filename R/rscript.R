@@ -149,7 +149,10 @@ new_rscript <- function(
   if (length(libPaths)) {
 
     if (is.atomic(libPaths) && is.character(libPaths)) {
-      env$append(sprintf(".libPaths(\"%s\")", libPaths))
+      env$append(sprintf(
+        ".libPaths(c(\"%s\"))",
+        paste(libPaths, collapse="\", \"")
+        ))
     } else {
 
       stop("The argument `libPaths` must be either a vector or a character scalar.",

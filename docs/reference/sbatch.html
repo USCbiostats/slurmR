@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A wrapper of <code>sbatch</code>. — sbatch • sluRm</title>
+<title>R wrappers for ommands included in <strong>Slurm</strong> — sbatch • sluRm</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="A wrapper of <code>sbatch</code>. — sbatch" />
+<meta property="og:title" content="R wrappers for ommands included in <strong>Slurm</strong> — sbatch" />
 
-<meta property="og:description" content="A wrapper of sbatch." />
+<meta property="og:description" content="R wrappers for ommands included in Slurm" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -108,14 +108,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A wrapper of <code>sbatch</code>.</h1>
+    <h1>R wrappers for ommands included in <strong>Slurm</strong></h1>
     
     <div class="hidden name"><code>sbatch.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>A wrapper of <code>sbatch</code>.</p>
+    <p>R wrappers for ommands included in <strong>Slurm</strong></p>
     
     </div>
 
@@ -152,7 +152,7 @@
     <tr>
       <th>wait</th>
       <td><p>Logical scalar. When <code>TRUE</code> the function will pass the <code>--wait</code>
-flag to <code>Slurm</code> and set <code>wait=TRUE</code> in the <a href='https://www.rdocumentation.org/packages/base/topics/system2'>system2</a> call.</p></td>
+flag to <code>Slurm</code> and set <code>wait = TRUE</code> in the <a href='https://www.rdocumentation.org/packages/base/topics/system2'>system2</a> call.</p></td>
     </tr>
     <tr>
       <th>submit</th>
@@ -172,13 +172,21 @@ flag to <code>Slurm</code> and set <code>wait=TRUE</code> in the <a href='https:
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>In the case of <code>sbatch</code>, function takes an object of class <code>slurm_job</code> and
+submits it to the queue. In debug mode the job will be submitted via <code>sh</code>
+instead.</p>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#details">Details</a></li>
+          </ul>
 
   </div>
 </div>

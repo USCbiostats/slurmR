@@ -1,5 +1,5 @@
-#' Submit an expression to be evaluated to multiple jobs
-#' @param expr An expression to be passed to Slurm
+#' Submit an expression to be evaluated to multiple jobs.
+#' @param expr An expression to be passed to Slurm.
 #' @param collect Logical, when `TRUE`, if `submit = TRUE` and `wait = TRUE`,
 #' the results are collected right away, otherwise, an object of class [slurm_job]
 #' is returned.

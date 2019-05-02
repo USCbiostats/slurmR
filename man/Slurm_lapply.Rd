@@ -10,14 +10,14 @@ Slurm_Map(f, ..., njobs = 2L, mc.cores = getOption("mc.cores", 2L),
   job_path = opts_sluRm$get_chdir(), submit = TRUE, wait = TRUE,
   sbatch_opt = list(ntasks = 1L, `cpus-per-task` = mc.cores),
   rscript_opt = list(vanilla = TRUE), seeds = 1L:njobs,
-  compress = TRUE, export = NULL)
+  compress = TRUE, export = NULL, libPaths = .libPaths())
 
 Slurm_lapply(X, FUN, ..., njobs = 2L, mc.cores = getOption("mc.cores",
   2L), job_name = opts_sluRm$get_job_name(),
   job_path = opts_sluRm$get_chdir(), submit = TRUE, wait = TRUE,
   sbatch_opt = list(ntasks = 1L, `cpus-per-task` = mc.cores),
   rscript_opt = list(vanilla = TRUE), seeds = 1L:njobs,
-  compress = TRUE, export = NULL)
+  compress = TRUE, export = NULL, libPaths = .libPaths())
 }
 \arguments{
 \item{njobs}{Integer. Number of jobs to specity.}
@@ -43,6 +43,8 @@ this value to \code{FALSE} can be useful when the user requires faster read/writ
 of R objects on disk.}
 
 \item{export}{A named list with objects to be included in the Spawned sessions.}
+
+\item{libPaths}{A character vector. See \link{.libPaths}.}
 
 \item{X, FUN, f, mc.cores, ...}{Arguments passed to either \link[parallel:mclapply]{parallel::mclapply} or
 \link[parallel:mcMap]{parallel::mcMap}.}

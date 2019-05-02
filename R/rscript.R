@@ -88,6 +88,7 @@ save_objects <- function(
 #' @param pkgs A named list with packages to be included. Each element of the list
 #' must be a path to the R library, while the names of the list are the names of
 #' the R packages to be loaded.
+#' @param libPaths A character vector. See [.libPaths].
 #'
 #' @return An environment of class `sluRm_rscript`. This has the following accesible
 #' components:
@@ -120,7 +121,11 @@ save_objects <- function(
 #'   folder to be used with Slurm.
 #'
 #' @export
-new_rscript <- function(njobs, pkgs = list_loaded_pkgs()) {
+new_rscript <- function(
+  njobs,
+  pkgs     = list_loaded_pkgs(),
+  libPaths = .libPaths()
+  ) {
 
   # Creating the environment
   env <- new.env(parent = emptyenv())
@@ -138,6 +143,20 @@ new_rscript <- function(njobs, pkgs = list_loaded_pkgs()) {
 
     env$rscript <- c(env$rscript, x)
     invisible()
+  }
+
+  # Checking libpaths
+  if (length(libPaths)) {
+
+    if (is.atomic(libPaths) && is.character(libPaths)) {
+      env$append(sprintf(".libPaths(\"%s\")", libPaths))
+    } else {
+
+      stop("The argument `libPaths` must be either a vector or a character scalar.",
+           call. = FALSE)
+
+    }
+
   }
 
   env$append(rscript_header(pkgs))

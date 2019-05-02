@@ -121,7 +121,7 @@ to write the R component in a batch job.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>new_rscript</span>(<span class='no'>njobs</span>, <span class='kw'>pkgs</span> <span class='kw'>=</span> <span class='fu'>list_loaded_pkgs</span>())</pre>
+    <pre class="usage"><span class='fu'>new_rscript</span>(<span class='no'>njobs</span>, <span class='kw'>pkgs</span> <span class='kw'>=</span> <span class='fu'>list_loaded_pkgs</span>(), <span class='kw'>libPaths</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/libPaths'>.libPaths</a></span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -135,6 +135,10 @@ to write the R component in a batch job.</p>
       <td><p>A named list with packages to be included. Each element of the list
 must be a path to the R library, while the names of the list are the names of
 the R packages to be loaded.</p></td>
+    </tr>
+    <tr>
+      <th>libPaths</th>
+      <td><p>A character vector. See <a href='https://www.rdocumentation.org/packages/base/topics/libPaths'>.libPaths</a>.</p></td>
     </tr>
     </table>
     

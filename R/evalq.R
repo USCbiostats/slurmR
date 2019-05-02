@@ -17,7 +17,8 @@ Slurm_EvalQ <- function(
   seeds       = 1L:njobs,
   compress    = TRUE,
   export      = NULL,
-  collect     = TRUE
+  collect     = TRUE,
+  libPaths    = .libPaths()
 ) {
 
   # Setting the job name
@@ -28,7 +29,7 @@ Slurm_EvalQ <- function(
   sexpr <- deparse(substitute(expr))
 
   # RSCRIPT --------------------------------------------------------------------
-  rscript <- new_rscript(njobs)
+  rscript <- new_rscript(njobs, libPaths = libPaths)
 
   if (length(export)) {
     rscript$add_rds(

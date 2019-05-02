@@ -13,5 +13,6 @@
 #' job.
 #' @param export A named list with objects to be included in the Spawned sessions.
 #' @param submit Logical, when `TRUE` calls [sbatch] to submit the job to slurm.
+#' @param libPaths A character vector. See [.libPaths].
 #'
 NULL

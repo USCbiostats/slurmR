@@ -41,7 +41,8 @@ Slurm_lapply <- function(
   rscript_opt = list(vanilla=TRUE),
   seeds       = 1L:njobs,
   compress    = TRUE,
-  export      = NULL
+  export      = NULL,
+  libPaths    = .libPaths()
   ) {
 
   # Checks
@@ -80,7 +81,7 @@ Slurm_lapply <- function(
   # R Script -------------------------------------------------------------------
 
   # Initializing the script
-  rscript <- new_rscript(njobs)
+  rscript <- new_rscript(njobs, libPaths = libPaths)
 
   # Adding readRDS
   rscript$add_rds(list(INDICES = INDICES), split = FALSE, compress = FALSE)

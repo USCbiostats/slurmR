@@ -4,7 +4,7 @@
 \alias{new_rscript}
 \title{General purpose function to write R scripts}
 \usage{
-new_rscript(njobs, pkgs = list_loaded_pkgs())
+new_rscript(njobs, pkgs = list_loaded_pkgs(), libPaths = .libPaths())
 }
 \arguments{
 \item{njobs}{Integer scalar. Number of jobs to be submitted.}
@@ -12,6 +12,8 @@ new_rscript(njobs, pkgs = list_loaded_pkgs())
 \item{pkgs}{A named list with packages to be included. Each element of the list
 must be a path to the R library, while the names of the list are the names of
 the R packages to be loaded.}
+
+\item{libPaths}{A character vector. See \link{.libPaths}.}
 }
 \value{
 An environment of class \code{sluRm_rscript}. This has the following accesible

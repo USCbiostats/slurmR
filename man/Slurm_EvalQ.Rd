@@ -8,7 +8,7 @@ Slurm_EvalQ(expr, njobs = 2L, job_name = opts_sluRm$get_job_name(),
   job_path = opts_sluRm$get_chdir(), submit = TRUE, wait = TRUE,
   sbatch_opt = list(ntasks = 1L), rscript_opt = list(vanilla = TRUE),
   seeds = 1L:njobs, compress = TRUE, export = NULL, collect = TRUE,
-  libPaths = .libPaths())
+  libPaths = .libPaths(), hooks = NULL)
 }
 \arguments{
 \item{expr}{An expression to be passed to Slurm.}
@@ -42,6 +42,8 @@ the results are collected right away, otherwise, an object of class \link{slurm_
 is returned.}
 
 \item{libPaths}{A character vector. See \link{.libPaths}.}
+
+\item{hooks}{A list of functions (passed to \link{new_slurm_job}).}
 }
 \description{
 Submit an expression to be evaluated to multiple jobs.

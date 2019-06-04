@@ -23,7 +23,8 @@ Slurm_collect.slurm_job <- function(x, any = TRUE, ...) {
   opts_sluRm$set_chdir(x$job_opts$chdir)
   opts_sluRm$set_job_name(x$job_opts$`job-name`, overwrite = FALSE)
 
-  if (!opts_sluRm$get_debug()) {
+  res <- if (!opts_sluRm$get_debug()) {
+
     S <- state(x)
 
     # Getting the filenames
@@ -43,5 +44,13 @@ Slurm_collect.slurm_job <- function(x, any = TRUE, ...) {
       stop("No result yet from the script.", call. = FALSE)
 
   }
+
+  # Applying hooks
+  if (length(x$hooks)) {
+    for (h in x$hooks)
+      res <- h(res)
+  }
+
+  return(res)
 
 }

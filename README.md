@@ -12,7 +12,7 @@ Slurm Workload Manager is a popular HPC cluster job scheduler found in
 many of the top 500 super computers. The `sluRm` R package provides an R
 wrapper to it that matches the parallel package’s syntax, this is, just
 like `parallel` provides the `parLapply`, `parMap`, `parSapply`, etc.,
-`sluRm` provides `Slurm_lapply`, `Slurm_Map`, ~~`Slurm_sapply`~~, etc.
+`sluRm` provides `Slurm_lapply`, `Slurm_Map`, `Slurm_sapply`, etc.
 
 While there are other alternatives such as `future.batchtools` and
 `rslurm`, this R package has the following advantages over the other
@@ -54,7 +54,7 @@ We can use the function `Slurm_lapply` to distribute computations
 ``` r
 ans <- Slurm_lapply(x, mean, submit = FALSE)
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --chdir=/home/vegayon/Documents/sluRm --job-name=sluRm-job-416187345cc /home/vegayon/Documents/sluRm/sluRm-job-416187345cc/01-bash.sh
+#  sbatch --chdir=/home/vegayon/Documents/sluRm --job-name=sluRm-job-7ce81e3c2792 /home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -67,7 +67,7 @@ ans <- Slurm_lapply(x, mean, submit = FALSE)
 #  
 #  --------------------------------------------------------------------------------
 #  [VERBOSE MODE ON] The R script that will be used is located at:
-#  /home/vegayon/Documents/sluRm/sluRm-job-416187345cc/00-rscript.r
+#  /home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/00-rscript.r
 #  and has the following contents:
 #  --------------------------------------------------------------------------------
 #  .libPaths(c("/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))
@@ -80,42 +80,478 @@ ans <- Slurm_lapply(x, mean, submit = FALSE)
 #      y
 #  }
 #  ARRAY_ID         <- as.integer(Slurm_env("SLURM_ARRAY_TASK_ID"))
-#  INDICES          <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-416187345cc/INDICES.rds")
-#  X                <- readRDS(sprintf("/home/vegayon/Documents/sluRm/sluRm-job-416187345cc/X_%04d.rds", ARRAY_ID))
-#  FUN              <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-416187345cc/FUN.rds")
-#  mc.cores         <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-416187345cc/mc.cores.rds")
-#  seeds            <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-416187345cc/seeds.rds")
+#  INDICES          <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/INDICES.rds")
+#  X                <- readRDS(sprintf("/home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/X_%04d.rds", ARRAY_ID))
+#  FUN              <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/FUN.rds")
+#  mc.cores         <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/mc.cores.rds")
+#  seeds            <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/seeds.rds")
 #  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)
 #  ans <- parallel::mclapply(
 #      X                = X,
 #      FUN              = FUN,
 #      mc.cores         = mc.cores
 #  )
-#  saveRDS(ans, sprintf("/home/vegayon/Documents/sluRm/sluRm-job-416187345cc/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
+#  saveRDS(ans, sprintf("/home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
 #  
 #  --------------------------------------------------------------------------------
 #  The bash file that will be used is located at:
-#  /home/vegayon/Documents/sluRm/sluRm-job-416187345cc/01-bash.sh
+#  /home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/01-bash.sh
 #  and has the following contents:
 #  --------------------------------------------------------------------------------
 #  #!/bin/sh
-#  #SBATCH --job-name=sluRm-job-416187345cc
-#  #SBATCH --output=/home/vegayon/Documents/sluRm/sluRm-job-416187345cc/02-output-%A-%a.out
+#  #SBATCH --job-name=sluRm-job-7ce81e3c2792
+#  #SBATCH --output=/home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/02-output-%A-%a.out
 #  #SBATCH --array=1-2
 #  #SBATCH --ntasks=1
 #  #SBATCH --cpus-per-task=2
 #  export OMP_NUM_THREADS=1
-#  /usr/lib/R/bin/Rscript --vanilla /home/vegayon/Documents/sluRm/sluRm-job-416187345cc/00-rscript.r
+#  /usr/lib/R/bin/Rscript --vanilla /home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/00-rscript.r
 #  
 #  --------------------------------------------------------------------------------
 #  EOF
 #  --------------------------------------------------------------------------------
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --chdir=/home/vegayon/Documents/sluRm --job-name=sluRm-job-416187345cc /home/vegayon/Documents/sluRm/sluRm-job-416187345cc/01-bash.sh
+#  sbatch --chdir=/home/vegayon/Documents/sluRm --job-name=sluRm-job-7ce81e3c2792 /home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
 Take a look at the vignette [here](vignettes/getting-started.Rmd).
+
+## Other tools
+
+<table cellspacing="0" border="0">
+
+<colgroup width="125">
+
+</colgroup>
+
+<colgroup width="85">
+
+</colgroup>
+
+<colgroup width="73">
+
+</colgroup>
+
+<colgroup span="3" width="85">
+
+</colgroup>
+
+<colgroup width="125">
+
+</colgroup>
+
+<colgroup width="104">
+
+</colgroup>
+
+<tbody>
+
+<tr>
+
+<td height="36" align="center" valign="middle" bgcolor="#FFFFFF">
+
+<b>Package</b>
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+<b>Rerun (1)</b>
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+<b>apply family (2)</b>
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+<b>Slurm options</b>
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+<b>Focus on \[blank\]</b>
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+<b>System \[blank\]</b>
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+<b>Dependencies
+(3)</b>
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+<b>Status</b>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="border-top: 1px solid #000000" height="36" align="left" valign="middle" bgcolor="#FFFFFF">
+
+<b>drake</b>
+
+</td>
+
+<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+
+yes
+
+</td>
+
+<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+
+no
+
+</td>
+
+<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+
+by
+template
+
+</td>
+
+<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+
+workflows
+
+</td>
+
+<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+
+agnostic
+
+</td>
+
+<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF" sdnum="1033;0;@">
+
+5/9
+
+</td>
+
+<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+
+active
+
+</td>
+
+</tr>
+
+<tr>
+
+<td height="36" align="left" valign="middle" bgcolor="#CCCCCC">
+
+<b>sluRm</b>
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#CCCCCC">
+
+no (yet)
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#CCCCCC">
+
+yes
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#CCCCCC">
+
+on the fly
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#CCCCCC">
+
+calls
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#CCCCCC">
+
+specific
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#CCCCCC" sdnum="1033;0;@">
+
+0/0
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#CCCCCC">
+
+active
+
+</td>
+
+</tr>
+
+<tr>
+
+<td height="36" align="left" valign="middle" bgcolor="#FFFFFF">
+
+<b>rslurm</b>
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+no
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+no
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+on the fly
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+calls
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+specific
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF" sdnum="1033;0;@">
+
+1/1
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+inactive (since 2017)
+
+</td>
+
+</tr>
+
+<tr>
+
+<td height="36" align="left" valign="middle" bgcolor="#FFFFFF">
+
+<b>future.batchtools</b>
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+no
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+yes
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+by template
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+calls
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+agnostic
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF" sdnum="1033;0;@">
+
+2/24
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+active
+
+</td>
+
+</tr>
+
+<tr>
+
+<td height="36" align="left" valign="middle" bgcolor="#FFFFFF">
+
+<b>batchtools</b>
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+no
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+yes
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+by
+template
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+calls
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+agnostic
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF" sdnum="1033;0;@">
+
+12/20
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+active
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="border-bottom: 1px solid #000000" height="36" align="left" valign="middle" bgcolor="#FFFFFF">
+
+<b>clustermq</b>
+
+</td>
+
+<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+
+no
+
+</td>
+
+<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+
+no
+
+</td>
+
+<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+
+by
+template
+
+</td>
+
+<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+
+calls
+
+</td>
+
+<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+
+agnostic
+
+</td>
+
+<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF" sdnum="1033;0;@">
+
+6/16
+
+</td>
+
+<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+
+active
+
+</td>
+
+</tr>
+
+<tr>
+
+<td colspan="8" height="17" align="left" valign="middle" bgcolor="#FFFFFF">
+
+\[1\] After errors, the job can be resubmitted
+to
+
+</td>
+
+</tr>
+
+<tr>
+
+<td colspan="8" height="17" align="left" valign="middle" bgcolor="#FFFFFF">
+
+\[2\] Functionality similar to the apply family in base
+R.
+
+</td>
+
+</tr>
+
+<tr>
+
+<td colspan="8" height="17" align="left" valign="middle" bgcolor="#FFFFFF">
+
+\[3\] Number of directed/recursive dependencies. As reported in
+<a href="https://tinyverse.netlify.com/status/">https://tinyverse.netlify.com/status/</a>
+(June 4th, 2019)
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 ## Contributing
 

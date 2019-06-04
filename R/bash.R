@@ -50,47 +50,6 @@ silent_system2 <- function(...) {
 
 }
 
-#' Creating Slurm jobs
-#'
-#' This function is intended to be used internally.
-#'
-#' @param call The original call
-#' @param rscript,bashfile The R script and bash file path.
-#' @param robjects A character vector of R objects that will be imported in the job.
-#' @param job_opts List. Arguments to be passed to [sbatch].
-#' @param njobs Integer. Number of jobs to start (array).
-#' @export
-#' @aliases slurm_job
-new_slurm_job <- function(
-  call,
-  rscript,
-  bashfile,
-  robjects,
-  njobs,
-  job_opts
-  ) {
-
-  job <- list2env(
-    list(
-      call     = call,
-      rscript  = rscript,
-      bashfile = bashfile,
-      robjects = NULL,
-      njobs    = njobs,
-      job_opts = job_opts,
-      jobid    = NA
-    ),
-    envir = new.env(parent = emptyenv())
-  )
-
-  structure(
-    job,
-    class = "slurm_job"
-  )
-
-}
-
-
 
 #' R wrappers for ommands included in **Slurm**
 #'
@@ -106,6 +65,7 @@ new_slurm_job <- function(
 #' instead.
 #'
 #' @export
+#' @aliases submit
 sbatch <- function(x, wait=TRUE, submit = TRUE, ...) UseMethod("sbatch")
 
 hline <- function(..., sep="\n") {
@@ -154,6 +114,7 @@ sbatch.slurm_job <- function(x, wait=TRUE, submit = TRUE, ...) {
 
     message("Submitting job...", appendLF = FALSE)
     ans <- silent_system2(opts_sluRm$get_cmd(), option, stdout = TRUE, wait=TRUE)
+
   } else {
     warning(
       "[submit = FALSE] The job hasn't been submitted yet.",
@@ -170,8 +131,10 @@ sbatch.slurm_job <- function(x, wait=TRUE, submit = TRUE, ...) {
 
   # Warning that the call has been made and storing the id
   if (!opts_sluRm$get_debug()) {
+
     x$jobid <-as.integer(gsub(pattern = ".+ (?=[0-9]+$)", "", ans, perl=TRUE))
     message(" jobid:", x$jobid, ".")
+
   } else
     x$jobid <- NA
 
@@ -256,30 +219,6 @@ squeue.slurm_job <- function(x, ...) {
 }
 
 #' @export
-print.slurm_job <- function(x, ...) {
-
-  cat("Call:\n", paste(deparse(x$call), collapse="\n"), "\n")
-  cat(
-    sprintf("job_name : %s\n", x$job_name),
-    sprintf("path     : %s/%s\n", x$job_opts$chdir, x$job_opts$`job-name`),
-    sprintf("job ID   : %s\n",
-            ifelse(
-              is.na(x$jobid),
-              "Not submitted",
-              as.character(x$jobid)
-            )
-    ), sep=""
-  )
-
-  if (!is.na(x$jobid))
-    print(sacct(x))
-
-  invisible(x)
-}
-
-
-
-#' @export
 #' @rdname sbatch
 scancel <- function(x, ...) UseMethod("scancel")
 
@@ -319,8 +258,8 @@ sacct.slurm_job <- function(x, ...) {
 }
 
 #' @export
-#' @param brief Logical. Passed to `sacct`.
-#' @param parsable Logical. Passed to `sacct`.
+#' @param brief,parsable Logical. When `TRUE`, these are passed as flags directly
+#' to the command line function `sacct`.
 #' @rdname sbatch
 sacct.default <- function(x, brief=TRUE, parsable = TRUE, ...) {
 

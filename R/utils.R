@@ -96,6 +96,7 @@ snames <- function(type, array_id) {
     rds = if (missing(array_id))
       "03-answer-%03i.rds"
     else sprintf("03-answer-%03i.rds", array_id),
+    job = "job.rds",
     stop(
       "Invalid type, the only valid types are `r`, `sh`, `out`, and `rds`.",
       call. = FALSE

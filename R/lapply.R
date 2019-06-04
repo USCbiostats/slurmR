@@ -42,7 +42,8 @@ Slurm_lapply <- function(
   seeds       = 1L:njobs,
   compress    = TRUE,
   export      = NULL,
-  libPaths    = .libPaths()
+  libPaths    = .libPaths(),
+  hooks       = NULL
   ) {
 
   # Checks
@@ -135,7 +136,8 @@ Slurm_lapply <- function(
     bashfile = snames("sh"),
     robjects = NULL,
     njobs    = njobs,
-    job_opts = opts_sluRm$get_opts()
+    job_opts = opts_sluRm$get_opts(),
+    hooks    = hooks
   )
 
 

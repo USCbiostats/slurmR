@@ -2,6 +2,7 @@
 % Please edit documentation in R/bash.R
 \name{sbatch}
 \alias{sbatch}
+\alias{submit}
 \alias{sbatch.slurm_job}
 \alias{squeue}
 \alias{squeue.slurm_job}
@@ -40,9 +41,8 @@ flag to \code{Slurm} and set \code{wait = TRUE} in the \link{system2} call.}
 
 \item{...}{Further flags passed to the command line function.}
 
-\item{brief}{Logical. Passed to \code{sacct}.}
-
-\item{parsable}{Logical. Passed to \code{sacct}.}
+\item{brief, parsable}{Logical. When \code{TRUE}, these are passed as flags directly
+to the command line function \code{sacct}.}
 }
 \description{
 R wrappers for ommands included in \strong{Slurm}

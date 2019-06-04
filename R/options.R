@@ -170,10 +170,12 @@ opts_sluRm <- (function() {
     if (!length(dots))
       return(as.list(OPTS_SLURM))
 
-    if (any(is.character(dots)))
+    dots <- unlist(dots)
+
+    if (any(!is.character(dots)))
       stop("`...` only receives characters.", call. = FALSE)
 
-    as.list(OPTS_SLURM)[dots]
+    as.list(OPTS_SLURM)[intersect(dots, names(OPTS_SLURM))]
 
   }
 

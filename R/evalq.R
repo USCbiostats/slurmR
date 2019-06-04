@@ -18,7 +18,8 @@ Slurm_EvalQ <- function(
   compress    = TRUE,
   export      = NULL,
   collect     = TRUE,
-  libPaths    = .libPaths()
+  libPaths    = .libPaths(),
+  hooks       = NULL
 ) {
 
   # Setting the job name
@@ -68,7 +69,8 @@ Slurm_EvalQ <- function(
     bashfile = snames("sh"),
     robjects = NULL,
     njobs    = njobs,
-    job_opts = opts_sluRm$get_opts()
+    job_opts = opts_sluRm$get_opts(),
+    hooks    = hooks
   )
 
   if (collect && submit)

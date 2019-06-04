@@ -1,11 +1,5 @@
 context("Bash wrappers")
 
-test_that("We can check jobs", {
-
-  skip_if_not(slurm_available())
-
-})
-
 test_that("If no slurm, then errors", {
 
   skip_if(slurm_available())
@@ -19,3 +13,5 @@ test_that("If no slurm, then errors", {
   expect_error(sacct(x), "not available")
 
 })
+
+

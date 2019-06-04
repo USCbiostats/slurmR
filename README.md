@@ -14,9 +14,9 @@ wrapper to it that matches the parallel package’s syntax, this is, just
 like `parallel` provides the `parLapply`, `parMap`, `parSapply`, etc.,
 `sluRm` provides `Slurm_lapply`, `Slurm_Map`, `Slurm_sapply`, etc.
 
-While there are other alternatives such as `future.batchtools` and
-`rslurm`, this R package has the following advantages over the other
-two:
+While there are other alternatives such as `future.batchtools`,
+`batchtools`, `clustermq`, and `rslurm`, this R package has the
+following goals:
 
 1.  It is dependency free, which means that it works out-of-the-box
 
@@ -25,6 +25,13 @@ two:
 
 3.  It provides a general framework for the user to create its own
     wrappers without using template files.
+
+4.  Is specialized on Slurm, meaning more flexibility (no need to modify
+    template files), and, in the future, better debuging tools (e.g. job
+    resubmission).
+
+Checkout the [VS section](#vs) section for comparing `sluRm` with other
+R packages.
 
 ## Installation
 
@@ -54,7 +61,7 @@ We can use the function `Slurm_lapply` to distribute computations
 ``` r
 ans <- Slurm_lapply(x, mean, submit = FALSE)
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --chdir=/home/vegayon/Documents/sluRm --job-name=sluRm-job-7ce81e3c2792 /home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/01-bash.sh
+#  sbatch --chdir=/home/vegayon/Documents/sluRm --job-name=sluRm-job-74e7b8110a3 /home/vegayon/Documents/sluRm/sluRm-job-74e7b8110a3/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -67,7 +74,7 @@ ans <- Slurm_lapply(x, mean, submit = FALSE)
 #  
 #  --------------------------------------------------------------------------------
 #  [VERBOSE MODE ON] The R script that will be used is located at:
-#  /home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/00-rscript.r
+#  /home/vegayon/Documents/sluRm/sluRm-job-74e7b8110a3/00-rscript.r
 #  and has the following contents:
 #  --------------------------------------------------------------------------------
 #  .libPaths(c("/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))
@@ -80,44 +87,47 @@ ans <- Slurm_lapply(x, mean, submit = FALSE)
 #      y
 #  }
 #  ARRAY_ID         <- as.integer(Slurm_env("SLURM_ARRAY_TASK_ID"))
-#  INDICES          <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/INDICES.rds")
-#  X                <- readRDS(sprintf("/home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/X_%04d.rds", ARRAY_ID))
-#  FUN              <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/FUN.rds")
-#  mc.cores         <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/mc.cores.rds")
-#  seeds            <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/seeds.rds")
+#  INDICES          <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-74e7b8110a3/INDICES.rds")
+#  X                <- readRDS(sprintf("/home/vegayon/Documents/sluRm/sluRm-job-74e7b8110a3/X_%04d.rds", ARRAY_ID))
+#  FUN              <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-74e7b8110a3/FUN.rds")
+#  mc.cores         <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-74e7b8110a3/mc.cores.rds")
+#  seeds            <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-74e7b8110a3/seeds.rds")
 #  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)
 #  ans <- parallel::mclapply(
 #      X                = X,
 #      FUN              = FUN,
 #      mc.cores         = mc.cores
 #  )
-#  saveRDS(ans, sprintf("/home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
+#  saveRDS(ans, sprintf("/home/vegayon/Documents/sluRm/sluRm-job-74e7b8110a3/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
 #  
 #  --------------------------------------------------------------------------------
 #  The bash file that will be used is located at:
-#  /home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/01-bash.sh
+#  /home/vegayon/Documents/sluRm/sluRm-job-74e7b8110a3/01-bash.sh
 #  and has the following contents:
 #  --------------------------------------------------------------------------------
 #  #!/bin/sh
-#  #SBATCH --job-name=sluRm-job-7ce81e3c2792
-#  #SBATCH --output=/home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/02-output-%A-%a.out
+#  #SBATCH --job-name=sluRm-job-74e7b8110a3
+#  #SBATCH --output=/home/vegayon/Documents/sluRm/sluRm-job-74e7b8110a3/02-output-%A-%a.out
 #  #SBATCH --array=1-2
 #  #SBATCH --ntasks=1
 #  #SBATCH --cpus-per-task=2
 #  export OMP_NUM_THREADS=1
-#  /usr/lib/R/bin/Rscript --vanilla /home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/00-rscript.r
+#  /usr/lib/R/bin/Rscript --vanilla /home/vegayon/Documents/sluRm/sluRm-job-74e7b8110a3/00-rscript.r
 #  
 #  --------------------------------------------------------------------------------
 #  EOF
 #  --------------------------------------------------------------------------------
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --chdir=/home/vegayon/Documents/sluRm --job-name=sluRm-job-7ce81e3c2792 /home/vegayon/Documents/sluRm/sluRm-job-7ce81e3c2792/01-bash.sh
+#  sbatch --chdir=/home/vegayon/Documents/sluRm --job-name=sluRm-job-74e7b8110a3 /home/vegayon/Documents/sluRm/sluRm-job-74e7b8110a3/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
 Take a look at the vignette [here](vignettes/getting-started.Rmd).
 
-## Other tools
+## VS
+
+There are several ways to enhance R for HPC. Depending on what are your
+goals/restrictions/preferences, you can use any of the following:
 
 <table cellspacing="0" border="0">
 
@@ -519,8 +529,8 @@ active
 
 <td colspan="8" height="17" align="left" valign="middle" bgcolor="#FFFFFF">
 
-\[1\] After errors, the job can be resubmitted
-to
+\[1\] After errors, the part or the entire job can be
+resubmitted.
 
 </td>
 

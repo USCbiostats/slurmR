@@ -23,13 +23,17 @@ knitr::opts_chunk$set(
 
 Slurm Workload Manager is a popular HPC cluster job scheduler found in many of the top 500 super computers. The `sluRm` R package provides an R wrapper to it that matches the parallel package's syntax, this is, just like `parallel` provides the `parLapply`, `parMap`, `parSapply`, etc., `sluRm` provides `Slurm_lapply`, `Slurm_Map`, `Slurm_sapply`, etc.
 
-While there are other alternatives such as `future.batchtools` and `rslurm`, this R package has the following advantages over the other two:
+While there are other alternatives such as `future.batchtools`, `batchtools`, `clustermq`, and `rslurm`, this R package has the following goals:
 
 1.  It is dependency free, which means that it works out-of-the-box
 
 2.  Puts an emphasis on been similar to the workflow in the R package `parallel`
 
 3.  It provides a general framework for the user to create its own wrappers without using template files.
+
+4.  Is specialized on Slurm, meaning more flexibility (no need to modify template files), and, in the future, better debuging tools (e.g. job resubmission).
+
+Checkout the [VS section](#vs) section for comparing `sluRm` with other R packages.
 
 ## Installation
 
@@ -69,7 +73,9 @@ Slurm_clean(ans) # Cleaning after you
 
 Take a look at the vignette [here](vignettes/getting-started.Rmd).
 
-## Other tools
+## VS
+
+There are several ways to enhance R for HPC. Depending on what are your goals/restrictions/preferences, you can use any of the following:
 
 <table cellspacing="0" border="0">
 	<colgroup width="125"></colgroup>
@@ -149,7 +155,7 @@ Take a look at the vignette [here](vignettes/getting-started.Rmd).
 		<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">active</td>
 	</tr>
 	<tr>
-		<td colspan="8" height="17" align="left" valign="middle" bgcolor="#FFFFFF">[1] After errors, the job can be resubmitted to </td>
+		<td colspan="8" height="17" align="left" valign="middle" bgcolor="#FFFFFF">[1] After errors, the part or the entire job can be resubmitted. </td>
 		</tr>
 	<tr>
 		<td colspan="8" height="17" align="left" valign="middle" bgcolor="#FFFFFF">[2] Functionality similar to the apply family in base R.</td>

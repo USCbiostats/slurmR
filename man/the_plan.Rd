@@ -34,3 +34,27 @@ In general, bot \code{wait} and \code{submit} will be passed to \link{sbatch}.
 When \code{collect == TRUE}, then it usually means that the function will be calling
 \link{Slurm_collect} right after submitting the job via \link{sbatch}.
 }
+\examples{
+the_plan("none")
+# $collect
+# [1] FALSE
+#
+# $wait
+# [1] FALSE
+#
+# $submit
+# [1] FALSE
+
+the_plan("wait")
+# $collect
+# [1] FALSE
+#
+# $wait
+# [1] TRUE
+#
+# $submit
+# [1] TRUE
+}
+\seealso{
+This is used in \link[=Slurm_lapply]{apply functions} and in \link{Slurm_EvalQ}.
+}

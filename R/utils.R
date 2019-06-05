@@ -269,8 +269,28 @@ WhoAmI <- function() {
 #' [Slurm_collect] right after submitting the job via [sbatch].
 #'
 #' @return A list with three logical scalars.
+#' @seealso This is used in [apply functions][Slurm_lapply] and in [Slurm_EvalQ].
 #'
+#' @examples
+#' the_plan("none")
+#' # $collect
+#' # [1] FALSE
+#' #
+#' # $wait
+#' # [1] FALSE
+#' #
+#' # $submit
+#' # [1] FALSE
 #'
+#' the_plan("wait")
+#' # $collect
+#' # [1] FALSE
+#' #
+#' # $wait
+#' # [1] TRUE
+#' #
+#' # $submit
+#' # [1] TRUE
 #' @export
 the_plan <- function(plan) {
 

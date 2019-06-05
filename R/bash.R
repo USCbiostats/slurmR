@@ -1,10 +1,13 @@
-#' Check whether Slurm is available in the system
-#' @return A Logical scalar indicating whether Slurm is available (`TRUE`) or not
-#' (`FALSE`)
+#' @details The function `slurm_available` checks whether Slurm is available in
+#' the system or not. It is usually called before calling any bash wrapper.
+#' If available, the function will return `TRUE`, otherwise `FALSE`.
+#'
 #' @examples
+#' # Are we under a Slurm Cluster?
 #' slurm_available()
 #'
 #' @export
+#' @rdname sbatch
 slurm_available <- function() {
 
   x <- tryCatch(
@@ -24,6 +27,17 @@ stopifnot_slurm <- function() {
 
   if (!slurm_available())
     stop("Slurm is not available on this system.", call. = FALSE)
+
+}
+
+stopifnot_submitted <- function(x) {
+
+  if (is.na(x)) {
+    stop(
+      "This job hasn't started/been submitted yet. Nothing to do.",
+      call. = FALSE
+    )
+  }
 
 }
 
@@ -50,15 +64,61 @@ silent_system2 <- function(...) {
 
 }
 
-which_submit <- function(job, what) {
+#' This environment sets and gets the latest submitted job. The function
+#' [last_submitted_job] is a wrapper of it visible to the user.
+#' @noRd
+LAST_SUBMITTED_JOB <- (function() {
 
-  state(job)
+  record <- new.env(parent = emptyenv())
+
+  record$job <- NULL
+  record$set <- function(job) {
+
+    if (!inherits(job, "slurm_job"))
+      stop("The `job` argument must be an object of class `slurm_job`.",
+           call. = FALSE)
+
+    record$job <- job
+
+    invisible()
+  }
+  record$get <- function() {
+    record$job
+  }
+
+  return(record)
+
+})()
+
+#' @rdname sbatch
+#' @export
+#' @details The `las_submitted_job` function will return the latest `slurm_job`
+#' object that was submitted via [sbatch] in the current session. The `last_job`
+#' function is just an alias of the later. If no job has been submitted, then
+#' the resulting value will be `NULL`.
+#' @examples
+#' \dontrun{
+#' # The last_job function can be handy when `plan = "collect"` in a called,
+#' # for example
+#' job <- Slurm_lapply(1:1000, function(i) runif(100), njobs = 2, plan = "collect")
+#'
+#' # Post collection analysis
+#' state(last_job())
+#' }
+last_submitted_job <- function() {
+
+  LAST_SUBMITTED_JOB$get()
 
 }
 
+#' @export
+#' @rdname slurm_job
+last_job <- last_submitted_job
+
 #' R wrappers for ommands included in *Slurm*
 #'
-#' @param x An object of class `slurm_job`.
+#' @param x Either an object of class `slurm_job`, or, in some cases, an
+#' integer as a Slurm jobid. Note that some functions allow passing no arguments.
 #' @param wait Logical scalar. When `TRUE` the function will pass the `--wait`
 #' flag to `Slurm` and set `wait = TRUE` in the [system2] call.
 #' @param submit Logical, when `TRUE` calls [sbatch] to submit the job to slurm.
@@ -71,7 +131,7 @@ which_submit <- function(job, what) {
 #'
 #' @export
 #' @aliases submit
-sbatch <- function(x, wait=TRUE, submit = TRUE, ...) UseMethod("sbatch")
+sbatch <- function(x, wait = TRUE, submit = TRUE, ...) UseMethod("sbatch")
 
 hline <- function(..., sep="\n") {
   cat("\n",rep("-", options("width")), "\n",sep="")
@@ -81,7 +141,7 @@ hline <- function(..., sep="\n") {
 
 #' @export
 #' @rdname sbatch
-sbatch.slurm_job <- function(x, wait=TRUE, submit = TRUE, ...) {
+sbatch.slurm_job <- function(x, wait = TRUE, submit = TRUE, ...) {
 
   # Checking the status of the job
   if (!is.na(x$jobid) && squeue(x$jobid))
@@ -139,6 +199,10 @@ sbatch.slurm_job <- function(x, wait=TRUE, submit = TRUE, ...) {
 
     x$jobid <-as.integer(gsub(pattern = ".+ (?=[0-9]+$)", "", ans, perl=TRUE))
     message(" jobid:", x$jobid, ".")
+
+    # We need to update the job file and the latest submitted job
+    LAST_SUBMITTED_JOB$set(x)
+    write_slurm_job(x, snames("job"))
 
   } else
     x$jobid <- NA
@@ -201,20 +265,17 @@ sbatch_dummy <- function(...) {
 
 #' @export
 #' @rdname sbatch
-squeue <- function(x, ...) UseMethod("squeue")
+squeue <- function(x = NULL, ...) UseMethod("squeue")
 
 #' @export
 #' @rdname sbatch
-squeue.slurm_job <- function(x, ...) {
+squeue.default <- function(x = NULL, ...) {
 
   # Checking for slurm
   stopifnot_slurm()
 
-  # Preparing options
-  option <- c(
-    sprintf("-j%i", x$jobid),
-    parse_flags(...)
-  )
+  # Notice that the jobid may be null
+  option <- c(sprintf("-j%i", x), parse_flags(...))
 
   # message("Submitting job...")
   ans <- silent_system2("squeue", option, stdout=TRUE, stderr = TRUE, wait=TRUE)
@@ -225,42 +286,45 @@ squeue.slurm_job <- function(x, ...) {
 
 #' @export
 #' @rdname sbatch
+squeue.slurm_job <- function(x, ...) {
+
+  stopifnot_submitted(x$jobid)
+  squeue.default(x$jobid, ...)
+
+}
+
+#' @export
+#' @rdname sbatch
 scancel <- function(x, ...) UseMethod("scancel")
+
+#' @export
+#' @rdname sbatch
+scancel.default <- function(x, ...) {
+
+  # Checking for slurm, and if passes, if it started
+  stopifnot_slurm()
+
+  # Preparing options
+  option <- c(parse_flags(...), x)
+
+  ans <- silent_system2("scancel", option, stdout = TRUE, stderr = TRUE)
+
+  invisible()
+
+}
 
 #' @export
 #' @rdname sbatch
 scancel.slurm_job <- function(x, ...) {
 
-  # Checking for slurm
-  stopifnot_slurm()
-
-  if (is.na(x$jobid)) {
-    warning("This job hasn't started yet. Nothing to cancel.", call. = FALSE)
-    return()
-  }
-
-  # Preparing options
-  option <- c(parse_flags(...), x$jobid)
-
-  ans <- silent_system2("scancel", option, stdout=TRUE, stderr = TRUE)
-
-  x$jobid <- NA
-
-  invisible()
+  stopifnot_submitted(x$jobid)
+  scancel.default(x$jobid, ...)
 
 }
 
 #' @rdname sbatch
 #' @export
 sacct <- function(x, ...) UseMethod("sacct")
-
-#' @export
-#' @rdname sbatch
-sacct.slurm_job <- function(x, ...) {
-
-  sacct.default(x$jobid, ...)
-
-}
 
 #' @export
 #' @param brief,parsable Logical. When `TRUE`, these are passed as flags directly
@@ -287,4 +351,42 @@ sacct.default <- function(x, brief=TRUE, parsable = TRUE, ...) {
 
 }
 
+#' @export
+#' @rdname sbatch
+sacct.slurm_job <- function(x, ...) {
 
+  stopifnot_submitted(x$jobid)
+  sacct.default(x$jobid, ...)
+
+}
+
+
+#' @export
+#' @rdname sbatch
+#' @details The function `slurm.conf` is a wrapper of the function `scontrol` that
+#' returns configuration info about Slurm, in particular, the underlaying command
+#' that is called is `scontrol show conf`. This returns a named character vector
+#' with configuration info about the cluster. The name of this function matches
+#' the name of the file that holds this information.
+#' @examples
+#'
+#' \dontrun{
+#  # What is the maximum number of jobs (array size) that the system
+#' # allows?
+#' sconfig <- slurm.conf() # We first retrieve the info.
+#' sconfig["MaxArraySize"]
+#' }
+#'
+slurm.conf <- function() {
+
+  stopifnot_slurm()
+  conf <- silent_system2("scontrol", "show conf", stdout = TRUE, stderr = TRUE)
+
+  conf <- conf[grepl("^[[:graph:]]+\\s*[=]", conf)]
+
+  structure(
+    gsub("^[[:graph:]]+\\s*[=]\\s*", "", conf),
+    names = gsub("\\s*[=].+", "", conf)
+  )
+
+}

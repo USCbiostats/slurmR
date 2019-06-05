@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Submit an expression to be evaluated to multiple jobs. — Slurm_EvalQ • sluRm</title>
+<title>Check for possible actions for a <code>slurm_job</code> wrapper — the_plan • sluRm</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,12 @@
 
 
 
-<meta property="og:title" content="Submit an expression to be evaluated to multiple jobs. — Slurm_EvalQ" />
+<meta property="og:title" content="Check for possible actions for a <code>slurm_job</code> wrapper — the_plan" />
 
-<meta property="og:description" content="Submit an expression to be evaluated to multiple jobs." />
+<meta property="og:description" content="Users can choose whether to submit the job or not, to wait for it, and whether
+they want to collect the results right away after the job has finished. This
+function will help developers to figure out what set of actions need to be
+taken depending on the plan." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -108,84 +111,103 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Submit an expression to be evaluated to multiple jobs.</h1>
+    <h1>Check for possible actions for a <code>slurm_job</code> wrapper</h1>
     
-    <div class="hidden name"><code>Slurm_EvalQ.Rd</code></div>
+    <div class="hidden name"><code>the_plan.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Submit an expression to be evaluated to multiple jobs.</p>
+    <p>Users can choose whether to submit the job or not, to wait for it, and whether
+they want to collect the results right away after the job has finished. This
+function will help developers to figure out what set of actions need to be
+taken depending on the plan.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>Slurm_EvalQ</span>(<span class='no'>expr</span>, <span class='kw'>njobs</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_job_name</span>(),
-  <span class='kw'>job_path</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_chdir</span>(), <span class='kw'>plan</span> <span class='kw'>=</span> <span class='st'>"collect"</span>,
-  <span class='kw'>sbatch_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>ntasks</span> <span class='kw'>=</span> <span class='fl'>1L</span>), <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
-  <span class='kw'>seeds</span> <span class='kw'>=</span> <span class='fl'>1L</span>:<span class='no'>njobs</span>, <span class='kw'>compress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>export</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>libPaths</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/libPaths'>.libPaths</a></span>(), <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>the_plan</span>(<span class='no'>plan</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>expr</th>
-      <td><p>An expression to be passed to Slurm.</p></td>
-    </tr>
-    <tr>
-      <th>njobs</th>
-      <td><p>Integer. Number of jobs to specity.</p></td>
-    </tr>
-    <tr>
-      <th>job_name</th>
-      <td><p>Character. Name of the job to be passed to <code>Slurm</code>.</p></td>
-    </tr>
-    <tr>
-      <th>job_path</th>
-      <td><p>Character. Path to the directory where all the data (including
-scripts) will be stored (See <a href='opts_sluRm.html'>opts_sluRm</a>).</p></td>
-    </tr>
-    <tr>
       <th>plan</th>
-      <td><p>A character scalar. (See <a href='the_plan.html'>the_plan</a>).</p></td>
-    </tr>
-    <tr>
-      <th>sbatch_opt, rscript_opt</th>
-      <td><p>List. Options to be passed via flags to
-the bash file as <code>#SBATCH</code> and to <code>Rscript</code> respectively.</p></td>
-    </tr>
-    <tr>
-      <th>seeds</th>
-      <td><p>Integer vector of length <code>njobs</code>. Seeds to be passed to each
-job.</p></td>
-    </tr>
-    <tr>
-      <th>compress</th>
-      <td><p>Logical scalar (default <code>TRUE</code>). Passed to <a href='https://www.rdocumentation.org/packages/base/topics/readRDS'>saveRDS</a>. Setting
-this value to <code>FALSE</code> can be useful when the user requires faster read/write
-of R objects on disk.</p></td>
-    </tr>
-    <tr>
-      <th>export</th>
-      <td><p>A named list with objects to be included in the Spawned sessions.</p></td>
-    </tr>
-    <tr>
-      <th>libPaths</th>
-      <td><p>A character vector. See <a href='https://www.rdocumentation.org/packages/base/topics/libPaths'>.libPaths</a>.</p></td>
-    </tr>
-    <tr>
-      <th>hooks</th>
-      <td><p>A list of functions (passed to <a href='slurm_job.html'>new_slurm_job</a>).</p></td>
+      <td><p>A character scalar with either of the following values:
+<code>"collect"</code>, <code>"wait"</code>, <code>"submit"</code>, or <code>"none"</code>.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>A list with three logical scalars.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This is a helper function that returns a list with three logical values:
+<code>wait</code>, <code>collect</code>, and <code>submit</code>. There are four possible cases:</p><ul>
+<li><p><code>plan == "collect"</code>, then all three are <code>TRUE</code>.</p></li>
+<li><p><code>plan == "wait"</code>, then all but <code>collect</code> are <code>TRUE</code>.</p></li>
+<li><p><code>plan == "submit"</code> then only <code>submit</code> equals <code>TRUE</code>.</p></li>
+<li><p><code>plan == "none"</code> then all three are <code>FALSE</code>.</p></li>
+</ul>
+    <p>In general, bot <code>wait</code> and <code>submit</code> will be passed to <a href='sbatch.html'>sbatch</a>.</p>
+<p>When <code>collect == TRUE</code>, then it usually means that the function will be calling
+<a href='Slurm_collect.html'>Slurm_collect</a> right after submitting the job via <a href='sbatch.html'>sbatch</a>.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>This is used in <a href='Slurm_lapply.html'>apply functions</a> and in <a href='Slurm_EvalQ.html'>Slurm_EvalQ</a>.</p></div>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>the_plan</span>(<span class='st'>"none"</span>)</div><div class='output co'>#&gt; $collect
+#&gt; [1] FALSE
+#&gt; 
+#&gt; $wait
+#&gt; [1] FALSE
+#&gt; 
+#&gt; $submit
+#&gt; [1] FALSE
+#&gt; </div><div class='input'><span class='co'># $collect</span>
+<span class='co'># [1] FALSE</span>
+<span class='co'>#</span>
+<span class='co'># $wait</span>
+<span class='co'># [1] FALSE</span>
+<span class='co'>#</span>
+<span class='co'># $submit</span>
+<span class='co'># [1] FALSE</span>
+
+<span class='fu'>the_plan</span>(<span class='st'>"wait"</span>)</div><div class='output co'>#&gt; $collect
+#&gt; [1] FALSE
+#&gt; 
+#&gt; $wait
+#&gt; [1] TRUE
+#&gt; 
+#&gt; $submit
+#&gt; [1] TRUE
+#&gt; </div><div class='input'># $collect
+# [1] FALSE
+#
+# $wait
+# [1] TRUE
+#
+# $submit
+# [1] TRUE
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

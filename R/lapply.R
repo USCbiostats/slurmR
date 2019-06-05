@@ -4,6 +4,7 @@
 #' @template slurm
 #' @references Job Array Support https://slurm.schedmd.com/job_array.html
 #' @export
+#' @seealso For resubmitting a job, see the example in [sbatch].
 #' @examples
 #' \dontrun{
 #'   # A job drawing 1e6 uniforms on 10 jobs (array)

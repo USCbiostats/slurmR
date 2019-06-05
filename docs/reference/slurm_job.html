@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Creating Slurm jobs — slurm_job • sluRm</title>
+<title>Creating Slurm jobs — last_job • sluRm</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="Creating Slurm jobs — slurm_job" />
+<meta property="og:title" content="Creating Slurm jobs — last_job" />
 
 <meta property="og:description" content="This function is intended to be used internally." />
 
@@ -119,7 +119,9 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>new_slurm_job</span>(<span class='no'>call</span>, <span class='no'>rscript</span>, <span class='no'>bashfile</span>, <span class='no'>robjects</span>, <span class='no'>njobs</span>, <span class='no'>job_opts</span>,
+    <pre class="usage"><span class='fu'>last_job</span>()
+
+<span class='fu'>new_slurm_job</span>(<span class='no'>call</span>, <span class='no'>rscript</span>, <span class='no'>bashfile</span>, <span class='no'>robjects</span>, <span class='no'>njobs</span>, <span class='no'>job_opts</span>,
   <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S3 method for slurm_job</span>

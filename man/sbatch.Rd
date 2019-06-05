@@ -16,7 +16,7 @@
 \alias{sacct.default}
 \alias{sacct.slurm_job}
 \alias{slurm.conf}
-\title{R wrappers for ommands included in \emph{Slurm}}
+\title{R wrappers for \emph{Slurm} commands}
 \usage{
 slurm_available()
 
@@ -61,7 +61,7 @@ flag to \code{Slurm} and set \code{wait = TRUE} in the \link{system2} call.}
 to the command line function \code{sacct}.}
 }
 \description{
-R wrappers for ommands included in \emph{Slurm}
+R wrappers for \emph{Slurm} commands
 }
 \details{
 The function \code{slurm_available} checks whether Slurm is available in
@@ -94,6 +94,23 @@ job <- Slurm_lapply(1:1000, function(i) runif(100), njobs = 2, plan = "collect")
 
 # Post collection analysis
 state(last_job())
+}
+\dontrun{
+# Submitting a simple job
+job <- Slurm_EvalQ(sluRm::WhoAmI(), njobs = 4L, plan = "submit")
+
+# Checking the status of the job (we can simply print)
+job
+state(job) # or use the state function
+sacct(job) # or get more info with the sactt wrapper.
+
+# Suppose one of the jobs is taking too long to complete (say #4)
+# we can stop it and resubmit the job as follows:
+scancel(job)
+
+# Resubmitting only 4
+sbatch(job, array = 4) # A new jobid will be assigned
+
 }
 
 \dontrun{

@@ -85,3 +85,6 @@ The Slurm version of the \code{lapply}  function
 \references{
 Job Array Support https://slurm.schedmd.com/job_array.html
 }
+\seealso{
+For resubmitting a job, see the example in \link{sbatch}.
+}

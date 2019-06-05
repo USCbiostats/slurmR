@@ -115,7 +115,7 @@ last_submitted_job <- function() {
 #' @rdname slurm_job
 last_job <- last_submitted_job
 
-#' R wrappers for ommands included in *Slurm*
+#' R wrappers for *Slurm* commands
 #'
 #' @param x Either an object of class `slurm_job`, or, in some cases, an
 #' integer as a Slurm jobid. Note that some functions allow passing no arguments.
@@ -141,11 +141,34 @@ hline <- function(..., sep="\n") {
 
 #' @export
 #' @rdname sbatch
+#' @examples
+#' \dontrun{
+#' # Submitting a simple job
+#' job <- Slurm_EvalQ(sluRm::WhoAmI(), njobs = 4L, plan = "submit")
+#'
+#' # Checking the status of the job (we can simply print)
+#' job
+#' state(job) # or use the state function
+#' sacct(job) # or get more info with the sactt wrapper.
+#'
+#' # Suppose one of the jobs is taking too long to complete (say #4)
+#' # we can stop it and resubmit the job as follows:
+#' scancel(job)
+#'
+#' # Resubmitting only 4
+#' sbatch(job, array = 4) # A new jobid will be assigned
+#'
+#' }
 sbatch.slurm_job <- function(x, wait = TRUE, submit = TRUE, ...) {
 
-  # Checking the status of the job
-  if (!is.na(x$jobid) && squeue(x$jobid))
-      stop("Job ", x$jobid," is already running.")
+  # Checking the status of the job. If the job exists and it is completed,
+  # then we can resubmit, otherwise, the user must actively cancell it
+  if (!is.na(x$jobid) && state(x$jobid))
+      stop(
+        "Job ", x$jobid," is already running. If you wish to resubmit, ",
+        "you first need to cancel the job by calling `scancel()`.",
+        call. = FALSE
+        )
 
   # Preparing options
   option <- x$bashfile
@@ -347,7 +370,6 @@ sacct.default <- function(x, brief=TRUE, parsable = TRUE, ...) {
     as.data.frame(ans[-1,], stringsAsFactors=FALSE),
     names = ans[1,]
   )
-
 
 }
 

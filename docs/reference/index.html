@@ -181,9 +181,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="sbatch.html">sbatch()</a></code> <code><a href="sbatch.html">squeue()</a></code> <code><a href="sbatch.html">scancel()</a></code> <code><a href="sbatch.html">sacct()</a></code> </p>
+          <p><code><a href="sbatch.html">slurm_available()</a></code> <code><a href="sbatch.html">last_submitted_job()</a></code> <code><a href="sbatch.html">sbatch()</a></code> <code><a href="sbatch.html">squeue()</a></code> <code><a href="sbatch.html">scancel()</a></code> <code><a href="sbatch.html">sacct()</a></code> <code><a href="sbatch.html">slurm.conf()</a></code> </p>
         </td>
-        <td><p>R wrappers for ommands included in <strong>Slurm</strong></p></td>
+        <td><p>R wrappers for <em>Slurm</em> commands</p></td>
       </tr><tr>
         
         <td>
@@ -193,13 +193,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="slurm_available.html">slurm_available()</a></code> </p>
-        </td>
-        <td><p>Check whether Slurm is available in the system</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="slurm_job.html">new_slurm_job()</a></code> <code><a href="slurm_job.html">print(<i>&lt;slurm_job&gt;</i>)</a></code> <code><a href="slurm_job.html">read_slurm_job()</a></code> <code><a href="slurm_job.html">write_slurm_job()</a></code> </p>
+          <p><code><a href="slurm_job.html">last_job()</a></code> <code><a href="slurm_job.html">new_slurm_job()</a></code> <code><a href="slurm_job.html">print(<i>&lt;slurm_job&gt;</i>)</a></code> <code><a href="slurm_job.html">read_slurm_job()</a></code> <code><a href="slurm_job.html">write_slurm_job()</a></code> </p>
         </td>
         <td><p>Creating Slurm jobs</p></td>
       </tr><tr>
@@ -214,6 +208,12 @@
           <p><code><a href="state.html">state()</a></code> <code><a href="state.html">JOB_STATE_CODES</a></code> </p>
         </td>
         <td><p>Check the State (status) of a Slurm JOB</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="the_plan.html">the_plan()</a></code> </p>
+        </td>
+        <td><p>Check for possible actions for a <code>slurm_job</code> wrapper</p></td>
       </tr>
     </tbody>
     </table>

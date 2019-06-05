@@ -45,7 +45,7 @@ And the development version from [GitHub](https://github.com/) with:
 devtools::install_github("USCbiostats/sluRm")
 ```
 
-## Examples
+## Example 1: Computing means (and looking under the hood)
 
 ```{r simple-example}
 library(sluRm)
@@ -70,6 +70,26 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 Slurm_clean(ans) # Cleaning after you
 ```
 
+## Example 2: Job resubmission
+
+The following example from the package's manual.
+
+```r
+# Submitting a simple job
+job <- Slurm_EvalQ(sluRm::WhoAmI(), njobs = 4L, plan = "submit")
+
+# Checking the status of the job (we can simply print)
+job
+state(job) # or use the state function
+sacct(job) # or get more info with the sactt wrapper.
+
+# Suppose one of the jobs is taking too long to complete (say #4)
+# we can stop it and resubmit the job as follows:
+scancel(job)
+
+# Resubmitting only 4
+sbatch(job, array = 4) # A new jobid will be assigned
+```
 
 Take a look at the vignette [here](vignettes/getting-started.Rmd).
 
@@ -106,7 +126,7 @@ There are several ways to enhance R for HPC. Depending on what are your goals/re
 	</tr>
 	<tr>
 		<td height="36" align="left" valign="middle" bgcolor="#CCCCCC"><b>sluRm</b></td>
-		<td align="center" valign="middle" bgcolor="#CCCCCC">no (yet)</td>
+		<td align="center" valign="middle" bgcolor="#CCCCCC">yes</td>
 		<td align="center" valign="middle" bgcolor="#CCCCCC">yes</td>
 		<td align="center" valign="middle" bgcolor="#CCCCCC">on the fly</td>
 		<td align="center" valign="middle" bgcolor="#CCCCCC">calls</td>

@@ -35,8 +35,7 @@ Slurm_lapply <- function(
   mc.cores    = getOption("mc.cores", 2L),
   job_name    = opts_sluRm$get_job_name(),
   job_path    = opts_sluRm$get_chdir(),
-  submit      = TRUE,
-  wait        = TRUE,
+  plan        = "collect",
   sbatch_opt  = list(ntasks=1L, `cpus-per-task`=mc.cores),
   rscript_opt = list(vanilla=TRUE),
   seeds       = 1L:njobs,
@@ -45,6 +44,9 @@ Slurm_lapply <- function(
   libPaths    = .libPaths(),
   hooks       = NULL
   ) {
+
+  # Figuring out what are we doing.
+  plan <- the_plan(plan)
 
   # Checks
   if (!is.function(FUN))
@@ -140,7 +142,9 @@ Slurm_lapply <- function(
     hooks    = hooks
   )
 
-
-  return(sbatch(ans, wait = wait, submit = submit))
+  if (plan$collect)
+    return(Slurm_collect(sbatch(ans, wait = plan$wait, submit = plan$submit)))
+  else
+    return(sbatch(ans, wait = plan$wait, submit = plan$submit))
 
 }

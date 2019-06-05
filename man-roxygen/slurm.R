@@ -1,8 +1,7 @@
 #' @param job_name Character. Name of the job to be passed to `Slurm`.
 #' @param job_path Character. Path to the directory where all the data (including
 #' scripts) will be stored (See [opts_sluRm]).
-#' @param wait Logical scalar. When `TRUE` waits for the output to return.
-#' (see [sbatch]).
+#' @param plan A character scalar. (See [the_plan]).
 #' @param njobs Integer. Number of jobs to specity.
 #' @param sbatch_opt,rscript_opt List. Options to be passed via flags to
 #' the bash file as `#SBATCH` and to `Rscript` respectively.
@@ -12,7 +11,6 @@
 #' @param seeds Integer vector of length `njobs`. Seeds to be passed to each
 #' job.
 #' @param export A named list with objects to be included in the Spawned sessions.
-#' @param submit Logical, when `TRUE` calls [sbatch] to submit the job to slurm.
 #' @param libPaths A character vector. See [.libPaths].
 #' @param hooks A list of functions (passed to [new_slurm_job]).
 #'

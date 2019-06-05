@@ -13,7 +13,8 @@ test_that("Works in debug mode", {
 
   b <- list(1:5, 1:10)
 
-  ans <- suppressMessages(suppressWarnings(Slurm_lapply(b, mean, njobs=2, mc.cores = 1L)))
+  ans <- suppressMessages(suppressWarnings(
+    Slurm_lapply(b, mean, njobs=2, mc.cores = 1L, plan = "wait")))
   sol <- Slurm_collect(ans)
 
   expect_equal(sol[[1]], 3)
@@ -36,7 +37,8 @@ test_that("Exporting", {
   mymean <- function(x) sum(x)/length(x)
 
   ans <- suppressMessages(suppressWarnings(
-    Slurm_lapply(b, function(z) mymean(z), njobs=2, mc.cores = 1L, export="mymean")
+    Slurm_lapply(b, function(z) mymean(z), njobs=2, mc.cores = 1L, export="mymean",
+                 plan = "wait")
     )
     )
   sol <- Slurm_collect(ans)

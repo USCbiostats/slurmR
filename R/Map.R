@@ -1,3 +1,36 @@
+verify_lengths <- function(env, nam) {
+
+  # Is there anything we should be doing?
+  if (length(env[[nam]]) == 1)
+    return(invisible())
+
+  # Yes, we need to work on it
+  idx <- seq_along(env[[nam]])
+  idx <- idx[order(-sapply(env[[nam]], length))]
+
+  # First default length
+  curlength <- length(env[[nam]][[idx[1]]])
+
+  for (i in idx[-1]) {
+
+    len <- length(env[[nam]][[i]])
+    if (len == 1) {
+
+      # If it is atomic
+      if (is.atomic(env[[nam]][[i]]))
+        env[[nam]][[i]] <- rep_len(env[[nam]][[i]], curlength)
+      else
+        env[[nam]][[i]] <- replicate(curlength, env[[nam]][[i]], simplify=FALSE)
+
+    } else if (len != curlength)
+      stop("Arguments passed via `...` differ in lengths.", call. = FALSE)
+
+  }
+
+  return()
+
+}
+
 #' @export
 #' @rdname Slurm_lapply
 Slurm_Map <- function(
@@ -7,8 +40,7 @@ Slurm_Map <- function(
   mc.cores    = getOption("mc.cores", 2L),
   job_name    = opts_sluRm$get_job_name(),
   job_path    = opts_sluRm$get_chdir(),
-  submit      = TRUE,
-  wait        = TRUE,
+  plan        = "collect",
   sbatch_opt  = list(ntasks=1L, `cpus-per-task`=mc.cores),
   rscript_opt = list(vanilla=TRUE),
   seeds       = 1L:njobs,
@@ -17,6 +49,9 @@ Slurm_Map <- function(
   libPaths    = .libPaths(),
   hooks       = NULL
   ) {
+
+  # Figuring out the plan
+  plan <- the_plan(plan)
 
   # Checks
   if (!is.function(f))
@@ -82,7 +117,6 @@ Slurm_Map <- function(
   rscript$finalize("ans", compress = compress)
   rscript$write()
 
-
   # Writing the bash script out ------------------------------------------------
   bash <- new_bash(njobs = njobs)
 
@@ -107,39 +141,10 @@ Slurm_Map <- function(
     hooks    = hooks
   )
 
-  return(sbatch(ans, wait = wait, submit = submit))
+  if (plan$collect)
+    return(Slurm_collect(sbatch(ans, wait = plan$submit, submit = plan$submit)))
+  else
+    return(sbatch(ans, wait = plan$submit, submit = plan$submit))
 
 }
 
-verify_lengths <- function(env, nam) {
-
-  # Is there anything we should be doing?
-  if (length(env[[nam]]) == 1)
-    return(invisible())
-
-  # Yes, we need to work on it
-  idx <- seq_along(env[[nam]])
-  idx <- idx[order(-sapply(env[[nam]], length))]
-
-  # First default length
-  curlength <- length(env[[nam]][[idx[1]]])
-
-  for (i in idx[-1]) {
-
-    len <- length(env[[nam]][[i]])
-    if (len == 1) {
-
-      # If it is atomic
-      if (is.atomic(env[[nam]][[i]]))
-        env[[nam]][[i]] <- rep_len(env[[nam]][[i]], curlength)
-      else
-        env[[nam]][[i]] <- replicate(curlength, env[[nam]][[i]], simplify=FALSE)
-
-    } else if (len != curlength)
-      stop("Arguments passed via `...` differ in lengths.", call. = FALSE)
-
-  }
-
-  return()
-
-}

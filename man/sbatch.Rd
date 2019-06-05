@@ -11,7 +11,7 @@
 \alias{sacct}
 \alias{sacct.slurm_job}
 \alias{sacct.default}
-\title{R wrappers for ommands included in \strong{Slurm}}
+\title{R wrappers for ommands included in \emph{Slurm}}
 \usage{
 sbatch(x, wait = TRUE, submit = TRUE, ...)
 
@@ -45,7 +45,7 @@ flag to \code{Slurm} and set \code{wait = TRUE} in the \link{system2} call.}
 to the command line function \code{sacct}.}
 }
 \description{
-R wrappers for ommands included in \strong{Slurm}
+R wrappers for ommands included in \emph{Slurm}
 }
 \details{
 In the case of \code{sbatch}, function takes an object of class \code{slurm_job} and

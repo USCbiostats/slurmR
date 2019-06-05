@@ -58,15 +58,15 @@ x <- replicate(100, runif(50), simplify = FALSE)
 We can use the function `Slurm_lapply` to distribute computations
 
 ```{r example1}
-ans <- Slurm_lapply(x, mean, submit = FALSE)
+ans <- Slurm_lapply(x, mean, plan = "none")
 Slurm_clean(ans) # Cleaning after you
 ```
 
-Notice the `submit = FALSE` option. To get more info, we can actually set the verbose mode on
+Notice the `plan = "none"` option, this tells `Slurm_lapply` to only create the job object, but do nothing with it, i.e., skip submission. To get more info, we can actually set the verbose mode on
 
 ```{r example1-with-verb}
 opts_sluRm$verbose_on()
-ans <- Slurm_lapply(x, mean, submit = FALSE)
+ans <- Slurm_lapply(x, mean, plan = "none")
 Slurm_clean(ans) # Cleaning after you
 ```
 

@@ -4,7 +4,7 @@ test_that("Utility functions work", {
 
   tmp <- tempdir()
   x   <- suppressWarnings(
-    Slurm_EvalQ(print("Hello"), submit = FALSE, job_path = tmp)
+    Slurm_EvalQ(print("Hello"), plan = "none", job_path = tmp)
     )
 
   expect_true(dir.exists(paste0(tmp, "/", x$job_opts$`job-name`)))

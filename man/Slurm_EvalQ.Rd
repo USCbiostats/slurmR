@@ -5,9 +5,9 @@
 \title{Submit an expression to be evaluated to multiple jobs.}
 \usage{
 Slurm_EvalQ(expr, njobs = 2L, job_name = opts_sluRm$get_job_name(),
-  job_path = opts_sluRm$get_chdir(), submit = TRUE, wait = TRUE,
+  job_path = opts_sluRm$get_chdir(), plan = "collect",
   sbatch_opt = list(ntasks = 1L), rscript_opt = list(vanilla = TRUE),
-  seeds = 1L:njobs, compress = TRUE, export = NULL, collect = TRUE,
+  seeds = 1L:njobs, compress = TRUE, export = NULL,
   libPaths = .libPaths(), hooks = NULL)
 }
 \arguments{
@@ -20,10 +20,7 @@ Slurm_EvalQ(expr, njobs = 2L, job_name = opts_sluRm$get_job_name(),
 \item{job_path}{Character. Path to the directory where all the data (including
 scripts) will be stored (See \link{opts_sluRm}).}
 
-\item{submit}{Logical, when \code{TRUE} calls \link{sbatch} to submit the job to slurm.}
-
-\item{wait}{Logical scalar. When \code{TRUE} waits for the output to return.
-(see \link{sbatch}).}
+\item{plan}{A character scalar. (See \link{the_plan}).}
 
 \item{sbatch_opt, rscript_opt}{List. Options to be passed via flags to
 the bash file as \code{#SBATCH} and to \code{Rscript} respectively.}
@@ -36,10 +33,6 @@ this value to \code{FALSE} can be useful when the user requires faster read/writ
 of R objects on disk.}
 
 \item{export}{A named list with objects to be included in the Spawned sessions.}
-
-\item{collect}{Logical, when \code{TRUE}, if \code{submit = TRUE} and \code{wait = TRUE},
-the results are collected right away, otherwise, an object of class \link{slurm_job}
-is returned.}
 
 \item{libPaths}{A character vector. See \link{.libPaths}.}
 

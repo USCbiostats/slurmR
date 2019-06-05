@@ -8,7 +8,7 @@
 \usage{
 Slurm_Map(f, ..., njobs = 2L, mc.cores = getOption("mc.cores", 2L),
   job_name = opts_sluRm$get_job_name(),
-  job_path = opts_sluRm$get_chdir(), submit = TRUE, wait = TRUE,
+  job_path = opts_sluRm$get_chdir(), plan = "collect",
   sbatch_opt = list(ntasks = 1L, `cpus-per-task` = mc.cores),
   rscript_opt = list(vanilla = TRUE), seeds = 1L:njobs,
   compress = TRUE, export = NULL, libPaths = .libPaths(),
@@ -16,7 +16,7 @@ Slurm_Map(f, ..., njobs = 2L, mc.cores = getOption("mc.cores", 2L),
 
 Slurm_lapply(X, FUN, ..., njobs = 2L, mc.cores = getOption("mc.cores",
   2L), job_name = opts_sluRm$get_job_name(),
-  job_path = opts_sluRm$get_chdir(), submit = TRUE, wait = TRUE,
+  job_path = opts_sluRm$get_chdir(), plan = "collect",
   sbatch_opt = list(ntasks = 1L, `cpus-per-task` = mc.cores),
   rscript_opt = list(vanilla = TRUE), seeds = 1L:njobs,
   compress = TRUE, export = NULL, libPaths = .libPaths(),
@@ -32,10 +32,7 @@ Slurm_sapply(X, FUN, ..., simplify = TRUE)
 \item{job_path}{Character. Path to the directory where all the data (including
 scripts) will be stored (See \link{opts_sluRm}).}
 
-\item{submit}{Logical, when \code{TRUE} calls \link{sbatch} to submit the job to slurm.}
-
-\item{wait}{Logical scalar. When \code{TRUE} waits for the output to return.
-(see \link{sbatch}).}
+\item{plan}{A character scalar. (See \link{the_plan}).}
 
 \item{sbatch_opt, rscript_opt}{List. Options to be passed via flags to
 the bash file as \code{#SBATCH} and to \code{Rscript} respectively.}

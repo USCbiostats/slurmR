@@ -50,8 +50,13 @@ silent_system2 <- function(...) {
 
 }
 
+which_submit <- function(job, what) {
 
-#' R wrappers for ommands included in **Slurm**
+  state(job)
+
+}
+
+#' R wrappers for ommands included in *Slurm*
 #'
 #' @param x An object of class `slurm_job`.
 #' @param wait Logical scalar. When `TRUE` the function will pass the `--wait`

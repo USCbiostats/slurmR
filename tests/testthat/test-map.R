@@ -15,7 +15,8 @@ test_that("Works in debug mode", {
   a <- list(USArrests, USAccDeaths)
 
   ans <- suppressMessages(suppressWarnings(
-    Slurm_Map(function(x,y) list(x=x, y=y), njobs=2, mc.cores = 1L, x=a, y=b))
+    Slurm_Map(function(x,y) list(x=x, y=y), njobs=2, mc.cores = 1L, x=a, y=b,
+              plan = "wait"))
     )
   sol <- Slurm_collect(ans)
 
@@ -41,7 +42,7 @@ test_that("Exporting", {
 
   ans <- suppressMessages(suppressWarnings(
     Slurm_Map(function(x,y) list(x=x, y=y), njobs=2, mc.cores = 1L, x=a, y=b,
-              export = "myf")
+              export = "myf", plan = "wait")
     )
     )
   sol <- Slurm_collect(ans)

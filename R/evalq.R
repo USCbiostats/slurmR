@@ -1,8 +1,5 @@
 #' Submit an expression to be evaluated to multiple jobs.
 #' @param expr An expression to be passed to Slurm.
-#' @param collect Logical, when `TRUE`, if `submit = TRUE` and `wait = TRUE`,
-#' the results are collected right away, otherwise, an object of class [slurm_job]
-#' is returned.
 #' @template slurm
 #' @export
 Slurm_EvalQ <- function(
@@ -10,17 +7,18 @@ Slurm_EvalQ <- function(
   njobs       = 2L,
   job_name    = opts_sluRm$get_job_name(),
   job_path    = opts_sluRm$get_chdir(),
-  submit      = TRUE,
-  wait        = TRUE,
+  plan        = "collect",
   sbatch_opt  = list(ntasks=1L),
   rscript_opt = list(vanilla=TRUE),
   seeds       = 1L:njobs,
   compress    = TRUE,
   export      = NULL,
-  collect     = TRUE,
   libPaths    = .libPaths(),
   hooks       = NULL
 ) {
+
+  # Figuring out what are we doing.
+  plan <- the_plan(plan)
 
   # Setting the job name
   opts_sluRm$set_chdir(job_path)
@@ -73,9 +71,9 @@ Slurm_EvalQ <- function(
     hooks    = hooks
   )
 
-  if (collect && submit)
-    Slurm_collect(sbatch(ans, wait = wait, submit = submit))
+  if (plan$collect)
+    return(Slurm_collect(sbatch(ans, wait = plan$wait, submit = plan$submit)))
   else
-    sbatch(ans, wait = wait, submit = submit)
+    return(sbatch(ans, wait = plan$wait, submit = plan$submit))
 
 }

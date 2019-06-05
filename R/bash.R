@@ -131,7 +131,7 @@ last_job <- last_submitted_job
 #'
 #' @export
 #' @aliases submit
-sbatch <- function(x, wait = TRUE, submit = TRUE, ...) UseMethod("sbatch")
+sbatch <- function(x, wait = FALSE, submit = TRUE, ...) UseMethod("sbatch")
 
 hline <- function(..., sep="\n") {
   cat("\n",rep("-", options("width")), "\n",sep="")
@@ -159,11 +159,11 @@ hline <- function(..., sep="\n") {
 #' sbatch(job, array = 4) # A new jobid will be assigned
 #'
 #' }
-sbatch.slurm_job <- function(x, wait = TRUE, submit = TRUE, ...) {
+sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
 
   # Checking the status of the job. If the job exists and it is completed,
   # then we can resubmit, otherwise, the user must actively cancell it
-  if (!is.na(x$jobid) && state(x$jobid))
+  if (!is.na(x$jobid) && (state(x$jobid) == 1L))
       stop(
         "Job ", x$jobid," is already running. If you wish to resubmit, ",
         "you first need to cancel the job by calling `scancel()`.",
@@ -318,11 +318,11 @@ squeue.slurm_job <- function(x, ...) {
 
 #' @export
 #' @rdname sbatch
-scancel <- function(x, ...) UseMethod("scancel")
+scancel <- function(x = NULL, ...) UseMethod("scancel")
 
 #' @export
 #' @rdname sbatch
-scancel.default <- function(x, ...) {
+scancel.default <- function(x = NULL, ...) {
 
   # Checking for slurm, and if passes, if it started
   stopifnot_slurm()
@@ -338,7 +338,7 @@ scancel.default <- function(x, ...) {
 
 #' @export
 #' @rdname sbatch
-scancel.slurm_job <- function(x, ...) {
+scancel.slurm_job <- function(x = NULL, ...) {
 
   stopifnot_submitted(x$jobid)
   scancel.default(x$jobid, ...)

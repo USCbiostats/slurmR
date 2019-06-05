@@ -76,19 +76,25 @@ The following example from the package's manual.
 
 ```r
 # Submitting a simple job
-job <- Slurm_EvalQ(sluRm::WhoAmI(), njobs = 4L, plan = "submit")
+job <- Slurm_EvalQ(sluRm::WhoAmI(), njobs = 20, plan = "submit")
 
 # Checking the status of the job (we can simply print)
 job
 state(job) # or use the state function
 sacct(job) # or get more info with the sactt wrapper.
 
-# Suppose one of the jobs is taking too long to complete (say #4)
+# Suppose some of the jobs are taking too long to complete (say 1, 2, and 15 through 20)
 # we can stop it and resubmit the job as follows:
 scancel(job)
 
-# Resubmitting only 4
-sbatch(job, array = 4) # A new jobid will be assigned
+# Resubmitting only 
+sbatch(job, array = "1,2,15-20") # A new jobid will be assigned
+
+# Once its done, we can collect all the results at once
+res <- Slurm_collect(job)
+
+# And clean up if we don't need to use it again
+Slurm_clean(res)
 ```
 
 Take a look at the vignette [here](vignettes/getting-started.Rmd).

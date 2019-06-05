@@ -134,7 +134,9 @@ state <- function(x) UseMethod("state")
 
 #' @export
 #' @rdname state
-state.slurm_job <- function(x) state.default(x$jobid)
+state.slurm_job <- function(x) {
+  state.default(x$jobid)
+}
 
 #' @export
 #' @rdname state
@@ -153,26 +155,29 @@ state.default <- function(x) {
   wrap <- function(val, S) do.call(structure, c(list(.Data = val), S))
 
   # Checking the data
+  if (is.na(x))
+    return(wrap(-1L, NULL))
+
   dat <- sacct(x)
 
   if (!nrow(dat))
-    return(wrap(-1, NULL))
+    return(wrap(-1L, NULL))
 
   # How many are done?
   JobID <- dat$JobID
   which_rows <- grepl("^[0-9]+([_][0-9]+)?$", JobID)
   JobID <- JobID[which_rows]
   JobID <- as.integer(gsub(".+[_]", "", JobID))
-  State <- dat$State[which_rows]
+  State <- gsub("\\s+.+", "", dat$State[which_rows])
   njobs <- length(State)
   State <- lapply(JOB_STATE_CODES, function(jsc) JobID[which(State %in% jsc)])
 
   if (length(State$done) == njobs)
-    return(wrap(0, State))
-  else if (length(State$failed) == 0)
-    return(wrap(1, State))
+    return(wrap(0L, State))
+  else if (length(State$failed) == 0L)
+    return(wrap(1L, State))
   else
-    return(wrap(2, State))
+    return(wrap(2L, State))
 
 
 }

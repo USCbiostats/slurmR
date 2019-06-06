@@ -5,6 +5,7 @@ output: github_document
 [![Travis build status](https://travis-ci.org/USCbiostats/sluRm.svg?branch=master)](https://travis-ci.org/USCbiostats/sluRm)
 [![codecov](https://codecov.io/gh/USCbiostats/sluRm/branch/master/graph/badge.svg)](https://codecov.io/gh/USCbiostats/sluRm)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![status](http://joss.theoj.org/papers/5e1564ca907e4b47accc722ab2913826/status.svg)](http://joss.theoj.org/papers/5e1564ca907e4b47accc722ab2913826)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 

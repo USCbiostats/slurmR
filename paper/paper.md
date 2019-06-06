@@ -24,7 +24,7 @@ affiliations:
 
 # Summary
 
-Nowadays, high-performance-computing (HPC) clusters are commonly available tools for either **in** or **out** of cloud settings. [Slurm Workload Manager](https://slurm.schedmd.com/) (see @Jette02slurm:simple) is a program written in C that is used to efficiently manage resources in HPC clusters.
+Nowadays, high-performance-computing (HPC) clusters are commonly available tools for either **in** or **out** of cloud settings. [Slurm Workload Manager](https://slurm.schedmd.com/) (see @Jette02slurm) is a program written in C that is used to efficiently manage resources in HPC clusters.
 
 While the R programming language [@R] has not been developed for HPC settings, there are currently several ways in which R can be enhanced by means of HPC. The `sluRm` R package is one of those ways.
 

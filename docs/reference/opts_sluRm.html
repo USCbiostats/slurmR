@@ -131,7 +131,10 @@ defaults that are set and retrieved using <code>opts_sluRm</code>.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Current supported options are:</p>
+    <p>Whatever the path specified on <code>chdir</code>, all nodes should have access to it.
+Moreover, it is recommended to use a path located in a high-performing drive.
+See for example <a href='https://hpcc.usc.edu/support/infrastructure/temporary-disk-space/'>https://hpcc.usc.edu/support/infrastructure/temporary-disk-space/</a>.</p>
+<p>Current supported options are:</p>
 <p>Debuggin mode</p><ul>
 <li><p><code>debug_on : function ()</code> Activates the debugging mode. When active, jobs will be submitted using sh and not sbatch. Also, only a single chunk of the data will be processed.</p></li>
 <li><p><code>debug_off : function ()</code> Deactivates the debugging mode.</p></li>

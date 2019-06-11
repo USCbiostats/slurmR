@@ -1,6 +1,7 @@
 #' @param job_name Character. Name of the job to be passed to `Slurm`.
 #' @param job_path Character. Path to the directory where all the data (including
-#' scripts) will be stored (See [opts_sluRm]).
+#' scripts) will be stored. Notice that this path must be accesible by all the
+#' nodes in the network (See [opts_sluRm]).
 #' @param plan A character scalar. (See [the_plan]).
 #' @param njobs Integer. Number of jobs to specity.
 #' @param sbatch_opt,rscript_opt List. Options to be passed via flags to

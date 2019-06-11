@@ -5,6 +5,10 @@
 #' options to write and submit jobs to **Slurm**. These options have global
 #' defaults that are set and retrieved using `opts_sluRm`.
 #'
+#' Whatever the path specified on `chdir`, all nodes should have access to it.
+#' Moreover, it is recommended to use a path located in a high-performing drive.
+#' See for example \url{https://hpcc.usc.edu/support/infrastructure/temporary-disk-space/}.
+#'
 #' @details Current supported options are:
 #'
 #' Debuggin mode

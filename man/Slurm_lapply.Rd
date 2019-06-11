@@ -30,7 +30,8 @@ Slurm_sapply(X, FUN, ..., simplify = TRUE)
 \item{job_name}{Character. Name of the job to be passed to \code{Slurm}.}
 
 \item{job_path}{Character. Path to the directory where all the data (including
-scripts) will be stored (See \link{opts_sluRm}).}
+scripts) will be stored. Notice that this path must be accesible by all the
+nodes in the network (See \link{opts_sluRm}).}
 
 \item{plan}{A character scalar. (See \link{the_plan}).}
 
@@ -57,6 +58,18 @@ of R objects on disk.}
 }
 \description{
 The Slurm version of the \code{lapply}  function
+}
+\details{
+The function \code{Slurm_lapply} will submit \code{njobs} to the queue and distribute
+\code{X} according to \link[parallel:splitIndices]{parallel::splitIndices}. For example, if \code{X} is list with
+1,000 elements, and \code{njobs = 2}, then \code{Slurm_lapply} will submit 2 jobs with
+500 elements of \code{X} each (2 chunks of data). The same principle applies to
+\code{Slurm_sapply} and \code{Slurm_Map}, this is, the data is splited by chunks so all
+the information is sent at once when the job is submitted.
+
+Just like \link{sapply} is to \link{lapply}, \code{Slurm_sapply} is just a wrapper of
+\code{Slurm_lapply} with an extra argument, \code{simplify}. When \code{TRUE}, once the job
+is collected, the function \link{simplify2array} is called.
 }
 \examples{
 \dontrun{

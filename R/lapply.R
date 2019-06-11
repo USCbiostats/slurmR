@@ -4,6 +4,13 @@
 #' @template slurm
 #' @references Job Array Support https://slurm.schedmd.com/job_array.html
 #' @export
+#' @details The function `Slurm_lapply` will submit `njobs` to the queue and distribute
+#' `X` according to [parallel::splitIndices]. For example, if `X` is list with
+#' 1,000 elements, and `njobs = 2`, then `Slurm_lapply` will submit 2 jobs with
+#' 500 elements of `X` each (2 chunks of data). The same principle applies to
+#' `Slurm_sapply` and `Slurm_Map`, this is, the data is splited by chunks so all
+#' the information is sent at once when the job is submitted.
+#'
 #' @seealso For resubmitting a job, see the example in [sbatch].
 #' @examples
 #' \dontrun{
@@ -61,6 +68,16 @@ Slurm_lapply <- function(
     X <- as.list(X)
   }
 
+  # Checking the lengths
+  if (length(X) < njobs) {
+    warning("The number of jobs is greater than the length of `X`. The ",
+            "`njobs`will be set equal to the length of `X`.", call. = FALSE,
+            immediate. = TRUE)
+
+    njobs <- length(X)
+  }
+
+
   if (length(export) && !is.character(export))
     stop("`export` must be a character vector of object names.",
          call. = FALSE)
@@ -68,6 +85,13 @@ Slurm_lapply <- function(
   # Checking function args
   FUNargs <- names(formals(FUN))
   dots    <- list(...)
+
+  # All arguments in ... must be named
+  dots_names <- names(dots)
+  dots_names <- dots_names[dots_names!=""]
+  if (length(dots_names) != length(dots))
+    stop("One or more arguments in `...` are unnamed. All arguments passed ",
+         "via `...` must be named.", call. = FALSE)
 
   if (length(dots) && length(setdiff(names(dots), FUNargs)))
     stop("Some arguments passed via `...` are not part of `FUN`:\n -",

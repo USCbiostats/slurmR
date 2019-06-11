@@ -3,7 +3,8 @@
 #' @name sluRm
 NULL
 
-#' @importFrom utils sessionInfo str
+#' @importFrom utils sessionInfo str head
+#' @importFrom parallel splitIndices mclapply mcMap
 NULL
 
 .onAttach <- function(libname, pkgname) {

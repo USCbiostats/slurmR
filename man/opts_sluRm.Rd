@@ -14,6 +14,10 @@ options to write and submit jobs to \strong{Slurm}. These options have global
 defaults that are set and retrieved using \code{opts_sluRm}.
 }
 \details{
+Whatever the path specified on \code{chdir}, all nodes should have access to it.
+Moreover, it is recommended to use a path located in a high-performing drive.
+See for example \url{https://hpcc.usc.edu/support/infrastructure/temporary-disk-space/}.
+
 Current supported options are:
 
 Debuggin mode

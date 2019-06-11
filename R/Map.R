@@ -66,8 +66,12 @@ Slurm_Map <- function(
   dots    <- list(...)
 
   # Checking names
-  if (length(FUNargs) != length(names(dots)))
-    stop("All arguments passed via `...` should be named arguments.", call.=FALSE)
+  # All arguments in ... must be named
+  dots_names <- names(dots)
+  dots_names <- dots_names[dots_names!=""]
+  if (length(dots_names) != length(dots))
+    stop("One or more arguments in `...` are unnamed. All arguments passed ",
+         "via `...` must be named.", call. = FALSE)
 
   if (length(dots) && length(setdiff(names(dots), FUNargs)))
     stop("Some arguments passed via `...` are not part of `f`:\n -",
@@ -75,6 +79,16 @@ Slurm_Map <- function(
 
   # Verify lengths and recycle
   verify_lengths(environment(), "dots")
+
+  # Checking the lengths
+  if (length(dots[[1]]) < njobs) {
+    warning("The number of jobs is greater than the length of `",
+            names(dots)[1], "`. The variable `njobs` will be set equal to the ",
+            "length of it.", call. = FALSE,
+            immediate. = TRUE)
+
+    njobs <- length(dots[[1]])
+  }
 
   # Setting the job name
   opts_sluRm$set_chdir(job_path)
@@ -91,7 +105,7 @@ Slurm_Map <- function(
   # Adding readRDS
   rscript$add_rds(list(INDICES = INDICES), split = FALSE, compress = FALSE)
   rscript$add_rds(list(f = f, mc.cores=mc.cores), split = FALSE, compress = compress)
-  rscript$add_rds(list(...), split = TRUE, compress = compress)
+  rscript$add_rds(dots, split = TRUE, compress = compress)
 
   if (length(export))
     rscript$add_rds(mget(export, envir=parent.frame()), split = FALSE, compress = compress)

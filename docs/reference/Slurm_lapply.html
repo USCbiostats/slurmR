@@ -151,7 +151,8 @@
     <tr>
       <th>job_path</th>
       <td><p>Character. Path to the directory where all the data (including
-scripts) will be stored (See <a href='opts_sluRm.html'>opts_sluRm</a>).</p></td>
+scripts) will be stored. Notice that this path must be accesible by all the
+nodes in the network (See <a href='opts_sluRm.html'>opts_sluRm</a>).</p></td>
     </tr>
     <tr>
       <th>plan</th>
@@ -196,6 +197,18 @@ of R objects on disk.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The function <code>Slurm_lapply</code> will submit <code>njobs</code> to the queue and distribute
+<code>X</code> according to <a href='https://www.rdocumentation.org/packages/parallel/topics/splitIndices'>parallel::splitIndices</a>. For example, if <code>X</code> is list with
+1,000 elements, and <code>njobs = 2</code>, then <code>Slurm_lapply</code> will submit 2 jobs with
+500 elements of <code>X</code> each (2 chunks of data). The same principle applies to
+<code>Slurm_sapply</code> and <code>Slurm_Map</code>, this is, the data is splited by chunks so all
+the information is sent at once when the job is submitted.</p>
+<p>Just like <a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply</a> is to <a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a>, <code>Slurm_sapply</code> is just a wrapper of
+<code>Slurm_lapply</code> with an extra argument, <code>simplify</code>. When <code>TRUE</code>, once the job
+is collected, the function <a href='https://www.rdocumentation.org/packages/base/topics/lapply'>simplify2array</a> is called.</p>
+    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Job Array Support https://slurm.schedmd.com/job_array.html</p>
@@ -234,6 +247,8 @@ of R objects on disk.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>

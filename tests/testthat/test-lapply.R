@@ -46,3 +46,18 @@ test_that("Exporting", {
   expect_equal(sol[[1]], mean(b[[1]]))
 
 })
+
+test_that("Warnings and errors", {
+
+  x <- tempdir()
+  suppressMessages({
+    opts_sluRm$set_chdir(x)
+    opts_sluRm$set_job_name("lapply-warns-and-errors")
+    opts_sluRm$debug_on()
+    opts_sluRm$verbose_off()
+  })
+
+  expect_warning(Slurm_lapply(list(1), mean, njobs = 2, plan = "none"), "length")
+  expect_error(Slurm_lapply(list(1), mean, njobs = 1, 4, plan = "none"), "unname")
+
+})

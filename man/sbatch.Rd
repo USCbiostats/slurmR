@@ -22,9 +22,9 @@ slurm_available()
 
 last_submitted_job()
 
-sbatch(x, wait = TRUE, submit = TRUE, ...)
+sbatch(x, wait = FALSE, submit = TRUE, ...)
 
-\method{sbatch}{slurm_job}(x, wait = TRUE, submit = TRUE, ...)
+\method{sbatch}{slurm_job}(x, wait = FALSE, submit = TRUE, ...)
 
 squeue(x = NULL, ...)
 
@@ -32,11 +32,11 @@ squeue(x = NULL, ...)
 
 \method{squeue}{slurm_job}(x, ...)
 
-scancel(x, ...)
+scancel(x = NULL, ...)
 
-\method{scancel}{default}(x, ...)
+\method{scancel}{default}(x = NULL, ...)
 
-\method{scancel}{slurm_job}(x, ...)
+\method{scancel}{slurm_job}(x = NULL, ...)
 
 sacct(x, ...)
 

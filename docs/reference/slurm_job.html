@@ -121,7 +121,7 @@
 
     <pre class="usage"><span class='fu'>last_job</span>()
 
-<span class='fu'>new_slurm_job</span>(<span class='no'>call</span>, <span class='no'>rscript</span>, <span class='no'>bashfile</span>, <span class='no'>robjects</span>, <span class='no'>njobs</span>, <span class='no'>job_opts</span>,
+<span class='fu'>new_slurm_job</span>(<span class='no'>call</span>, <span class='no'>rscript</span>, <span class='no'>bashfile</span>, <span class='no'>robjects</span>, <span class='no'>njobs</span>, <span class='no'>opts_job</span>, <span class='no'>opts_r</span>,
   <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S3 method for slurm_job</span>
@@ -151,7 +151,7 @@
       <td><p>Integer. Number of jobs to start (array).</p></td>
     </tr>
     <tr>
-      <th>job_opts</th>
+      <th>opts_job</th>
       <td><p>List. Arguments to be passed to <a href='sbatch.html'>sbatch</a>.</p></td>
     </tr>
     <tr>
@@ -182,8 +182,8 @@ or directly to a <code>job.rds</code> file.</p></td>
 <li><p><code>bashfile</code> The full path to the bash file to be executed by <a href='sbatch.html'>sbatch</a>.</p></li>
 <li><p><code>robjects</code> Ignored.</p></li>
 <li><p><code>njobs</code> The number of jobs to be submitted (job array).</p></li>
-<li><p><code>job_opts</code> A list of options as returned by <a href='opts_sluRm.html'>opts_sluRm</a>$get_opts() at the
-moment of the creation of the <code>slurm_job</code>.</p></li>
+<li><p><code>opts_job</code>,<code>opts_r</code> Two lists of options as returned by <a href='opts_sluRm.html'>opts_sluRm</a>$get_opts_job()
+and opst_sluRm$get_r_opts() at the moment of the creation of the <code>slurm_job</code>.</p></li>
 <li><p><code>hooks</code> A list of functions to be called on the collected objects
 by <a href='Slurm_collect.html'>Slurm_collect</a>.</p></li>
 </ul>

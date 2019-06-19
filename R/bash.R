@@ -174,7 +174,7 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
   option <- x$bashfile
 
   if (!opts_sluRm$get_debug()) {
-    option <- c(parse_flags(c(x$job_opts,...)), option)
+    option <- c(parse_flags(c(x$opts_job,...)), option)
   } else {
     option <- c(option, paste(">", snames("out"), ifelse(wait, "", "&")))
   }
@@ -233,10 +233,10 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
   if (wait) {
 
     ans <- sbatch_dummy(
-      `job-name` = paste0(x$job_opts$`job-name`, "-dummy"),
+      `job-name` = paste0(x$opts_job$`job-name`, "-dummy"),
       dependency = paste0("afterany:", x$jobid),
-      partition  = x$job_opts$partition,
-      account    = x$job_opts$account
+      partition  = x$opts_job$partition,
+      account    = x$opts_job$account
       )
     check_error("srun", ans)
 

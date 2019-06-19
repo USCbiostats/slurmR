@@ -11,7 +11,7 @@
 \usage{
 last_job()
 
-new_slurm_job(call, rscript, bashfile, robjects, njobs, job_opts,
+new_slurm_job(call, rscript, bashfile, robjects, njobs, opts_job, opts_r,
   hooks = NULL)
 
 \method{print}{slurm_job}(x, ...)
@@ -29,7 +29,7 @@ write_slurm_job(x, path = NULL)
 
 \item{njobs}{Integer. Number of jobs to start (array).}
 
-\item{job_opts}{List. Arguments to be passed to \link{sbatch}.}
+\item{opts_job}{List. Arguments to be passed to \link{sbatch}.}
 
 \item{hooks}{List of functions. To be called on the collected results after
 it finalizes.}
@@ -49,8 +49,8 @@ An environment of class \code{slurm_job}. This has the following items:
 \item \code{bashfile} The full path to the bash file to be executed by \link{sbatch}.
 \item \code{robjects} Ignored.
 \item \code{njobs} The number of jobs to be submitted (job array).
-\item \code{job_opts} A list of options as returned by \link{opts_sluRm}$get_opts() at the
-moment of the creation of the \code{slurm_job}.
+\item \code{opts_job},\code{opts_r} Two lists of options as returned by \link{opts_sluRm}$get_opts_job()
+and \link{opst_sluRm}$get_r_opts() at the moment of the creation of the \code{slurm_job}.
 \item \code{hooks} A list of functions to be called on the collected objects
 by \link{Slurm_collect}.
 }

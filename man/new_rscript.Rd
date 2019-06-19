@@ -26,7 +26,7 @@ during the job, which is accessed according to \code{INDICES[[ARRAY_ID]]}. The
 option \code{compress} is passed to \link{saveRDS}.
 
 One important side effect is that when this function is called, the object
-will be saved in the current job directory, this is \code{opts_sluRm$get_chdir()}.
+will be saved in the current job directory, this is \code{opts_sluRm$get_tmp_path()}.
 \item \code{append} Adds a line to the R script. Its only argument, \code{x} is a character
 vector that will be added to the R script.
 \item \code{rscript} A character vector. This is the actual R script that will be written

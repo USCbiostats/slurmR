@@ -12,16 +12,16 @@ Slurm_collect.slurm_job <- function(x, any = TRUE, ...) {
 
   # Making sure the previous setup is kept -------------------------------------
   old_job_name <- opts_sluRm$get_job_name(check = FALSE)
-  old_chdir    <- opts_sluRm$get_chdir()
+  old_tmp_path <- opts_sluRm$get_tmp_path()
 
   on.exit({
     opts_sluRm$set_job_name(old_job_name, check = FALSE, overwrite = FALSE)
-    opts_sluRm$set_chdir(old_chdir)
+    opts_sluRm$set_tmp_path(old_tmp_path)
   })
 
   # Setting the job_status -----------------------------------------------------
-  opts_sluRm$set_chdir(x$job_opts$chdir)
-  opts_sluRm$set_job_name(x$job_opts$`job-name`, overwrite = FALSE)
+  opts_sluRm$set_tmp_path(x$opts_r$tmp_path)
+  opts_sluRm$set_job_name(x$opts_job$`job-name`, overwrite = FALSE)
 
   res <- if (!opts_sluRm$get_debug()) {
 

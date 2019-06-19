@@ -8,7 +8,7 @@
 \usage{
 Slurm_Map(f, ..., njobs = 2L, mc.cores = getOption("mc.cores", 2L),
   job_name = opts_sluRm$get_job_name(),
-  job_path = opts_sluRm$get_chdir(), plan = "collect",
+  tmp_path = opts_sluRm$get_tmp_path(), plan = "collect",
   sbatch_opt = list(ntasks = 1L, `cpus-per-task` = mc.cores),
   rscript_opt = list(vanilla = TRUE), seeds = 1L:njobs,
   compress = TRUE, export = NULL, libPaths = .libPaths(),
@@ -16,7 +16,7 @@ Slurm_Map(f, ..., njobs = 2L, mc.cores = getOption("mc.cores", 2L),
 
 Slurm_lapply(X, FUN, ..., njobs = 2L, mc.cores = getOption("mc.cores",
   2L), job_name = opts_sluRm$get_job_name(),
-  job_path = opts_sluRm$get_chdir(), plan = "collect",
+  tmp_path = opts_sluRm$get_tmp_path(), plan = "collect",
   sbatch_opt = list(ntasks = 1L, `cpus-per-task` = mc.cores),
   rscript_opt = list(vanilla = TRUE), seeds = 1L:njobs,
   compress = TRUE, export = NULL, libPaths = .libPaths(),
@@ -29,7 +29,7 @@ Slurm_sapply(X, FUN, ..., simplify = TRUE)
 
 \item{job_name}{Character. Name of the job to be passed to \code{Slurm}.}
 
-\item{job_path}{Character. Path to the directory where all the data (including
+\item{tmp_path}{Character. Path to the directory where all the data (including
 scripts) will be stored. Notice that this path must be accesible by all the
 nodes in the network (See \link{opts_sluRm}).}
 

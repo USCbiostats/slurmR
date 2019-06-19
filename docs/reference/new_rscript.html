@@ -152,7 +152,7 @@ function assumes that the user will be accessing a particular subset of <code>x<
 during the job, which is accessed according to <code>INDICES[[ARRAY_ID]]</code>. The
 option <code>compress</code> is passed to <a href='https://www.rdocumentation.org/packages/base/topics/readRDS'>saveRDS</a>.</p>
 <p>One important side effect is that when this function is called, the object
-will be saved in the current job directory, this is <code>opts_sluRm$get_chdir()</code>.</p></li>
+will be saved in the current job directory, this is <code>opts_sluRm$get_tmp_path()</code>.</p></li>
 <li><p><code>append</code> Adds a line to the R script. Its only argument, <code>x</code> is a character
 vector that will be added to the R script.</p></li>
 <li><p><code>rscript</code> A character vector. This is the actual R script that will be written

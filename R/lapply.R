@@ -42,7 +42,7 @@ Slurm_lapply <- function(
   njobs       = 2L,
   mc.cores    = getOption("mc.cores", 2L),
   job_name    = opts_sluRm$get_job_name(),
-  job_path    = opts_sluRm$get_chdir(),
+  tmp_path    = opts_sluRm$get_tmp_path(),
   plan        = "collect",
   sbatch_opt  = list(ntasks=1L, `cpus-per-task`=mc.cores),
   rscript_opt = list(vanilla=TRUE),
@@ -99,7 +99,7 @@ Slurm_lapply <- function(
 
 
   # Setting the job name
-  opts_sluRm$set_chdir(job_path)
+  opts_sluRm$set_tmp_path(tmp_path)
   opts_sluRm$set_job_name(job_name)
 
   # Splitting the components across the number of jobs. This will be used
@@ -163,7 +163,8 @@ Slurm_lapply <- function(
     bashfile = snames("sh"),
     robjects = NULL,
     njobs    = njobs,
-    job_opts = opts_sluRm$get_opts(),
+    opts_job = opts_sluRm$get_opts_job(),
+    opts_r   = opts_sluRm$get_opts_r(),
     hooks    = hooks
   )
 

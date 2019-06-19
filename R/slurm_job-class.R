@@ -5,7 +5,7 @@
 #' @param call The original call
 #' @param rscript,bashfile The R script and bash file path.
 #' @param robjects A character vector of R objects that will be imported in the job.
-#' @param job_opts List. Arguments to be passed to [sbatch].
+#' @param opts_job List. Arguments to be passed to [sbatch].
 #' @param njobs Integer. Number of jobs to start (array).
 #' @param hooks List of functions. To be called on the collected results after
 #' it finalizes.
@@ -22,8 +22,8 @@ NULL
 #' - `bashfile` The full path to the bash file to be executed by [sbatch].
 #' - `robjects` Ignored.
 #' - `njobs` The number of jobs to be submitted (job array).
-#' - `job_opts` A list of options as returned by [opts_sluRm]$get_opts() at the
-#' moment of the creation of the `slurm_job`.
+#' - `opts_job`,`opts_r` Two lists of options as returned by [opts_sluRm]$get_opts_job()
+#' and [opst_sluRm]$get_r_opts() at the moment of the creation of the `slurm_job`.
 #' - `hooks` A list of functions to be called on the collected objects
 #' by [Slurm_collect].
 #'
@@ -33,7 +33,8 @@ new_slurm_job <- function(
   bashfile,
   robjects,
   njobs,
-  job_opts,
+  opts_job,
+  opts_r,
   hooks = NULL
 ) {
 
@@ -53,7 +54,8 @@ new_slurm_job <- function(
       bashfile = bashfile,
       robjects = NULL,
       njobs    = njobs,
-      job_opts = job_opts,
+      opts_job = opts_job,
+      opts_r   = opts_r,
       jobid    = NA,
       hooks    = hooks
     ),
@@ -82,7 +84,7 @@ print.slurm_job <- function(x, ...) {
   cat("Call:\n", paste(deparse(x$call), collapse="\n"), "\n")
   cat(
     sprintf("job_name : %s\n", x$job_name),
-    sprintf("path     : %s/%s\n", x$job_opts$chdir, x$job_opts$`job-name`),
+    sprintf("tmp_path : %s/%s\n", x$opts_r$tmp_path, x$opts_job$`job-name`),
     sprintf("job ID   : %s\n",
             ifelse(
               is.na(x$jobid),
@@ -155,14 +157,17 @@ write_slurm_job <- function(x, path = NULL) {
 
   # Setting the old ones
   if (is.null(path)) {
-    oldopts <- opts_sluRm$get_opts("chdir", "job-name")
+    oldopts <- c(
+      opts_sluRm$get_opts_job("chdir"),
+      opts_sluRm$get_opts_r("tmp_path")
+    )
     on.exit({
-      opts_sluRm$set_chdir(oldopts$chdir)
+      opts_sluRm$set_tmp_path(oldopts$tmp_path)
       opts_sluRm$set_job_name(oldopts$`job-name`)
       })
 
-    opts_sluRm$set_chdir(x$job_opts$chdir)
-    opts_sluRm$set_job_name(x$job_opts$`job-name`)
+    opts_sluRm$set_tmp_path(x$opts_r$tmp_path)
+    opts_sluRm$set_job_name(x$opts_job$`job-name`)
 
     path <- snames("job")
   }

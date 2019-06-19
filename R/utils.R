@@ -6,7 +6,7 @@ check_path <- function() {
   # Path specification
   path <- sprintf(
     "%s/%s",
-    opts_sluRm$get_chdir(), opts_sluRm$get_job_name()
+    opts_sluRm$get_tmp_path(), opts_sluRm$get_job_name()
     )
 
   # The thing
@@ -72,7 +72,7 @@ parse_flags.list <- function(x, ...) {
 
 #' Full path names for Slurm jobs
 #'
-#' Using [opts_sluRm]`$get_chdir` and [opts_sluRm]`$get_job_name` creates
+#' Using [opts_sluRm]`$get_tmp_path` and [opts_sluRm]`$get_job_name` creates
 #' file names with full path to the objects. This function is intended for
 #' internal use only.
 #'
@@ -105,7 +105,7 @@ snames <- function(type, array_id) {
 
   sprintf(
     "%s/%s/%s",
-    opts_sluRm$get_chdir(),
+    opts_sluRm$get_tmp_path(),
     opts_sluRm$get_job_name(),
     type
   )
@@ -220,7 +220,7 @@ Slurm_clean <- function(x) {
   # Path specification
   path <- sprintf(
     "%s/%s",
-    opts_sluRm$get_chdir(), opts_sluRm$get_job_name()
+    opts_sluRm$get_tmp_path(), opts_sluRm$get_job_name()
   )
 
   if (dir.exists(path))

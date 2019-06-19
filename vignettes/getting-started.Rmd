@@ -96,7 +96,7 @@ Which estiates pi using a single node(computer). However, we can simply exploit 
 library(sluRm)
 
 # Setting required parameters
-opts_sluRm$set_chdir(tempdir())
+opts_sluRm$set_tmp_path(tempdir())
 opts_sluRm$set_job_name("test1")
 
 # Optional parameters are set via set_opts

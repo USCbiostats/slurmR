@@ -5,7 +5,7 @@
 \title{Submit an expression to be evaluated to multiple jobs.}
 \usage{
 Slurm_EvalQ(expr, njobs = 2L, job_name = opts_sluRm$get_job_name(),
-  job_path = opts_sluRm$get_chdir(), plan = "collect",
+  tmp_path = opts_sluRm$get_tmp(), plan = "collect",
   sbatch_opt = list(ntasks = 1L), rscript_opt = list(vanilla = TRUE),
   seeds = 1L:njobs, compress = TRUE, export = NULL,
   libPaths = .libPaths(), hooks = NULL)
@@ -17,7 +17,7 @@ Slurm_EvalQ(expr, njobs = 2L, job_name = opts_sluRm$get_job_name(),
 
 \item{job_name}{Character. Name of the job to be passed to \code{Slurm}.}
 
-\item{job_path}{Character. Path to the directory where all the data (including
+\item{tmp_path}{Character. Path to the directory where all the data (including
 scripts) will be stored. Notice that this path must be accesible by all the
 nodes in the network (See \link{opts_sluRm}).}
 

@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="Get and set default options for <code>sbatch</code> and <code>sluRm</code> internals — opts_sluRm" />
 
-<meta property="og:description" content="Most of the functions in the sluRm package use chdir and job-name
+<meta property="og:description" content="Most of the functions in the sluRm package use tmp_path and job-name
 options to write and submit jobs to Slurm. These options have global
 defaults that are set and retrieved using opts_sluRm." />
 
@@ -117,7 +117,7 @@ defaults that are set and retrieved using opts_sluRm." />
 
     <div class="ref-description">
     
-    <p>Most of the functions in the <code>sluRm</code> package use <code>chdir</code> and <code>job-name</code>
+    <p>Most of the functions in the <code>sluRm</code> package use <code>tmp_path</code> and <code>job-name</code>
 options to write and submit jobs to <strong>Slurm</strong>. These options have global
 defaults that are set and retrieved using <code>opts_sluRm</code>.</p>
     
@@ -127,11 +127,11 @@ defaults that are set and retrieved using <code>opts_sluRm</code>.</p>
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>An object of class <code>opts_sluRm</code> of length 13.</p>
+    <p>An object of class <code>opts_sluRm</code> of length 14.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Whatever the path specified on <code>chdir</code>, all nodes should have access to it.
+    <p>Whatever the path specified on <code>tmp_path</code>, all nodes should have access to it.
 Moreover, it is recommended to use a path located in a high-performing drive.
 See for example <a href='https://hpcc.usc.edu/support/infrastructure/temporary-disk-space/'>https://hpcc.usc.edu/support/infrastructure/temporary-disk-space/</a>.</p>
 <p>Current supported options are:</p>
@@ -146,8 +146,8 @@ See for example <a href='https://hpcc.usc.edu/support/infrastructure/temporary-d
 <li><p><code>get_verbose : function ()</code> Returns TRUE if verbose mode is on.</p></li>
 </ul>
     <p>Slurm options</p><ul>
-<li><p><code>set_chdir : function (path, recursive = TRUE)</code> Retrieves the working directory</p></li>
-<li><p><code>get_chdir : function ()</code></p></li>
+<li><p><code>set_tmp_path : function (path, recursive = TRUE)</code> Sets the tempfile path for I/O</p></li>
+<li><p><code>get_tmp_path : function ()</code> Retrieves tempfile path for I/O</p></li>
 <li><p><code>set_job_name : function (path, check = TRUE, overwrite = TRUE)</code> Changes the job-name. When changing the name of the job the function will check whether the folder chdir/job-name is empty or not. If empty/not created it will create it, otherwise it will delete its contents (if `overwrite = TRUE``, else it will return with an Error).
 .</p></li>
 <li><p><code>get_job_name : function (check = TRUE)</code> Returns the current value of `job-name`.</p></li>
@@ -157,7 +157,8 @@ See for example <a href='https://hpcc.usc.edu/support/infrastructure/temporary-d
 </ul>
     <p>For general set/retrieve options</p><ul>
 <li><p><code>set_opts : function (...)</code> A generic function to set options.</p></li>
-<li><p><code>get_opts : function (...)</code> A generic function to retrieve options.</p></li>
+<li><p><code>get_opts_job : function (...)</code> A generic function to retrieve options for the job (Slurm).</p></li>
+<li><p><code>get_opts_r : function (...)</code> A generic function to retrieve options in R.</p></li>
 </ul>
     
 
@@ -165,7 +166,7 @@ See for example <a href='https://hpcc.usc.edu/support/infrastructure/temporary-d
     <pre class="examples"><div class='input'>
 # Common setup
 </div><span class='co'># NOT RUN {</span>
-<span class='no'>opts_sluRm</span>$<span class='fu'>set_chdir</span>(<span class='st'>"/staging/pdt/vegayon"</span>)
+<span class='no'>opts_sluRm</span>$<span class='fu'>set_tmp_path</span>(<span class='st'>"/staging/pdt/vegayon"</span>)
 <span class='no'>opts_sluRm</span>$<span class='fu'>set_job_name</span>(<span class='st'>"simulations-1"</span>)
 <span class='no'>opts_slurm</span>$<span class='fu'>set_opts</span>(<span class='kw'>partition</span><span class='kw'>=</span><span class='st'>"thomas"</span>, <span class='kw'>account</span><span class='kw'>=</span><span class='st'>"lc_pdt"</span>)
 <span class='co'># }</span><div class='input'>

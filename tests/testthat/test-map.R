@@ -5,7 +5,7 @@ test_that("Works in debug mode", {
   # Setting it up
   x <- tempdir()
   suppressMessages({
-    opts_sluRm$set_chdir(x)
+    opts_sluRm$set_tmp_path(x)
     opts_sluRm$set_job_name("map-1")
     opts_sluRm$debug_on()
     opts_sluRm$verbose_off()
@@ -30,7 +30,7 @@ test_that("Exporting", {
   # Setting it up
   x <- tempdir()
   suppressMessages({
-    opts_sluRm$set_chdir(x)
+    opts_sluRm$set_tmp_path(x)
     opts_sluRm$set_job_name("map-3")
     opts_sluRm$debug_on()
     opts_sluRm$verbose_off()
@@ -56,7 +56,7 @@ test_that("Warnings and errors", {
 
   x <- tempdir()
   suppressMessages({
-    opts_sluRm$set_chdir(x)
+    opts_sluRm$set_tmp_path(x)
     opts_sluRm$set_job_name("map-warns-and-errors")
     opts_sluRm$debug_on()
     opts_sluRm$verbose_off()

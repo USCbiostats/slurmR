@@ -4,17 +4,17 @@
 \name{opts_sluRm}
 \alias{opts_sluRm}
 \title{Get and set default options for \code{sbatch} and \code{sluRm} internals}
-\format{An object of class \code{opts_sluRm} of length 13.}
+\format{An object of class \code{opts_sluRm} of length 14.}
 \usage{
 opts_sluRm
 }
 \description{
-Most of the functions in the \code{sluRm} package use \code{chdir} and \code{job-name}
+Most of the functions in the \code{sluRm} package use \code{tmp_path} and \code{job-name}
 options to write and submit jobs to \strong{Slurm}. These options have global
 defaults that are set and retrieved using \code{opts_sluRm}.
 }
 \details{
-Whatever the path specified on \code{chdir}, all nodes should have access to it.
+Whatever the path specified on \code{tmp_path}, all nodes should have access to it.
 Moreover, it is recommended to use a path located in a high-performing drive.
 See for example \url{https://hpcc.usc.edu/support/infrastructure/temporary-disk-space/}.
 
@@ -36,8 +36,8 @@ Verbose mode
 
 Slurm options
 \itemize{
-\item \code{set_chdir : function (path, recursive = TRUE)} \Sexpr{attr(sluRm::opts_sluRm$set_chdir, "desc")}
-\item \code{get_chdir : function ()} \Sexpr{attr(sluRm::opts_sluRm$get_chdir, "desc")}
+\item \code{set_tmp_path : function (path, recursive = TRUE)} \Sexpr{attr(sluRm::opts_sluRm$set_tmp_path, "desc")}
+\item \code{get_tmp_path : function ()} \Sexpr{attr(sluRm::opts_sluRm$get_tmp_path, "desc")}
 \item \code{set_job_name : function (path, check = TRUE, overwrite = TRUE)} \Sexpr{attr(sluRm::opts_sluRm$set_job_name, "desc")}.
 \item \code{get_job_name : function (check = TRUE)} \Sexpr{attr(sluRm::opts_sluRm$get_job_name, "desc")}
 }
@@ -50,14 +50,15 @@ Other options
 For general set/retrieve options
 \itemize{
 \item \code{set_opts : function (...)} \Sexpr{attr(sluRm::opts_sluRm$set_opts, "desc")}
-\item \code{get_opts : function (...)} \Sexpr{attr(sluRm::opts_sluRm$get_opts, "desc")}
+\item \code{get_opts_job : function (...)} \Sexpr{attr(sluRm::opts_sluRm$get_opts_job, "desc")}
+\item \code{get_opts_r : function (...)} \Sexpr{attr(sluRm::opts_sluRm$get_opts_r, "desc")}
 }
 }
 \examples{
 
 # Common setup
 \dontrun{
-opts_sluRm$set_chdir("/staging/pdt/vegayon")
+opts_sluRm$set_tmp_path("/staging/pdt/vegayon")
 opts_sluRm$set_job_name("simulations-1")
 opts_slurm$set_opts(partition="thomas", account="lc_pdt")
 }

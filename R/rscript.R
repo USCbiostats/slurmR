@@ -42,7 +42,7 @@ save_objects <- function(
 
   # Creating and checking  path
   path <- paste(
-    opts_sluRm$get_chdir(),
+    opts_sluRm$get_tmp_path(),
     opts_sluRm$get_job_name(),
     sep="/"
   )
@@ -100,7 +100,7 @@ save_objects <- function(
 #'   option `compress` is passed to [saveRDS].
 #'
 #'   One important side effect is that when this function is called, the object
-#'   will be saved in the current job directory, this is `opts_sluRm$get_chdir()`.
+#'   will be saved in the current job directory, this is `opts_sluRm$get_tmp_path()`.
 #'
 #' - `append` Adds a line to the R script. Its only argument, `x` is a character
 #'   vector that will be added to the R script.
@@ -205,7 +205,7 @@ new_rscript <- function(
           "%-16s <- readRDS(\"%s/%s/%1$s.rds\")"
         },
         names(x)[i],
-        opts_sluRm$get_chdir(),
+        opts_sluRm$get_tmp_path(),
         opts_sluRm$get_job_name()
       )
 

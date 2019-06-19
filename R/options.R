@@ -1,11 +1,11 @@
 
 #' Get and set default options for `sbatch` and `sluRm` internals
 #'
-#' Most of the functions in the `sluRm` package use `chdir` and `job-name`
+#' Most of the functions in the `sluRm` package use `tmp_path` and `job-name`
 #' options to write and submit jobs to **Slurm**. These options have global
 #' defaults that are set and retrieved using `opts_sluRm`.
 #'
-#' Whatever the path specified on `chdir`, all nodes should have access to it.
+#' Whatever the path specified on `tmp_path`, all nodes should have access to it.
 #' Moreover, it is recommended to use a path located in a high-performing drive.
 #' See for example \url{https://hpcc.usc.edu/support/infrastructure/temporary-disk-space/}.
 #'
@@ -29,9 +29,9 @@
 #'
 #' Slurm options
 #'
-#' - `set_chdir : function (path, recursive = TRUE)` \Sexpr{attr(sluRm::opts_sluRm$set_chdir, "desc")}
+#' - `set_tmp_path : function (path, recursive = TRUE)` \Sexpr{attr(sluRm::opts_sluRm$set_tmp_path, "desc")}
 #'
-#' - `get_chdir : function ()` \Sexpr{attr(sluRm::opts_sluRm$get_chdir, "desc")}
+#' - `get_tmp_path : function ()` \Sexpr{attr(sluRm::opts_sluRm$get_tmp_path, "desc")}
 #'
 #' - `set_job_name : function (path, check = TRUE, overwrite = TRUE)` \Sexpr{attr(sluRm::opts_sluRm$set_job_name, "desc")}.
 #'
@@ -46,14 +46,16 @@
 #'
 #' - `set_opts : function (...)` \Sexpr{attr(sluRm::opts_sluRm$set_opts, "desc")}
 #'
-#' - `get_opts : function (...)` \Sexpr{attr(sluRm::opts_sluRm$get_opts, "desc")}
+#' - `get_opts_job : function (...)` \Sexpr{attr(sluRm::opts_sluRm$get_opts_job, "desc")}
+#'
+#' - `get_opts_r : function (...)` \Sexpr{attr(sluRm::opts_sluRm$get_opts_r, "desc")}
 #'
 #'
 #' @examples
 #'
 #' # Common setup
 #' \dontrun{
-#' opts_sluRm$set_chdir("/staging/pdt/vegayon")
+#' opts_sluRm$set_tmp_path("/staging/pdt/vegayon")
 #' opts_sluRm$set_job_name("simulations-1")
 #' opts_slurm$set_opts(partition="thomas", account="lc_pdt")
 #' }
@@ -63,47 +65,48 @@ opts_sluRm <- (function() {
 
   # Default chdir is null and will be set at the first call of the function
   OPTS_SLURM            <- new.env(parent = emptyenv())
-  OPTS_SLURM$chdir      <- NULL
+  # OPTS_SLURM$chdir      <- NULL
   OPTS_SLURM$`job-name` <- NULL
 
-  OPTS_R         <- new.env(parent = emptyenv())
-  OPTS_R$debug   <- FALSE
-  OPTS_R$cmd     <- "sbatch"
-  OPTS_R$verbose <- FALSE
+  OPTS_R          <- new.env(parent = emptyenv())
+  OPTS_R$tmp_path <- NULL
+  OPTS_R$debug    <- FALSE
+  OPTS_R$cmd      <- "sbatch"
+  OPTS_R$verbose  <- FALSE
 
 
   # JOB PATH -------------------------------------------------------------------
   # Function to set job path
-  set_chdir <- function(path, recursive = TRUE, overwrite = FALSE) {
+  set_tmp_path <- function(path, recursive = TRUE, overwrite = FALSE) {
 
     # Path normalization
     path <- normalizePath(path)
 
     if (!length(path))
-      return(get_chdir())
+      return(get_tmp_path())
 
     # if (!dir.exists(path)) {
     #   dir.create(path, recursive = recursive)
     # }
 
-    OPTS_SLURM$chdir <- path
+    OPTS_R$tmp_path <- path
 
     # Move location of the files
-    if (length(OPTS_SLURM$`job-name`) && (get_chdir() != path))
+    if (length(OPTS_SLURM$`job-name`) && (get_tmp_path() != path))
       set_job_name(get_job_name(), overwrite = overwrite)
 
     invisible()
   }
 
   # Function to get the path
-  get_chdir <- function() {
-    if (!length(OPTS_SLURM$chdir))
-      OPTS_SLURM$chdir <- getwd()
-    OPTS_SLURM$chdir
+  get_tmp_path <- function() {
+    if (!length(OPTS_R$tmp_path))
+      OPTS_R$tmp_path <- getwd()
+    OPTS_R$tmp_path
   }
 
-  attr(set_chdir, "desc") <- "Sets the working directory"
-  attr(set_chdir, "desc") <- "Retrieves the working directory"
+  attr(set_tmp_path, "desc") <- "Sets the tempfile path for I/O"
+  attr(get_tmp_path, "desc") <- "Retrieves tempfile path for I/O"
 
   # JOB NAME -------------------------------------------------------------------
   set_job_name <- function(path, check = TRUE, overwrite = TRUE) {
@@ -113,7 +116,7 @@ opts_sluRm <- (function() {
     else if (path == "")
       stop("`path` must be a meaningful name. Cannot be \"\" (empty).", call.=FALSE)
 
-    fn <- sprintf("%s/%s", get_chdir(), path)
+    fn <- sprintf("%s/%s", get_tmp_path(), path)
 
     if (overwrite && file.exists(fn)) {
       warning("The path '", fn, "' already exists and will be overwritten.",
@@ -168,7 +171,7 @@ opts_sluRm <- (function() {
 
   }
 
-  get_opts <- function(...) {
+  get_opts_job <- function(...) {
 
     dots <- list(...)
     if (!length(dots))
@@ -183,8 +186,24 @@ opts_sluRm <- (function() {
 
   }
 
-  attr(set_opts, "desc") <- "A generic function to set options."
-  attr(get_opts, "desc") <- "A generic function to retrieve options."
+  get_opts_r <- function(...) {
+
+    dots <- list(...)
+    if (!length(dots))
+      return(as.list(OPTS_R))
+
+    dots <- unlist(dots)
+
+    if (any(!is.character(dots)))
+      stop("`...` only receives characters.", call. = FALSE)
+
+    as.list(OPTS_R)[intersect(dots, names(OPTS_R))]
+
+  }
+
+  attr(set_opts, "desc")     <- "A generic function to set options."
+  attr(get_opts_r, "desc")   <- "A generic function to retrieve options in R."
+  attr(get_opts_job, "desc") <- "A generic function to retrieve options for the job (Slurm)."
 
   # Debugging and Verbose ------------------------------------------------------
 
@@ -229,12 +248,13 @@ opts_sluRm <- (function() {
   # Final structure ------------------------------------------------------------
   structure(list2env(
     list(
-      set_chdir    = set_chdir,
-      get_chdir    = get_chdir,
+      set_tmp_path    = set_tmp_path,
+      get_tmp_path    = get_tmp_path,
       set_job_name = set_job_name,
       get_job_name = get_job_name,
       set_opts     = set_opts,
-      get_opts     = get_opts,
+      get_opts_job = get_opts_job,
+      get_opts_r   = get_opts_r,
       debug_on     = debug_on,
       debug_off    = debug_off,
       get_debug    = structure(
@@ -256,7 +276,7 @@ opts_sluRm <- (function() {
 print.opts_sluRm <- function(x, ...) {
 
   cat("Current default for Slurm jobs:\n\n")
-  str(x$get_opts())
+  str(x$get_opts_job())
   cat("\nTo get and set options for Slurm jobs creation use (see ?opts_sluRm):\n\n")
   print(utils::ls.str(x))
 
@@ -269,9 +289,9 @@ print.opts_sluRm <- function(x, ...) {
 }
 
 .onLoad <- function(libname, pkgname) {
-  opts_sluRm$set_chdir(getwd())
+  opts_sluRm$set_tmp_path(getwd())
 
-  tmp <- tempfile("sluRm-job-", opts_sluRm$get_chdir())
+  tmp <- tempfile("sluRm-job-", opts_sluRm$get_tmp_path())
   tmp <- gsub(".+(?=sluRm-job-)", "", tmp, perl = TRUE)
 
   opts_sluRm$set_job_name(tmp)

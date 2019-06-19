@@ -12,7 +12,7 @@ snames(type, array_id)
 \item{array_id}{Integer. ID of the array to create the name.}
 }
 \description{
-Using \link{opts_sluRm}\code{$get_chdir} and \link{opts_sluRm}\code{$get_job_name} creates
+Using \link{opts_sluRm}\code{$get_tmp_path} and \link{opts_sluRm}\code{$get_job_name} creates
 file names with full path to the objects. This function is intended for
 internal use only.
 }

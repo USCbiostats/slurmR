@@ -74,7 +74,7 @@
       <h1>Getting Started with sluRm</h1>
                         <h4 class="author">George G. Vega Yon</h4>
             
-            <h4 class="date">2019-06-11</h4>
+            <h4 class="date">2019-06-19</h4>
       
       
       <div class="hidden name"><code>getting-started.Rmd</code></div>
@@ -140,12 +140,12 @@
 <a class="sourceLine" id="cb2-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unlist">unlist</a></span>(ans))</a></code></pre></div>
 <p>Which estiates pi using a single node(computer). However, we can simply exploit parallelisation using <code>Slurm_lapply</code>, by writing</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sluRm)</a></code></pre></div>
-<pre><code>## On load, `sluRm` sets default options for your jobs (`chdir`, which is the default directory where sluRm will use to create the auxiliar files, and `job-name`, which is the option of the same name in Slurm. You can view/set these at:
+<pre><code>## On load, `sluRm` sets default options for your jobs (`tmp_path`, which is the default directory where sluRm will use to create the auxiliar files, and `job-name`, which is the option of the same name in Slurm. You can view/set these at:
 ##    ?opts_sluRm
 ## or you could just type
 ##    "opts_sluRm".</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># Setting required parameters</span></a>
-<a class="sourceLine" id="cb5-2" title="2">opts_sluRm<span class="op">$</span><span class="kw">set_chdir</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>())</a>
+<a class="sourceLine" id="cb5-2" title="2">opts_sluRm<span class="op">$</span><span class="kw">set_tmp_path</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>())</a>
 <a class="sourceLine" id="cb5-3" title="3">opts_sluRm<span class="op">$</span><span class="kw">set_job_name</span>(<span class="st">"test1"</span>)</a>
 <a class="sourceLine" id="cb5-4" title="4"></a>
 <a class="sourceLine" id="cb5-5" title="5"><span class="co"># Optional parameters are set via set_opts</span></a>
@@ -155,9 +155,8 @@
 <a class="sourceLine" id="cb5-9" title="9">opts_sluRm</a></code></pre></div>
 <pre><code>## Current default for Slurm jobs:
 ## 
-## List of 4
+## List of 3
 ##  $ partition: chr "conti"
-##  $ chdir    : chr "/tmp/Rtmp1dcNdy"
 ##  $ account  : chr "lc_dvc"
 ##  $ job-name : chr "test1"
 ## 
@@ -165,15 +164,16 @@
 ## 
 ## debug_off : function ()  
 ## debug_on : function ()  
-## get_chdir : function ()  
 ## get_cmd : function ()  
 ## get_debug : function ()  
 ## get_job_name : function (check = TRUE)  
-## get_opts : function (...)  
+## get_opts_job : function (...)  
+## get_opts_r : function (...)  
+## get_tmp_path : function ()  
 ## get_verbose : function ()  
-## set_chdir : function (path, recursive = TRUE, overwrite = FALSE)  
 ## set_job_name : function (path, check = TRUE, overwrite = TRUE)  
 ## set_opts : function (...)  
+## set_tmp_path : function (path, recursive = TRUE, overwrite = FALSE)  
 ## verbose_off : function ()  
 ## verbose_on : function ()</code></pre>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">job &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Slurm_lapply.html">Slurm_lapply</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="fl">1e6</span>, <span class="dv">100</span>), simpi, <span class="dt">njobs=</span><span class="dv">10</span>, <span class="dt">mc.cores=</span><span class="dv">10</span>, <span class="dt">wait =</span> <span class="ot">TRUE</span>)</a>

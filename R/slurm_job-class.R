@@ -5,7 +5,10 @@
 #' @param call The original call
 #' @param rscript,bashfile The R script and bash file path.
 #' @param robjects A character vector of R objects that will be imported in the job.
-#' @param opts_job List. Arguments to be passed to [sbatch].
+#' @param opts_job,opts_r List. In the case of `opts_job`, a list of parameters
+#' passed to [sbatch]. `opts_r` is a list of parameters used within R. Both can
+#' be retrieved by [opts_sluRm]`$get_opts_job()` and [opts_sluRm]`$get_opts_r()`
+#' respectively.
 #' @param njobs Integer. Number of jobs to start (array).
 #' @param hooks List of functions. To be called on the collected results after
 #' it finalizes.
@@ -23,7 +26,7 @@ NULL
 #' - `robjects` Ignored.
 #' - `njobs` The number of jobs to be submitted (job array).
 #' - `opts_job`,`opts_r` Two lists of options as returned by [opts_sluRm]$get_opts_job()
-#' and [opst_sluRm]$get_r_opts() at the moment of the creation of the `slurm_job`.
+#' and [opts_sluRm]$get_r_opts() at the moment of the creation of the `slurm_job`.
 #' - `hooks` A list of functions to be called on the collected objects
 #' by [Slurm_collect].
 #'

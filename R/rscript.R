@@ -41,11 +41,7 @@ save_objects <- function(
   check_path()
 
   # Creating and checking  path
-  path <- paste(
-    opts_sluRm$get_tmp_path(),
-    opts_sluRm$get_job_name(),
-    sep="/"
-  )
+  path <- sprintf("%s/%s", opts_sluRm$get_tmp_path(), opts_sluRm$get_job_name())
 
   # Saving objects
   for (i in seq_along(objects)) {
@@ -115,7 +111,11 @@ save_objects <- function(
 #'
 #' - `set_seed` Adds a vector of seeds to be used across the jobs. This vector
 #'   of seeds should be of length `njobs`. The other two parameters of the
-#'   function are passed to [set.seed].
+#'   function are passed to [set.seed]. By default the seed is picked as follows:
+#'
+#'   ```
+#'   seeds <- sample.int(.Machine$integer.max, njobs, replace = FALSE)
+#'   ```
 #'
 #' - `write` Finalizes the process by writing the R script in the corresponding
 #'   folder to be used with Slurm.
@@ -220,9 +220,12 @@ new_rscript <- function(
 
   }
 
-  env$set_seed <- function(x, kind = NULL, normal.kind = NULL) {
+  env$set_seed <- function(x = NULL, kind = NULL, normal.kind = NULL) {
 
     # Reading the seeds
+    if (is.null(x))
+      x <- sample.int(.Machine$integer.max, env$njobs, replace = FALSE)
+
     env$add_rds(list(seeds = x), split = FALSE)
     line <- sprintf("set.seed(seeds[ARRAY_ID], kind = %s, normal.kind = %s)",
                     ifelse(length(kind), kind, "NULL"),

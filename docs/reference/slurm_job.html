@@ -151,8 +151,11 @@
       <td><p>Integer. Number of jobs to start (array).</p></td>
     </tr>
     <tr>
-      <th>opts_job</th>
-      <td><p>List. Arguments to be passed to <a href='sbatch.html'>sbatch</a>.</p></td>
+      <th>opts_job, opts_r</th>
+      <td><p>List. In the case of <code>opts_job</code>, a list of parameters
+passed to <a href='sbatch.html'>sbatch</a>. <code>opts_r</code> is a list of parameters used within R. Both can
+be retrieved by <a href='opts_sluRm.html'>opts_sluRm</a><code>$get_opts_job()</code> and <a href='opts_sluRm.html'>opts_sluRm</a><code>$get_opts_r()</code>
+respectively.</p></td>
     </tr>
     <tr>
       <th>hooks</th>
@@ -183,7 +186,7 @@ or directly to a <code>job.rds</code> file.</p></td>
 <li><p><code>robjects</code> Ignored.</p></li>
 <li><p><code>njobs</code> The number of jobs to be submitted (job array).</p></li>
 <li><p><code>opts_job</code>,<code>opts_r</code> Two lists of options as returned by <a href='opts_sluRm.html'>opts_sluRm</a>$get_opts_job()
-and opst_sluRm$get_r_opts() at the moment of the creation of the <code>slurm_job</code>.</p></li>
+and <a href='opts_sluRm.html'>opts_sluRm</a>$get_r_opts() at the moment of the creation of the <code>slurm_job</code>.</p></li>
 <li><p><code>hooks</code> A list of functions to be called on the collected objects
 by <a href='Slurm_collect.html'>Slurm_collect</a>.</p></li>
 </ul>
@@ -218,7 +221,7 @@ passed to <code><a href='https://www.rdocumentation.org/packages/base/topics/rea
 
       <footer>
       <div class="copyright">
-  <p>Developed by George Vega Yon, National Cancer Institute (NCI).</p>
+  <p>Developed by George Vega Yon, Paul Marjoram, National Cancer Institute (NCI).</p>
 </div>
 
 <div class="pkgdown">

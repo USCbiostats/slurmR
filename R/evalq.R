@@ -10,7 +10,7 @@ Slurm_EvalQ <- function(
   plan        = "collect",
   sbatch_opt  = list(ntasks=1L),
   rscript_opt = list(vanilla=TRUE),
-  seeds       = 1L:njobs,
+  seeds       = NULL,
   compress    = TRUE,
   export      = NULL,
   libPaths    = .libPaths(),

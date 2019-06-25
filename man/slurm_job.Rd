@@ -29,7 +29,10 @@ write_slurm_job(x, path = NULL)
 
 \item{njobs}{Integer. Number of jobs to start (array).}
 
-\item{opts_job}{List. Arguments to be passed to \link{sbatch}.}
+\item{opts_job, opts_r}{List. In the case of \code{opts_job}, a list of parameters
+passed to \link{sbatch}. \code{opts_r} is a list of parameters used within R. Both can
+be retrieved by \link{opts_sluRm}\code{$get_opts_job()} and \link{opts_sluRm}\code{$get_opts_r()}
+respectively.}
 
 \item{hooks}{List of functions. To be called on the collected results after
 it finalizes.}
@@ -50,7 +53,7 @@ An environment of class \code{slurm_job}. This has the following items:
 \item \code{robjects} Ignored.
 \item \code{njobs} The number of jobs to be submitted (job array).
 \item \code{opts_job},\code{opts_r} Two lists of options as returned by \link{opts_sluRm}$get_opts_job()
-and \link{opst_sluRm}$get_r_opts() at the moment of the creation of the \code{slurm_job}.
+and \link{opts_sluRm}$get_r_opts() at the moment of the creation of the \code{slurm_job}.
 \item \code{hooks} A list of functions to be called on the collected objects
 by \link{Slurm_collect}.
 }

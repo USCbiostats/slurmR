@@ -74,7 +74,7 @@
       <h1>Getting Started with sluRm</h1>
                         <h4 class="author">George G. Vega Yon</h4>
             
-            <h4 class="date">2019-06-19</h4>
+            <h4 class="date">June 26, 2019</h4>
       
       
       <div class="hidden name"><code>getting-started.Rmd</code></div>
@@ -179,18 +179,6 @@
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">job &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Slurm_lapply.html">Slurm_lapply</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="fl">1e6</span>, <span class="dv">100</span>), simpi, <span class="dt">njobs=</span><span class="dv">10</span>, <span class="dt">mc.cores=</span><span class="dv">10</span>, <span class="dt">wait =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb7-2" title="2">ans &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Slurm_collect.html">Slurm_collect</a></span>(job)</a>
 <a class="sourceLine" id="cb7-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unlist">unlist</a></span>(ans))</a></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" title="1"><span class="co">#!/bin/bash</span></a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="co">#SBATCH</span></a>
-<a class="sourceLine" id="cb8-3" title="3"><span class="ex">Rscript</span> --vanilla myjob.R</a></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" title="1">$ <span class="ex">sbatch</span> run_jobs.sh</a></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sluRm)</a>
-<a class="sourceLine" id="cb10-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(parallel) <span class="co"># Example package you would like to load</span></a>
-<a class="sourceLine" id="cb10-3" title="3"></a>
-<a class="sourceLine" id="cb10-4" title="4">dat &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample.int</a></span>(<span class="dv">1000</span>, <span class="dv">10</span>, <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb10-5" title="5">job &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Slurm_lapply.html">Slurm_lapply</a></span>(dat, mean, <span class="dt">wait =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb10-6" title="6"></a>
-<a class="sourceLine" id="cb10-7" title="7">ans &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Slurm_collect.html">Slurm_collect</a></span>(job)</a>
-<a class="sourceLine" id="cb10-8" title="8">ans</a></code></pre></div>
 </div>
 </div>
 <div id="common-options-to-pass-via-sbatch_opt" class="section level1">
@@ -198,12 +186,12 @@
 <a href="#common-options-to-pass-via-sbatch_opt" class="anchor"></a>Common options to pass via <code>sbatch_opt</code>
 </h1>
 <p>Options to <code>sbatch</code> can be passed via <code>sbatch_opt</code> as a list. For example, the following</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
-<a class="sourceLine" id="cb11-2" title="2">  <span class="st">`</span><span class="dt">job-name</span><span class="st">`</span>    =<span class="st"> "my-fancy-slurm-job"</span>,</a>
-<a class="sourceLine" id="cb11-3" title="3">  <span class="st">`</span><span class="dt">mem-per-cpu</span><span class="st">`</span> =<span class="st"> "4G"</span>,</a>
-<a class="sourceLine" id="cb11-4" title="4">  <span class="dt">time          =</span> <span class="st">"12:00:00"</span>,</a>
-<a class="sourceLine" id="cb11-5" title="5">  <span class="dt">ntasks        =</span> <span class="dv">10</span></a>
-<a class="sourceLine" id="cb11-6" title="6">)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
+<a class="sourceLine" id="cb8-2" title="2">  <span class="st">`</span><span class="dt">job-name</span><span class="st">`</span>    =<span class="st"> "my-fancy-slurm-job"</span>,</a>
+<a class="sourceLine" id="cb8-3" title="3">  <span class="st">`</span><span class="dt">mem-per-cpu</span><span class="st">`</span> =<span class="st"> "4G"</span>,</a>
+<a class="sourceLine" id="cb8-4" title="4">  <span class="dt">time          =</span> <span class="st">"12:00:00"</span>,</a>
+<a class="sourceLine" id="cb8-5" title="5">  <span class="dt">ntasks        =</span> <span class="dv">10</span></a>
+<a class="sourceLine" id="cb8-6" title="6">)</a></code></pre></div>
 <p>Advises Slurm to allocate 4G of memory per task, set a maximum time limit of 12 hours, and specify that you will be running 10 tasks per job.</p>
 <p>A comprehensive list of options can be found <a href="https://slurm.schedmd.com/sbatch.html">here</a>.</p>
 </div>
@@ -240,7 +228,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by George Vega Yon, National Cancer Institute (NCI).</p>
+  <p>Developed by George Vega Yon, Paul Marjoram, National Cancer Institute (NCI).</p>
 </div>
 
 <div class="pkgdown">

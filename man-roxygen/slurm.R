@@ -10,7 +10,7 @@
 #' this value to `FALSE` can be useful when the user requires faster read/write
 #' of R objects on disk.
 #' @param seeds Integer vector of length `njobs`. Seeds to be passed to each
-#' job.
+#' job. When `NULL` (default), seeds will be picked automatically (see [new_rscript]).
 #' @param export A named list with objects to be included in the Spawned sessions.
 #' @param libPaths A character vector. See [.libPaths].
 #' @param hooks A list of functions (passed to [new_slurm_job]).

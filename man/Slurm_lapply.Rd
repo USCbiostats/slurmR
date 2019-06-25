@@ -6,21 +6,19 @@
 \alias{Slurm_sapply}
 \title{The Slurm version of the \code{lapply}  function}
 \usage{
-Slurm_Map(f, ..., njobs = 2L, mc.cores = getOption("mc.cores", 2L),
+Slurm_Map(f, ..., njobs = 2L, mc.cores = 1L,
   job_name = opts_sluRm$get_job_name(),
   tmp_path = opts_sluRm$get_tmp_path(), plan = "collect",
   sbatch_opt = list(ntasks = 1L, `cpus-per-task` = mc.cores),
-  rscript_opt = list(vanilla = TRUE), seeds = 1L:njobs,
-  compress = TRUE, export = NULL, libPaths = .libPaths(),
-  hooks = NULL)
+  rscript_opt = list(vanilla = TRUE), seeds = NULL, compress = TRUE,
+  export = NULL, libPaths = .libPaths(), hooks = NULL)
 
-Slurm_lapply(X, FUN, ..., njobs = 2L, mc.cores = getOption("mc.cores",
-  2L), job_name = opts_sluRm$get_job_name(),
+Slurm_lapply(X, FUN, ..., njobs = 2L, mc.cores = 1L,
+  job_name = opts_sluRm$get_job_name(),
   tmp_path = opts_sluRm$get_tmp_path(), plan = "collect",
   sbatch_opt = list(ntasks = 1L, `cpus-per-task` = mc.cores),
-  rscript_opt = list(vanilla = TRUE), seeds = 1L:njobs,
-  compress = TRUE, export = NULL, libPaths = .libPaths(),
-  hooks = NULL)
+  rscript_opt = list(vanilla = TRUE), seeds = NULL, compress = TRUE,
+  export = NULL, libPaths = .libPaths(), hooks = NULL)
 
 Slurm_sapply(X, FUN, ..., simplify = TRUE)
 }
@@ -39,7 +37,7 @@ nodes in the network (See \link{opts_sluRm}).}
 the bash file as \code{#SBATCH} and to \code{Rscript} respectively.}
 
 \item{seeds}{Integer vector of length \code{njobs}. Seeds to be passed to each
-job.}
+job. When \code{NULL} (default), seeds will be picked automatically (see \link{new_rscript}).}
 
 \item{compress}{Logical scalar (default \code{TRUE}). Passed to \link{saveRDS}. Setting
 this value to \code{FALSE} can be useful when the user requires faster read/write

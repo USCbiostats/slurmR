@@ -1653,16 +1653,24 @@ $(document).ready(function () {
 
 <div id="summary" class="section level1">
 <h1>Summary</h1>
-<p>Now a days, high-performance-computing (HPC) clusters are commonly available tool for either <strong>in</strong> or <strong>out</strong> cloud settings. <a href="https://slurm.schedmd.com/">Slurm Workload Manager</a> (see <span class="citation">Jette, Yoo, and Grondona (2002)</span>) is a program written in C that is used to efficiently manage resources in HPC clusters.</p>
-<p>While the R programming language <span class="citation">(R Core Team 2019)</span> has not been developed for HPC settings, there are currently several ways in which R can be enhance by means of HPC. The <code>sluRm</code> R package is one of those ways.</p>
-<p>The <code>sluRm</code> R package provides bidings for using R in HPC settings that work with Slurm. It provides wrappers and auxiliary functions that allow the user to seamlessly integrate they analysis pipeline with HPC, putting emphasis on providing the user with a family of functions similar to what the <code>parallel</code> R package <span class="citation">(R Core Team 2019)</span> provides.</p>
-<p>While there are other tools for integrating R in a HPC envirnment that works with Slurm, <code>sluRm</code> has some advantages regarding syntax, number of dependencies, and flexibility.</p>
+<p>Nowadays, high-performance-computing (HPC) clusters are commonly available tools for either <strong>in</strong> or <strong>out</strong> of cloud settings. <a href="https://slurm.schedmd.com/">Slurm Workload Manager</a> (see <span class="citation">Yoo, Jette, and Grondona (2003)</span>) is a program written in C that is used to efficiently manage resources in HPC clusters.</p>
+<p>While the R programming language <span class="citation">(R Core Team 2019)</span> has not been developed for HPC settings, there are currently several ways in which R can be enhanced by means of HPC. The <code>sluRm</code> R package is one of those ways.</p>
+<p>The <code>sluRm</code> R package provides tools for using R in HPC settings that work with Slurm. It provides wrappers and auxiliary functions that allow the user to seamlessly integrate their analysis pipeline with HPC, putting emphasis on providing the user with a family of functions similar to those that the <code>parallel</code> R package <span class="citation">(R Core Team 2019)</span> provides.</p>
+<p>While there are other tools for integrating R in a HPC envirnment that works with Slurm–see for example <code>rslurm</code><span class="citation">(Marchand, Smorul, and Carrol 2017)</span>, <code>batchtools</code> <span class="citation">(Bischl et al. 2015)</span>, <code>drake</code> <span class="citation">(Landau 2019)</span>, <code>future.batchtools</code> <span class="citation">(Bengtsson 2019)</span>, <code>clustermq</code> <span class="citation">(Schubert 2019)</span>–<code>sluRm</code> has some advantages regarding syntax, number of dependencies, and flexibility (in terms of the integration with Slurm itself). In particular, you may want to use <code>sluRm</code> if you:</p>
 <ol style="list-style-type: decimal">
-<li><p>Compared to <code>rslurm</code> <span class="citation">(Marchand, Smorul, and Carrol 2017)</span>, this R package’s workflow is closer to the <code>parallel</code> package. <code>sluRm</code> has wrappers such as <code>Slurm_lapply</code> and <code>Slurm_Map</code> that have a similar syntax to <code>parLapply</code> and <code>parMap</code> from the <code>parallel</code> package; which is not true for <code>rslurm</code> which depends on a single function <code>slurm_apply</code>.</p></li>
-<li><p>Compared to <code>batchtools</code> <span class="citation">(Bischl et al. 2015)</span>, and to <code>future.batchtools</code> <span class="citation">(Bengtsson 2019)</span> <code>sluRm</code> is significantly more lightweight as it has 0 dependencies on R packages other than those shipped with R. <code>batchtools</code> and <code>future.batchtools</code> have 20 and 24 dependencies each.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p></li>
-<li><p>In terms of flexibility, <code>sluRm</code>’s API is significantly more flexible compared to the other R packages mentioned. While both <code>rslurm</code> and <code>batchtools</code> allow the user to provide template files to create personalized job configurations for Slurm, in <code>sluRm</code> job configurations are created programatically.</p></li>
+<li>Need a dependency-free tool. Besides of Slurm itself<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, this R package only depends on other R packages that are part of base R.,</li>
 </ol>
-<p>Finally, the <code>sluRm</code> poses a specialized alternative for R users working in a HPC environment with Slurm.</p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>need an R package that is fully integrated with Slurm, e.g., submitting jobs with an arbitrary set of Slurm parameters without the need of using templates, call Slurm commands from within R like <code>sacct</code>, <code>scancel</code>, <code>squeue</code>, <code>sbatch</code>, etc. with their corresponding flags, and</p></li>
+<li><p>what to use an R package that is ready-to-go. Once loaded, users can submit jobs by just specifying how many cores, for example, they need.</p></li>
+</ol>
+<p>Other features that are included with this R package, and that are available in some others, are:</p>
+<ol start="4" style="list-style-type: decimal">
+<li><p>Use a syntax similar to the apply family of functions in the parallel R package, including <code>Slurm_lapply</code>, <code>Slurm_sapply</code>, <code>Slurm_EvalQ</code>, and <code>Slurm_Map</code>,</p></li>
+<li><p>resubmit failed jobs: A very common issue with heterogenous computing clusters is the fact that some jobs succeed while others fail. Partial-job-resubmission is out-of-the-box as users can specify which jobs (as in Job Arrays) should be re-run.</p></li>
+</ol>
+<p>Both of the later two also available in <code>batchtools</code>. A comparison table of R packages that work with Slurm is available at <a href="https://github.com/USCbiostats/sluRm" class="uri">https://github.com/USCbiostats/sluRm</a>.</p>
+<p>In summary, <code>sluRm</code> provides a dependency-free and purpose-built alternative for R users working in a HPC environment with Slurm.</p>
 </div>
 <div id="funding-and-support" class="section level1">
 <h1>Funding and Support</h1>
@@ -1677,8 +1685,8 @@ $(document).ready(function () {
 <div id="ref-Bischl2015">
 <p>Bischl, Bernd, Michel Lang, Olaf Mersmann, Jörg Rahnenführer, and Claus Weihs. 2015. “BatchJobs and BatchExperiments: Abstraction Mechanisms for Using R in Batch Environments.” <em>Journal of Statistical Software</em> 64 (11): 1–25. <a href="http://www.jstatsoft.org/v64/i11/">http://www.jstatsoft.org/v64/i11/</a>.</p>
 </div>
-<div id="ref-Jette02slurm:simple">
-<p>Jette, Morris A., Andy B. Yoo, and Mark Grondona. 2002. “SLURM: Simple Linux Utility for Resource Management.” In <em>In Lecture Notes in Computer Science: Proceedings of Job Scheduling Strategies for Parallel Processing (Jsspp) 2003</em>, 44–60. Springer-Verlag.</p>
+<div id="ref-Landau2019">
+<p>Landau, William Michael. 2019. <em>Drake: A Pipeline Toolkit for Reproducible Computation at Scale</em>. <a href="https://CRAN.R-project.org/package=drake">https://CRAN.R-project.org/package=drake</a>.</p>
 </div>
 <div id="ref-Marchand2018">
 <p>Marchand, Philippe, Mike Smorul, and Ian Carrol. 2017. <em>Rslurm: Submit R Calculations to a Slurm Cluster</em>. <a href="https://github.com/SESYNC-ci/rslurm">https://github.com/SESYNC-ci/rslurm</a>.</p>
@@ -1686,12 +1694,18 @@ $(document).ready(function () {
 <div id="ref-R">
 <p>R Core Team. 2019. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.</p>
 </div>
+<div id="ref-Schubert2019">
+<p>Schubert, Michael. 2019. “Clustermq Enables Efficient Parallelisation of Genomic Analyses.” <em>Bioinformatics</em>, May. <a href="https://doi.org/10.1093/bioinformatics/btz284">https://doi.org/10.1093/bioinformatics/btz284</a>.</p>
+</div>
+<div id="ref-Jette02slurm">
+<p>Yoo, Andy B, Morris A Jette, and Mark Grondona. 2003. “SLURM: Simple Linux Utility for Resource Management.” In <em>Job Scheduling Strategies for Parallel Processing</em>, edited by Dror Feitelson, Larry Rudolph, and Uwe Schwiegelshohn, 44–60. Berlin, Heidelberg: Springer Berlin Heidelberg. <a href="https://doi.org/10.1007/10968987_3">https://doi.org/10.1007/10968987_3</a>.</p>
+</div>
 </div>
 </div>
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>The number of dependencies was obtained from <a href="https://tinyverse.netlifly.com" class="uri">https://tinyverse.netlifly.com</a>, which reports the number of recursive dependencies as of May 1st, 2019.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p>In fact, users can install this R package regardless of whether they have or they don’t have Slurm on their systems. The debug mode of this software allows users to setup jobs (including R scripts and batch files) without having to submit them to a Slurm job-scheduler.<a href="#fnref1" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
 

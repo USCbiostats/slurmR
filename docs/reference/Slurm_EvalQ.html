@@ -122,7 +122,7 @@
     <pre class="usage"><span class='fu'>Slurm_EvalQ</span>(<span class='no'>expr</span>, <span class='kw'>njobs</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_job_name</span>(),
   <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_tmp</span>(), <span class='kw'>plan</span> <span class='kw'>=</span> <span class='st'>"collect"</span>,
   <span class='kw'>sbatch_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>ntasks</span> <span class='kw'>=</span> <span class='fl'>1L</span>), <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
-  <span class='kw'>seeds</span> <span class='kw'>=</span> <span class='fl'>1L</span>:<span class='no'>njobs</span>, <span class='kw'>compress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>export</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>seeds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>compress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>export</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>libPaths</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/libPaths'>.libPaths</a></span>(), <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -158,7 +158,7 @@ the bash file as <code>#SBATCH</code> and to <code>Rscript</code> respectively.<
     <tr>
       <th>seeds</th>
       <td><p>Integer vector of length <code>njobs</code>. Seeds to be passed to each
-job.</p></td>
+job. When <code>NULL</code> (default), seeds will be picked automatically (see <a href='new_rscript.html'>new_rscript</a>).</p></td>
     </tr>
     <tr>
       <th>compress</th>
@@ -193,7 +193,7 @@ of R objects on disk.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by George Vega Yon, National Cancer Institute (NCI).</p>
+  <p>Developed by George Vega Yon, Paul Marjoram, National Cancer Institute (NCI).</p>
 </div>
 
 <div class="pkgdown">

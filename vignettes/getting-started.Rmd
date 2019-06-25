@@ -1,7 +1,7 @@
 ---
 title: "Getting Started with sluRm"
 author: "George G. Vega Yon"
-date: "`r Sys.Date()`"
+date: "June 26, 2019"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Getting Started with sluRm}
@@ -113,28 +113,6 @@ ans <- Slurm_collect(job)
 mean(unlist(ans))
 ```
 
-
-
-```bash
-#!/bin/bash
-#SBATCH
-Rscript --vanilla myjob.R
-```
-
-```bash
-$ sbatch run_jobs.sh
-```
-
-```r
-library(sluRm)
-library(parallel) # Example package you would like to load
-
-dat <- sample.int(1000, 10, TRUE)
-job <- Slurm_lapply(dat, mean, wait = TRUE)
-
-ans <- Slurm_collect(job)
-ans
-```
 # Common options to pass via `sbatch_opt`
 
 Options to `sbatch` can be passed via `sbatch_opt` as a list. For example, the

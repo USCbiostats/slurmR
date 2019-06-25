@@ -371,7 +371,7 @@ sacct.default <- function(x = NULL, brief=TRUE, parsable = TRUE, ...) {
   ans <- do.call(rbind, lapply(ans, unlist))
 
   structure(
-    as.data.frame(ans[-1,], stringsAsFactors=FALSE),
+    as.data.frame(ans[-1, , drop=FALSE], stringsAsFactors=FALSE),
     names = ans[1,]
   )
 

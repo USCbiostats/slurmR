@@ -108,7 +108,7 @@ opts_sluRm
 
 
 ```r
-job <- Slurm_lapply(rep(1e6, 100), simpi, njobs=10, mc.cores=10, wait = TRUE)
+job <- Slurm_lapply(rep(1e6, 100), simpi, njobs=10, mc.cores=10, plan = "wait")
 ans <- Slurm_collect(job)
 mean(unlist(ans))
 ```

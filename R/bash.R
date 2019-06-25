@@ -353,13 +353,17 @@ sacct <- function(x, ...) UseMethod("sacct")
 #' @param brief,parsable Logical. When `TRUE`, these are passed as flags directly
 #' to the command line function `sacct`.
 #' @rdname sbatch
-sacct.default <- function(x, brief=TRUE, parsable = TRUE, ...) {
+sacct.default <- function(x = NULL, brief=TRUE, parsable = TRUE, ...) {
 
   # Checking for slurm
   stopifnot_slurm()
 
-  flags <- parse_flags(c(list(brief=brief, parsable=parsable), list(...)))
-  flags <- c(flags, paste0("--jobs=", x))
+  flags <- parse_flags(
+    c(
+      list(brief = brief, parsable = parsable, jobs = x),
+      list(...)
+      )
+    )
 
   ans <- silent_system2("sacct", flags, stdout = TRUE)
 

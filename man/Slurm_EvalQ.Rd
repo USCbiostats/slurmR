@@ -5,7 +5,7 @@
 \title{Submit an expression to be evaluated to multiple jobs.}
 \usage{
 Slurm_EvalQ(expr, njobs = 2L, job_name = opts_sluRm$get_job_name(),
-  tmp_path = opts_sluRm$get_tmp(), plan = "collect",
+  tmp_path = opts_sluRm$get_tmp_path(), plan = "collect",
   sbatch_opt = list(ntasks = 1L), rscript_opt = list(vanilla = TRUE),
   seeds = NULL, compress = TRUE, export = NULL,
   libPaths = .libPaths(), hooks = NULL)

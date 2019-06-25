@@ -40,7 +40,7 @@ scancel(x = NULL, ...)
 
 sacct(x, ...)
 
-\method{sacct}{default}(x, brief = TRUE, parsable = TRUE, ...)
+\method{sacct}{default}(x = NULL, brief = TRUE, parsable = TRUE, ...)
 
 \method{sacct}{slurm_job}(x, ...)
 

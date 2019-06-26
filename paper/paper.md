@@ -30,7 +30,7 @@ While the R programming language [@R] has not been developed for HPC settings, t
 
 The `sluRm` R package provides tools for using R in HPC settings that work with Slurm. It provides wrappers and auxiliary functions that allow the user to seamlessly integrate their analysis pipeline with HPC, putting emphasis on providing the user with a family of functions similar to those that the `parallel` R package [@R] provides.
 
-While there are other tools for integrating R in a HPC envirnment that works with Slurm--see for example `rslurm`[@Marchand2018], `batchtools` [@Bischl2015], `drake` [@Landau2019], `future.batchtools` [@Bengtsson2019], `clustermq` [@Schubert2019]--`sluRm` has some advantages regarding syntax, number of dependencies, and flexibility (in terms of the integration with Slurm itself). In particular, you may want to use `sluRm` if you:
+While there are other tools for integrating R in a HPC envirnment that works with Slurm--see for example `rslurm`[@Marchand2018], `batchtools` [@Bischl2015], `drake` [@Landau2018], `future.batchtools` [@Bengtsson2019], `clustermq` [@Schubert2019]--`sluRm` has some advantages regarding syntax, number of dependencies, and flexibility (in terms of the integration with Slurm itself). In particular, you may want to use `sluRm` if you:
 
 1. Need a dependency-free tool. Besides of Slurm itself[^actually], this R package only depends on other R packages that are part of base R.,
 

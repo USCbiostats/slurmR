@@ -11,7 +11,7 @@
 #'
 #' @details Current supported options are:
 #'
-#' Debuggin mode
+#' Debugging mode
 #'
 #' - `debug_on : function ()` \Sexpr{attr(sluRm::opts_sluRm$debug_on, "desc")}
 #'

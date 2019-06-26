@@ -78,7 +78,7 @@ submits it to the queue. In debug mode the job will be submitted via \code{sh}
 instead.
 
 The function \code{slurm.conf} is a wrapper of the function \code{scontrol} that
-returns configuration info about Slurm, in particular, the underlaying command
+returns configuration info about Slurm, in particular, the underlying command
 that is called is \code{scontrol show conf}. This returns a named character vector
 with configuration info about the cluster. The name of this function matches
 the name of the file that holds this information.

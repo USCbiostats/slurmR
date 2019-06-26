@@ -16,13 +16,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -49,6 +51,7 @@
 <![endif]-->
 
 
+
   </head>
 
   <body>
@@ -73,7 +76,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -92,10 +95,18 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/USCbiostats/sluRm">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -103,13 +114,14 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>The Slurm version of the <code>lapply</code>  function</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/sluRm/blob/master/R/Map.R'><code>R/Map.R</code></a>, <a href='https://github.com/USCbiostats/sluRm/blob/master/R/lapply.R'><code>R/lapply.R</code></a>, <a href='https://github.com/USCbiostats/sluRm/blob/master/R/sapply.R'><code>R/sapply.R</code></a></small>
     <div class="hidden name"><code>Slurm_lapply.Rd</code></div>
     </div>
 
@@ -122,16 +134,16 @@
     <pre class="usage"><span class='fu'>Slurm_Map</span>(<span class='no'>f</span>, <span class='no'>...</span>, <span class='kw'>njobs</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='kw'>mc.cores</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
   <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_job_name</span>(),
   <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_tmp_path</span>(), <span class='kw'>plan</span> <span class='kw'>=</span> <span class='st'>"collect"</span>,
-  <span class='kw'>sbatch_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>ntasks</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>`cpus-per-task`</span> <span class='kw'>=</span> <span class='no'>mc.cores</span>),
-  <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>seeds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>compress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>export</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>libPaths</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/libPaths'>.libPaths</a></span>(), <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+  <span class='kw'>sbatch_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>ntasks</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>`cpus-per-task`</span> <span class='kw'>=</span> <span class='no'>mc.cores</span>),
+  <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>seeds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>compress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>export</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>libPaths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/libPaths.html'>.libPaths</a></span>(), <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>Slurm_lapply</span>(<span class='no'>X</span>, <span class='no'>FUN</span>, <span class='no'>...</span>, <span class='kw'>njobs</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='kw'>mc.cores</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
   <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_job_name</span>(),
   <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_tmp_path</span>(), <span class='kw'>plan</span> <span class='kw'>=</span> <span class='st'>"collect"</span>,
-  <span class='kw'>sbatch_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>ntasks</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>`cpus-per-task`</span> <span class='kw'>=</span> <span class='no'>mc.cores</span>),
-  <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>seeds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>compress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>export</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>libPaths</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/libPaths'>.libPaths</a></span>(), <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+  <span class='kw'>sbatch_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>ntasks</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>`cpus-per-task`</span> <span class='kw'>=</span> <span class='no'>mc.cores</span>),
+  <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>seeds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>compress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>export</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>libPaths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/libPaths.html'>.libPaths</a></span>(), <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>Slurm_sapply</span>(<span class='no'>X</span>, <span class='no'>FUN</span>, <span class='no'>...</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
@@ -140,7 +152,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>njobs</th>
-      <td><p>Integer. Number of jobs to specity.</p></td>
+      <td><p>Integer. Number of jobs to use in the job-array.</p></td>
     </tr>
     <tr>
       <th>job_name</th>
@@ -149,7 +161,7 @@
     <tr>
       <th>tmp_path</th>
       <td><p>Character. Path to the directory where all the data (including
-scripts) will be stored. Notice that this path must be accesible by all the
+scripts) will be stored. Notice that this path must be accessible by all the
 nodes in the network (See <a href='opts_sluRm.html'>opts_sluRm</a>).</p></td>
     </tr>
     <tr>
@@ -168,7 +180,7 @@ job. When <code>NULL</code> (default), seeds will be picked automatically (see <
     </tr>
     <tr>
       <th>compress</th>
-      <td><p>Logical scalar (default <code>TRUE</code>). Passed to <a href='https://www.rdocumentation.org/packages/base/topics/readRDS'>saveRDS</a>. Setting
+      <td><p>Logical scalar (default <code>TRUE</code>). Passed to <a href='https://rdrr.io/r/base/readRDS.html'>saveRDS</a>. Setting
 this value to <code>FALSE</code> can be useful when the user requires faster read/write
 of R objects on disk.</p></td>
     </tr>
@@ -178,7 +190,7 @@ of R objects on disk.</p></td>
     </tr>
     <tr>
       <th>libPaths</th>
-      <td><p>A character vector. See <a href='https://www.rdocumentation.org/packages/base/topics/libPaths'>.libPaths</a>.</p></td>
+      <td><p>A character vector. See <a href='https://rdrr.io/r/base/libPaths.html'>.libPaths</a>.</p></td>
     </tr>
     <tr>
       <th>hooks</th>
@@ -186,26 +198,26 @@ of R objects on disk.</p></td>
     </tr>
     <tr>
       <th>X, FUN, f, mc.cores, ...</th>
-      <td><p>Arguments passed to either <a href='https://www.rdocumentation.org/packages/parallel/topics/mclapply'>parallel::mclapply</a> or
-<a href='https://www.rdocumentation.org/packages/parallel/topics/mclapply'>parallel::mcMap</a>.</p></td>
+      <td><p>Arguments passed to either <a href='https://rdrr.io/r/parallel/mclapply.html'>parallel::mclapply</a> or
+<a href='https://rdrr.io/r/parallel/mclapply.html'>parallel::mcMap</a>.</p></td>
     </tr>
     <tr>
       <th>simplify</th>
-      <td><p>Logical scalar. See <a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply</a>.</p></td>
+      <td><p>Logical scalar. See <a href='https://rdrr.io/r/base/lapply.html'>sapply</a>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The function <code>Slurm_lapply</code> will submit <code>njobs</code> to the queue and distribute
-<code>X</code> according to <a href='https://www.rdocumentation.org/packages/parallel/topics/splitIndices'>parallel::splitIndices</a>. For example, if <code>X</code> is list with
+<code>X</code> according to <a href='https://rdrr.io/r/parallel/splitIndices.html'>parallel::splitIndices</a>. For example, if <code>X</code> is list with
 1,000 elements, and <code>njobs = 2</code>, then <code>Slurm_lapply</code> will submit 2 jobs with
 500 elements of <code>X</code> each (2 chunks of data). The same principle applies to
-<code>Slurm_sapply</code> and <code>Slurm_Map</code>, this is, the data is splited by chunks so all
+<code>Slurm_sapply</code> and <code>Slurm_Map</code>, this is, the data is split by chunks so all
 the information is sent at once when the job is submitted.</p>
-<p>Just like <a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply</a> is to <a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a>, <code>Slurm_sapply</code> is just a wrapper of
+<p>Just like <a href='https://rdrr.io/r/base/lapply.html'>sapply</a> is to <a href='https://rdrr.io/r/base/lapply.html'>lapply</a>, <code>Slurm_sapply</code> is just a wrapper of
 <code>Slurm_lapply</code> with an extra argument, <code>simplify</code>. When <code>TRUE</code>, once the job
-is collected, the function <a href='https://www.rdocumentation.org/packages/base/topics/lapply'>simplify2array</a> is called.</p>
+is collected, the function <a href='https://rdrr.io/r/base/lapply.html'>simplify2array</a> is called.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -220,14 +232,14 @@ is collected, the function <a href='https://www.rdocumentation.org/packages/base
     <pre class="examples"><span class='co'># NOT RUN {</span>
   <span class='co'># A job drawing 1e6 uniforms on 10 jobs (array)</span>
   <span class='co'># The option wait=TRUE makes it return only once the job is completed.</span>
-  <span class='no'>job1</span> <span class='kw'>&lt;-</span> <span class='fu'>Slurm_lapply</span>(<span class='fl'>1</span>:<span class='fl'>20</span>, <span class='kw'>function</span>(<span class='no'>i</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Uniform'>runif</a></span>(<span class='fl'>1e6</span>), <span class='kw'>njobs</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+  <span class='no'>job1</span> <span class='kw'>&lt;-</span> <span class='fu'>Slurm_lapply</span>(<span class='fl'>1</span>:<span class='fl'>20</span>, <span class='kw'>function</span>(<span class='no'>i</span>) <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>1e6</span>), <span class='kw'>njobs</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
   <span class='co'># To collect</span>
   <span class='no'>ans</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Slurm_collect.html'>Slurm_collect</a></span>(<span class='no'>job1</span>)
 
   <span class='co'># As before, but this time not waiting, and now we are passing more</span>
   <span class='co'># arguments to the function</span>
-  <span class='no'>job1</span> <span class='kw'>&lt;-</span> <span class='fu'>Slurm_lapply</span>(<span class='fl'>1</span>:<span class='fl'>20</span>, <span class='kw'>function</span>(<span class='no'>i</span>, <span class='no'>a</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Uniform'>runif</a></span>(<span class='fl'>1e6</span>, <span class='no'>a</span>), <span class='kw'>a</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='kw'>njobs</span><span class='kw'>=</span><span class='fl'>10</span>,
+  <span class='no'>job1</span> <span class='kw'>&lt;-</span> <span class='fu'>Slurm_lapply</span>(<span class='fl'>1</span>:<span class='fl'>20</span>, <span class='kw'>function</span>(<span class='no'>i</span>, <span class='no'>a</span>) <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>1e6</span>, <span class='no'>a</span>), <span class='kw'>a</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='kw'>njobs</span><span class='kw'>=</span><span class='fl'>10</span>,
       <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
   <span class='co'># We submit</span>
@@ -257,19 +269,23 @@ is collected, the function <a href='https://www.rdocumentation.org/packages/base
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by George Vega Yon, Paul Marjoram, National Cancer Institute (NCI).</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

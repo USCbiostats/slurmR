@@ -28,7 +28,7 @@ following goals:
     wrappers without using template files.
 
 4.  Is specialized on Slurm, meaning more flexibility (no need to modify
-    template files), and, in the future, better debuging tools (e.g. job
+    template files), and, in the future, better debugging tools (e.g. job
     resubmission).
 
 Checkout the [VS section](#vs) section for comparing `sluRm` with other

@@ -86,7 +86,7 @@ save_objects <- function(
 #' the R packages to be loaded.
 #' @param libPaths A character vector. See [.libPaths].
 #'
-#' @return An environment of class `sluRm_rscript`. This has the following accesible
+#' @return An environment of class `sluRm_rscript`. This has the following accessible
 #' components:
 #'
 #' - `add_rds` Add rds files to be loaded in each job.", `x` is a named list

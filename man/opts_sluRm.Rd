@@ -20,7 +20,7 @@ See for example \url{https://hpcc.usc.edu/support/infrastructure/temporary-disk-
 
 Current supported options are:
 
-Debuggin mode
+Debugging mode
 \itemize{
 \item \code{debug_on : function ()} \Sexpr{attr(sluRm::opts_sluRm$debug_on, "desc")}
 \item \code{debug_off : function ()} \Sexpr{attr(sluRm::opts_sluRm$debug_off, "desc")}

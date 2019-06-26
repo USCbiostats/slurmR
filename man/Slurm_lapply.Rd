@@ -23,12 +23,12 @@ Slurm_lapply(X, FUN, ..., njobs = 2L, mc.cores = 1L,
 Slurm_sapply(X, FUN, ..., simplify = TRUE)
 }
 \arguments{
-\item{njobs}{Integer. Number of jobs to specity.}
+\item{njobs}{Integer. Number of jobs to use in the job-array.}
 
 \item{job_name}{Character. Name of the job to be passed to \code{Slurm}.}
 
 \item{tmp_path}{Character. Path to the directory where all the data (including
-scripts) will be stored. Notice that this path must be accesible by all the
+scripts) will be stored. Notice that this path must be accessible by all the
 nodes in the network (See \link{opts_sluRm}).}
 
 \item{plan}{A character scalar. (See \link{the_plan}).}
@@ -62,7 +62,7 @@ The function \code{Slurm_lapply} will submit \code{njobs} to the queue and distr
 \code{X} according to \link[parallel:splitIndices]{parallel::splitIndices}. For example, if \code{X} is list with
 1,000 elements, and \code{njobs = 2}, then \code{Slurm_lapply} will submit 2 jobs with
 500 elements of \code{X} each (2 chunks of data). The same principle applies to
-\code{Slurm_sapply} and \code{Slurm_Map}, this is, the data is splited by chunks so all
+\code{Slurm_sapply} and \code{Slurm_Map}, this is, the data is split by chunks so all
 the information is sent at once when the job is submitted.
 
 Just like \link{sapply} is to \link{lapply}, \code{Slurm_sapply} is just a wrapper of

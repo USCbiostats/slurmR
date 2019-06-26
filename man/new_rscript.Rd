@@ -16,7 +16,7 @@ the R packages to be loaded.}
 \item{libPaths}{A character vector. See \link{.libPaths}.}
 }
 \value{
-An environment of class \code{sluRm_rscript}. This has the following accesible
+An environment of class \code{sluRm_rscript}. This has the following accessible
 components:
 \itemize{
 \item \code{add_rds} Add rds files to be loaded in each job.", \code{x} is a named list

@@ -13,12 +13,12 @@ Slurm_EvalQ(expr, njobs = 2L, job_name = opts_sluRm$get_job_name(),
 \arguments{
 \item{expr}{An expression to be passed to Slurm.}
 
-\item{njobs}{Integer. Number of jobs to specity.}
+\item{njobs}{Integer. Number of jobs to use in the job-array.}
 
 \item{job_name}{Character. Name of the job to be passed to \code{Slurm}.}
 
 \item{tmp_path}{Character. Path to the directory where all the data (including
-scripts) will be stored. Notice that this path must be accesible by all the
+scripts) will be stored. Notice that this path must be accessible by all the
 nodes in the network (See \link{opts_sluRm}).}
 
 \item{plan}{A character scalar. (See \link{the_plan}).}

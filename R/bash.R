@@ -390,7 +390,7 @@ sacct.slurm_job <- function(x, ...) {
 #' @export
 #' @rdname sbatch
 #' @details The function `slurm.conf` is a wrapper of the function `scontrol` that
-#' returns configuration info about Slurm, in particular, the underlaying command
+#' returns configuration info about Slurm, in particular, the underlying command
 #' that is called is `scontrol show conf`. This returns a named character vector
 #' with configuration info about the cluster. The name of this function matches
 #' the name of the file that holds this information.

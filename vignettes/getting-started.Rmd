@@ -18,7 +18,7 @@ First, some important definitions
 1.  **Node** A single computer in the HPC.
 2.  **Partition** A group of nodes in HPC (see `--partition`).
 3.  **Account** Accounts associated with partitions. Accounts can have privileges to use a partition or set of nodes. (See `--account`)
-4.  **Job** A job submited to slurm either via `sbatch`, `salloc`, or `srun`.
+<!-- 4.  **Job** A job submitted to slurm either via `sbatch`, `salloc`, or `srun`. -->
 5.  **Task** A step within a job. A particular job can have multiple tasks.
 6.  **CPU** (see `--cpus-per-task`, `--`)
 
@@ -35,7 +35,7 @@ In general, the function `Slurm_*` is implemented as follows:
 
 1.  List whatever R packages are loaded, including the path to the R package.
 
-2.  List all the objects passed via elipsis (`...`), and, together with `X` and
+2.  List all the objects passed via ellipsis (`...`), and, together with `X` and
     `FUN` or `f`, save them at `[job_path]/[job_name]/` as `[object-name].rds`.
 
 3.  Write out the corresponding R script and Slurm bash file, and save them as
@@ -76,10 +76,10 @@ $$
 Since we know what $r$ is, we just need to get an estimate of the Area to obtain
 an approximation of $\pi$. A rather simple way of doing so is with Monte Carlo
 simulations, in particular, sampling points in a unit square. The proportion
-of points that fall within the unit circle, i.e. the proportion of points which's
-distance to the origin is smaller than the radious of the circle, has an expected
-value equal to the area of its circunscribed circle (for more details, check out
-the wikipedia article about this topic [here](https://en.wikipedia.org/wiki/Approximations_of_%CF%80#Summing_a_circle's_area)).
+of points that fall within the unit circle, i.e. the proportion of points whose
+distance to the origin is smaller than the radius of the circle, has an expected
+value equal to the area of its circumscribed circle (for more details, check out
+the Wikipedia article about this topic [here](https://en.wikipedia.org/wiki/Approximations_of_%CF%80#Summing_a_circle's_area)).
 
 
 Using `parallel::mclapply`, we could just type
@@ -90,7 +90,7 @@ ans <- parallel::mclapply(rep(1e6, 100), simpi)
 mean(unlist(ans))
 ```
 
-Which estiates pi using a single node(computer). However, we can simply exploit parallelisation using `Slurm_lapply`, by writing
+Which estimates pi using a single node(computer). However, we can simply exploit parallelization using `Slurm_lapply`, by writing
 
 ```{r slurm-opts, warning=FALSE}
 library(sluRm)

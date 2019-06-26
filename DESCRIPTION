@@ -12,8 +12,9 @@ Description: Slurm workload manager is a popular Linux based software used to
   schedule jobs in HPC clusters. This R package provides a specialized lightweight
   wrapper of Slurm with a syntax similar to that found in the parallel R package.
 Depends: R (>= 3.3.0)
-License: MIT + file LICENSE
+License: MIT + file LICENSE 
 BugReports: https://github.com/USCbiostats/sluRm/issues
+URL: https://github.com/USCbiostats/sluRm
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

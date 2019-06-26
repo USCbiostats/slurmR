@@ -8,7 +8,7 @@
 #' `X` according to [parallel::splitIndices]. For example, if `X` is list with
 #' 1,000 elements, and `njobs = 2`, then `Slurm_lapply` will submit 2 jobs with
 #' 500 elements of `X` each (2 chunks of data). The same principle applies to
-#' `Slurm_sapply` and `Slurm_Map`, this is, the data is splited by chunks so all
+#' `Slurm_sapply` and `Slurm_Map`, this is, the data is split by chunks so all
 #' the information is sent at once when the job is submitted.
 #'
 #' @seealso For resubmitting a job, see the example in [sbatch].

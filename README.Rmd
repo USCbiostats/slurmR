@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 ```
 
 
-# sluRm: A lightweight wrapper for Slurm <img src="man/figures/logo.png" height="180px" align="right"/>
+# sluRm: A Lightweight Wrapper for Slurm <img src="man/figures/logo.png" height="180px" align="right"/>
 
 Slurm Workload Manager is a popular HPC cluster job scheduler found in many of the top 500 super computers. The `sluRm` R package provides an R wrapper to it that matches the parallel package's syntax, this is, just like `parallel` provides the `parLapply`, `clusterMap`, `parSapply`, etc., `sluRm` provides `Slurm_lapply`, `Slurm_Map`, `Slurm_sapply`, etc.
 
@@ -194,7 +194,7 @@ There are several ways to enhance R for HPC. Depending on what are your goals/re
 
 ## Contributing
 
-We welcome contributions to `sluRm`. Whereas is reporting a bug, starting a discussion by asking a question, or proposing/requesting a new feature, please go by creating a new issue [here](https://github.com/USCbiostats/sluRm/issues) so that we can talk about it.
+We welcome contributions to `sluRm`. Whether it is reporting a bug, starting a discussion by asking a question, or proposing/requesting a new feature, please go by creating a new issue [here](https://github.com/USCbiostats/sluRm/issues) so that we can talk about it.
 
 Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
 By participating in this project you agree to abide by its terms.

@@ -46,7 +46,7 @@ Other features that are included with this R package, and that are available in 
 
 5. resubmit failed jobs: A very common issue with heterogenous computing clusters is the fact that some jobs succeed while others fail. Partial-job-resubmission is out-of-the-box as users can specify which jobs (as in Job Arrays) should be re-run.
 
-Both of the later two also available in `batchtools`. A comparison table of R packages that work with Slurm is available at https://github.com/USCbiostats/sluRm.
+Both of the latter two also available in `batchtools`. A comparison table of R packages that work with Slurm is available at https://github.com/USCbiostats/sluRm.
 
 In summary, `sluRm` provides a dependency-free and purpose-built alternative for R users working in a HPC environment with Slurm.
 

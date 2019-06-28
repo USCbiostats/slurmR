@@ -15,16 +15,18 @@
 #' @examples
 #' \dontrun{
 #'   # A job drawing 1e6 uniforms on 10 jobs (array)
-#'   # The option wait=TRUE makes it return only once the job is completed.
-#'   job1 <- Slurm_lapply(1:20, function(i) runif(1e6), njobs=10, wait = TRUE)
+#'   # The option plan = "wait" makes it return only once the job is completed.
+#'   job1 <- Slurm_lapply(1:20, function(i) runif(1e6), njobs=10, plan = "wait")
 #'
 #'   # To collect
 #'   ans <- Slurm_collect(job1)
 #'
 #'   # As before, but this time not waiting, and now we are passing more
 #'   # arguments to the function
+#'   # plan = "none" only creates the job object (and the files), we submit
+#'   # later
 #'   job1 <- Slurm_lapply(1:20, function(i, a) runif(1e6, a), a = -1, njobs=10,
-#'       wait = FALSE)
+#'       plan = "none")
 #'
 #'   # We submit
 #'   job1 <- sbatch(job1)

@@ -2,6 +2,16 @@
 #' @param ... Further arguments passed to the method.
 #' @param x An object of class `slurm_call`.
 #' @export
+#' @examples
+#' \dontrun{
+#' # Collecting a job after calling it
+#' job <- Slurm_EvalQ(sluRm::WhoAmI(), njobs = 4, plan = "wait")
+#' Slurm_collect(job)
+#'
+#' # Collecting a job from a previous R session
+#' job <- read_slurm_job("/path/to/a/job/tmp_dir")
+#' Slurm_collect(job)
+#' }
 Slurm_collect <- function(...) UseMethod("Slurm_collect")
 
 #' @export

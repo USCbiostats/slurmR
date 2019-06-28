@@ -22,7 +22,7 @@ check_path <- function() {
 #' @param ... Options to be parsed as bash flags.
 #' @examples
 #' cat(parse_flags(a=1, b=TRUE, hola=2, y="I have spaces", ms=2, `cpus-per-task`=4))
-#' # -a=1 -b --hola=2 -y="I have spaces" --ms=2 --cpus-per-task=4
+#' # -a 1 -b --hola=2 -y "I have spaces" --ms=2 --cpus-per-task=4
 #' @export
 #' @family Utility
 parse_flags <- function(...) UseMethod("parse_flags")
@@ -46,23 +46,29 @@ parse_flags.list <- function(x, ...) {
   if (!length(x))
     return("")
 
+  single_char <- nchar(names(x)) == 1
+
   option <- ifelse(
-    nchar(names(x)) > 1,
-    paste0("--", names(x)),
-    paste0("-", names(x))
+    single_char,
+    paste0("-", names(x)),
+    paste0("--", names(x))
   )
 
   vals <- character(length(option))
   for (i in seq_along(x)) {
+
+    # Includes equal
+    equal_sign <- ifelse(single_char[i], " ", "=")
+
     if (is.logical(x[[i]]) && !x[[i]])
       option[i] <- ""
     else if (!is.logical(x[[i]]) && !is.character(x[[i]]))
-      vals[i] <- paste0("=", x[[i]])
+      vals[i] <- paste0(equal_sign, x[[i]])
     else if (is.character(x[[i]])) {
       if (grepl("\\s+", x[[i]]))
-        vals[i] <- sprintf("=\"%s\"", x[[i]])
+        vals[i] <- sprintf("%s\"%s\"", equal_sign, x[[i]])
       else
-        vals[i] <- sprintf("=%s", x[[i]])
+        vals[i] <- sprintf("%s%s", equal_sign, x[[i]])
 
     }
   }

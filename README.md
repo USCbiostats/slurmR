@@ -3,11 +3,11 @@
 status](https://travis-ci.org/USCbiostats/sluRm.svg?branch=master)](https://travis-ci.org/USCbiostats/sluRm)
 [![codecov](https://codecov.io/gh/USCbiostats/sluRm/branch/master/graph/badge.svg)](https://codecov.io/gh/USCbiostats/sluRm)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![status](http://joss.theoj.org/papers/5e1564ca907e4b47accc722ab2913826/status.svg)](http://joss.theoj.org/papers/5e1564ca907e4b47accc722ab2913826)
+[![DOI](http://joss.theoj.org/papers/10.21105/joss.01493/status.svg)](https://doi.org/10.21105/joss.01493)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# sluRm: A lightweight wrapper for Slurm <img src="man/figures/logo.png" height="180px" align="right"/>
+# sluRm: A Lightweight Wrapper for Slurm <img src="man/figures/logo.png" height="180px" align="right"/>
 
 Slurm Workload Manager is a popular HPC cluster job scheduler found in
 many of the top 500 super computers. The `sluRm` R package provides an R
@@ -28,7 +28,7 @@ following goals:
     wrappers without using template files.
 
 4.  Is specialized on Slurm, meaning more flexibility (no need to modify
-    template files), and, in the future, better debugging tools (e.g. job
+    template files), and, in the future, better debuging tools (e.g. job
     resubmission).
 
 Checkout the [VS section](#vs) section for comparing `sluRm` with other
@@ -41,6 +41,31 @@ And the development version from [GitHub](https://github.com/) with:
 ``` r
 # install.packages("devtools")
 devtools::install_github("USCbiostats/sluRm")
+```
+
+## Citation
+
+``` 
+
+To cite sluRm in publications use:
+
+  Vega Yon et al., (2019). sluRm: A lightweight wrapper for HPC with
+  Slurm. Journal of Open Source Software, 4(39), 1493,
+  https://doi.org/10.21105/joss.01493
+
+A BibTeX entry for LaTeX users is
+
+  @Article{,
+    title = {sluRm: A lightweight wrapper for HPC with Slurm},
+    author = {George {Vega Yon} and Paul Marjoram},
+    journal = {The Journal of Open Source Software},
+    year = {2019},
+    month = {jul},
+    volume = {4},
+    number = {39},
+    doi = {10.21105/joss.01493},
+    url = {https://doi.org/10.21105/joss.01493},
+  }
 ```
 
 ## Example 1: Computing means (and looking under the hood)
@@ -62,7 +87,7 @@ We can use the function `Slurm_lapply` to distribute computations
 ``` r
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=sluRm-job-7fe56a33972e /home/vegayon/Documents/sluRm/sluRm-job-7fe56a33972e/01-bash.sh
+#  sbatch --job-name=sluRm-job-364b5c7ebb51 /home/vegayon/Documents/sluRm/sluRm-job-364b5c7ebb51/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -76,7 +101,7 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #  
 #  --------------------------------------------------------------------------------
 #  [VERBOSE MODE ON] The R script that will be used is located at:
-#  /home/vegayon/Documents/sluRm/sluRm-job-7fe56a33972e/00-rscript.r
+#  /home/vegayon/Documents/sluRm/sluRm-job-364b5c7ebb51/00-rscript.r
 #  and has the following contents:
 #  --------------------------------------------------------------------------------
 #  .libPaths(c("/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))
@@ -89,38 +114,38 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #      y
 #  }
 #  ARRAY_ID         <- as.integer(Slurm_env("SLURM_ARRAY_TASK_ID"))
-#  INDICES          <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-7fe56a33972e/INDICES.rds")
-#  X                <- readRDS(sprintf("/home/vegayon/Documents/sluRm/sluRm-job-7fe56a33972e/X_%04d.rds", ARRAY_ID))
-#  FUN              <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-7fe56a33972e/FUN.rds")
-#  mc.cores         <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-7fe56a33972e/mc.cores.rds")
-#  seeds            <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-7fe56a33972e/seeds.rds")
+#  INDICES          <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-364b5c7ebb51/INDICES.rds")
+#  X                <- readRDS(sprintf("/home/vegayon/Documents/sluRm/sluRm-job-364b5c7ebb51/X_%04d.rds", ARRAY_ID))
+#  FUN              <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-364b5c7ebb51/FUN.rds")
+#  mc.cores         <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-364b5c7ebb51/mc.cores.rds")
+#  seeds            <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-364b5c7ebb51/seeds.rds")
 #  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)
 #  ans <- parallel::mclapply(
 #      X                = X,
 #      FUN              = FUN,
 #      mc.cores         = mc.cores
 #  )
-#  saveRDS(ans, sprintf("/home/vegayon/Documents/sluRm/sluRm-job-7fe56a33972e/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
+#  saveRDS(ans, sprintf("/home/vegayon/Documents/sluRm/sluRm-job-364b5c7ebb51/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
 #  
 #  --------------------------------------------------------------------------------
 #  The bash file that will be used is located at:
-#  /home/vegayon/Documents/sluRm/sluRm-job-7fe56a33972e/01-bash.sh
+#  /home/vegayon/Documents/sluRm/sluRm-job-364b5c7ebb51/01-bash.sh
 #  and has the following contents:
 #  --------------------------------------------------------------------------------
 #  #!/bin/sh
-#  #SBATCH --job-name=sluRm-job-7fe56a33972e
-#  #SBATCH --output=/home/vegayon/Documents/sluRm/sluRm-job-7fe56a33972e/02-output-%A-%a.out
+#  #SBATCH --job-name=sluRm-job-364b5c7ebb51
+#  #SBATCH --output=/home/vegayon/Documents/sluRm/sluRm-job-364b5c7ebb51/02-output-%A-%a.out
 #  #SBATCH --array=1-2
 #  #SBATCH --ntasks=1
 #  #SBATCH --cpus-per-task=1
 #  export OMP_NUM_THREADS=1
-#  /usr/lib/R/bin/Rscript --vanilla /home/vegayon/Documents/sluRm/sluRm-job-7fe56a33972e/00-rscript.r
+#  /usr/lib/R/bin/Rscript --vanilla /home/vegayon/Documents/sluRm/sluRm-job-364b5c7ebb51/00-rscript.r
 #  
 #  --------------------------------------------------------------------------------
 #  EOF
 #  --------------------------------------------------------------------------------
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=sluRm-job-7fe56a33972e /home/vegayon/Documents/sluRm/sluRm-job-7fe56a33972e/01-bash.sh
+#  sbatch --job-name=sluRm-job-364b5c7ebb51 /home/vegayon/Documents/sluRm/sluRm-job-364b5c7ebb51/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -594,7 +619,7 @@ R.
 
 ## Contributing
 
-We welcome contributions to `sluRm`. Whereas is reporting a bug,
+We welcome contributions to `sluRm`. Whether it is reporting a bug,
 starting a discussion by asking a question, or proposing/requesting a
 new feature, please go by creating a new issue
 [here](https://github.com/USCbiostats/sluRm/issues) so that we can talk

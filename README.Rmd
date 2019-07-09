@@ -2,10 +2,11 @@
 output: github_document
 ---
 
+[![DOI](http://joss.theoj.org/papers/10.21105/joss.01493/status.svg)](https://doi.org/10.21105/joss.01493)
 [![Travis build status](https://travis-ci.org/USCbiostats/sluRm.svg?branch=master)](https://travis-ci.org/USCbiostats/sluRm)
 [![codecov](https://codecov.io/gh/USCbiostats/sluRm/branch/master/graph/badge.svg)](https://codecov.io/gh/USCbiostats/sluRm)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![status](http://joss.theoj.org/papers/5e1564ca907e4b47accc722ab2913826/status.svg)](http://joss.theoj.org/papers/5e1564ca907e4b47accc722ab2913826)
+[![CRAN status](https://www.r-pkg.org/badges/version/sluRm)](https://CRAN.R-project.org/package=sluRm)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -45,6 +46,13 @@ And the development version from [GitHub](https://github.com/) with:
 # install.packages("devtools")
 devtools::install_github("USCbiostats/sluRm")
 ```
+
+## Citation
+
+```{r cite, echo=FALSE, comment=""}
+citation("sluRm")
+```
+
 
 ## Example 1: Computing means (and looking under the hood)
 

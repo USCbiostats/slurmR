@@ -17,7 +17,9 @@ file names with full path to the objects. This function is intended for
 internal use only.
 }
 \seealso{
-Other Utility: \code{\link{parse_flags}},
+Other utilities: \code{\link{Slurm_clean}},
+  \code{\link{Slurm_env}}, \code{\link{Slurm_log}},
+  \code{\link{WhoAmI}}, \code{\link{parse_flags}},
   \code{\link{state}}
 }
-\concept{Utility}
+\concept{utilities}

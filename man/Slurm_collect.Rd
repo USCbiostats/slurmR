@@ -3,22 +3,25 @@
 \name{Slurm_collect}
 \alias{Slurm_collect}
 \alias{Slurm_collect.slurm_job}
-\title{Collect the results}
+\title{Collect the results of a slurm job}
 \usage{
 Slurm_collect(...)
 
-\method{Slurm_collect}{slurm_job}(x, any = TRUE, ...)
+\method{Slurm_collect}{slurm_job}(x, any. = FALSE, wait = 10L, ...)
 }
 \arguments{
 \item{...}{Further arguments passed to the method.}
 
-\item{x}{An object of class \code{slurm_call}.}
+\item{x}{An object of class \link{slurm_job}.}
 
-\item{any}{Logical. When \code{TRUE}, will collect any output available regardless
+\item{any.}{Logical. When \code{TRUE}, will collect any output available regardless
 of whether the job is completed or not.}
+
+\item{wait}{Integer scalar. Number of seconds to wait before checking the
+state of a job if the first try returned \code{-1} (no job found).}
 }
 \description{
-Collect the results
+Collect the results of a slurm job
 }
 \examples{
 \dontrun{
@@ -31,3 +34,8 @@ job <- read_slurm_job("/path/to/a/job/tmp_dir")
 Slurm_collect(job)
 }
 }
+\seealso{
+Other post submission: \code{\link{Slurm_clean}},
+  \code{\link{Slurm_log}}, \code{\link{state}}
+}
+\concept{post submission}

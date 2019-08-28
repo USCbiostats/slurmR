@@ -12,3 +12,14 @@ Slurm_clean(x)
 \description{
 Clean a session.
 }
+\seealso{
+Other post submission: \code{\link{Slurm_collect}},
+  \code{\link{Slurm_log}}, \code{\link{state}}
+
+Other utilities: \code{\link{Slurm_env}},
+  \code{\link{Slurm_log}}, \code{\link{WhoAmI}},
+  \code{\link{parse_flags}}, \code{\link{snames}},
+  \code{\link{state}}
+}
+\concept{post submission}
+\concept{utilities}

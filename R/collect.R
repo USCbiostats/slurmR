@@ -1,7 +1,8 @@
-#' Collect the results
+#' Collect the results of a slurm job
 #' @param ... Further arguments passed to the method.
-#' @param x An object of class `slurm_call`.
+#' @param x An object of class [slurm_job].
 #' @export
+#' @family post submission
 #' @examples
 #' \dontrun{
 #' # Collecting a job after calling it
@@ -15,10 +16,12 @@
 Slurm_collect <- function(...) UseMethod("Slurm_collect")
 
 #' @export
-#' @param any Logical. When `TRUE`, will collect any output available regardless
+#' @param any. Logical. When `TRUE`, will collect any output available regardless
 #' of whether the job is completed or not.
+#' @param wait Integer scalar. Number of seconds to wait before checking the
+#' state of a job if the first try returned `-1` (no job found).
 #' @rdname Slurm_collect
-Slurm_collect.slurm_job <- function(x, any = TRUE, ...) {
+Slurm_collect.slurm_job <- function(x, any. = FALSE, wait = 10L, ...) {
 
   # Making sure the previous setup is kept -------------------------------------
   old_job_name <- opts_sluRm$get_job_name(check = FALSE)
@@ -35,13 +38,30 @@ Slurm_collect.slurm_job <- function(x, any = TRUE, ...) {
 
   res <- if (!opts_sluRm$get_debug()) {
 
+    # Checking the state of the job
     S <- state(x)
 
+    if (S == -1L) {
+      message(
+        "No job found. This may be a false positive. Waiting ", wait,
+        " seconds before retry."
+        )
+      Sys.sleep(wait)
+      S <- state(x)
+    }
+
+    # After the second try
+    if (S == -1L) {
+      stop("No job found. This could be a false positive.", call. = FALSE)
+    }
+
     # Getting the filenames
+    readRDS_trying <- function(...) tryCatch(readRDS(...), error = function(e) e)
+
     if (!S)
       do.call("c", lapply(snames("rds", 1:x$njobs), readRDS))
-    else if (any && (S == 1))
-      do.call("c", lapply(snames("rds", attr(S, "done")), readRDS))
+    else if (any. && (S == 1))
+      do.call("c", lapply(snames("rds", attr(S, "done")), readRDS_trying))
     else
       stop("Nothing to retrieve. (see ?status).", call. = FALSE)
 
@@ -54,6 +74,15 @@ Slurm_collect.slurm_job <- function(x, any = TRUE, ...) {
       stop("No result yet from the script.", call. = FALSE)
 
   }
+
+  # If we are checking any, and we are
+  test <- sapply(res, inherits, what = "error")
+  if (any. && any(test))
+    warning(
+      "One or more jobs of the array may have not completed yet: ",
+      paste(which(test), collapse = ", "), ". You can check the log files of ",
+      "a given job by using `Slurm_log()`."
+      )
 
   # Applying hooks
   if (length(x$hooks)) {

@@ -18,6 +18,10 @@ Whatever the path specified on \code{tmp_path}, all nodes should have access to 
 Moreover, it is recommended to use a path located in a high-performing drive.
 See for example \url{https://hpcc.usc.edu/support/infrastructure/temporary-disk-space/}.
 
+The \code{tmp_path} directory is only created at the time that one of the functions
+needs to I/O files. Job creation calls like \link{Slurm_EvalQ} and \link{Slurm_lapply}
+do such.
+
 Current supported options are:
 
 Debugging mode

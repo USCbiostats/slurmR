@@ -37,8 +37,14 @@ have finalized without any errors.
 Check the State (status) of a Slurm JOB
 }
 \seealso{
-Other Utility: \code{\link{parse_flags}},
+Other utilities: \code{\link{Slurm_clean}},
+  \code{\link{Slurm_env}}, \code{\link{Slurm_log}},
+  \code{\link{WhoAmI}}, \code{\link{parse_flags}},
   \code{\link{snames}}
+
+Other post submission: \code{\link{Slurm_clean}},
+  \code{\link{Slurm_collect}}, \code{\link{Slurm_log}}
 }
-\concept{Utility}
+\concept{post submission}
+\concept{utilities}
 \keyword{datasets}

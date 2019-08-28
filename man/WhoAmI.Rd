@@ -2,11 +2,24 @@
 % Please edit documentation in R/utils.R
 \name{WhoAmI}
 \alias{WhoAmI}
+\alias{whoami}
 \title{Information about where jobs are submitted}
 \usage{
 WhoAmI()
+
+whoami()
 }
 \description{
 This returns a named vector with the following variables:
 \Sexpr{paste(names(sluRm::WhoAmI()), collapse = ", ")}
 }
+\details{
+\code{whoami} is just an alias of \code{WhoAmI}.
+}
+\seealso{
+Other utilities: \code{\link{Slurm_clean}},
+  \code{\link{Slurm_env}}, \code{\link{Slurm_log}},
+  \code{\link{parse_flags}}, \code{\link{snames}},
+  \code{\link{state}}
+}
+\concept{utilities}

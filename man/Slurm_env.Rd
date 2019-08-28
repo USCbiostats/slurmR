@@ -15,3 +15,10 @@ current value of \code{SLURM_ARRAY_TASK_ID}, an environment variable that Slurm
 creates when running an array. In the case that \code{opts_sluRm$get_debug() == TRUE},
 the function will return a 1 (see \link{opts_sluRm}).
 }
+\seealso{
+Other utilities: \code{\link{Slurm_clean}},
+  \code{\link{Slurm_log}}, \code{\link{WhoAmI}},
+  \code{\link{parse_flags}}, \code{\link{snames}},
+  \code{\link{state}}
+}
+\concept{utilities}

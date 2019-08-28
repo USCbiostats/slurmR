@@ -25,6 +25,9 @@ cat(parse_flags(a=1, b=TRUE, hola=2, y="I have spaces", ms=2, `cpus-per-task`=4)
 # -a 1 -b --hola=2 -y "I have spaces" --ms=2 --cpus-per-task=4
 }
 \seealso{
-Other Utility: \code{\link{snames}}, \code{\link{state}}
+Other utilities: \code{\link{Slurm_clean}},
+  \code{\link{Slurm_env}}, \code{\link{Slurm_log}},
+  \code{\link{WhoAmI}}, \code{\link{snames}},
+  \code{\link{state}}
 }
-\concept{Utility}
+\concept{utilities}

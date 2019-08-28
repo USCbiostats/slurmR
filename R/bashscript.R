@@ -22,7 +22,13 @@
 #' In the bash file. Available options can be found at
 #' https://slurm.schedmd.com/sbatch.html#OPTIONS.
 #' @noRd
-new_bash <- function(njobs = 2) {
+new_bash <- function(
+  filename,
+  job_name,
+  tmp_path,
+  output   = sprintf("%s/%s.out", tmp_path, job_name),
+  njobs    = NULL
+  ) {
 
   # Creating the new environment -----------------------------------------------
   env <- new.env(parent = emptyenv())
@@ -49,32 +55,31 @@ new_bash <- function(njobs = 2) {
   }
 
   # Finalizing the script ------------------------------------------------------
-  env$finalize <- function(Rscript_flags) {
+  env$Rscript <- function(file = snames("r"), flags = list(vanilla=TRUE)) {
 
-    Rscript_flags <- parse_flags(Rscript_flags)
+    flags <- parse_flags(flags)
 
     env$dat <- c(
       env$dat,
-      sprintf("%s/bin/Rscript %s %s", R.home(), Rscript_flags, snames("r"))
+      sprintf("%s/bin/Rscript %s %s", R.home(), flags, file)
     )
 
     invisible()
   }
 
   env$write <- function() {
-    writeLines(env$dat, snames("sh"))
+    writeLines(env$dat, filename)
   }
 
 
   # This bit is key (we need this info to properly track the job) --------------
   env$add_SBATCH(
     list(
-      `job-name` = opts_sluRm$get_job_name(),
-      output     = snames("out"),
+      `job-name` = job_name,
+      output     = output,
       array      = sprintf("1-%i", njobs)
     )
   )
-
 
   env
 

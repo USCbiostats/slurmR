@@ -146,7 +146,13 @@ Slurm_lapply <- function(
 
 
   # Writing the bash script out ------------------------------------------------
-  bash <- new_bash(njobs = njobs)
+  bash <- new_bash(
+    njobs    = njobs,
+    job_name = opts_sluRm$get_job_name(),
+    tmp_path = opts_sluRm$get_tmp_path(),
+    output   = snames("out"),
+    filename = snames("sh")
+    )
 
   if (!length(sbatch_opt) | (length(sbatch_opt) && !length(sbatch_opt$`cpus-per-task`)))
     sbatch_opt$`cpus-per-task` <- mc.cores
@@ -155,7 +161,7 @@ Slurm_lapply <- function(
 
   bash$add_SBATCH(sbatch_opt)
   bash$append("export OMP_NUM_THREADS=1") # Otherwise mclapply may crash
-  bash$finalize(rscript_opt)
+  bash$Rscript(flags = rscript_opt)
   bash$write()
 
   # Returning ------------------------------------------------------------------

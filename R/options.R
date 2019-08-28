@@ -292,13 +292,3 @@ print.opts_sluRm <- function(x, ...) {
 
 }
 
-.onLoad <- function(libname, pkgname) {
-
-  opts_sluRm$set_tmp_path(getwd())
-
-  tmp <- tempfile("sluRm-job-", opts_sluRm$get_tmp_path())
-  tmp <- gsub(".+(?=sluRm-job-)", "", tmp, perl = TRUE)
-
-  opts_sluRm$set_job_name(tmp)
-}
-

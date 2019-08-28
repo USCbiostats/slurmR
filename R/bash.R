@@ -220,7 +220,7 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
   # Warning that the call has been made and storing the id
   if (!opts_sluRm$get_debug()) {
 
-    x$jobid <-as.integer(gsub(pattern = ".+ (?=[0-9]+$)", "", ans, perl=TRUE))
+    x$jobid <- as.integer(gsub(pattern = ".+ (?=[0-9]+$)", "", ans, perl=TRUE))
     message(" jobid:", x$jobid, ".")
 
     # We need to update the job file and the latest submitted job
@@ -244,6 +244,69 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
 
   # Not necesary
   invisible(x)
+
+}
+
+#' @export
+#' @details The method for character scalars is used to submit jobs using a slurm
+#' script.
+#' @rdname sbatch
+sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
+
+  # This will stop if slurm is not available
+  stopifnot_slurm()
+
+  # Checking whether this is a valid file
+  if (!file.exists(x))
+    stop(
+      "No file named \"", x, "\". When character, `x` must be a file path.",
+      call. = FALSE
+      )
+
+  # Capturing jobname
+  SBATCH   <- read_sbatch(x)
+  job_name <- SBATCH["job-name"]
+  if (is.na(job_name))
+    job_name <- gsub(".+[/](?=[^/]+$)", "", x, perl=TRUE)
+
+  option <- c(parse_flags(..., `job-name` = job_name), x)
+
+  # Not submitting means that we just want the script
+  if (!submit) {
+    warning(
+      "[submit = FALSE] The job hasn't been submitted yet.",
+      " Use sbatch() to submit the job, or you can submit it via command line",
+      " using the following:\n", paste(
+        opts_sluRm$get_cmd(),
+        paste(option, collapse=" ")
+      ),
+      immediate. = TRUE,
+      call.      = FALSE
+    )
+
+    return(invisible(NULL))
+  }
+
+  # Submitting the job
+  message("Submitting job...", appendLF = FALSE)
+  ans <- silent_system2(opts_sluRm$get_cmd(), option, stdout = TRUE, wait=TRUE)
+
+  jobid <- as.integer(gsub(pattern = ".+ (?=[0-9]+$)", "", ans, perl=TRUE))
+  message(" jobid:", jobid, ".")
+
+  if (wait) {
+
+    ans <- sbatch_dummy(
+      `job-name` = paste0(job_name, "-dummy"),
+      dependency = paste0("afterany:", jobid),
+      partition  = SBATCH["partition"],
+      account    = SBATCH["account"]
+    )
+    check_error("srun", ans)
+
+  }
+
+  invisible(jobid)
 
 }
 

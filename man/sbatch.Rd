@@ -6,6 +6,7 @@
 \alias{sbatch}
 \alias{submit}
 \alias{sbatch.slurm_job}
+\alias{sbatch.character}
 \alias{squeue}
 \alias{squeue.default}
 \alias{squeue.slurm_job}
@@ -25,6 +26,8 @@ last_submitted_job()
 sbatch(x, wait = FALSE, submit = TRUE, ...)
 
 \method{sbatch}{slurm_job}(x, wait = FALSE, submit = TRUE, ...)
+
+\method{sbatch}{character}(x, wait = FALSE, submit = TRUE, ...)
 
 squeue(x = NULL, ...)
 
@@ -76,6 +79,9 @@ the resulting value will be \code{NULL}.
 In the case of \code{sbatch}, function takes an object of class \code{slurm_job} and
 submits it to the queue. In debug mode the job will be submitted via \code{sh}
 instead.
+
+The method for character scalars is used to submit jobs using a slurm
+script.
 
 The function \code{slurm.conf} is a wrapper of the function \code{scontrol} that
 returns configuration info about Slurm, in particular, the underlying command

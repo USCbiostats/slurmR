@@ -13,7 +13,7 @@
 #' x <- Slurm_EvalQ(sluRm::whoami(), plan = "wait")
 #' Slurm_log(x) # Checking the R log
 #' }
-Slurm_log <- function(x, cmd = "less", which. = NULL) {
+Slurm_log <- function(x, which. = NULL, cmd = "less") {
 
   if (!inherits(x, "slurm_job"))
     stop("`x` must be an object of class \"slurm_job\".", call. = FALSE)

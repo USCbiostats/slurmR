@@ -33,12 +33,13 @@ sourceSlurm <- function(
   x <- new_bash(
     filename = script_path,
     job_name = job_name,
-    tmp_path = tmp_path
+    tmp_path = tmp_path,
+    output   = paste0(getwd(), "/", job_name, ".out")
     )
 
   # Adding options
-  sbatch_opts$`job-name` <- job_name
   x$add_SBATCH(sbatch_opt)
+  sbatch_opt$`job-name` <- job_name
 
   # Finalizing by setting the R call
   x$Rscript(file = file, flags = rscript_opt)
@@ -47,5 +48,6 @@ sourceSlurm <- function(
   x$write()
 
   message("The created file can be found here:\n ", script_path)
+  #message("Here are the contents:", paste(readLines(script_path), collapse="\n"), "\n")
   sbatch(script_path, ...)
 }

@@ -4,16 +4,16 @@
 \alias{Slurm_log}
 \title{Check the R logfile of a job.}
 \usage{
-Slurm_log(x, cmd = "less", which. = NULL)
+Slurm_log(x, which. = NULL, cmd = "less")
 }
 \arguments{
 \item{x}{An object of class \link{slurm_job}.}
 
-\item{cmd}{Character scalar. The name of the command to use to call view the
-log file.}
-
 \item{which.}{An integer scalar. The number of the array job to check. This
 should range between 1 and \code{x$njobs}.}
+
+\item{cmd}{Character scalar. The name of the command to use to call view the
+log file.}
 }
 \description{
 Check the R logfile of a job.

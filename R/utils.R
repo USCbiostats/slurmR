@@ -269,7 +269,7 @@ Slurm_log <- function(x, cmd = "less", which. = NULL) {
   if (state(x) == -1)
     stop("It seems that the job hasn't started yet.", call. = FALSE)
 
-  location <- x$opts_job$tmp_path
+  location <- paste0(x$opts_r$tmp_path, "/", x$opts_job$`job-name`)
   if (!dir.exists(location))
     stop(
       "While the job seems to have started, the path to its temp files ",

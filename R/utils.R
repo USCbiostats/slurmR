@@ -122,14 +122,13 @@ snames <- function(type, array_id) {
 #'
 #' @param x Either a Job id, or an object of class `slurm_job`.
 #'
-#' @details Currently `JOB_STATE_CODES` is defined as a list with the following
-#' named elements:
+#' @details Currently, the function state classifies jobs according to whether
+#' these match the following state:
 #'
-#' - `done`: A single character "\Sexpr{sluRm::JOB_STATE_CODES$done}"
-#' - `failed`: A vector of characters "\Sexpr{paste0(sluRm::JOB_STATE_CODES$failed, collapse = "\\", \\"")}"
-#' - `running`: A single character "\Sexpr{paste0(sluRm::JOB_STATE_CODES$running, collapse = "\\", \\"")}"
-#' - `pending`: A vector of characters "\Sexpr{paste0(sluRm::JOB_STATE_CODES$pending, collapse = "\\", \\"")}"
-#'
+#' - `done`    "CD",
+#' - `failed`  "BF", "CD", "DL", "F", "NF", "PR", "SE", "TO",
+#' - `running` "R",
+#' - `pending` "PD"
 #'
 #' @return An integer with attributes. The attributes are integer vectors indicating
 #' which jobs fail in the categories of `done`, `failed`, `running`, and `pending`.
@@ -156,19 +155,20 @@ state.slurm_job <- function(x) {
   state.default(x$jobid)
 }
 
-#' @export
 #' @rdname state
-JOB_STATE_CODES <- list(
-  done    = "COMPLETED",
-  failed  = c("BOOT_FAIL", "CANCELLED", "DEADLINE", "FAILED", "NODE_FAIL",
-              "OUT_OF_MEMORY", "PREEMPTED", "REVOKED", "TIMEOUT"),
-  running = c("RUNNING"),
-  pending = c("PENDING", "REQUEUED", "RESIZING", "SUSPENDED")
-)
+"JOB_STATE_CODES"
 
 #' @export
 #' @rdname state
 state.default <- function(x) {
+
+  # Alpha 2 states
+  STATE_CODES <- list(
+    done    = "CD",
+    failed  = c("BF", "CD", "DL", "F", "NF", "PR", "SE", "TO"),
+    running = c("R"),
+    pending = c("PD")
+  )
 
   wrap <- function(val, S) do.call(structure, c(list(.Data = val), S))
 
@@ -190,7 +190,7 @@ state.default <- function(x) {
   JobID <- as.integer(gsub(".+[_]", "", JobID))
   State <- gsub("\\s+.+", "", dat$State[which_rows])
   njobs <- length(State)
-  State <- lapply(JOB_STATE_CODES, function(jsc) JobID[which(State %in% jsc)])
+  State <- lapply(STATE_CODES, function(jsc) JobID[which(State %in% jsc)])
 
   if (length(State$done) == njobs)
     return(wrap(0L, State))

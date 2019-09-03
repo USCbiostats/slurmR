@@ -7,7 +7,7 @@
 \alias{JOB_STATE_CODES}
 \alias{state.default}
 \title{Check the State (status) of a Slurm JOB}
-\format{An object of class \code{list} of length 4.}
+\format{An object of class \code{data.frame} with 24 rows and 3 columns.}
 \usage{
 state(x)
 
@@ -37,13 +37,13 @@ have finalized without any errors.
 Check the State (status) of a Slurm JOB
 }
 \details{
-Currently \code{JOB_STATE_CODES} is defined as a list with the following
-named elements:
+Currently, the function state classifies jobs according to whether
+these match the following state:
 \itemize{
-\item \code{done}: A single character "\Sexpr{sluRm::JOB_STATE_CODES$done}"
-\item \code{failed}: A vector of characters "\Sexpr{paste0(sluRm::JOB_STATE_CODES$failed, collapse = "\", \"")}"
-\item \code{running}: A single character "\Sexpr{paste0(sluRm::JOB_STATE_CODES$running, collapse = "\", \"")}"
-\item \code{pending}: A vector of characters "\Sexpr{paste0(sluRm::JOB_STATE_CODES$pending, collapse = "\", \"")}"
+\item \code{done}    "CD",
+\item \code{failed}  "BF", "CD", "DL", "F", "NF", "PR", "SE", "TO",
+\item \code{running} "R",
+\item \code{pending} "PD"
 }
 }
 \seealso{

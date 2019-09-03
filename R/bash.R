@@ -365,12 +365,19 @@ squeue.default <- function(x = NULL, ...) {
   stopifnot_slurm()
 
   # Notice that the jobid may be null
-  option <- c(sprintf("-j%i", x), parse_flags(...))
+  option <- c(sprintf("-j%i -o%%all", x), parse_flags(...))
 
   # message("Submitting job...")
   ans <- silent_system2("squeue", option, stdout=TRUE, stderr = TRUE, wait=TRUE)
 
-  ans
+  # Parsing the data
+  ans <- lapply(ans, strsplit, split="|", fixed=TRUE)
+  ans <- do.call(rbind, lapply(ans, unlist))
+
+  structure(
+    as.data.frame(ans[-1, , drop=FALSE], stringsAsFactors=FALSE),
+    names = ans[1,]
+  )
 
 }
 

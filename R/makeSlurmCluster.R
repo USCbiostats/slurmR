@@ -86,7 +86,7 @@ makeSlurmCluster <- function(
 
   # Extracting the relevant information
   pids      <- sapply(info, "[[", "pid")
-  nodenames <- sapply(info, function(i) i$who["SLURM_NODENAME"])
+  nodenames <- sapply(info, function(i) i$who["SLURMD_NODENAME"])
 
 
   # Creating the PSOCK cluster

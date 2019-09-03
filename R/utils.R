@@ -272,7 +272,7 @@ WhoAmI <- function() {
   # I only do this b/c I may need to use this in other context
   if (!slurm_available() | opts_sluRm$get_debug()) {
     ans["SLURM_TASK_PID"] <- Sys.getpid()
-    ans["SLURM_NODENAME"] <- "localhost"
+    ans["SLURMD_NODENAME"] <- "localhost"
     ans["SLURM_ARRAY_TASK_ID"] <- 1
   }
 

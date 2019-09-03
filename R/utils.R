@@ -178,6 +178,8 @@ state.default <- function(x) {
 
   dat <- sacct(x)
 
+  # We only need to keep the main line of the account
+
   if (!nrow(dat))
     return(wrap(-1L, NULL))
 

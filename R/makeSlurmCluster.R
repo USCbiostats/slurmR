@@ -88,6 +88,10 @@ makeSlurmCluster <- function(
     sprintf("%s/%s/jobinfo%05d.rds", tmp_path, job_name , 1L:files2read)
     ))
 
+
+  # Let's just wait a few seconds before jumping into conclusions!
+  Sys.sleep(5)
+  
   while ((Sys.time() - time0) <= timeout) {
 
     # In the case of debug mode on, we don't need to check for the job status.
@@ -96,11 +100,13 @@ makeSlurmCluster <- function(
       s <- state(job)
 
     # One or more failed
-    if (s == 2L)
+    if (s == 2L) {
+      scancel(job$jobid)
       stop("One or more jobs failed to initialize.", call. = FALSE)
-    if (s == 0L)
+    } else if (s == 0L) {
+      scancel(job$jobid)
       stop("The job was completed. This shouldn't happen!", call. = FALSE)
-    if (s == -1L)
+    } else if (s == -1L)
       next
 
     # Trying to read the dataset
@@ -113,12 +119,14 @@ makeSlurmCluster <- function(
 
   }
 
-  if (any(sapply(info, inherits, what = "error")))
+  if (any(sapply(info, inherits, what = "error"))) {
+    scancel(job$jobid)
     stop(
       "While trying to read information regarding the created jobs, one or ",
       "more components failed.",
       call. = FALSE
       )
+  }
 
   # Extracting the relevant information
   pids      <- sapply(info, "[[", "pid")

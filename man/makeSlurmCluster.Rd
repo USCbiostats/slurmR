@@ -12,18 +12,68 @@ makeSlurmCluster(njobs, job_name = opts_sluRm$get_job_name(),
 \method{stopCluster}{SlurmCluster}(cl)
 }
 \arguments{
-\item{njobs}{Integer. Number of jobs to use in the job-array.}
+\item{njobs}{Integer. Number of jobs to use in the job-array. This specifies
+the number of R sessions to initialize. This does not specify the number of
+cores to be used.}
 
 \item{job_name}{Character. Name of the job to be passed to \code{Slurm}.}
 
 \item{tmp_path}{Character. Path to the directory where all the data (including
 scripts) will be stored. Notice that this path must be accessible by all the
 nodes in the network (See \link{opts_sluRm}).}
+
+\item{sbatch_opt}{List of options to be passed to \code{sbatch}. This is usually
+done by adding the flags \code{#SBATCH} to the bash file.}
+
+\item{timeout}{Integer scalar. Wait time before exiting with error while
+trying to read the nodes information.}
+
+\item{...}{Further arguments passed to \link[parallel:makePSOCKcluster]{parallel::makePSOCKcluster}.}
+
+\item{cl}{An object of class \code{SlurmCluster}.}
 }
 \description{
-Create a Parallel Socket Cluster using Slurm
+This function is essentially a wrapper of the function \link[parallel:makePSOCKcluster]{parallel::makePSOCKcluster}.
+\code{makeSlurmCluster} main feature is adding node addresses.
 }
 \details{
 By default, if the \code{time} option is not specified via \code{sbatch_opt},
 then it is set to the value \code{1-0}, this is, 1 day and 0 hours.
+
+Once a job is submitted via Slurm, the user gets access to the nodes
+associated with it, which allows users to star new processes within those.
+By means of this, we can create PSOCK clusters accross nodes in a Slurm
+enviornment. In particular, \code{makeSlurmCluster} performs the following steps:
+\enumerate{
+\item Using \link{Slurm_EvalQ}, a job is submitted using an array with \code{njobs}.
+\item Each job within the array stores information regarding the node where they
+are being executed, including the name of the node.
+\item Create a PSOCK cluster using the node names obtained from the \code{SlurmEvalQ}
+call.
+}
+
+The method \code{stopCluster} for \code{SlurmCluster} stops the cluster doing
+the following:
+\itemize{
+\item First, it tries to kill the processes initialized in the nodes by using the
+PIDs (these were collected during creation.),
+\item Then, calls the \code{stopCluster} method for \code{PSOCK} objects.
+\item Finally, it takes the array's JOB ID and cancels that job.
+}
+}
+\examples{
+\dontrun{
+
+# Creating a cluster with 200 workers/offpring/child R sessions
+cl <- makeSlurmCluster(200)
+
+# Computing the mean of a 100 random uniforms within each worker
+# for this we can use any of the function available in the parallel package.
+ans <- parSapply(1:200, function(x) mean(runif(100)))
+
+# We simply call stopCluster as we would do with any other cluster
+# object
+stopCluster(ans)
+}
+
 }

@@ -4,7 +4,6 @@
 NULL
 
 #' @importFrom utils sessionInfo str head
-#' @importFrom parallel splitIndices mclapply mcMap
 NULL
 
 .onLoad <- function(libname, pkgname) {

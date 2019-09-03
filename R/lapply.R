@@ -3,6 +3,9 @@
 #' [parallel::mcMap].
 #' @template slurm
 #' @template job_name-tmp_path
+#' @template sbatch_opt
+#' @template rscript_opt
+#' @template njobs
 #' @references Job Array Support https://slurm.schedmd.com/job_array.html
 #' @export
 #' @details The function `Slurm_lapply` will submit `njobs` to the queue and distribute

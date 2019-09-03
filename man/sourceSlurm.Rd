@@ -16,8 +16,10 @@ sourceSlurm(file, job_name = NULL, tmp_path = tempdir(),
 scripts) will be stored. Notice that this path must be accessible by all the
 nodes in the network (See \link{opts_sluRm}).}
 
-\item{sbatch_opt, rscript_opt}{List. Options to be passed via flags to
-the bash file as \code{#SBATCH} and to \code{Rscript} respectively.}
+\item{rscript_opt}{List. Options to be passed to \code{Rscript}.}
+
+\item{sbatch_opt}{List of options to be passed to \code{sbatch}. This is usually
+done by adding the flags \code{#SBATCH} to the bash file.}
 
 \item{...}{Further arguments to be passed to \link{sbatch}.}
 }

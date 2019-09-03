@@ -13,7 +13,9 @@ Slurm_EvalQ(expr, njobs = 2L, job_name = opts_sluRm$get_job_name(),
 \arguments{
 \item{expr}{An expression to be passed to Slurm.}
 
-\item{njobs}{Integer. Number of jobs to use in the job-array.}
+\item{njobs}{Integer. Number of jobs to use in the job-array. This specifies
+the number of R sessions to initialize. This does not specify the number of
+cores to be used.}
 
 \item{job_name}{Character. Name of the job to be passed to \code{Slurm}.}
 
@@ -23,8 +25,10 @@ nodes in the network (See \link{opts_sluRm}).}
 
 \item{plan}{A character scalar. (See \link{the_plan}).}
 
-\item{sbatch_opt, rscript_opt}{List. Options to be passed via flags to
-the bash file as \code{#SBATCH} and to \code{Rscript} respectively.}
+\item{sbatch_opt}{List of options to be passed to \code{sbatch}. This is usually
+done by adding the flags \code{#SBATCH} to the bash file.}
+
+\item{rscript_opt}{List. Options to be passed to \code{Rscript}.}
 
 \item{seeds}{Integer vector of length \code{njobs}. Seeds to be passed to each
 job. When \code{NULL} (default), seeds will be picked automatically (see \link{new_rscript}).}

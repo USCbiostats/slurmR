@@ -2,6 +2,9 @@
 #' @param expr An expression to be passed to Slurm.
 #' @template slurm
 #' @template job_name-tmp_path
+#' @template sbatch_opt
+#' @template rscript_opt
+#' @template njobs
 #' @export
 Slurm_EvalQ <- function(
   expr,

@@ -1,6 +1,4 @@
 #' @param plan A character scalar. (See [the_plan]).
-#' @param sbatch_opt,rscript_opt List. Options to be passed via flags to
-#' the bash file as `#SBATCH` and to `Rscript` respectively.
 #' @param compress Logical scalar (default `TRUE`). Passed to [saveRDS]. Setting
 #' this value to `FALSE` can be useful when the user requires faster read/write
 #' of R objects on disk.

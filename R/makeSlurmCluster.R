@@ -1,10 +1,44 @@
 #' Create a Parallel Socket Cluster using Slurm
 #'
+#' This function is essentially a wrapper of the function [parallel::makePSOCKcluster].
+#' `makeSlurmCluster` main feature is adding node addresses.
 #'
+#' @template sbatch_opt
+#' @template njobs
 #' @template job_name-tmp_path
 #' @details By default, if the `time` option is not specified via `sbatch_opt`,
 #' then it is set to the value `1-0`, this is, 1 day and 0 hours.
+#' @param timeout Integer scalar. Wait time before exiting with error while
+#' trying to read the nodes information.
+#' @param ... Further arguments passed to [parallel::makePSOCKcluster].
 #' @export
+#' @details Once a job is submitted via Slurm, the user gets access to the nodes
+#' associated with it, which allows users to star new processes within those.
+#' By means of this, we can create PSOCK clusters accross nodes in a Slurm
+#' enviornment. In particular, `makeSlurmCluster` performs the following steps:
+#'
+#' 1. Using [Slurm_EvalQ], a job is submitted using an array with `njobs`.
+#'
+#' 2. Each job within the array stores information regarding the node where they
+#'    are being executed, including the name of the node.
+#'
+#' 3. Create a PSOCK cluster using the node names obtained from the `SlurmEvalQ`
+#'    call.
+#'
+#' @examples
+#' \dontrun{
+#'
+#' # Creating a cluster with 200 workers/offpring/child R sessions
+#' cl <- makeSlurmCluster(200)
+#'
+#' # Computing the mean of a 100 random uniforms within each worker
+#' # for this we can use any of the function available in the parallel package.
+#' ans <- parSapply(1:200, function(x) mean(runif(100)))
+#'
+#' # We simply call stopCluster as we would do with any other cluster
+#' # object
+#' stopCluster(ans)
+#' }
 #'
 makeSlurmCluster <- function(
   njobs,
@@ -19,6 +53,8 @@ makeSlurmCluster <- function(
     sbatch_opt$time <- "1-0"
 
   # Creating a job to be submitted
+  JOB_PATH <- NULL # THIS IS CREATED JUST TO AVOID THE NOTE DURING R CMD CHECK
+  ARRAY_ID <- NULL # THIS IS CREATED JUST TO AVOID THE NOTE DURING R CMD CHECK
   job <- Slurm_EvalQ(expr = {
 
     # Saving the process id... so we can kill it!
@@ -94,20 +130,33 @@ makeSlurmCluster <- function(
     nodenames, ...
   )
 
-  attr(cl, "SLURM_PIDS") <- pids
-  attr(cl, "class")      <- c("SlurmCluster", attr(cl, "class"))
+  attr(cl, "SLURM_PIDS")  <- pids
+  attr(cl, "SLURM_JOBID") <- job$jobid
+  attr(cl, "class")       <- c("SlurmCluster", attr(cl, "class"))
 
   cl
 
 }
 
 #' @export
+#' @param cl An object of class `SlurmCluster`.
 #' @rdname makeSlurmCluster
-#' @importFrom parallel stopCluster parSapply
+#' @importFrom parallel stopCluster
+#' @details The method `stopCluster` for `SlurmCluster` stops the cluster doing
+#' the following:
+#'
+#' - First, it tries to kill the processes initialized in the nodes by using the
+#'   PIDs (these were collected during creation.),
+#'
+#' - Then, calls the `stopCluster` method for `PSOCK` objects.
+#'
+#' - Finally, it takes the array's JOB ID and cancels that job.
+#'
 stopCluster.SlurmCluster <- function(cl) {
 
   # First, we need to stop the original processes, this will kill the cluster
   # right away!
+  on.exit(scancel(attr(cl, "SLURM_JOBID")))
   ans <- parallel::parSapply(
     cl  = cl,
     X   = attr(cl, "SLURM_PIDS"),

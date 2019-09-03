@@ -1,32 +1,26 @@
 Package: sluRm
 Title: A Lightweight Wrapper for Slurm
 Version: 0.2-0
-Authors@R: c(
-  person("George", "Vega Yon", email = "g.vegayon@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-3171-0844")),
-  person("Paul", "Marjoram", email = "pmarjora@usc.edu", role = c("ctb", "ths"), comment = c(ORCID = "0000-0003-0824-7449")),
-  person("National Cancer Institute (NCI)", role = "fnd", comment = "Grant Number 5P01CA196569-02"),
-  person("Michael", "Schubert", role = "rev", comment = c(what = "JOSS reviewer", ORCID = "0000-0002-6862-5221")),
-  person("Michel", "Lang", role = "rev", comment = c(what = "JOSS reviewer", ORCID = "0000-0001-9754-0393"))
-  )
-Description: Slurm workload manager is a popular Linux based software used to
-  schedule jobs in HPC clusters. This R package provides a specialized lightweight
-  wrapper of Slurm with a syntax similar to that found in the parallel R package.
-Depends:
-  R (>= 3.3.0),
-  parallel
-License: MIT + file LICENSE 
+Authors@R: c( person("George", "Vega Yon", email = "g.vegayon@gmail.com", role =
+         c("aut", "cre"), comment = c(ORCID = "0000-0002-3171-0844")), person("Paul",
+         "Marjoram", email = "pmarjora@usc.edu", role = c("ctb", "ths"), comment =
+         c(ORCID = "0000-0003-0824-7449")), person("National Cancer Institute (NCI)",
+         role = "fnd", comment = "Grant Number 5P01CA196569-02"), person("Michael",
+         "Schubert", role = "rev", comment = c(what = "JOSS reviewer", ORCID =
+         "0000-0002-6862-5221")), person("Michel", "Lang", role = "rev", comment =
+         c(what = "JOSS reviewer", ORCID = "0000-0001-9754-0393")) )
+Description: Slurm workload manager is a popular Linux based software used to schedule
+         jobs in HPC clusters. This R package provides a specialized lightweight
+         wrapper of Slurm with a syntax similar to that found in the parallel R
+         package.
+Depends: R (>= 3.3.0), parallel
+License: MIT + file LICENSE
 BugReports: https://github.com/USCbiostats/sluRm/issues
 URL: https://github.com/USCbiostats/sluRm
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
-Suggests: 
-    rslurm,
-    knitr,
-    rmarkdown,
-    testthat,
-    covr
-Imports: 
-    utils, parallel
+Suggests: rslurm, knitr, rmarkdown, testthat, covr
+Imports: utils
 VignetteBuilder: knitr

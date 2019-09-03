@@ -1,6 +1,7 @@
 #' Submit an expression to be evaluated to multiple jobs.
 #' @param expr An expression to be passed to Slurm.
 #' @template slurm
+#' @template job_name-tmp_path
 #' @export
 Slurm_EvalQ <- function(
   expr,
@@ -40,7 +41,7 @@ Slurm_EvalQ <- function(
   rscript$append(
     paste0(
       "ans <- list(tryCatch({\n",
-      gsub("^", "   ", sexpr),
+      paste0(gsub("^", "   ", sexpr), collapse = "\n"),
       "\n}, error = function(e) e))"
       )
     )

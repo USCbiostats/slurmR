@@ -121,9 +121,20 @@ snames <- function(type, array_id) {
 #' Check the State (status) of a Slurm JOB
 #'
 #' @param x Either a Job id, or an object of class `slurm_job`.
-#' @return An integer with an attribute `sacct`
 #'
-#' Codes:
+#' @details Currently `JOB_STATE_CODES` is defined as a list with the following
+#' named elements:
+#'
+#' - `done`: A single character "\Sexpr{sluRm::JOB_STATE_CODES$done}"
+#' - `failed`: A vector of characters "\Sexpr{paste0(sluRm::JOB_STATE_CODES$failed, collapse = "\\", \\"")}"
+#' - `running`: A single character "\Sexpr{paste0(sluRm::JOB_STATE_CODES$running, collapse = "\\", \\"")}"
+#' - `pending`: A vector of characters "\Sexpr{paste0(sluRm::JOB_STATE_CODES$pending, collapse = "\\", \\"")}"
+#'
+#'
+#' @return An integer with attributes. The attributes are integer vectors indicating
+#' which jobs fail in the categories of `done`, `failed`, `running`, and `pending`.
+#' The value of the integer is assigned as follows:
+#'
 #' - `-1`: Job not found. This may be a false negative since Slurm may still
 #'   be scheduling the job.
 #'
@@ -256,7 +267,16 @@ WhoAmI <- function() {
     "SLURM_TASK_PID"
     )
 
-  structure(sapply(vars, Sys.getenv), names = vars)
+
+  ans <- structure(sapply(vars, Sys.getenv), names = vars)
+  # I only do this b/c I may need to use this in other context
+  if (!slurm_available() | opts_sluRm$get_debug()) {
+    ans["SLURM_TASK_PID"] <- Sys.getpid()
+    ans["SLURM_NODENAME"] <- "localhost"
+    ans["SLURM_ARRAY_TASK_ID"] <- 1
+  }
+
+  ans
 
 }
 

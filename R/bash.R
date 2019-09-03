@@ -26,7 +26,11 @@ slurm_available <- function() {
 stopifnot_slurm <- function() {
 
   if (!slurm_available())
-    stop("Slurm is not available on this system.", call. = FALSE)
+    stop(
+      "Slurm is not available on this system. If you are trying to debug or ",
+      "run some tests, you should set the debug mode on (see opts_sluRm).",
+      call. = FALSE
+      )
 
 }
 

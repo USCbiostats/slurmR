@@ -165,6 +165,13 @@ new_rscript <- function(
   env$append(rscript_header(pkgs))
   env$append(paste0("Slurm_env <- ", paste(deparse(Slurm_env), collapse="\n")))
   env$append(sprintf("%-16s <- as.integer(Slurm_env(\"SLURM_ARRAY_TASK_ID\"))", "ARRAY_ID"))
+  env$append(sprintf(
+    "%-16s <- \"%s/%s/\"",
+    "JOB_PATH",
+    opts_sluRm$get_tmp_path(),
+    opts_sluRm$get_job_name()
+    )
+    )
 
   # Function to finalize the Rscript
   env$finalize <- function(x, compress = TRUE) {

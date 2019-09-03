@@ -21,9 +21,9 @@ JOB_STATE_CODES
 \item{x}{Either a Job id, or an object of class \code{slurm_job}.}
 }
 \value{
-An integer with an attribute \code{sacct}
-
-Codes:
+An integer with attributes. The attributes are integer vectors indicating
+which jobs fail in the categories of \code{done}, \code{failed}, \code{running}, and \code{pending}.
+The value of the integer is assigned as follows:
 \itemize{
 \item \code{-1}: Job not found. This may be a false negative since Slurm may still
 be scheduling the job.
@@ -35,6 +35,16 @@ have finalized without any errors.
 }
 \description{
 Check the State (status) of a Slurm JOB
+}
+\details{
+Currently \code{JOB_STATE_CODES} is defined as a list with the following
+named elements:
+\itemize{
+\item \code{done}: A single character "\Sexpr{sluRm::JOB_STATE_CODES$done}"
+\item \code{failed}: A vector of characters "\Sexpr{paste0(sluRm::JOB_STATE_CODES$failed, collapse = "\", \"")}"
+\item \code{running}: A single character "\Sexpr{paste0(sluRm::JOB_STATE_CODES$running, collapse = "\", \"")}"
+\item \code{pending}: A vector of characters "\Sexpr{paste0(sluRm::JOB_STATE_CODES$pending, collapse = "\", \"")}"
+}
 }
 \seealso{
 Other utilities: \code{\link{Slurm_clean}},

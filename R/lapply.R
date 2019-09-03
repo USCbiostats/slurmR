@@ -2,6 +2,7 @@
 #' @param X,FUN,f,mc.cores,... Arguments passed to either [parallel::mclapply] or
 #' [parallel::mcMap].
 #' @template slurm
+#' @template job_name-tmp_path
 #' @references Job Array Support https://slurm.schedmd.com/job_array.html
 #' @export
 #' @details The function `Slurm_lapply` will submit `njobs` to the queue and distribute

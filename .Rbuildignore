@@ -13,3 +13,4 @@
 ^sluRm-job.*$
 ^\..*
 \.ods$
+Makefile

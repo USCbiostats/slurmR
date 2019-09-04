@@ -7,7 +7,7 @@
 \alias{JOB_STATE_CODES}
 \alias{state.default}
 \title{Check the State (status) of a Slurm JOB}
-\format{An object of class \code{data.frame} with 24 rows and 3 columns.}
+\format{An object of class \code{data.frame} with 24 rows and 4 columns.}
 \usage{
 state(x)
 
@@ -22,8 +22,8 @@ JOB_STATE_CODES
 }
 \value{
 An integer with attributes. The attributes are integer vectors indicating
-which jobs fail in the categories of \code{done}, \code{failed}, \code{running}, and \code{pending}.
-The value of the integer is assigned as follows:
+which jobs fail in the categories of \code{completed}, \code{failed}, and \code{pending} (see
+\link{JOB_STATE_CODES}). Possible return values are
 \itemize{
 \item \code{-1}: Job not found. This may be a false negative since Slurm may still
 be scheduling the job.
@@ -32,18 +32,31 @@ have finalized without any errors.
 \item \code{1}: Some jobs are still running/pending.
 \item \code{2}: One or more jobs have failed.
 }
+
+If the job is not an array, then function will return the corresponding code
+but the attributes will only have a single number, 1, according to the state
+of the job (completed, failed, pending).
 }
 \description{
-Check the State (status) of a Slurm JOB
+Using the \link{sacct} function, it checks the status of a particular error and
+returns information about its current state.
 }
-\details{
-Currently, the function state classifies jobs according to whether
-these match the following state:
-\itemize{
-\item \code{done}    "CD",
-\item \code{failed}  "BF", "CD", "DL", "F", "NF", "PR", "SE", "TO",
-\item \code{running} "R",
-\item \code{pending} "PD"
+\examples{
+\dontrun{
+
+x <- Slurm_EvalQ(Sys.sleep(100), njobs = 2)
+
+state(x)
+# A possible result: An integer with attributes
+# [1] 1
+# attr(,"pending")
+# [1] 1
+# attr(,"failed")
+# integer(0)
+# attr(,"done")
+# [1] 2
+
+
 }
 }
 \seealso{

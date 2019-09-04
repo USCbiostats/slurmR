@@ -120,19 +120,14 @@ snames <- function(type, array_id) {
 
 #' Check the State (status) of a Slurm JOB
 #'
+#' Using the [sacct] function, it checks the status of a particular error and
+#' returns information about its current state.
+#'
 #' @param x Either a Job id, or an object of class `slurm_job`.
 #'
-#' @details Currently, the function state classifies jobs according to whether
-#' these match the following state:
-#'
-#' - `done`    "CD",
-#' - `failed`  "BF", "CD", "DL", "F", "NF", "PR", "SE", "TO",
-#' - `running` "R",
-#' - `pending` "PD"
-#'
 #' @return An integer with attributes. The attributes are integer vectors indicating
-#' which jobs fail in the categories of `done`, `failed`, `running`, and `pending`.
-#' The value of the integer is assigned as follows:
+#' which jobs fail in the categories of `completed`, `failed`, and `pending` (see
+#' [JOB_STATE_CODES]). Possible return values are
 #'
 #' - `-1`: Job not found. This may be a false negative since Slurm may still
 #'   be scheduling the job.
@@ -144,9 +139,30 @@ snames <- function(type, array_id) {
 #'
 #' - `2`: One or more jobs have failed.
 #'
+#' If the job is not an array, then function will return the corresponding code
+#' but the attributes will only have a single number, 1, according to the state
+#' of the job (completed, failed, pending).
+#'
 #' @export
 #' @family utilities
 #' @family post submission
+#' @examples
+#' \dontrun{
+#'
+#' x <- Slurm_EvalQ(Sys.sleep(100), njobs = 2)
+#'
+#' state(x)
+#' # A possible result: An integer with attributes
+#' # [1] 1
+#' # attr(,"pending")
+#' # [1] 1
+#' # attr(,"failed")
+#' # integer(0)
+#' # attr(,"done")
+#' # [1] 2
+#'
+#'
+#' }
 state <- function(x) UseMethod("state")
 
 #' @export
@@ -162,14 +178,6 @@ state.slurm_job <- function(x) {
 #' @rdname state
 state.default <- function(x) {
 
-  # Alpha 2 states
-  STATE_CODES <- list(
-    done    = "CD",
-    failed  = c("BF", "CD", "DL", "F", "NF", "PR", "SE", "TO"),
-    running = c("R"),
-    pending = c("PD")
-  )
-
   wrap <- function(val, S) do.call(structure, c(list(.Data = val), S))
 
   # Checking the data
@@ -179,26 +187,51 @@ state.default <- function(x) {
   dat <- sacct(x)
 
   # We only need to keep the main line of the account
-
   if (!nrow(dat))
     return(wrap(-1L, NULL))
 
-  # How many are done?
+  # Filtering the data, we don't use the steps, just the jobs.
   JobID <- dat$JobID
-  which_rows <- grepl("^[0-9]+([_][0-9]+)?$", JobID)
+  which_rows <- grepl("^[0-9_]+$", JobID)
+
   JobID <- JobID[which_rows]
-  JobID <- as.integer(gsub(".+[_]", "", JobID))
   State <- gsub("\\s+.+", "", dat$State[which_rows])
-  njobs <- length(State)
-  State <- lapply(STATE_CODES, function(jsc) JobID[which(State %in% jsc)])
 
-  if (length(State$done) == njobs)
-    return(wrap(0L, State))
-  else if (length(State$failed) == 0L)
-    return(wrap(1L, State))
-  else
-    return(wrap(2L, State))
+  # Checking whether it is a JOB ARRAY or not
+  is_array <- grepl("[_]", JobID[1])
 
+  STATE_CODES <- split(JOB_STATE_CODES$name, JOB_STATE_CODES$type)
+
+  if (is_array) {
+
+    # Getting the array id
+    njobs <- length(State)
+    JobID <- as.integer(gsub(".+[_]", "", JobID))
+
+    State <- lapply(STATE_CODES, function(jsc) JobID[which(State %in% jsc)])
+
+    if (length(State$done) == njobs) {
+      return(wrap(0L, State))
+    } else if (length(State$failed) == 0L) {
+      return(wrap(1L, State))
+    } else {
+      return(wrap(2L, State))
+    }
+
+
+  } else {
+
+    State <- lapply(STATE_CODES, function(jsc) JobID[which(State %in% jsc)])
+
+    if (State %in% STATE_CODES$done) {
+      return(wrap(0L, State))
+    } else if (State %in% STATE_CODES$failed) {
+      return(wrap(1L, State))
+    } else if (State %in% STATE_CODES$pending) {
+      return(wrap(2L, State))
+    }
+
+  }
 
 }
 

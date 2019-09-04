@@ -30,6 +30,13 @@ JOB_STATE_CODES <- matrix(
   dimnames = list(NULL, c("code", "name", "description"))
   )
 
+
 JOB_STATE_CODES <- data.frame(JOB_STATE_CODES, stringsAsFactors = FALSE)
 
-usethis::use_data(JOB_STATE_CODES)
+JOB_STATE_CODES$type <- ifelse(
+  JOB_STATE_CODES$code == "CD", "done",
+  ifelse(grepl("fail|term|err|stopped|suspended|cancell", JOB_STATE_CODES$description, ignore.case = TRUE),
+         "failed", "pending"
+  ))
+
+usethis::use_data(JOB_STATE_CODES, overwrite = TRUE)

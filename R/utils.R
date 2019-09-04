@@ -190,19 +190,31 @@ state.default <- function(x) {
   if (!nrow(dat))
     return(wrap(-1L, NULL))
 
+  # Processing ids
+  dat  <- dat[grepl("^[^\\.]$", JobID), , drop=FALSE]
+  dat. <- NULL
+  for (i in nrow(dat)) {
+
+    # Expanding Array indexes, and the data retrieved from sacct.
+    idx <- expand_array_indexes(dat$JobID)
+    dat. <- rbind(
+      dat.,
+      cbind(dat[i, , drop=FALSE], NewId = idx)
+      )
+
+  }
+
+  dat <- subset(dat., select = c(-JobID))
+  colnames(dat)[ncol(dat)] <- "JobID"
+
   # Filtering the data, we don't use the steps, just the jobs.
   JobID <- dat$JobID
-  which_rows <- grepl("^[0-9_]+$", JobID)
-
-  JobID <- JobID[which_rows]
-  State <- gsub("\\s+.+", "", dat$State[which_rows])
-
-  # Checking whether it is a JOB ARRAY or not
-  is_array <- grepl("[_]", JobID[1])
+  State <- gsub("\\s+.+", "", dat$State)
 
   STATE_CODES <- split(JOB_STATE_CODES$name, JOB_STATE_CODES$type)
 
-  if (is_array) {
+  # If it is an array (multiple rows)
+  if (nrow(dat) > 1L) {
 
     # Getting the array id
     njobs <- length(State)

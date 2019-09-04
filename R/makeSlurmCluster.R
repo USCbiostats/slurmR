@@ -90,9 +90,22 @@ makeSlurmCluster <- function(
 
 
   # Let's just wait a few seconds before jumping into conclusions!
-  Sys.sleep(5)
+  Sys.sleep(1)
   
+  ntry <- -1L
   while ((Sys.time() - time0) <= timeout) {
+
+    # For sanity, will wait for a second each time
+    Sys.sleep(1)
+    ntry <- ntry + 1L
+
+    if (ntry > 0L && !(ntry %% 5)) {
+       message(
+         "Some jobs need to be allocated still (", length(attr(s, "pending")),
+         "). Waiting for a few more seconds before trying again..."
+       )
+       Sys.sleep(3)
+    }
 
     # In the case of debug mode on, we don't need to check for the job status.
     # we can go directly to the R sessions
@@ -168,8 +181,8 @@ stopCluster.SlurmCluster <- function(cl) {
   ans <- parallel::parSapply(
     cl  = cl,
     X   = attr(cl, "SLURM_PIDS"),
-    FUN = function(x.) silent_system2("kill", x., stdout = TRUE, stderr = TRUE),
-    .scheduling = "static"
+    FUN = function(x.) silent_system2("kill", x., stdout = TRUE, stderr = TRUE) #,
+    # .scheduling = "static"
     )
 
   if (any(sapply(ans, inherits, what = "error")))

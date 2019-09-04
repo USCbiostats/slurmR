@@ -191,12 +191,12 @@ state.default <- function(x) {
     return(wrap(-1L, NULL))
 
   # Processing ids
-  dat  <- dat[grepl("^[^\\.]$", JobID), , drop=FALSE]
+  dat  <- dat[grepl("^[^\\.]+$", dat$JobID), , drop=FALSE]
   dat. <- NULL
-  for (i in nrow(dat)) {
+  for (i in 1L:nrow(dat)) {
 
     # Expanding Array indexes, and the data retrieved from sacct.
-    idx <- expand_array_indexes(dat$JobID)
+    idx <- expand_array_indexes(dat$JobID[i])
     dat. <- rbind(
       dat.,
       cbind(dat[i, , drop=FALSE], NewId = idx)
@@ -215,36 +215,23 @@ state.default <- function(x) {
 
   # If it is an array (multiple rows)
   if (nrow(dat) > 1L) {
-
     # Getting the array id
-    njobs <- length(State)
     JobID <- as.integer(gsub(".+[_]", "", JobID))
-
-    State <- lapply(STATE_CODES, function(jsc) JobID[which(State %in% jsc)])
-
-    if (length(State$done) == njobs) {
-      return(wrap(0L, State))
-    } else if (length(State$failed) == 0L) {
-      return(wrap(1L, State))
-    } else {
-      return(wrap(2L, State))
-    }
-
-
-  } else {
-
-    State <- lapply(STATE_CODES, function(jsc) JobID[which(State %in% jsc)])
-
-    if (State %in% STATE_CODES$done) {
-      return(wrap(0L, State))
-    } else if (State %in% STATE_CODES$failed) {
-      return(wrap(1L, State))
-    } else if (State %in% STATE_CODES$pending) {
-      return(wrap(2L, State))
-    }
-
   }
 
+  njobs <- length(State)
+  State <- lapply(STATE_CODES, function(jsc) JobID[which(State %in% jsc)])
+
+  if (length(State$done) == njobs) {
+    return(wrap(0L, State))
+  } else if (length(State$failed) == 0L) {
+    return(wrap(1L, State))
+  } else {
+    return(wrap(2L, State))
+  }
+
+
+ 
 }
 
 #' A wrapper of [Sys.getenv]

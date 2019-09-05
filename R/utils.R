@@ -186,9 +186,8 @@ status.default <- function(x) {
       `0`  = "Job completed.",
       `1`  = "All jobs are pending resource allocation or are on it's way to start.",
       `2`  = "One or more jobs are still running.",
-      `99` = "One or more jobs failed.",
-      stop()
-    )
+      `99` = "One or more jobs failed."
+      )
 
     do.call(structure, c(list(.Data = val, description=desc, class="slurm_status"), S))
   }
@@ -210,14 +209,24 @@ status.default <- function(x) {
 
     # Expanding Array indexes, and the data retrieved from sacct.
     idx <- expand_array_indexes(dat$JobID[i])
-    dat. <- rbind(
-      dat.,
-      cbind(dat[i, , drop=FALSE], NewId = idx)
+
+    if (i == 1L) {
+      dat. <- cbind(dat[i, , drop=FALSE], NewId = idx)
+    } else {
+
+      dat. <- rbind(
+        dat.,
+        cbind(dat[i, , drop=FALSE], NewId = idx),
+        stringsAsFactors = FALSE,
+        make.row.names   = FALSE
       )
+
+    }
 
   }
 
   dat <- subset(dat., select = c(-JobID))
+  rownames(dat) <- seq_len(nrow(dat))
   colnames(dat)[ncol(dat)] <- "JobID"
 
   # Filtering the data, we don't use the steps, just the jobs.

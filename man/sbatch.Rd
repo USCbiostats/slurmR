@@ -86,6 +86,10 @@ instead.
 The method for character scalars is used to submit jobs using a slurm
 script.
 
+The wrapper of squeue includes the flag \code{-o\%all} which returns all
+available fields separated by a vertical bar. This cannot be changed since it
+is the easiest way of processing the infor into R.
+
 The function \code{slurm.conf} is a wrapper of the function \code{scontrol} that
 returns configuration info about Slurm, in particular, the underlying command
 that is called is \code{scontrol show conf}. This returns a named character vector

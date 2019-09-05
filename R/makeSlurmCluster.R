@@ -116,11 +116,15 @@ makeSlurmCluster <- function(
     ntry <- ntry + 1L
 
     if (verb && ntry > 0L && !(ntry %% 5)) {
+
        message(
-         njobs - length(attr(s, "runing")), " out of ", njobs,
-         "need to start before continuing. Remaining wait time: ",
-         as.integer(Sys.time() - time0), " seconds."
+         sprintf(
+           "%4d/%-4 jobs need to start before continuing (remaining wait time: %-4d(s))",
+           njobs - length(attr(s, "running")), njobs,
+           as.integer(max_wait - (Sys.time() - time0))
+           )
        )
+
        Sys.sleep(3)
     }
 

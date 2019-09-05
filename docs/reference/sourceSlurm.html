@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Information about where jobs are submitted — WhoAmI • sluRm</title>
+<title>Source an R script as a Slurm job — sourceSlurm • sluRm</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,10 @@
 
 
 
-<meta property="og:title" content="Information about where jobs are submitted — WhoAmI" />
+<meta property="og:title" content="Source an R script as a Slurm job — sourceSlurm" />
 
-<meta property="og:description" content="This returns a named vector with the following variables:
-SLURM_LOCALID, SLURMD_NODENAME, SLURM_ARRAY_TASK_ID, SLURM_CLUSTER_NAME, SLURM_JOB_PARTITION, SLURM_TASK_PID" />
+<meta property="og:description" content="This function sources R scripts using Slurm by creating a batch script file
+and submitting it via sbatch." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -117,43 +117,60 @@ SLURM_LOCALID, SLURMD_NODENAME, SLURM_ARRAY_TASK_ID, SLURM_CLUSTER_NAME, SLURM_J
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Information about where jobs are submitted</h1>
-    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/sluRm/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>WhoAmI.Rd</code></div>
+    <h1>Source an R script as a Slurm job</h1>
+    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/sluRm/blob/master/R/sourceSlurm.R'><code>R/sourceSlurm.R</code></a></small>
+    <div class="hidden name"><code>sourceSlurm.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This returns a named vector with the following variables:
-SLURM_LOCALID, SLURMD_NODENAME, SLURM_ARRAY_TASK_ID, SLURM_CLUSTER_NAME, SLURM_JOB_PARTITION, SLURM_TASK_PID</p>
+    <p>This function sources R scripts using Slurm by creating a batch script file
+and submitting it via <a href='sbatch.html'>sbatch</a>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>WhoAmI</span>()
-
-<span class='fu'>whoami</span>()</pre>
-        
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p><code>whoami</code> is just an alias of <code>WhoAmI</code>.</p>
+    <pre class="usage"><span class='fu'>sourceSlurm</span>(<span class='no'>file</span>, <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(),
+  <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>sbatch_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other utilities: <code><a href='Slurm_clean.html'>Slurm_clean</a></code>,
-  <code><a href='Slurm_env.html'>Slurm_env</a></code>, <code><a href='Slurm_log.html'>Slurm_log</a></code>,
-  <code><a href='parse_flags.html'>parse_flags</a></code>, <code><a href='snames.html'>snames</a></code>,
-  <code><a href='status.html'>status</a></code></p></div>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>file</th>
+      <td><p>Character. Path to the R script to source using Slurm.</p></td>
+    </tr>
+    <tr>
+      <th>job_name</th>
+      <td><p>Character. Name of the job to be passed to <code>Slurm</code>.</p></td>
+    </tr>
+    <tr>
+      <th>tmp_path</th>
+      <td><p>Character. Path to the directory where all the data (including
+scripts) will be stored. Notice that this path must be accessible by all the
+nodes in the network (See <a href='opts_sluRm.html'>opts_sluRm</a>).</p></td>
+    </tr>
+    <tr>
+      <th>rscript_opt</th>
+      <td><p>List. Options to be passed to <code>Rscript</code>.</p></td>
+    </tr>
+    <tr>
+      <th>sbatch_opt</th>
+      <td><p>List of options to be passed to <code>sbatch</code>. This is usually
+done by adding the flags <code>#SBATCH</code> to the bash file.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Further arguments to be passed to <a href='sbatch.html'>sbatch</a>.</p></td>
+    </tr>
+    </table>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-          </ul>
+      <li><a href="#arguments">Arguments</a></li>
+                </ul>
 
   </div>
 </div>

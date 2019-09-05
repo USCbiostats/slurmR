@@ -1,5 +1,7 @@
 ---
-output: github_document
+output:
+  github_document:
+     md_extensions: -auto_identifiers+header_attributes
 ---
 
 [![DOI](http://joss.theoj.org/papers/10.21105/joss.01493/status.svg)](https://doi.org/10.21105/joss.01493)
@@ -34,6 +36,12 @@ While there are other alternatives such as `future.batchtools`, `batchtools`, `c
 3.  It provides a general framework for the user to create its own wrappers without using template files.
 
 4.  Is specialized on Slurm, meaning more flexibility (no need to modify template files), and, in the future, better debuging tools (e.g. job resubmission).
+
+5.  Provide a backend for the
+    [parallel](https://stat.ethz.ch/R-manual/R-devel/library/parallel/doc/parallel.pdf)
+    package, providing an out-of-the-box method for creating Socket cluster objects
+    for multi-node operations. (See the examples below on how this can be
+    used with other R packages)
 
 Checkout the [VS section](#vs) section for comparing `sluRm` with other R packages.
 
@@ -79,7 +87,7 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 Slurm_clean(ans) # Cleaning after you
 ```
 
-## Example 2: Job resubmission
+## Example 2: Job resubmission 
 
 The following example from the package's manual.
 
@@ -108,7 +116,47 @@ Slurm_clean(res)
 
 Take a look at the vignette [here](vignettes/getting-started.Rmd).
 
-## VS
+## Example 3: Using sluRm and future/doParallel/boot/... 
+
+The function `makeSlurmCluster` creates a PSOCK cluster within a Slurm HPC network,
+meaning that users can go beyond a single node cluster object and take advantage
+of Slurm to create a multi-node cluster object. This feature allows then using
+`sluRm` with other R packages that support working with `SOCKcluster` class 
+objects. Here are some examples
+
+With the [`future`](https://cran.r-project.org/package=future) package
+
+```r
+library(future)
+library(sluRm)
+
+cl <- makeSlurmCluster(50)
+
+# It only takes using a cluster plan!
+plan(cluster, cl)
+
+...your fancy futuristic code...
+
+# Slurm Clusters are stopped in the same way any cluster object is
+stopCluster(cl)
+```
+
+With the [`doParallel`](https://cran.r-project.org/package=doParallel) package
+
+```r
+library(doParallel)
+library(sluRm)
+
+cl <- makeSlurmCluster(50)
+
+registerDoParallel(cl)
+m <- matrix(rnorm(9), 3, 3)
+foreach(i=1:nrow(m), .combine=rbind) 
+
+stopCluster(cl)
+```
+
+## VS 
 
 There are several ways to enhance R for HPC. Depending on what are your goals/restrictions/preferences, you can use any of the following:
 

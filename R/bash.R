@@ -471,7 +471,7 @@ sacct.slurm_job <- function(x, ...) {
 #' @examples
 #'
 #' \dontrun{
-#  # What is the maximum number of jobs (array size) that the system
+#' # What is the maximum number of jobs (array size) that the system
 #' # allows?
 #' sconfig <- slurm.conf() # We first retrieve the info.
 #' sconfig["MaxArraySize"]
@@ -489,4 +489,34 @@ slurm.conf <- function() {
     names = gsub("\\s*[=].+", "", conf)
   )
 
+}
+
+#' @export
+#' @rdname sbatch
+#' @details The function `SchedulerParameters` is just a wrapper of [slurm.conf].
+#' It processes the field "SchedulerParameters" included in the configuration
+#' file and has information relevant for the scheduler.
+SchedulerParameters <- function() {
+
+  conf <- slurm.conf()["SchedulerParameters"]
+  conf <- strsplit(x = conf, split = ",", fixed = TRUE)[[1]]
+
+  # Which are logicals
+  logicals <- grepl("^[^=]+$", conf)
+
+  values <- gsub("^.+[=]", "", conf)
+  values[logicals] <- TRUE
+  names(values) <- gsub("[=].+", "", conf)
+
+  values <- as.list(values)
+  values[] <- lapply(values, function(v) {
+    if (all(grepl("^[0-9]+$", v)))
+      as.integer(v)
+    else if (all(v == "TRUE")) {
+      rep(TRUE, length(v))
+    } else
+      v
+      })
+
+  return(as.list(values))
 }

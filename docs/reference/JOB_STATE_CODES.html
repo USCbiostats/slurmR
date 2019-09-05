@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Information about where jobs are submitted — WhoAmI • sluRm</title>
+<title>Slurm Job state codes — JOB_STATE_CODES • sluRm</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,12 @@
 
 
 
-<meta property="og:title" content="Information about where jobs are submitted — WhoAmI" />
+<meta property="og:title" content="Slurm Job state codes — JOB_STATE_CODES" />
 
-<meta property="og:description" content="This returns a named vector with the following variables:
-SLURM_LOCALID, SLURMD_NODENAME, SLURM_ARRAY_TASK_ID, SLURM_CLUSTER_NAME, SLURM_JOB_PARTITION, SLURM_TASK_PID" />
+<meta property="og:description" content="This data frame contains information regarding the job state codes that Slurm
+returns when querying the status of a given job. The last column, type,
+shows a description of how that corresponding state is considered in the
+package's various operations. This is used in the function status." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -117,32 +119,29 @@ SLURM_LOCALID, SLURMD_NODENAME, SLURM_ARRAY_TASK_ID, SLURM_CLUSTER_NAME, SLURM_J
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Information about where jobs are submitted</h1>
-    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/sluRm/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>WhoAmI.Rd</code></div>
+    <h1>Slurm Job state codes</h1>
+    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/sluRm/blob/master/R/JOB_STATE_CODES.R'><code>R/JOB_STATE_CODES.R</code></a></small>
+    <div class="hidden name"><code>JOB_STATE_CODES.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This returns a named vector with the following variables:
-SLURM_LOCALID, SLURMD_NODENAME, SLURM_ARRAY_TASK_ID, SLURM_CLUSTER_NAME, SLURM_JOB_PARTITION, SLURM_TASK_PID</p>
+    <p>This data frame contains information regarding the job state codes that Slurm
+returns when querying the status of a given job. The last column, <code>type</code>,
+shows a description of how that corresponding state is considered in the
+package's various operations. This is used in the function <a href='status.html'>status</a>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>WhoAmI</span>()
-
-<span class='fu'>whoami</span>()</pre>
+    <pre class="usage"><span class='no'>JOB_STATE_CODES</span></pre>
         
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p><code>whoami</code> is just an alias of <code>WhoAmI</code>.</p>
+    <p>A data frame with 24 rows and 4 columns.</p>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <div class='dont-index'><p>Other utilities: <code><a href='Slurm_clean.html'>Slurm_clean</a></code>,
-  <code><a href='Slurm_env.html'>Slurm_env</a></code>, <code><a href='Slurm_log.html'>Slurm_log</a></code>,
-  <code><a href='parse_flags.html'>parse_flags</a></code>, <code><a href='snames.html'>snames</a></code>,
-  <code><a href='status.html'>status</a></code></p></div>
+    <p>Slurm's website <a href='https://slurm.schedmd.com/squeue.html'>https://slurm.schedmd.com/squeue.html</a></p>
     
 
   </div>
@@ -150,9 +149,9 @@ SLURM_LOCALID, SLURMD_NODENAME, SLURM_ARRAY_TASK_ID, SLURM_CLUSTER_NAME, SLURM_J
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
-      <li><a href="#details">Details</a></li>
+      <li><a href="#format">Format</a></li>
 
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#references">References</a></li>
           </ul>
 
   </div>

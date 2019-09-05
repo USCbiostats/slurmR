@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Information about where jobs are submitted — WhoAmI • sluRm</title>
+<title>Read a slurm batch file and capture the SBATCH options — read_sbatch • sluRm</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,9 @@
 
 
 
-<meta property="og:title" content="Information about where jobs are submitted — WhoAmI" />
+<meta property="og:title" content="Read a slurm batch file and capture the SBATCH options — read_sbatch" />
 
-<meta property="og:description" content="This returns a named vector with the following variables:
-SLURM_LOCALID, SLURMD_NODENAME, SLURM_ARRAY_TASK_ID, SLURM_CLUSTER_NAME, SLURM_JOB_PARTITION, SLURM_TASK_PID" />
+<meta property="og:description" content="Read a slurm batch file and capture the SBATCH options" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -117,43 +116,53 @@ SLURM_LOCALID, SLURMD_NODENAME, SLURM_ARRAY_TASK_ID, SLURM_CLUSTER_NAME, SLURM_J
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Information about where jobs are submitted</h1>
-    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/sluRm/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>WhoAmI.Rd</code></div>
+    <h1>Read a slurm batch file and capture the SBATCH options</h1>
+    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/sluRm/blob/master/R/read_sbatch.R'><code>R/read_sbatch.R</code></a></small>
+    <div class="hidden name"><code>read_sbatch.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This returns a named vector with the following variables:
-SLURM_LOCALID, SLURMD_NODENAME, SLURM_ARRAY_TASK_ID, SLURM_CLUSTER_NAME, SLURM_JOB_PARTITION, SLURM_TASK_PID</p>
+    <p>Read a slurm batch file and capture the SBATCH options</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>WhoAmI</span>()
-
-<span class='fu'>whoami</span>()</pre>
-        
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p><code>whoami</code> is just an alias of <code>WhoAmI</code>.</p>
+    <pre class="usage"><span class='fu'>read_sbatch</span>(<span class='no'>x</span>)</pre>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>Character scalar. The path to the batch file to process</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <div class='dont-index'><p>Other utilities: <code><a href='Slurm_clean.html'>Slurm_clean</a></code>,
-  <code><a href='Slurm_env.html'>Slurm_env</a></code>, <code><a href='Slurm_log.html'>Slurm_log</a></code>,
-  <code><a href='parse_flags.html'>parse_flags</a></code>, <code><a href='snames.html'>snames</a></code>,
-  <code><a href='status.html'>status</a></code></p></div>
+    <p>A named vector of the options starting with <code>#SBATCH</code> in the file.
+If no option is found, then returns a character vector length 0.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='co'># Reading in an example script</span>
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"example.slurm"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"sluRm"</span>)
+<span class='fu'>read_sbatch</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt;             job-name               output                array 
+#&gt;       "NameOfTheJob"        "logfile.out"              "1-100" 
+#&gt;               ntasks            partition 
+#&gt;                  "1" "NameOfThePartition" </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-          </ul>
+      <li><a href="#value">Value</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

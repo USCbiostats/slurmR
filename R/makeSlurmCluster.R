@@ -3,14 +3,16 @@
 #' This function is essentially a wrapper of the function [parallel::makePSOCKcluster].
 #' `makeSlurmCluster` main feature is adding node addresses.
 #'
-#' @template sbatch_opt
 #' @template njobs
 #' @template job_name-tmp_path
-#' @details By default, if the `time` option is not specified via `sbatch_opt`,
+#' @details By default, if the `time` option is not specified via `...`,
 #' then it is set to the value `1-0`, this is, 1 day and 0 hours.
 #' @param timeout Integer scalar. Wait time before exiting with error while
 #' trying to read the nodes information.
-#' @param ... Further arguments passed to [parallel::makePSOCKcluster].
+#' @param cluster_opt A list of arguments passed to [parallel::makePSOCKcluster].
+#' @param ... Further arguments passed to [Slurm_EvalQ] via `sbatch_opt`.
+#' @param verb Logical scalar. If `TRUE`, the function will print messages on
+#' screen reporting on the status of the job submission.
 #' @export
 #' @details Once a job is submitted via Slurm, the user gets access to the nodes
 #' associated with it, which allows users to star new processes within those.
@@ -22,7 +24,7 @@
 #' 2. Each job within the array stores information regarding the node where they
 #'    are being executed, including the name of the node.
 #'
-#' 3. Create a PSOCK cluster using the node names obtained from the `SlurmEvalQ`
+#' 3. Create a PSOCK cluster using the node names obtained from the `Slurm_EvalQ`
 #'    call.
 #'
 #' @examples
@@ -38,16 +40,23 @@
 #' # We simply call stopCluster as we would do with any other cluster
 #' # object
 #' stopCluster(ans)
+#'
+#' # We can also specify SBATCH options directly (...)
+#' cl <- makeSlurmCluster(200, partition = "thomas", time = "02:00:00")
+#' stopCluster(cl)
 #' }
 #'
 makeSlurmCluster <- function(
   njobs,
-  job_name   = opts_sluRm$get_job_name(),
-  tmp_path   = opts_sluRm$get_tmp_path(),
-  sbatch_opt = list(),
-  timeout = 300L,
+  job_name    = opts_sluRm$get_job_name(),
+  tmp_path    = opts_sluRm$get_tmp_path(),
+  cluster_opt = list(),
+  timeout     = 300L,
+  verb        = TRUE,
   ...
   ) {
+
+  sbatch_opt <- list(...)
 
   if (is.null(sbatch_opt$time))
     sbatch_opt$time <- "1-0"
@@ -99,9 +108,9 @@ makeSlurmCluster <- function(
     Sys.sleep(.5)
     ntry <- ntry + 1L
 
-    if (ntry > 0L && !(ntry %% 5)) {
+    if (verb && ntry > 0L && !(ntry %% 5)) {
        message(
-         "Some jobs need to be allocated still (", length(attr(s, "pending")),
+         "Some jobs need to be allocated still (", njobs - length(attr(s, "pending")),
          " out of ", njobs,
          "). Waiting for a few more seconds before trying again..."
        )
@@ -142,14 +151,17 @@ makeSlurmCluster <- function(
       )
   }
 
+  if (verb)
+    message("Success! All jobs have been allocated. Creating the cluster object...")
+
   # Extracting the relevant information
   pids      <- sapply(info, "[[", "pid")
   nodenames <- sapply(info, function(i) i$who["SLURMD_NODENAME"])
 
-
   # Creating the PSOCK cluster
-  cl <- parallel::makePSOCKcluster(
-    nodenames, ...
+  cl <- do.call(
+    parallel::makePSOCKcluster,
+    c(list(names = nodenames), cluster_opt)
   )
 
   attr(cl, "SLURM_PIDS")  <- pids
@@ -167,21 +179,21 @@ makeSlurmCluster <- function(
 #' @details The method `stopCluster` for `SlurmCluster` stops the cluster doing
 #' the following:
 #'
-#' - First, it tries to kill the processes initialized in the nodes by using the
-#'   PIDs (these were collected during creation.),
-#'
 #' - Then, calls the `stopCluster` method for `PSOCK` objects.
 #'
-#' - Finally, it takes the array's JOB ID and cancels that job.
+#' - Cancel the Slurm job using `scancel`.
 #'
 stopCluster.SlurmCluster <- function(cl) {
 
   # First, we need to stop the original processes, this will kill the cluster
   # right away!
-    # Removing the first class, and calling stop cluster Again!
+  # Removing the first class, and calling stop cluster Again!
   class(cl) <- setdiff(class(cl), "SlurmCluster")
   parallel::stopCluster(cl)
-  scancel(attr(cl, "SLURM_JOBID"))
+
+  if (!opts_sluRm$get_debug())
+    scancel(attr(cl, "SLURM_JOBID"))
+
   invisible()
 
 }

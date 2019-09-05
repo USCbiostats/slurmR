@@ -41,4 +41,4 @@ JOB_STATE_CODES$type <- ifelse(
 
 JOB_STATE_CODES$type[JOB_STATE_CODES$code == "R"] <- "running"
 
-usethis::use_data(JOB_STATE_CODES, overwrite = TRUE)
+dput(JOB_STATE_CODES)

@@ -17,6 +17,7 @@
 \alias{sacct.default}
 \alias{sacct.slurm_job}
 \alias{slurm.conf}
+\alias{SchedulerParameters}
 \title{R wrappers for \emph{Slurm} commands}
 \usage{
 slurm_available()
@@ -48,6 +49,8 @@ sacct(x, ...)
 \method{sacct}{slurm_job}(x, ...)
 
 slurm.conf()
+
+SchedulerParameters()
 }
 \arguments{
 \item{x}{Either an object of class \code{slurm_job}, or, in some cases, an
@@ -88,6 +91,10 @@ returns configuration info about Slurm, in particular, the underlying command
 that is called is \code{scontrol show conf}. This returns a named character vector
 with configuration info about the cluster. The name of this function matches
 the name of the file that holds this information.
+
+The function \code{SchedulerParameters} is just a wrapper of \link{slurm.conf}.
+It processes the field "SchedulerParameters" included in the configuration
+file and has information relevant for the scheduler.
 }
 \examples{
 # Are we under a Slurm Cluster?
@@ -120,6 +127,7 @@ sbatch(job, array = 4) # A new jobid will be assigned
 }
 
 \dontrun{
+# What is the maximum number of jobs (array size) that the system
 # allows?
 sconfig <- slurm.conf() # We first retrieve the info.
 sconfig["MaxArraySize"]

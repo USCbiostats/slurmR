@@ -7,7 +7,7 @@
 #' @template job_name-tmp_path
 #' @details By default, if the `time` option is not specified via `...`,
 #' then it is set to the value `01:00:00`, this is, 1 hour.
-#' @param timeout Integer scalar. Wait time before exiting with error while
+#' @param max_wait Integer scalar. Wait time before exiting with error while
 #' trying to read the nodes information.
 #' @param cluster_opt A list of arguments passed to [parallel::makePSOCKcluster].
 #' @param ... Further arguments passed to [Slurm_EvalQ] via `sbatch_opt`.
@@ -51,7 +51,7 @@ makeSlurmCluster <- function(
   job_name    = opts_sluRm$get_job_name(),
   tmp_path    = opts_sluRm$get_tmp_path(),
   cluster_opt = list(),
-  timeout     = 300L,
+  max_wait    = 300L,
   verb        = TRUE,
   ...
   ) {
@@ -101,7 +101,7 @@ makeSlurmCluster <- function(
   # Let's just wait a few seconds before jumping into conclusions!
   Sys.sleep(1)
   ntry <- -1L
-  while ((Sys.time() - time0) <= timeout) {
+  while ((Sys.time() - time0) <= max_wait) {
 
     # For sanity, will wait for half a second
     Sys.sleep(.5)

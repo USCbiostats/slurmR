@@ -131,7 +131,7 @@ makeSlurmCluster main feature is adding node addresses." />
 
     <pre class="usage"><span class='fu'>makeSlurmCluster</span>(<span class='no'>njobs</span>, <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_job_name</span>(),
   <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_tmp_path</span>(), <span class='kw'>cluster_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(),
-  <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>300L</span>, <span class='kw'>verb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+  <span class='kw'>max_wait</span> <span class='kw'>=</span> <span class='fl'>300L</span>, <span class='kw'>verb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for SlurmCluster</span>
 <span class='fu'>stopCluster</span>(<span class='no'>cl</span>)</pre>
@@ -160,7 +160,7 @@ nodes in the network (See <a href='opts_sluRm.html'>opts_sluRm</a>).</p></td>
       <td><p>A list of arguments passed to <a href='https://www.rdocumentation.org/packages/parallel/topics/makeCluster'>parallel::makePSOCKcluster</a>.</p></td>
     </tr>
     <tr>
-      <th>timeout</th>
+      <th>max_wait</th>
       <td><p>Integer scalar. Wait time before exiting with error while
 trying to read the nodes information.</p></td>
     </tr>
@@ -182,7 +182,7 @@ screen reporting on the status of the job submission.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>By default, if the <code>time</code> option is not specified via <code>...</code>,
-then it is set to the value <code>1-0</code>, this is, 1 day and 0 hours.</p>
+then it is set to the value <code>01:00:00</code>, this is, 1 hour.</p>
 <p>Once a job is submitted via Slurm, the user gets access to the nodes
 associated with it, which allows users to star new processes within those.
 By means of this, we can create PSOCK clusters accross nodes in a Slurm

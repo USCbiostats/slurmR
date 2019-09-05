@@ -26,6 +26,14 @@
 #'
 #' 3. Create a PSOCK cluster using the node names obtained from the `Slurm_EvalQ`
 #'    call.
+#' @return A object of class `c("slurm_cluster", "SOCKcluster", "cluster")`. It
+#' is the same as what is returned by [parallel::makePSOCKcluster] with the main
+#' difference that it has two extra attributes:
+#'
+#' - `SLURM_JOBID` Which is the id of the Job that initialized tha cluster.
+#'
+#' - `SLURM_PIDS` Which is an integer vector of the PIDs of the R processes that
+#'   the job started in the remote machines.
 #'
 #' @examples
 #' \dontrun{
@@ -86,8 +94,6 @@ makeSlurmCluster <- function(
 
 
   # Now, we wait until the jobs have started. All should return "RUNNING"
-  time0       <- Sys.time()
-  s           <- 1L
   try_readRDS <- function(...) tryCatch({
     suppressWarnings(readRDS(...))
     }, error = function(e) e)
@@ -100,7 +106,9 @@ makeSlurmCluster <- function(
 
   # Let's just wait a few seconds before jumping into conclusions!
   Sys.sleep(1)
-  ntry <- -1L
+  ntry  <- -1L
+  time0 <- Sys.time()
+  s     <- 1L
   while ((Sys.time() - time0) <= max_wait) {
 
     # For sanity, will wait for half a second
@@ -109,9 +117,9 @@ makeSlurmCluster <- function(
 
     if (verb && ntry > 0L && !(ntry %% 5)) {
        message(
-         "Some jobs need to be allocated still (", njobs - length(attr(s, "pending")),
-         " out of ", njobs,
-         "). Waiting for a few more seconds before trying again..."
+         njobs - length(attr(s, "runing")), " out of ", njobs,
+         "need to start before continuing. Remaining wait time: ",
+         as.integer(Sys.time() - time0), " seconds."
        )
        Sys.sleep(3)
     }
@@ -165,34 +173,44 @@ makeSlurmCluster <- function(
 
   attr(cl, "SLURM_PIDS")  <- pids
   attr(cl, "SLURM_JOBID") <- job$jobid
-  attr(cl, "class")       <- c("SlurmCluster", attr(cl, "class"))
+  attr(cl, "class")       <- c("slurm_cluster", attr(cl, "class"))
 
   cl
 
 }
 
 #' @export
-#' @param cl An object of class `SlurmCluster`.
+#' @param cl An object of class `slurm_cluster`.
 #' @rdname makeSlurmCluster
 #' @importFrom parallel stopCluster
-#' @details The method `stopCluster` for `SlurmCluster` stops the cluster doing
+#' @details The method `stopCluster` for `slurm_cluster` stops the cluster doing
 #' the following:
 #'
 #' - Then, calls the `stopCluster` method for `PSOCK` objects.
 #'
 #' - Cancel the Slurm job using `scancel`.
 #'
-stopCluster.SlurmCluster <- function(cl) {
+stopCluster.slurm_cluster <- function(cl) {
 
   # First, we need to stop the original processes, this will kill the cluster
   # right away!
   # Removing the first class, and calling stop cluster Again!
-  class(cl) <- setdiff(class(cl), "SlurmCluster")
+  class(cl) <- setdiff(class(cl), "slurm_cluster")
   parallel::stopCluster(cl)
 
   if (!opts_sluRm$get_debug())
     scancel(attr(cl, "SLURM_JOBID"))
 
   invisible()
+
+}
+
+#' @export
+print.slurm_cluster <- function(x, ...) {
+
+  cat("A Slurm SOCK cluster (jobid: ", attr(x, "SLURM_JOBID"), ")\n", sep = "")
+  class(x) <- setdiff(class(x), "slurm_cluster")
+  print(x)
+  invisible(NULL)
 
 }

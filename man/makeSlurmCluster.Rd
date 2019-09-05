@@ -2,14 +2,14 @@
 % Please edit documentation in R/makeSlurmCluster.R
 \name{makeSlurmCluster}
 \alias{makeSlurmCluster}
-\alias{stopCluster.SlurmCluster}
+\alias{stopCluster.slurm_cluster}
 \title{Create a Parallel Socket Cluster using Slurm}
 \usage{
 makeSlurmCluster(njobs, job_name = opts_sluRm$get_job_name(),
   tmp_path = opts_sluRm$get_tmp_path(), cluster_opt = list(),
   max_wait = 300L, verb = TRUE, ...)
 
-\method{stopCluster}{SlurmCluster}(cl)
+\method{stopCluster}{slurm_cluster}(cl)
 }
 \arguments{
 \item{njobs}{Integer. Number of jobs to use in the job-array. This specifies
@@ -32,7 +32,17 @@ screen reporting on the status of the job submission.}
 
 \item{...}{Further arguments passed to \link{Slurm_EvalQ} via \code{sbatch_opt}.}
 
-\item{cl}{An object of class \code{SlurmCluster}.}
+\item{cl}{An object of class \code{slurm_cluster}.}
+}
+\value{
+A object of class \code{c("slurm_cluster", "SOCKcluster", "cluster")}. It
+is the same as what is returned by \link[parallel:makePSOCKcluster]{parallel::makePSOCKcluster} with the main
+difference that it has two extra attributes:
+\itemize{
+\item \code{SLURM_JOBID} Which is the id of the Job that initialized tha cluster.
+\item \code{SLURM_PIDS} Which is an integer vector of the PIDs of the R processes that
+the job started in the remote machines.
+}
 }
 \description{
 This function is essentially a wrapper of the function \link[parallel:makePSOCKcluster]{parallel::makePSOCKcluster}.
@@ -54,7 +64,7 @@ are being executed, including the name of the node.
 call.
 }
 
-The method \code{stopCluster} for \code{SlurmCluster} stops the cluster doing
+The method \code{stopCluster} for \code{slurm_cluster} stops the cluster doing
 the following:
 \itemize{
 \item Then, calls the \code{stopCluster} method for \code{PSOCK} objects.

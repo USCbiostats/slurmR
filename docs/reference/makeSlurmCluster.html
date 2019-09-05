@@ -133,7 +133,7 @@ makeSlurmCluster main feature is adding node addresses." />
   <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_tmp_path</span>(), <span class='kw'>cluster_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(),
   <span class='kw'>max_wait</span> <span class='kw'>=</span> <span class='fl'>300L</span>, <span class='kw'>verb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
-<span class='co'># S3 method for SlurmCluster</span>
+<span class='co'># S3 method for slurm_cluster</span>
 <span class='fu'>stopCluster</span>(<span class='no'>cl</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -175,9 +175,20 @@ screen reporting on the status of the job submission.</p></td>
     </tr>
     <tr>
       <th>cl</th>
-      <td><p>An object of class <code>SlurmCluster</code>.</p></td>
+      <td><p>An object of class <code>slurm_cluster</code>.</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A object of class <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c("slurm_cluster", "SOCKcluster", "cluster")</a></code>. It
+is the same as what is returned by <a href='https://www.rdocumentation.org/packages/parallel/topics/makeCluster'>parallel::makePSOCKcluster</a> with the main
+difference that it has two extra attributes:</p><ul>
+<li><p><code>SLURM_JOBID</code> Which is the id of the Job that initialized tha cluster.</p></li>
+<li><p><code>SLURM_PIDS</code> Which is an integer vector of the PIDs of the R processes that
+the job started in the remote machines.</p></li>
+</ul>
+
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -193,7 +204,7 @@ are being executed, including the name of the node.</p></li>
 <li><p>Create a PSOCK cluster using the node names obtained from the <code>Slurm_EvalQ</code>
 call.</p></li>
 </ol>
-    <p>The method <code>stopCluster</code> for <code>SlurmCluster</code> stops the cluster doing
+    <p>The method <code>stopCluster</code> for <code>slurm_cluster</code> stops the cluster doing
 the following:</p><ul>
 <li><p>Then, calls the <code>stopCluster</code> method for <code>PSOCK</code> objects.</p></li>
 <li><p>Cancel the Slurm job using <code>scancel</code>.</p></li>
@@ -224,6 +235,8 @@ the following:</p><ul>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#value">Value</a></li>
+
       <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>

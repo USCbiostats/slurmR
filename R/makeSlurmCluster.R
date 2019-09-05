@@ -6,7 +6,7 @@
 #' @template njobs
 #' @template job_name-tmp_path
 #' @details By default, if the `time` option is not specified via `...`,
-#' then it is set to the value `1-0`, this is, 1 day and 0 hours.
+#' then it is set to the value `01:00:00`, this is, 1 hour.
 #' @param timeout Integer scalar. Wait time before exiting with error while
 #' trying to read the nodes information.
 #' @param cluster_opt A list of arguments passed to [parallel::makePSOCKcluster].
@@ -59,7 +59,7 @@ makeSlurmCluster <- function(
   sbatch_opt <- list(...)
 
   if (is.null(sbatch_opt$time))
-    sbatch_opt$time <- "1-0"
+    sbatch_opt$time <- "01:00:00"
 
   # Creating a job to be submitted
   JOB_PATH <- NULL # THIS IS CREATED JUST TO AVOID THE NOTE DURING R CMD CHECK
@@ -100,7 +100,6 @@ makeSlurmCluster <- function(
 
   # Let's just wait a few seconds before jumping into conclusions!
   Sys.sleep(1)
-
   ntry <- -1L
   while ((Sys.time() - time0) <= timeout) {
 
@@ -129,7 +128,7 @@ makeSlurmCluster <- function(
     } else if (s == 0L) {
       scancel(job$jobid)
       stop("The job was completed. This shouldn't happen!", call. = FALSE)
-    } else if (s == -1L)
+    } else if (s == 1L)
       next
 
     # Trying to read the dataset

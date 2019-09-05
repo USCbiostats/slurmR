@@ -118,7 +118,7 @@ snames <- function(type, array_id) {
 
 }
 
-#' Check the State (status) of a Slurm JOB
+#' Check the status of a Slurm JOB
 #'
 #' Using the [sacct] function, it checks the status of a particular error and
 #' returns information about its current state.
@@ -135,9 +135,11 @@ snames <- function(type, array_id) {
 #' - `0`: Job completed. In this case all the components of the job
 #'   have finalized without any errors.
 #'
-#' - `1`: Some jobs are still running/pending.
+#' - `1`: All jobs are pending resource allocation.
 #'
-#' - `2`: One or more jobs have failed.
+#' - `2`: One or more jobs are still running.
+#'
+#' - `99`: One or more jobs have failed.
 #'
 #' If the job is not an array, then function will return the corresponding code
 #' but the attributes will only have a single number, 1, according to the state
@@ -151,7 +153,7 @@ snames <- function(type, array_id) {
 #'
 #' x <- Slurm_EvalQ(Sys.sleep(100), njobs = 2)
 #'
-#' state(x)
+#' status(x)
 #' # A possible result: An integer with attributes
 #' # [1] 1
 #' # attr(,"pending")
@@ -163,22 +165,35 @@ snames <- function(type, array_id) {
 #'
 #'
 #' }
-state <- function(x) UseMethod("state")
+status <- function(x) UseMethod("status")
 
 #' @export
-#' @rdname state
-state.slurm_job <- function(x) {
-  state.default(x$jobid)
+#' @rdname status
+status.slurm_job <- function(x) {
+  status.default(x$jobid)
 }
 
-#' @rdname state
+#' @rdname status
 "JOB_STATE_CODES"
 
 #' @export
-#' @rdname state
-state.default <- function(x) {
+#' @rdname status
+status.default <- function(x) {
 
-  wrap <- function(val, S) do.call(structure, c(list(.Data = val), S))
+  wrap <- function(val, S) {
+
+    desc <- switch(
+      as.character(val),
+      `-1` = "No job found. This may be a false negative as the job may still be on it's way to be submitted.",
+      `0`  = "Job completed.",
+      `1`  = "All jobs are pending resource allocation or are on it's way to start.",
+      `2`  = "One or more jobs are still running.",
+      `99` = "One or more jobs failed.",
+      stop()
+    )
+
+    do.call(structure, c(list(.Data = val, description=desc), S))
+  }
 
   # Checking the data
   if (is.na(x))
@@ -223,15 +238,25 @@ state.default <- function(x) {
   State <- lapply(STATE_CODES, function(jsc) JobID[which(State %in% jsc)])
 
   if (length(State$done) == njobs) {
+
     return(wrap(0L, State))
+
   } else if (length(State$failed) == 0L) {
+
     return(wrap(1L, State))
-  } else {
+
+  } else if (length(State$running) > 0L) {
+
     return(wrap(2L, State))
+
+  } else {
+
+    return(wrap(99L, State))
+
   }
 
 
- 
+
 }
 
 #' A wrapper of [Sys.getenv]
@@ -265,9 +290,9 @@ Slurm_clean <- function(x) {
 
   # Checking if the job is running
   s <- if (opts_sluRm$get_debug() | !slurm_available()) 0
-    else state(x)
+    else status(x)
 
-  if (s == 1)
+  if (s %in% 1L:2L)
     stop("Some jobs are still running/pending (",
          paste(attr(s, "pending"), collapse=", "), ".", call. = FALSE)
 

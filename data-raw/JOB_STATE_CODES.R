@@ -39,4 +39,6 @@ JOB_STATE_CODES$type <- ifelse(
          "failed", "pending"
   ))
 
+JOB_STATE_CODES$type[JOB_STATE_CODES$code == "R"] <- "running"
+
 usethis::use_data(JOB_STATE_CODES, overwrite = TRUE)

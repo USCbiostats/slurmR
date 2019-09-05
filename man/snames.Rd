@@ -20,6 +20,6 @@ internal use only.
 Other utilities: \code{\link{Slurm_clean}},
   \code{\link{Slurm_env}}, \code{\link{Slurm_log}},
   \code{\link{WhoAmI}}, \code{\link{parse_flags}},
-  \code{\link{state}}
+  \code{\link{status}}
 }
 \concept{utilities}

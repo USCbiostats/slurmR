@@ -39,28 +39,27 @@ Slurm_collect.slurm_job <- function(x, any. = FALSE, wait = 10L, ...) {
   res <- if (!opts_sluRm$get_debug()) {
 
     # Checking the state of the job
-    S <- state(x)
+    S <- status(x)
 
     if (S == -1L) {
       message(
-        "No job found. This may be a false positive. Waiting ", wait,
-        " seconds before retry."
+        attr(S, "description"), ". Waiting ", wait, " seconds before retry."
         )
       Sys.sleep(wait)
-      S <- state(x)
+      S <- status(x)
     }
 
     # After the second try
     if (S == -1L) {
-      stop("No job found. This could be a false positive.", call. = FALSE)
+      stop(attr(S, "description"), call. = FALSE)
     }
 
     # Getting the filenames
     readRDS_trying <- function(...) tryCatch(readRDS(...), error = function(e) e)
 
-    if (!S)
+    if (S == 0L)
       do.call("c", lapply(snames("rds", 1:x$njobs), readRDS))
-    else if (any. && (S == 1))
+    else if (any. && (S %in% 1:2))
       do.call("c", lapply(snames("rds", attr(S, "done")), readRDS_trying))
     else
       stop("Nothing to retrieve. (see ?status).", call. = FALSE)

@@ -19,6 +19,6 @@ the function will return a 1 (see \link{opts_sluRm}).
 Other utilities: \code{\link{Slurm_clean}},
   \code{\link{Slurm_log}}, \code{\link{WhoAmI}},
   \code{\link{parse_flags}}, \code{\link{snames}},
-  \code{\link{state}}
+  \code{\link{status}}
 }
 \concept{utilities}

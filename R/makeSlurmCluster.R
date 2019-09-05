@@ -91,17 +91,18 @@ makeSlurmCluster <- function(
 
   # Let's just wait a few seconds before jumping into conclusions!
   Sys.sleep(1)
-  
+
   ntry <- -1L
   while ((Sys.time() - time0) <= timeout) {
 
-    # For sanity, will wait for a second each time
-    Sys.sleep(1)
+    # For sanity, will wait for half a second
+    Sys.sleep(.5)
     ntry <- ntry + 1L
 
     if (ntry > 0L && !(ntry %% 5)) {
        message(
          "Some jobs need to be allocated still (", length(attr(s, "pending")),
+         " out of ", njobs,
          "). Waiting for a few more seconds before trying again..."
        )
        Sys.sleep(3)
@@ -110,12 +111,12 @@ makeSlurmCluster <- function(
     # In the case of debug mode on, we don't need to check for the job status.
     # we can go directly to the R sessions
     if (!opts_sluRm$get_debug())
-      s <- state(job)
+      s <- status(job)
 
     # One or more failed
-    if (s == 2L) {
+    if (s == 99L) {
       scancel(job$jobid)
-      stop("One or more jobs failed to initialize.", call. = FALSE)
+      stop(attr(s, "description"), call. = FALSE)
     } else if (s == 0L) {
       scancel(job$jobid)
       stop("The job was completed. This shouldn't happen!", call. = FALSE)
@@ -177,19 +178,10 @@ stopCluster.SlurmCluster <- function(cl) {
 
   # First, we need to stop the original processes, this will kill the cluster
   # right away!
-  on.exit(scancel(attr(cl, "SLURM_JOBID")))
-  ans <- parallel::parSapply(
-    cl  = cl,
-    X   = attr(cl, "SLURM_PIDS"),
-    FUN = function(x.) silent_system2("kill", x., stdout = TRUE, stderr = TRUE) #,
-    # .scheduling = "static"
-    )
-
-  if (any(sapply(ans, inherits, what = "error")))
-    warning("One or more jobs were not killed.", call. = FALSE)
-
-  # Removing the first class, and calling stop cluster Again!
+    # Removing the first class, and calling stop cluster Again!
   class(cl) <- setdiff(class(cl), "SlurmCluster")
   parallel::stopCluster(cl)
+  scancel(attr(cl, "SLURM_JOBID"))
+  invisible()
 
 }

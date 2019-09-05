@@ -99,7 +99,7 @@ slurm_available()
 job <- Slurm_lapply(1:1000, function(i) runif(100), njobs = 2, plan = "collect")
 
 # Post collection analysis
-state(last_job())
+status(last_job())
 }
 \dontrun{
 # Submitting a simple job
@@ -107,7 +107,7 @@ job <- Slurm_EvalQ(sluRm::WhoAmI(), njobs = 4L, plan = "submit")
 
 # Checking the status of the job (we can simply print)
 job
-state(job) # or use the state function
+status(job) # or use the state function
 sacct(job) # or get more info with the sactt wrapper.
 
 # Suppose one of the jobs is taking too long to complete (say #4)

@@ -26,12 +26,12 @@ Slurm_log(x) # Checking the R log
 }
 \seealso{
 Other post submission: \code{\link{Slurm_clean}},
-  \code{\link{Slurm_collect}}, \code{\link{state}}
+  \code{\link{Slurm_collect}}, \code{\link{status}}
 
 Other utilities: \code{\link{Slurm_clean}},
   \code{\link{Slurm_env}}, \code{\link{WhoAmI}},
   \code{\link{parse_flags}}, \code{\link{snames}},
-  \code{\link{state}}
+  \code{\link{status}}
 }
 \concept{post submission}
 \concept{utilities}

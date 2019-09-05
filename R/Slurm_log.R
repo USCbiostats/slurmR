@@ -25,7 +25,7 @@ Slurm_log <- function(x, which. = NULL, cmd = "less") {
   }
 
   # Checking if the job has been submitted, and if the files are available.
-  if (state(x) == -1)
+  if (status(x) == -1)
     stop("It seems that the job hasn't started yet.", call. = FALSE)
 
   location <- paste0(x$opts_r$tmp_path, "/", x$opts_job$`job-name`)

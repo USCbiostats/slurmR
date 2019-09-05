@@ -89,7 +89,7 @@ job <- Slurm_EvalQ(sluRm::WhoAmI(), njobs = 20, plan = "submit")
 
 # Checking the status of the job (we can simply print)
 job
-state(job) # or use the state function
+status(job) # or use the state function
 sacct(job) # or get more info with the sactt wrapper.
 
 # Suppose some of the jobs are taking too long to complete (say 1, 2, and 15 through 20)

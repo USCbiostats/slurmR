@@ -107,7 +107,7 @@ LAST_SUBMITTED_JOB <- (function() {
 #' job <- Slurm_lapply(1:1000, function(i) runif(100), njobs = 2, plan = "collect")
 #'
 #' # Post collection analysis
-#' state(last_job())
+#' status(last_job())
 #' }
 last_submitted_job <- function() {
 
@@ -152,7 +152,7 @@ hline <- function(..., sep="\n") {
 #'
 #' # Checking the status of the job (we can simply print)
 #' job
-#' state(job) # or use the state function
+#' status(job) # or use the state function
 #' sacct(job) # or get more info with the sactt wrapper.
 #'
 #' # Suppose one of the jobs is taking too long to complete (say #4)
@@ -167,9 +167,9 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
 
   # Checking the status of the job. If the job exists and it is completed,
   # then we can resubmit, otherwise, the user must actively cancell it
-  if (!is.na(x$jobid) && (state(x$jobid) == 1L))
+  if (!is.na(x$jobid) && (status(x$jobid) %in% 1:2))
       stop(
-        "Job ", x$jobid," is already running. If you wish to resubmit, ",
+        "Job ", x$jobid," is on the queue. If you wish to resubmit, ",
         "you first need to cancel the job by calling `scancel()`.",
         call. = FALSE
         )

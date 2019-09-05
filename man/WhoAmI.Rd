@@ -20,6 +20,6 @@ This returns a named vector with the following variables:
 Other utilities: \code{\link{Slurm_clean}},
   \code{\link{Slurm_env}}, \code{\link{Slurm_log}},
   \code{\link{parse_flags}}, \code{\link{snames}},
-  \code{\link{state}}
+  \code{\link{status}}
 }
 \concept{utilities}

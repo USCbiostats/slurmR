@@ -211,15 +211,15 @@ status.default <- function(x) {
     idx <- expand_array_indexes(dat$JobID[i])
 
     if (i == 1L) {
-      dat. <- cbind(dat[i, , drop=FALSE], NewId = idx)
+      dat. <- suppressWarnings(cbind(dat[i, , drop=FALSE], NewId = idx))
     } else {
 
-      dat. <- rbind(
+      dat. <- suppressWarnings(rbind(
         dat.,
         cbind(dat[i, , drop=FALSE], NewId = idx),
         stringsAsFactors = FALSE,
         make.row.names   = FALSE
-      )
+      ))
 
     }
 

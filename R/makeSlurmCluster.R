@@ -26,6 +26,18 @@
 #'
 #' 3. Create a PSOCK cluster using the node names obtained from the `Slurm_EvalQ`
 #'    call.
+#'
+#' @section Maximum number of connections:
+#'
+#' By default, R limits the number of simultaneous connections (see this thread
+#' in R-sig-hpc \url{https://stat.ethz.ch/pipermail/r-sig-hpc/2012-May/001373.html})
+#' Current maximum is 128 (R version 3.6.1). To modify that limit, you would need
+#' to reinstall R updating the macro `NCONNECTIONS` in the file `src/main/connections.c`.
+#'
+#' For now, if the user sets `njobs` above 128 it will get an inmediate warning
+#' pointing to this issue, in particular, specifying that the cluster object
+#' may not be able to be created.
+#'
 #' @return A object of class `c("slurm_cluster", "SOCKcluster", "cluster")`. It
 #' is the same as what is returned by [parallel::makePSOCKcluster] with the main
 #' difference that it has two extra attributes:
@@ -38,8 +50,8 @@
 #' @examples
 #' \dontrun{
 #'
-#' # Creating a cluster with 200 workers/offpring/child R sessions
-#' cl <- makeSlurmCluster(200)
+#' # Creating a cluster with 100 workers/offpring/child R sessions
+#' cl <- makeSlurmCluster(100)
 #'
 #' # Computing the mean of a 100 random uniforms within each worker
 #' # for this we can use any of the function available in the parallel package.
@@ -63,6 +75,14 @@ makeSlurmCluster <- function(
   verb        = TRUE,
   ...
   ) {
+
+  if (njobs > 128L)
+    warning(
+      "By this version of sluRm, the maximum number of connections in R ",
+      "is 128. makeSlurmCluster will try to create the cluster object, ",
+      "but it is possible that the function fails to do so (see ?makeSlurmCluster).",
+      immediate. = TRUE
+      )
 
   sbatch_opt <- list(...)
 

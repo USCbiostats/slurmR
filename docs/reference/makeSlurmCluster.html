@@ -210,11 +210,22 @@ the following:</p><ul>
 <li><p>Cancel the Slurm job using <code>scancel</code>.</p></li>
 </ul>
     
+    <h2 class="hasAnchor" id="maximum-number-of-connections"><a class="anchor" href="#maximum-number-of-connections"></a>Maximum number of connections</h2>
+
+    
+    <p>By default, R limits the number of simultaneous connections (see this thread
+in R-sig-hpc <a href='https://stat.ethz.ch/pipermail/r-sig-hpc/2012-May/001373.html'>https://stat.ethz.ch/pipermail/r-sig-hpc/2012-May/001373.html</a>)
+Current maximum is 128 (R version 3.6.1). To modify that limit, you would need
+to reinstall R updating the macro <code>NCONNECTIONS</code> in the file <code>src/main/connections.c</code>.</p>
+<p>For now, if the user sets <code>njobs</code> above 128 it will get an inmediate warning
+pointing to this issue, in particular, specifying that the cluster object
+may not be able to be created.</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># Creating a cluster with 200 workers/offpring/child R sessions</span>
-<span class='no'>cl</span> <span class='kw'>&lt;-</span> <span class='fu'>makeSlurmCluster</span>(<span class='fl'>200</span>)
+<span class='co'># Creating a cluster with 100 workers/offpring/child R sessions</span>
+<span class='no'>cl</span> <span class='kw'>&lt;-</span> <span class='fu'>makeSlurmCluster</span>(<span class='fl'>100</span>)
 
 <span class='co'># Computing the mean of a 100 random uniforms within each worker</span>
 <span class='co'># for this we can use any of the function available in the parallel package.</span>
@@ -238,6 +249,8 @@ the following:</p><ul>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#maximum-number-of-connections">Maximum number of connections</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

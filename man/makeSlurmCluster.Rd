@@ -71,11 +71,24 @@ the following:
 \item Cancel the Slurm job using \code{scancel}.
 }
 }
+\section{Maximum number of connections}{
+
+
+By default, R limits the number of simultaneous connections (see this thread
+in R-sig-hpc \url{https://stat.ethz.ch/pipermail/r-sig-hpc/2012-May/001373.html})
+Current maximum is 128 (R version 3.6.1). To modify that limit, you would need
+to reinstall R updating the macro \code{NCONNECTIONS} in the file \code{src/main/connections.c}.
+
+For now, if the user sets \code{njobs} above 128 it will get an inmediate warning
+pointing to this issue, in particular, specifying that the cluster object
+may not be able to be created.
+}
+
 \examples{
 \dontrun{
 
-# Creating a cluster with 200 workers/offpring/child R sessions
-cl <- makeSlurmCluster(200)
+# Creating a cluster with 100 workers/offpring/child R sessions
+cl <- makeSlurmCluster(100)
 
 # Computing the mean of a 100 random uniforms within each worker
 # for this we can use any of the function available in the parallel package.

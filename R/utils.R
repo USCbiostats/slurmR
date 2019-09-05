@@ -239,26 +239,27 @@ status.default <- function(x) {
 
     return(wrap(0L, State))
 
-  } else if (length(State$failed) == 0L) {
+  } else if (length(State$pending) == njobs) {
 
     return(wrap(1L, State))
 
-  } else if (length(State$running) > 0L) {
+  } else if (length(State$failed) > 0L) {
 
-    return(wrap(2L, State))
+    return(wrap(99L, State))
 
   } else {
 
-    return(wrap(99L, State))
+    return(wrap(2L, State))
 
   }
 
 }
 
+#' @export
 print.slurm_status <- function(x, ...) {
 
-  cat("\nCurrent status: ", x, " (")
-  cat(attr(x, "description"), "\n)")
+  cat("Current status: ", x, " (")
+  cat(attr(x, "description"), ")\n")
 
   invisible(x)
 

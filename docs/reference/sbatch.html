@@ -209,6 +209,9 @@ submits it to the queue. In debug mode the job will be submitted via <code>sh</c
 instead.</p>
 <p>The method for character scalars is used to submit jobs using a slurm
 script.</p>
+<p>The wrapper of squeue includes the flag <code>-o%all</code> which returns all
+available fields separated by a vertical bar. This cannot be changed since it
+is the easiest way of processing the infor into R.</p>
 <p>The function <code>slurm.conf</code> is a wrapper of the function <code>scontrol</code> that
 returns configuration info about Slurm, in particular, the underlying command
 that is called is <code>scontrol show conf</code>. This returns a named character vector

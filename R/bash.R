@@ -355,6 +355,9 @@ sbatch_dummy <- function(...) {
 
 #' @export
 #' @rdname sbatch
+#' @details The wrapper of squeue includes the flag `-o%all` which returns all
+#' available fields separated by a vertical bar. This cannot be changed since it
+#' is the easiest way of processing the infor into R.
 squeue <- function(x = NULL, ...) UseMethod("squeue")
 
 #' @export
@@ -365,7 +368,7 @@ squeue.default <- function(x = NULL, ...) {
   stopifnot_slurm()
 
   # Notice that the jobid may be null
-  option <- c(sprintf("-j%i -o%%all", x), parse_flags(...))
+  option <- c(sprintf("-j%i", x), "-o%%all", parse_flags(...))
 
   # message("Submitting job...")
   ans <- silent_system2("squeue", option, stdout=TRUE, stderr = TRUE, wait=TRUE)

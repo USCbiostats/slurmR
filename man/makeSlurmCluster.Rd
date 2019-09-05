@@ -6,8 +6,8 @@
 \title{Create a Parallel Socket Cluster using Slurm}
 \usage{
 makeSlurmCluster(njobs, job_name = opts_sluRm$get_job_name(),
-  tmp_path = opts_sluRm$get_tmp_path(), sbatch_opt = list(),
-  timeout = 300L, ...)
+  tmp_path = opts_sluRm$get_tmp_path(), cluster_opt = list(),
+  timeout = 300L, verb = TRUE, ...)
 
 \method{stopCluster}{SlurmCluster}(cl)
 }
@@ -22,13 +22,15 @@ cores to be used.}
 scripts) will be stored. Notice that this path must be accessible by all the
 nodes in the network (See \link{opts_sluRm}).}
 
-\item{sbatch_opt}{List of options to be passed to \code{sbatch}. This is usually
-done by adding the flags \code{#SBATCH} to the bash file.}
+\item{cluster_opt}{A list of arguments passed to \link[parallel:makePSOCKcluster]{parallel::makePSOCKcluster}.}
 
 \item{timeout}{Integer scalar. Wait time before exiting with error while
 trying to read the nodes information.}
 
-\item{...}{Further arguments passed to \link[parallel:makePSOCKcluster]{parallel::makePSOCKcluster}.}
+\item{verb}{Logical scalar. If \code{TRUE}, the function will print messages on
+screen reporting on the status of the job submission.}
+
+\item{...}{Further arguments passed to \link{Slurm_EvalQ} via \code{sbatch_opt}.}
 
 \item{cl}{An object of class \code{SlurmCluster}.}
 }
@@ -37,7 +39,7 @@ This function is essentially a wrapper of the function \link[parallel:makePSOCKc
 \code{makeSlurmCluster} main feature is adding node addresses.
 }
 \details{
-By default, if the \code{time} option is not specified via \code{sbatch_opt},
+By default, if the \code{time} option is not specified via \code{...},
 then it is set to the value \code{1-0}, this is, 1 day and 0 hours.
 
 Once a job is submitted via Slurm, the user gets access to the nodes
@@ -48,17 +50,15 @@ enviornment. In particular, \code{makeSlurmCluster} performs the following steps
 \item Using \link{Slurm_EvalQ}, a job is submitted using an array with \code{njobs}.
 \item Each job within the array stores information regarding the node where they
 are being executed, including the name of the node.
-\item Create a PSOCK cluster using the node names obtained from the \code{SlurmEvalQ}
+\item Create a PSOCK cluster using the node names obtained from the \code{Slurm_EvalQ}
 call.
 }
 
 The method \code{stopCluster} for \code{SlurmCluster} stops the cluster doing
 the following:
 \itemize{
-\item First, it tries to kill the processes initialized in the nodes by using the
-PIDs (these were collected during creation.),
 \item Then, calls the \code{stopCluster} method for \code{PSOCK} objects.
-\item Finally, it takes the array's JOB ID and cancels that job.
+\item Cancel the Slurm job using \code{scancel}.
 }
 }
 \examples{
@@ -74,6 +74,10 @@ ans <- parSapply(1:200, function(x) mean(runif(100)))
 # We simply call stopCluster as we would do with any other cluster
 # object
 stopCluster(ans)
+
+# We can also specify SBATCH options directly (...)
+cl <- makeSlurmCluster(200, partition = "thomas", time = "02:00:00")
+stopCluster(cl)
 }
 
 }

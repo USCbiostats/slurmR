@@ -173,8 +173,6 @@ status.slurm_job <- function(x) {
   status.default(x$jobid)
 }
 
-#' @rdname status
-"JOB_STATE_CODES"
 
 #' @export
 #' @rdname status
@@ -192,7 +190,7 @@ status.default <- function(x) {
       stop()
     )
 
-    do.call(structure, c(list(.Data = val, description=desc), S))
+    do.call(structure, c(list(.Data = val, description=desc, class="slurm_status"), S))
   }
 
   # Checking the data
@@ -255,7 +253,14 @@ status.default <- function(x) {
 
   }
 
+}
 
+print.slurm_status <- function(x, ...) {
+
+  cat("\nCurrent status: ", x, " (")
+  cat(attr(x, "description"), "\n)")
+
+  invisible(x)
 
 }
 

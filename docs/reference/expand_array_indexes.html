@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Information about where jobs are submitted — WhoAmI • sluRm</title>
+<title>Expand Array Indexes — expand_array_indexes • sluRm</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,12 @@
 
 
 
-<meta property="og:title" content="Information about where jobs are submitted — WhoAmI" />
+<meta property="og:title" content="Expand Array Indexes — expand_array_indexes" />
 
-<meta property="og:description" content="This returns a named vector with the following variables:
-SLURM_LOCALID, SLURMD_NODENAME, SLURM_ARRAY_TASK_ID, SLURM_CLUSTER_NAME, SLURM_JOB_PARTITION, SLURM_TASK_PID" />
+<meta property="og:description" content="When submitting array jobs using sbatch, users can specify ranges in several
+ways. These could be specified as ranges, &quot;1-9&quot;, lists, &quot;1,2,5&quot;, or intervals
+as &quot;1-7:3&quot;, which translates into &quot;1, 4, 7&quot;. This function expands those
+cases." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -117,43 +119,54 @@ SLURM_LOCALID, SLURMD_NODENAME, SLURM_ARRAY_TASK_ID, SLURM_CLUSTER_NAME, SLURM_J
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Information about where jobs are submitted</h1>
-    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/sluRm/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>WhoAmI.Rd</code></div>
+    <h1>Expand Array Indexes</h1>
+    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/sluRm/blob/master/R/expand_array_indexes.R'><code>R/expand_array_indexes.R</code></a></small>
+    <div class="hidden name"><code>expand_array_indexes.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This returns a named vector with the following variables:
-SLURM_LOCALID, SLURMD_NODENAME, SLURM_ARRAY_TASK_ID, SLURM_CLUSTER_NAME, SLURM_JOB_PARTITION, SLURM_TASK_PID</p>
+    <p>When submitting array jobs using <code>sbatch</code>, users can specify ranges in several
+ways. These could be specified as ranges, "<code>1-9</code>", lists, "<code>1,2,5</code>", or intervals
+as "<code>1-7:3</code>", which translates into "<code>1, 4, 7</code>". This function expands those
+cases.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>WhoAmI</span>()
-
-<span class='fu'>whoami</span>()</pre>
-        
+    <pre class="usage"><span class='fu'>expand_array_indexes</span>(<span class='no'>x</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>A character vector. Array indexes (see details).</p></td>
+    </tr>
+    </table>
+    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>whoami</code> is just an alias of <code>WhoAmI</code>.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other utilities: <code><a href='Slurm_clean.html'>Slurm_clean</a></code>,
-  <code><a href='Slurm_env.html'>Slurm_env</a></code>, <code><a href='Slurm_log.html'>Slurm_log</a></code>,
-  <code><a href='parse_flags.html'>parse_flags</a></code>, <code><a href='snames.html'>snames</a></code>,
-  <code><a href='status.html'>status</a></code></p></div>
+    <p><code>x</code> is assumed to be in the form of <code>[jobid]_[array expression]</code>. The first
+The function will return an expanded version of this, e.g. if <code>x = "8123_[1,3-6]"</code>
+the resulting expression will be the vector  "8123_1", "8123_3", "8123_4",
+"8123_5", and "8123_6".</p>
+<p>This function was developed mainly to be used internally.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='fu'>expand_array_indexes</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"123_1"</span>, <span class='st'>"55_[1-5]"</span>, <span class='st'>"122_[1, 5-6]"</span>, <span class='st'>"44_[1-3:2]"</span>))</div><div class='output co'>#&gt;  [1] "1"     "55_1"  "55_2"  "55_3"  "55_4"  "55_5"  "122_1" "122_5" "122_6"
+#&gt; [10] "44_1"  "44_3" </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#details">Details</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

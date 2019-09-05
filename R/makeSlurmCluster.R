@@ -119,7 +119,7 @@ makeSlurmCluster <- function(
 
        message(
          sprintf(
-           "%4d/%-4 jobs need to start before continuing (remaining wait time: %-4d(s))",
+           "%4d/%-4d jobs need to start before continuing (remaining wait time: %-4d(s))",
            njobs - length(attr(s, "running")), njobs,
            as.integer(max_wait - (Sys.time() - time0))
            )

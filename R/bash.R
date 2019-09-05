@@ -368,7 +368,7 @@ squeue.default <- function(x = NULL, ...) {
   stopifnot_slurm()
 
   # Notice that the jobid may be null
-  option <- c(sprintf("-j%i", x), "-o%%all", parse_flags(...))
+  option <- c(sprintf("-j%i", x), "-o%all", parse_flags(...))
 
   # message("Submitting job...")
   ans <- silent_system2("squeue", option, stdout=TRUE, stderr = TRUE, wait=TRUE)

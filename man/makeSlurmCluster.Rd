@@ -7,7 +7,7 @@
 \usage{
 makeSlurmCluster(njobs, job_name = opts_sluRm$get_job_name(),
   tmp_path = opts_sluRm$get_tmp_path(), cluster_opt = list(),
-  timeout = 300L, verb = TRUE, ...)
+  max_wait = 300L, verb = TRUE, ...)
 
 \method{stopCluster}{SlurmCluster}(cl)
 }
@@ -24,7 +24,7 @@ nodes in the network (See \link{opts_sluRm}).}
 
 \item{cluster_opt}{A list of arguments passed to \link[parallel:makePSOCKcluster]{parallel::makePSOCKcluster}.}
 
-\item{timeout}{Integer scalar. Wait time before exiting with error while
+\item{max_wait}{Integer scalar. Wait time before exiting with error while
 trying to read the nodes information.}
 
 \item{verb}{Logical scalar. If \code{TRUE}, the function will print messages on
@@ -40,7 +40,7 @@ This function is essentially a wrapper of the function \link[parallel:makePSOCKc
 }
 \details{
 By default, if the \code{time} option is not specified via \code{...},
-then it is set to the value \code{1-0}, this is, 1 day and 0 hours.
+then it is set to the value \code{01:00:00}, this is, 1 hour.
 
 Once a job is submitted via Slurm, the user gets access to the nodes
 associated with it, which allows users to star new processes within those.

@@ -371,7 +371,7 @@ squeue.default <- function(x = NULL, ...) {
   option <- c(sprintf("-j%i", x), "-o%all", parse_flags(...))
 
   # message("Submitting job...")
-  ans <- silent_system2("squeue", option, stdout=TRUE, stderr = TRUE, wait=TRUE)
+  ans <- silent_system2("squeue", option, stdout = TRUE, stderr = TRUE, wait = TRUE)
 
   # Parsing the data
   ans <- lapply(ans, strsplit, split="|", fixed=TRUE)

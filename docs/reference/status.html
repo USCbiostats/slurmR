@@ -149,15 +149,15 @@ returns information about its current state.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An integer with attributes. The attributes are integer vectors indicating
-which jobs fail in the categories of <code>completed</code>, <code>failed</code>, and <code>pending</code> (see
-<a href='JOB_STATE_CODES.html'>JOB_STATE_CODES</a>). Possible return values are</p><ul>
-<li><p><code>-1</code>: Job not found. This may be a false negative since Slurm may still
-be scheduling the job.</p></li>
-<li><p><code>0</code>: Job completed. In this case all the components of the job
-have finalized without any errors.</p></li>
-<li><p><code>1</code>: All jobs are pending resource allocation.</p></li>
-<li><p><code>2</code>: One or more jobs are still running.</p></li>
-<li><p><code>99</code>: One or more jobs have failed.</p></li>
+which jobs fail in the categories of <code>done</code>, <code>failed</code>, <code>pending</code>, and <code>running</code>
+(see <a href='JOB_STATE_CODES.html'>JOB_STATE_CODES</a>). Possible return values are</p><ul>
+<li><p><code>-1</code>: No job found. This may be a false negative as the job may still be
+on it's way to be submitted.</p></li>
+<li><p><code>0</code>: Job completed.</p></li>
+<li><p><code>1</code>: All jobs are pending resource allocation or are on it's way to start.</p></li>
+<li><p><code>2</code>: All jobs are currently running.</p></li>
+<li><p><code>3</code>: One or more jobs are still running.</p></li>
+<li><p><code>99</code>: One or more jobs failed.</p></li>
 </ul>
 
 <p>If the job is not an array, then function will return the corresponding code

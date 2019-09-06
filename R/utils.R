@@ -126,20 +126,22 @@ snames <- function(type, array_id) {
 #' @param x Either a Job id, or an object of class `slurm_job`.
 #'
 #' @return An integer with attributes. The attributes are integer vectors indicating
-#' which jobs fail in the categories of `completed`, `failed`, and `pending` (see
-#' [JOB_STATE_CODES]). Possible return values are
+#' which jobs fail in the categories of `done`, `failed`, `pending`, and `running`
+#' (see [JOB_STATE_CODES]). Possible return values are
 #'
-#' - `-1`: Job not found. This may be a false negative since Slurm may still
-#'   be scheduling the job.
 #'
-#' - `0`: Job completed. In this case all the components of the job
-#'   have finalized without any errors.
+#' - `-1`: No job found. This may be a false negative as the job may still be
+#'   on it's way to be submitted.
 #'
-#' - `1`: All jobs are pending resource allocation.
+#' - `0`: Job completed.
 #'
-#' - `2`: One or more jobs are still running.
+#' - `1`: All jobs are pending resource allocation or are on it's way to start.
 #'
-#' - `99`: One or more jobs have failed.
+#' - `2`: All jobs are currently running.
+#'
+#' - `3`: One or more jobs are still running.
+#'
+#' - `99`: One or more jobs failed.
 #'
 #' If the job is not an array, then function will return the corresponding code
 #' but the attributes will only have a single number, 1, according to the state
@@ -173,7 +175,6 @@ status.slurm_job <- function(x) {
   status.default(x$jobid)
 }
 
-
 #' @export
 #' @rdname status
 status.default <- function(x) {
@@ -185,7 +186,8 @@ status.default <- function(x) {
       `-1` = "No job found. This may be a false negative as the job may still be on it's way to be submitted.",
       `0`  = "Job completed.",
       `1`  = "All jobs are pending resource allocation or are on it's way to start.",
-      `2`  = "One or more jobs are still running.",
+      `2`  = "All jobs are currently running.",
+      `3`  = "One or more jobs are still running.",
       `99` = "One or more jobs failed."
       )
 
@@ -251,6 +253,10 @@ status.default <- function(x) {
   } else if (length(State$pending) == njobs) {
 
     return(wrap(1L, State))
+
+  } else if (length(State$running) == njobs) {
+
+    return(wrap(2L, State))
 
   } else if (length(State$failed) > 0L) {
 

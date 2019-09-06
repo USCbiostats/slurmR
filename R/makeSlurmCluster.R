@@ -129,7 +129,7 @@ makeSlurmCluster <- function(
   ntry  <- -1L
   time0 <- Sys.time()
   s     <- 1L
-  while ((Sys.time() - time0) <= max_wait) {
+  while (difftime(Sys.time() - time0, units = "secs") <= max_wait) {
 
     # For sanity, will wait for half a second
     Sys.sleep(.5)

@@ -164,15 +164,13 @@ makeSlurmCluster <- function(
              ), appendLF = FALSE
         )
       } else if (s == 2L) {
-        message(
-          "All jobs are running, but we are still waiting for getting ",
-          "the nodenames.", appendLF = FALSE)
+        message("All jobs are running, waiting for the nodenames ", appendLF = FALSE)
       }
 
       # Common message
       message(
         sprintf(
-          " (remaining wait time: %-4d(s))",
+          "Remaining wait time: %-4d(s).",
           max_wait - as.integer(difftime(Sys.time(), time0, units = "s"))
         )
         )

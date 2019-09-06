@@ -44,6 +44,7 @@ While there are other alternatives such as `future.batchtools`, `batchtools`, `c
     used with other R packages)
 
 Checkout the [VS section](#vs) section for comparing `sluRm` with other R packages.
+Wondering who is using Slurm? Checkout the [list at the end of this document](#who-uses-slurm).
 
 ## Installation
 
@@ -255,6 +256,27 @@ We welcome contributions to `sluRm`. Whether it is reporting a bug, starting a d
 Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
 By participating in this project you agree to abide by its terms.
 
+## Who uses Slurm
+
+Here is a list of educational institutions using Slurm:
+
+- USC [HPCC](https://hpcc.usc.edu)
+
+- Princeton [Princeton Research Computing](https://researchcomputing.princeton.edu/education/online-tutorials/getting-started/introducing-slurm)
+
+- Harvard [FAS](https://www.rc.fas.harvard.edu/resources/quickstart-guide/), [HMS research computing](https://rc.hms.harvard.edu/#cluster)
+
+- UCSan Diego [WM Keck Lab for Integrated Biology](https://keck2.ucsd.edu/dokuwiki/doku.php/wiki:slurm)
+
+- Stanford [Sherlock](https://www.sherlock.stanford.edu/docs/overview/introduction/), [SCG Informatics Cluster](https://login.scg.stanford.edu/tutorials/job_scripts/) 
+
+- Berkeley [Research IT](http://research-it.berkeley.edu/services/high-performance-computing/running-your-jobs)
+
+- University of Utah [CHPC](https://www.chpc.utah.edu/documentation/software/slurm.php)
+
+
 ## Funding
 
 Supported by National Cancer Institute Grant #1P01CA196596.
+
+Computation for the work described in this paper was supported by the University of Southern California’s Center for High-Performance Computing (hpcc.usc.edu).

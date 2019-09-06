@@ -187,7 +187,7 @@ status.default <- function(x) {
       `0`  = "Job completed.",
       `1`  = "All jobs are pending resource allocation or are on it's way to start.",
       `2`  = "All jobs are currently running.",
-      `3`  = "One or more jobs are still running.",
+      `3`  = "One or more jobs are running.",
       `99` = "One or more jobs failed."
       )
 
@@ -264,7 +264,7 @@ status.default <- function(x) {
 
   } else {
 
-    return(wrap(2L, State))
+    return(wrap(3L, State))
 
   }
 

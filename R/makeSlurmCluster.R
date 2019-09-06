@@ -137,15 +137,26 @@ makeSlurmCluster <- function(
 
     if (verb && ntry > 0L && !(ntry %% 5)) {
 
-       message(
-         sprintf(
-           "%4d/%-4d jobs need to start before continuing (remaining wait time: %-4d(s))",
-           length(attr(s, "pending")), njobs,
-           max_wait - as.integer(difftime(Sys.time(), time0, units = "s"))
-           )
-       )
+      if (s %in% c(1L, 3L)) {
+        message(
+          sprintf(
+             "%4d/%-4d jobs need to start before continuing.",
+             length(attr(s, "pending")), njobs
+             ), appendLF = FALSE
+        )
+      } else if (s == 2L) {
+        message(
+          "All jobs are running, but we are still waiting for getting ",
+          "the nodenames.", appendLF = FALSE)
+      }
 
-       Sys.sleep(3)
+      # Common message
+      message(
+        " (remaining wait time: %-4d(s))",
+        max_wait - as.integer(difftime(Sys.time(), time0, units = "s"))
+        )
+
+      Sys.sleep(3)
     }
 
     # In the case of debug mode on, we don't need to check for the job status.

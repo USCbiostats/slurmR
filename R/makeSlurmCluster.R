@@ -152,8 +152,10 @@ makeSlurmCluster <- function(
 
       # Common message
       message(
-        " (remaining wait time: %-4d(s))",
-        max_wait - as.integer(difftime(Sys.time(), time0, units = "s"))
+        sprintf(
+          " (remaining wait time: %-4d(s))",
+          max_wait - as.integer(difftime(Sys.time(), time0, units = "s"))
+        )
         )
 
       Sys.sleep(3)

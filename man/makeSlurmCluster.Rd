@@ -7,7 +7,7 @@
 \usage{
 makeSlurmCluster(njobs, job_name = opts_sluRm$get_job_name(),
   tmp_path = opts_sluRm$get_tmp_path(), cluster_opt = list(),
-  max_wait = 300L, verb = TRUE, ...)
+  max_wait = 300L, verb = TRUE, ntasks = 1L, ...)
 
 \method{stopCluster}{slurm_cluster}(cl)
 }
@@ -29,6 +29,8 @@ trying to read the nodes information.}
 
 \item{verb}{Logical scalar. If \code{TRUE}, the function will print messages on
 screen reporting on the status of the job submission.}
+
+\item{ntasks}{Integer scalar. Number of R sessions to start per job (see details).}
 
 \item{...}{Further arguments passed to \link{Slurm_EvalQ} via \code{sbatch_opt}.}
 
@@ -63,6 +65,11 @@ are being executed, including the name of the node.
 \item Create a PSOCK cluster using the node names obtained from the \code{Slurm_EvalQ}
 call.
 }
+
+The number of workers/childs/sessions that will be used is the product between
+\code{ntasks} and \code{njobs}. In some Slurm settings users may be constrained in the
+number of jobs that can be executed simultaneously, hence, increasing the
+number of tasks per job may be a solution to increase the number of workers.
 
 The method \code{stopCluster} for \code{slurm_cluster} stops the cluster doing
 the following:
@@ -101,6 +108,16 @@ stopCluster(ans)
 # We can also specify SBATCH options directly (...)
 cl <- makeSlurmCluster(200, partition = "thomas", time = "02:00:00")
 stopCluster(cl)
+
+# Limited number of simultaneous jobs ---------------------------------------
+# Suppose that the user cannot run more than 10 jobs at a time. We can
+# increase the number of workers by increasing the number of tasks
+
+cl <- makeSlurmCluster(9, ntasks = 5) # We leave one job as the master session.
+
+# This will have in total 45 child processes!
+cl
+
 }
 
 }

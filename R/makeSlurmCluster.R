@@ -13,6 +13,8 @@
 #' @param ... Further arguments passed to [Slurm_EvalQ] via `sbatch_opt`.
 #' @param verb Logical scalar. If `TRUE`, the function will print messages on
 #' screen reporting on the status of the job submission.
+#' @param ntasks Integer scalar. Number of R sessions to start per job (see details).
+#'
 #' @export
 #' @details Once a job is submitted via Slurm, the user gets access to the nodes
 #' associated with it, which allows users to star new processes within those.
@@ -26,6 +28,11 @@
 #'
 #' 3. Create a PSOCK cluster using the node names obtained from the `Slurm_EvalQ`
 #'    call.
+#'
+#' The number of workers/childs/sessions that will be used is the product between
+#' `ntasks` and `njobs`. In some Slurm settings users may be constrained in the
+#' number of jobs that can be executed simultaneously, hence, increasing the
+#' number of tasks per job may be a solution to increase the number of workers.
 #'
 #' @section Maximum number of connections:
 #'
@@ -64,6 +71,16 @@
 #' # We can also specify SBATCH options directly (...)
 #' cl <- makeSlurmCluster(200, partition = "thomas", time = "02:00:00")
 #' stopCluster(cl)
+#'
+#' # Limited number of simultaneous jobs ---------------------------------------
+#' # Suppose that the user cannot run more than 10 jobs at a time. We can
+#' # increase the number of workers by increasing the number of tasks
+#'
+#' cl <- makeSlurmCluster(9, ntasks = 5) # We leave one job as the master session.
+#'
+#' # This will have in total 45 child processes!
+#' cl
+#'
 #' }
 #'
 makeSlurmCluster <- function(
@@ -73,10 +90,11 @@ makeSlurmCluster <- function(
   cluster_opt = list(),
   max_wait    = 300L,
   verb        = TRUE,
+  ntasks      = 1L,
   ...
   ) {
 
-  if (njobs > 128L)
+  if (njobs * ntasks > 128L)
     warning(
       "By this version of sluRm, the maximum number of connections in R ",
       "is 128. makeSlurmCluster will try to create the cluster object, ",
@@ -84,7 +102,8 @@ makeSlurmCluster <- function(
       immediate. = TRUE
       )
 
-  sbatch_opt <- list(...)
+  sbatch_opt        <- list(...)
+  sbatch_opt$ntasks <- ntasks
 
   if (is.null(sbatch_opt$time))
     sbatch_opt$time <- "01:00:00"
@@ -205,7 +224,7 @@ makeSlurmCluster <- function(
   # Creating the PSOCK cluster
   cl <- do.call(
     parallel::makePSOCKcluster,
-    c(list(names = nodenames), cluster_opt)
+    c(list(names = rep(nodenames, ntasks)), cluster_opt)
   )
 
   attr(cl, "SLURM_PIDS")  <- pids

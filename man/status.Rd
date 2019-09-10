@@ -4,6 +4,7 @@
 \alias{status}
 \alias{status.slurm_job}
 \alias{status.default}
+\alias{$.slurm_status}
 \title{Check the status of a Slurm JOB}
 \usage{
 status(x)
@@ -11,9 +12,15 @@ status(x)
 \method{status}{slurm_job}(x)
 
 \method{status}{default}(x)
+
+\method{$}{slurm_status}(x, name)
 }
 \arguments{
-\item{x}{Either a Job id, or an object of class \code{slurm_job}.}
+\item{x}{Either a Job id, an object of class \code{slurm_job}, or an object of
+class \code{slurm_status}.}
+
+\item{name}{Character scalar. List of status to retrieve. This can be any of
+\code{"done"}, \code{"failed"}, \code{"running"}, or \code{"pending"}.}
 }
 \value{
 An integer with attributes. The attributes are integer vectors indicating

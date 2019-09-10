@@ -260,7 +260,7 @@ By participating in this project you agree to abide by its terms.
 
 Here is a list of educational institutions using Slurm:
 
-- USC [HPCC](https://hpcc.usc.edu)
+- USC [High Performance Computing Center](https://hpcc.usc.edu)
 
 - Princeton [Princeton Research Computing](https://researchcomputing.princeton.edu/education/online-tutorials/getting-started/introducing-slurm)
 
@@ -274,6 +274,11 @@ Here is a list of educational institutions using Slurm:
 
 - University of Utah [CHPC](https://www.chpc.utah.edu/documentation/software/slurm.php)
 
+- University of Michigan [Biostatistics cluster](https://sph.umich.edu/biostat/computing/cluster/slurm.html)
+
+- The University of Kansas [Center for Research Computing](https://crc.ku.edu/hpc/how-to)
+
+- University of Cambridge [MRC Biostatistics Unit](https://www.mrc-bsu.cam.ac.uk/research-and-development/high-performance-computing-at-the-bsu/)
 
 ## Funding
 

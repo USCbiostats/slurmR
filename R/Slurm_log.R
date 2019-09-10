@@ -51,7 +51,7 @@ Slurm_log <- function(x, which. = NULL, cmd = "less") {
   } else {
 
     # Is it within the expected range?
-    if ((length(which.) > 1L) || !is.integer(which.))
+    if ((length(which.) > 1L) || !is.numeric(which.))
       stop("`which.` should be an integer of length 1.", call. = FALSE)
 
     if (which. > x$njobs || which. < 1L)

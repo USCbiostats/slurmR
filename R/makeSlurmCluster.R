@@ -111,6 +111,26 @@ makeSlurmCluster <- function(
   # Creating a job to be submitted
   JOB_PATH <- NULL # THIS IS CREATED JUST TO AVOID THE NOTE DURING R CMD CHECK
   ARRAY_ID <- NULL # THIS IS CREATED JUST TO AVOID THE NOTE DURING R CMD CHECK
+
+  # These are emergency steps taken in case that the user presses break or
+  # an error happens after the creating of the job object.
+  on.exit({
+    if (exists("job") && (!exists("cl") || !inherits(cl, "slurm_cluster"))) {
+      warning(
+        "An error was detected before returning the cluster object. ",
+        "If submitted, we will try to cancel the job and stop the cluster ",
+        "object.", call. = FALSE, immediate. = TRUE
+        )
+      e <- tryCatch(parallel::stopCluster(cl), error = function(e) e)
+      e <- tryCatch(scancel(job), error = function(e) e)
+      if (inherits(e, "error") && !is.na(job$jobid)) {
+        warning(
+          "The job ", job$jobid, " is still running. Try canceling it using ",
+          "scancel on command line.", call. = FALSE, immediate. = TRUE
+          )
+      }
+    }
+  })
   job <- Slurm_EvalQ(expr = {
 
     # Saving the process id... so we can kill it!

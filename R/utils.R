@@ -123,7 +123,8 @@ snames <- function(type, array_id) {
 #' Using the [sacct] function, it checks the status of a particular error and
 #' returns information about its current state.
 #'
-#' @param x Either a Job id, or an object of class `slurm_job`.
+#' @param x Either a Job id, an object of class `slurm_job`, or an object of
+#' class `slurm_status`.
 #'
 #' @return An integer with attributes. The attributes are integer vectors indicating
 #' which jobs fail in the categories of `done`, `failed`, `pending`, and `running`
@@ -191,7 +192,14 @@ status.default <- function(x) {
       `99` = "One or more jobs failed."
       )
 
-    do.call(structure, c(list(.Data = val, description=desc, class="slurm_status"), S))
+    do.call(
+      structure,
+      c(list(
+        .Data       = val,
+        description = desc,
+        class       = "slurm_status",
+        njobs       = njobs
+        ), S))
   }
 
   # Checking the data
@@ -273,10 +281,35 @@ status.default <- function(x) {
 #' @export
 print.slurm_status <- function(x, ...) {
 
-  cat("Current status: ", x, " (")
-  cat(attr(x, "description"), ")\n")
+  cat("Status: ", attr(x, "description"), " (Code ", x, ")\n", sep="")
 
+  anames <- setdiff(names(attributes(x)), c("class", "description", "njobs"))
+
+  if (attr(x, "njobs") > 1L) {
+    cat("This is a job array. The status of each job, by array id, is the following:\n")
+    for (i in anames) {
+      l <- paste0(paste(attr(x, i), collapse = ", "), ".")
+      if (l == ".")
+        l <- " - "
+      cat(sprintf(" %-10s: %s\n", i, l))
+    }
+  }
   invisible(x)
+
+}
+
+#' @export
+#' @rdname status
+#' @param name Character scalar. List of status to retrieve. This can be any of
+#' `"done"`, `"failed"`, `"running"`, or `"pending"`.
+`$.slurm_status` <- function(x, name) {
+
+  if (name %in% c("done", "failed", "running", "pending")) {
+
+    attr(x, which=name)
+
+  } else
+    stop("No status named \"", name, "\".", call. = FALSE)
 
 }
 
@@ -313,7 +346,7 @@ Slurm_clean <- function(x) {
   s <- if (opts_sluRm$get_debug() | !slurm_available()) 0
     else status(x)
 
-  if (s %in% 1L:2L)
+  if (s %in% 1L:3L)
     stop("Some jobs are still running/pending (",
          paste(attr(s, "pending"), collapse=", "), ".", call. = FALSE)
 
@@ -364,4 +397,5 @@ WhoAmI <- function() {
 #' @rdname WhoAmI
 #' @details `whoami` is just an alias of `WhoAmI`.
 whoami <- WhoAmI
+
 

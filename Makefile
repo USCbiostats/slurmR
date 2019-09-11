@@ -9,3 +9,8 @@ check:
 
 clean:
 	rm -rf sluRm-job*
+
+docs:
+	R -e "roxygen2::roxygenize()" && R -e "pkgdown::build_site()"
+
+.PHONY: instal build check clean docs

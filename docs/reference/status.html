@@ -129,20 +129,29 @@ returns information about its current state.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>status</span>(<span class='no'>x</span>)
+    <pre class="usage">status(x)
 
-<span class='co'># S3 method for slurm_job</span>
-<span class='fu'>status</span>(<span class='no'>x</span>)
+# S3 method for slurm_job
+status(x)
 
-<span class='co'># S3 method for default</span>
-<span class='fu'>status</span>(<span class='no'>x</span>)</pre>
+# S3 method for default
+status(x)
+
+# S3 method for slurm_status
+$(x, name)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>Either a Job id, or an object of class <code>slurm_job</code>.</p></td>
+      <td><p>Either a Job id, an object of class <code>slurm_job</code>, or an object of
+class <code>slurm_status</code>.</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>Character scalar. List of status to retrieve. This can be any of
+<code>"done"</code>, <code>"failed"</code>, <code>"running"</code>, or <code>"pending"</code>.</p></td>
     </tr>
     </table>
     

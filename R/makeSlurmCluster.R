@@ -13,7 +13,7 @@
 #' @param ... Further arguments passed to [Slurm_EvalQ] via `sbatch_opt`.
 #' @param verb Logical scalar. If `TRUE`, the function will print messages on
 #' screen reporting on the status of the job submission.
-#' @param ntasks Integer scalar. Number of R sessions to start per job (see details).
+#' @param childs_per_job Integer scalar. Number of R sessions to start per job (see details).
 #'
 #' @export
 #' @details Once a job is submitted via Slurm, the user gets access to the nodes
@@ -30,9 +30,10 @@
 #'    call.
 #'
 #' The number of workers/childs/sessions that will be used is the product between
-#' `ntasks` and `njobs`. In some Slurm settings users may be constrained in the
+#' `childs_per_job` and `njobs`. In some Slurm settings users may be constrained in the
 #' number of jobs that can be executed simultaneously, hence, increasing the
-#' number of tasks per job may be a solution to increase the number of workers.
+#' number of childs per job may be a solution to increase the number of workers.
+#' This is done by setting the `--cpus-per-task` flag equal to `childs_per_job`.
 #'
 #' @section Maximum number of connections:
 #'
@@ -74,9 +75,9 @@
 #'
 #' # Limited number of simultaneous jobs ---------------------------------------
 #' # Suppose that the user cannot run more than 10 jobs at a time. We can
-#' # increase the number of workers by increasing the number of tasks
+#' # increase the number of workers by increasing the number of childs per job
 #'
-#' cl <- makeSlurmCluster(9, ntasks = 5) # We leave one job as the master session.
+#' cl <- makeSlurmCluster(9, childs_per_job = 5) # We leave one job as the master session.
 #'
 #' # This will have in total 45 child processes!
 #' cl
@@ -85,16 +86,16 @@
 #'
 makeSlurmCluster <- function(
   njobs,
-  job_name    = opts_sluRm$get_job_name(),
-  tmp_path    = opts_sluRm$get_tmp_path(),
-  cluster_opt = list(),
-  max_wait    = 300L,
-  verb        = TRUE,
-  ntasks      = 1L,
+  job_name       = opts_sluRm$get_job_name(),
+  tmp_path       = opts_sluRm$get_tmp_path(),
+  cluster_opt    = list(),
+  max_wait       = 300L,
+  verb           = TRUE,
+  childs_per_job = 1L,
   ...
   ) {
 
-  if (njobs * ntasks > 128L)
+  if (njobs * childs_per_job > 128L)
     warning(
       "By this version of sluRm, the maximum number of connections in R ",
       "is 128. makeSlurmCluster will try to create the cluster object, ",
@@ -103,7 +104,7 @@ makeSlurmCluster <- function(
       )
 
   sbatch_opt        <- list(...)
-  sbatch_opt$ntasks <- ntasks
+  sbatch_opt$`cpus-per-task` <- childs_per_job
 
   if (is.null(sbatch_opt$time))
     sbatch_opt$time <- "01:00:00"
@@ -115,7 +116,7 @@ makeSlurmCluster <- function(
   # These are emergency steps taken in case that the user presses break or
   # an error happens after the creating of the job object.
   on.exit({
-    if (exists("job") && (!exists("cl") || !inherits(cl, "slurm_cluster"))) {
+    if (exists("job") && ( !exists("cl") || !(inherits(cl, "slurm_cluster")))) {
       warning(
         "An error was detected before returning the cluster object. ",
         "If submitted, we will try to cancel the job and stop the cluster ",

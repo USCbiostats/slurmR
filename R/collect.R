@@ -59,7 +59,7 @@ Slurm_collect.slurm_job <- function(x, any. = FALSE, wait = 10L, ...) {
 
     if (S == 0L)
       do.call("c", lapply(snames("rds", 1:x$njobs), readRDS))
-    else if (any. && (S %in% 1:2))
+    else if (any.)
       do.call("c", lapply(snames("rds", attr(S, "done")), readRDS_trying))
     else
       stop("Nothing to retrieve. (see ?status).", call. = FALSE)
@@ -92,3 +92,4 @@ Slurm_collect.slurm_job <- function(x, any. = FALSE, wait = 10L, ...) {
   return(res)
 
 }
+

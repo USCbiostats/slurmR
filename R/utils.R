@@ -198,7 +198,7 @@ status.default <- function(x) {
         .Data       = val,
         description = desc,
         class       = "slurm_status",
-        njobs       = njobs
+        njobs       = if (exists("njobs")) njobs else 0L
         ), S))
   }
 

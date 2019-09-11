@@ -98,9 +98,7 @@ print.slurm_job <- function(x, ...) {
   )
 
   if (!is.na(x$jobid)) {
-    print(utils::head(sa <- sacct(x), 5L))
-    if (nrow(sa) > 5L)
-      cat(nrow(sa), " rows skipped. Use `sacct` to retrieve all the rows.\n")
+    print(status(x))
   }
 
   invisible(x)

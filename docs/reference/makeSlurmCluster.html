@@ -131,7 +131,7 @@ makeSlurmCluster main feature is adding node addresses." />
 
     <pre class="usage"><span class='fu'>makeSlurmCluster</span>(<span class='no'>njobs</span>, <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_job_name</span>(),
   <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_tmp_path</span>(), <span class='kw'>cluster_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(),
-  <span class='kw'>max_wait</span> <span class='kw'>=</span> <span class='fl'>300L</span>, <span class='kw'>verb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ntasks</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='no'>...</span>)
+  <span class='kw'>max_wait</span> <span class='kw'>=</span> <span class='fl'>300L</span>, <span class='kw'>verb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>childs_per_job</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for slurm_cluster</span>
 <span class='fu'>stopCluster</span>(<span class='no'>cl</span>)</pre>
@@ -170,7 +170,7 @@ trying to read the nodes information.</p></td>
 screen reporting on the status of the job submission.</p></td>
     </tr>
     <tr>
-      <th>ntasks</th>
+      <th>childs_per_job</th>
       <td><p>Integer scalar. Number of R sessions to start per job (see details).</p></td>
     </tr>
     <tr>
@@ -209,9 +209,10 @@ are being executed, including the name of the node.</p></li>
 call.</p></li>
 </ol>
     <p>The number of workers/childs/sessions that will be used is the product between
-<code>ntasks</code> and <code>njobs</code>. In some Slurm settings users may be constrained in the
+<code>childs_per_job</code> and <code>njobs</code>. In some Slurm settings users may be constrained in the
 number of jobs that can be executed simultaneously, hence, increasing the
-number of tasks per job may be a solution to increase the number of workers.</p>
+number of childs per job may be a solution to increase the number of workers.
+This is done by setting the <code>--cpus-per-task</code> flag equal to <code>childs_per_job</code>.</p>
 <p>The method <code>stopCluster</code> for <code>slurm_cluster</code> stops the cluster doing
 the following:</p><ul>
 <li><p>Then, calls the <code>stopCluster</code> method for <code>PSOCK</code> objects.</p></li>
@@ -249,9 +250,9 @@ may not be able to be created.</p>
 
 <span class='co'># Limited number of simultaneous jobs ---------------------------------------</span>
 <span class='co'># Suppose that the user cannot run more than 10 jobs at a time. We can</span>
-<span class='co'># increase the number of workers by increasing the number of tasks</span>
+<span class='co'># increase the number of workers by increasing the number of childs per job</span>
 
-<span class='no'>cl</span> <span class='kw'>&lt;-</span> <span class='fu'>makeSlurmCluster</span>(<span class='fl'>9</span>, <span class='kw'>ntasks</span> <span class='kw'>=</span> <span class='fl'>5</span>) <span class='co'># We leave one job as the master session.</span>
+<span class='no'>cl</span> <span class='kw'>&lt;-</span> <span class='fu'>makeSlurmCluster</span>(<span class='fl'>9</span>, <span class='kw'>childs_per_job</span> <span class='kw'>=</span> <span class='fl'>5</span>) <span class='co'># We leave one job as the master session.</span>
 
 <span class='co'># This will have in total 45 child processes!</span>
 <span class='no'>cl</span>

@@ -13,13 +13,14 @@
 #' @param ... Further arguments passed to [Slurm_EvalQ] via `sbatch_opt`.
 #' @param verb Logical scalar. If `TRUE`, the function will print messages on
 #' screen reporting on the status of the job submission.
-#' @param childs_per_job Integer scalar. Number of R sessions to start per job (see details).
+#' @param offspring_per_job Integer scalar. Number of R sessions to start per job (see details).
 #'
 #' @export
 #' @details Once a job is submitted via Slurm, the user gets access to the nodes
 #' associated with it, which allows users to star new processes within those.
-#' By means of this, we can create PSOCK clusters accross nodes in a Slurm
-#' enviornment. In particular, `makeSlurmCluster` performs the following steps:
+#' By means of this, we can create Socket, also knwon as "PSOCK", clusters across
+#' nodes in a Slurm environment. In particular, `makeSlurmCluster` performs the
+#' following steps:
 #'
 #' 1. Using [Slurm_EvalQ], a job is submitted using an array with `njobs`.
 #'
@@ -29,11 +30,11 @@
 #' 3. Create a PSOCK cluster using the node names obtained from the `Slurm_EvalQ`
 #'    call.
 #'
-#' The number of workers/childs/sessions that will be used is the product between
-#' `childs_per_job` and `njobs`. In some Slurm settings users may be constrained in the
+#' The number of worker/child/offspring sessions that will be used is the product between
+#' `offspring_per_job` and `njobs`. In some Slurm settings users may be constrained in the
 #' number of jobs that can be executed simultaneously, hence, increasing the
-#' number of childs per job may be a solution to increase the number of workers.
-#' This is done by setting the `--cpus-per-task` flag equal to `childs_per_job`.
+#' number of child sessions per job may be a solution to increase the number of workers.
+#' This is done by setting the `--cpus-per-task` flag equal to `offspring_per_job`.
 #'
 #' @section Maximum number of connections:
 #'
@@ -42,7 +43,7 @@
 #' Current maximum is 128 (R version 3.6.1). To modify that limit, you would need
 #' to reinstall R updating the macro `NCONNECTIONS` in the file `src/main/connections.c`.
 #'
-#' For now, if the user sets `njobs` above 128 it will get an inmediate warning
+#' For now, if the user sets `njobs` above 128 it will get an immediate warning
 #' pointing to this issue, in particular, specifying that the cluster object
 #' may not be able to be created.
 #'
@@ -75,9 +76,9 @@
 #'
 #' # Limited number of simultaneous jobs ---------------------------------------
 #' # Suppose that the user cannot run more than 10 jobs at a time. We can
-#' # increase the number of workers by increasing the number of childs per job
+#' # increase the number of workers by increasing the number of child-sessions per job
 #'
-#' cl <- makeSlurmCluster(9, childs_per_job = 5) # We leave one job as the master session.
+#' cl <- makeSlurmCluster(9, offspring_per_job = 5) # We leave one job as the master session.
 #'
 #' # This will have in total 45 child processes!
 #' cl
@@ -91,11 +92,11 @@ makeSlurmCluster <- function(
   cluster_opt    = list(),
   max_wait       = 300L,
   verb           = TRUE,
-  childs_per_job = 1L,
+  offspring_per_job = 1L,
   ...
   ) {
 
-  if (njobs * childs_per_job > 128L)
+  if (njobs * offspring_per_job > 128L)
     warning(
       "By this version of sluRm, the maximum number of connections in R ",
       "is 128. makeSlurmCluster will try to create the cluster object, ",
@@ -104,7 +105,7 @@ makeSlurmCluster <- function(
       )
 
   sbatch_opt        <- list(...)
-  sbatch_opt$`cpus-per-task` <- childs_per_job
+  sbatch_opt$`cpus-per-task` <- offspring_per_job
 
   if (is.null(sbatch_opt$time))
     sbatch_opt$time <- "01:00:00"
@@ -243,7 +244,7 @@ makeSlurmCluster <- function(
   # Creating the PSOCK cluster
   cl <- do.call(
     parallel::makePSOCKcluster,
-    c(list(names = rep(nodenames, ntasks)), cluster_opt)
+    c(list(names = rep(nodenames, offspring_per_job)), cluster_opt)
   )
 
   attr(cl, "SLURM_PIDS")  <- pids
@@ -261,9 +262,9 @@ makeSlurmCluster <- function(
 #' @details The method `stopCluster` for `slurm_cluster` stops the cluster doing
 #' the following:
 #'
-#' - Then, calls the `stopCluster` method for `PSOCK` objects.
+#' 1. Closes the conection by calling the `stopCluster` method for `PSOCK` objects.
 #'
-#' - Cancel the Slurm job using `scancel`.
+#' 2. Cancel the Slurm job using `scancel`.
 #'
 stopCluster.slurm_cluster <- function(cl) {
 

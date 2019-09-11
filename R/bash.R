@@ -94,7 +94,7 @@ LAST_SUBMITTED_JOB <- (function() {
 
 })()
 
-#' @rdname sbatch
+#' @rdname slurm_job
 #' @export
 #' @details The `las_submitted_job` function will return the latest `slurm_job`
 #' object that was submitted via [sbatch] in the current session. The `last_job`
@@ -120,6 +120,9 @@ last_submitted_job <- function() {
 last_job <- last_submitted_job
 
 #' R wrappers for *Slurm* commands
+#'
+#' The functions `sbatch`, `scancel`, `squeue`, `sacct`, and `slurm.conf` are
+#' wrappers of calls to Slurm functions via [system2].
 #'
 #' @param x Either an object of class `slurm_job`, or, in some cases, an
 #' integer as a Slurm jobid. Note that some functions allow passing no arguments.

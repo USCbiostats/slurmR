@@ -1,6 +1,10 @@
 #' Creating Slurm jobs
 #'
-#' This function is intended to be used internally.
+#' Utilities to deal with objects of class `slurm_job`. The function `new_slurm_job`,
+#' which is mostly intended to be for internal used, creates an object of class
+#' `slurm_job`. The function `last_submitted_job` returns the last submitted
+#' job in the current R session, and the functions `read/write_slurm_job` are
+#' utility functions to read and write R jobs respectively.
 #'
 #' @param call The original call
 #' @param rscript,bashfile The R script and bash file path.
@@ -18,6 +22,11 @@
 NULL
 
 #' @export
+#' @details In the case of the function `new_slurm_job`, besides of creating the
+#' object of class `slurm_job`, the function calls `write_slurm_job` and stores
+#' the job object in an [`rds`][saveRDS] class file. The name and location of
+#' the saved rds file is generated using the function `snames("job")`.
+#'
 #' @rdname slurm_job
 #' @return An environment of class `slurm_job`. This has the following items:
 #' - `call` The original call ([Slurm_lapply], [Slurm_Map], etc.)

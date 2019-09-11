@@ -4,7 +4,7 @@
 \alias{Slurm_Map}
 \alias{Slurm_lapply}
 \alias{Slurm_sapply}
-\title{The Slurm version of the \code{lapply}  function}
+\title{The Slurm version of the \code{\link[=lapply]{*apply}} family of functions.}
 \usage{
 Slurm_Map(f, ..., njobs = 2L, mc.cores = 1L,
   job_name = opts_sluRm$get_job_name(),
@@ -59,7 +59,7 @@ of R objects on disk.}
 \item{simplify}{Logical scalar. See \link{sapply}.}
 }
 \description{
-The Slurm version of the \code{lapply}  function
+The Slurm version of the \code{\link[=lapply]{*apply}} family of functions.
 }
 \details{
 The function \code{Slurm_lapply} will submit \code{njobs} to the queue and distribute

@@ -1,4 +1,4 @@
-#' The Slurm version of the `lapply`  function
+#' The Slurm version of the [`*apply`][lapply] family of functions.
 #' @param X,FUN,f,mc.cores,... Arguments passed to either [parallel::mclapply] or
 #' [parallel::mcMap].
 #' @template slurm

@@ -41,8 +41,9 @@ but the attributes will only have a single number, 1, according to the state
 of the job (completed, failed, pending).
 }
 \description{
-Using the \link{sacct} function, it checks the status of a particular error and
-returns information about its current state.
+Using the \link{sacct} function, it checks the status of a particular job and
+returns information about its current state, with details regarding the
+jobs (if an array) that are done, running, pending, or failed.
 }
 \examples{
 \dontrun{

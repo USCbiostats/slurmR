@@ -16,7 +16,9 @@ should range between 1 and \code{x$njobs}.}
 log file.}
 }
 \description{
-Check the R logfile of a job.
+After submission, the functions of type \link[=Slurm_lapply]{Slurm_*apply} generate
+log files, one per each job in the job array. The \code{Slurm_log} function can be
+used to check the log files of jobs in the array that failed.
 }
 \examples{
 \dontrun{

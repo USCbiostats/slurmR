@@ -13,4 +13,7 @@ clean:
 docs:
 	R -e "roxygen2::roxygenize()" && R -e "pkgdown::build_site()"
 
-.PHONY: instal build check clean docs
+man:
+	rm sluRm.pdf ; R CMD Rd2pdf --no-preview --output=sluRm.pdf . && evince sluRm.pdf &
+
+.PHONY: instal build check clean docs man

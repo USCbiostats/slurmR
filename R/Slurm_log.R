@@ -1,4 +1,9 @@
 #' Check the R logfile of a job.
+#'
+#' After submission, the functions of type [Slurm_*apply][Slurm_lapply] generate
+#' log files, one per each job in the job array. The `Slurm_log` function can be
+#' used to check the log files of jobs in the array that failed.
+#'
 #' @param x An object of class [slurm_job].
 #' @param cmd Character scalar. The name of the command to use to call view the
 #' log file.

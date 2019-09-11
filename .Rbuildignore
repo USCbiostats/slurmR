@@ -15,3 +15,5 @@
 \.ods$
 Makefile
 data-raw
+^cran-comments\.md$
+^CRAN-RELEASE$

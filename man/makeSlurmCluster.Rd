@@ -7,7 +7,7 @@
 \usage{
 makeSlurmCluster(njobs, job_name = opts_sluRm$get_job_name(),
   tmp_path = opts_sluRm$get_tmp_path(), cluster_opt = list(),
-  max_wait = 300L, verb = TRUE, childs_per_job = 1L, ...)
+  max_wait = 300L, verb = TRUE, offspring_per_job = 1L, ...)
 
 \method{stopCluster}{slurm_cluster}(cl)
 }
@@ -30,7 +30,7 @@ trying to read the nodes information.}
 \item{verb}{Logical scalar. If \code{TRUE}, the function will print messages on
 screen reporting on the status of the job submission.}
 
-\item{childs_per_job}{Integer scalar. Number of R sessions to start per job (see details).}
+\item{offspring_per_job}{Integer scalar. Number of R sessions to start per job (see details).}
 
 \item{...}{Further arguments passed to \link{Slurm_EvalQ} via \code{sbatch_opt}.}
 
@@ -56,8 +56,9 @@ then it is set to the value \code{01:00:00}, this is, 1 hour.
 
 Once a job is submitted via Slurm, the user gets access to the nodes
 associated with it, which allows users to star new processes within those.
-By means of this, we can create PSOCK clusters accross nodes in a Slurm
-enviornment. In particular, \code{makeSlurmCluster} performs the following steps:
+By means of this, we can create Socket, also knwon as "PSOCK", clusters across
+nodes in a Slurm environment. In particular, \code{makeSlurmCluster} performs the
+following steps:
 \enumerate{
 \item Using \link{Slurm_EvalQ}, a job is submitted using an array with \code{njobs}.
 \item Each job within the array stores information regarding the node where they
@@ -66,16 +67,16 @@ are being executed, including the name of the node.
 call.
 }
 
-The number of workers/childs/sessions that will be used is the product between
-\code{childs_per_job} and \code{njobs}. In some Slurm settings users may be constrained in the
+The number of worker/child/offspring sessions that will be used is the product between
+\code{offspring_per_job} and \code{njobs}. In some Slurm settings users may be constrained in the
 number of jobs that can be executed simultaneously, hence, increasing the
-number of childs per job may be a solution to increase the number of workers.
-This is done by setting the \code{--cpus-per-task} flag equal to \code{childs_per_job}.
+number of child sessions per job may be a solution to increase the number of workers.
+This is done by setting the \code{--cpus-per-task} flag equal to \code{offspring_per_job}.
 
 The method \code{stopCluster} for \code{slurm_cluster} stops the cluster doing
 the following:
-\itemize{
-\item Then, calls the \code{stopCluster} method for \code{PSOCK} objects.
+\enumerate{
+\item Closes the conection by calling the \code{stopCluster} method for \code{PSOCK} objects.
 \item Cancel the Slurm job using \code{scancel}.
 }
 }
@@ -87,7 +88,7 @@ in R-sig-hpc \url{https://stat.ethz.ch/pipermail/r-sig-hpc/2012-May/001373.html}
 Current maximum is 128 (R version 3.6.1). To modify that limit, you would need
 to reinstall R updating the macro \code{NCONNECTIONS} in the file \code{src/main/connections.c}.
 
-For now, if the user sets \code{njobs} above 128 it will get an inmediate warning
+For now, if the user sets \code{njobs} above 128 it will get an immediate warning
 pointing to this issue, in particular, specifying that the cluster object
 may not be able to be created.
 }
@@ -112,9 +113,9 @@ stopCluster(cl)
 
 # Limited number of simultaneous jobs ---------------------------------------
 # Suppose that the user cannot run more than 10 jobs at a time. We can
-# increase the number of workers by increasing the number of childs per job
+# increase the number of workers by increasing the number of child-sessions per job
 
-cl <- makeSlurmCluster(9, childs_per_job = 5) # We leave one job as the master session.
+cl <- makeSlurmCluster(9, offspring_per_job = 5) # We leave one job as the master session.
 
 # This will have in total 45 child processes!
 cl

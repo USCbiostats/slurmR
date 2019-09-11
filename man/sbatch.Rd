@@ -2,7 +2,6 @@
 % Please edit documentation in R/bash.R
 \name{slurm_available}
 \alias{slurm_available}
-\alias{last_submitted_job}
 \alias{sbatch}
 \alias{submit}
 \alias{sbatch.slurm_job}
@@ -21,8 +20,6 @@
 \title{R wrappers for \emph{Slurm} commands}
 \usage{
 slurm_available()
-
-last_submitted_job()
 
 sbatch(x, wait = FALSE, submit = TRUE, ...)
 
@@ -67,17 +64,13 @@ flag to \code{Slurm} and set \code{wait = TRUE} in the \link{system2} call.}
 to the command line function \code{sacct}.}
 }
 \description{
-R wrappers for \emph{Slurm} commands
+The functions \code{sbatch}, \code{scancel}, \code{squeue}, \code{sacct}, and \code{slurm.conf} are
+wrappers of calls to Slurm functions via \link{system2}.
 }
 \details{
 The function \code{slurm_available} checks whether Slurm is available in
 the system or not. It is usually called before calling any bash wrapper.
 If available, the function will return \code{TRUE}, otherwise \code{FALSE}.
-
-The \code{las_submitted_job} function will return the latest \code{slurm_job}
-object that was submitted via \link{sbatch} in the current session. The \code{last_job}
-function is just an alias of the later. If no job has been submitted, then
-the resulting value will be \code{NULL}.
 
 In the case of \code{sbatch}, function takes an object of class \code{slurm_job} and
 submits it to the queue. In debug mode the job will be submitted via \code{sh}
@@ -104,14 +97,6 @@ file and has information relevant for the scheduler.
 # Are we under a Slurm Cluster?
 slurm_available()
 
-\dontrun{
-# The last_job function can be handy when `plan = "collect"` in a called,
-# for example
-job <- Slurm_lapply(1:1000, function(i) runif(100), njobs = 2, plan = "collect")
-
-# Post collection analysis
-status(last_job())
-}
 \dontrun{
 # Submitting a simple job
 job <- Slurm_EvalQ(sluRm::WhoAmI(), njobs = 4L, plan = "submit")

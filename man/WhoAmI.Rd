@@ -9,6 +9,10 @@ WhoAmI()
 
 whoami()
 }
+\value{
+A character vector with the corresponding system environment variables'
+values.
+}
 \description{
 This returns a named vector with the following variables:
 \Sexpr{paste(names(sluRm::WhoAmI()), collapse = ", ")}

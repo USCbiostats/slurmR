@@ -15,6 +15,11 @@ auxiliar files that are used for the job design, submission and collection.
 This function will remove all the contents of directory created by calling
 those functions.
 }
+\details{
+If the job is finalized, it returns 0 if able to clean the directory
+otherwise return whatever \link{unlink} returns after trying to remove the job
+path.
+}
 \examples{
 \dontrun{
 

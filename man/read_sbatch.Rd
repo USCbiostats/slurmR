@@ -7,7 +7,8 @@
 read_sbatch(x)
 }
 \arguments{
-\item{x}{Character scalar. The path to the batch file to process}
+\item{x}{Character scalar. Either the path to the batch file to process, or
+a character vector.}
 }
 \value{
 A named vector of the options starting with \code{#SBATCH} in the file.

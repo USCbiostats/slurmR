@@ -144,6 +144,12 @@ those functions.</p>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>If the job is finalized, it returns 0 if able to clean the directory
+otherwise return whatever <a href='https://www.rdocumentation.org/packages/base/topics/unlink'>unlink</a> returns after trying to remove the job
+path.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other post submission: <code><a href='Slurm_collect.html'>Slurm_collect</a></code>,
@@ -168,6 +174,8 @@ those functions.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>

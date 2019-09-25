@@ -195,6 +195,22 @@ to the command line function <code>sacct</code>.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>In the case of <code>sbatch</code>, depends on what <code>x</code> is:</p><ul>
+<li><p>If <code>x</code> is of class <a href='slurm_job.html'>slurm_job</a>, then it returns the same object including
+the Slurm job ID (if the job was submitted to the queue).</p></li>
+<li><p>If <code>x</code> is a file path (e.g. a bash script), an integer with the jobid number
+(again, if the job was submitted to Slurm).</p></li>
+</ul>
+
+<p>The functions <code>squeue</code> and <code>sacct</code> return a data frame with the information
+returned by the command line utilities. The function <code>scancel</code> returns NULL.</p>
+<p><code>slurm_available()</code> returns a logical scalar equal to <code>TRUE</code> if Slurm is
+available.</p>
+<p><code>slurm.conf()</code> and <code>SchedulerParameters()</code> return information about the
+Slurm cluster, if available.</p>
+    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The function <code>slurm_available</code> checks whether Slurm is available in
@@ -251,6 +267,8 @@ file and has information relevant for the scheduler.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#value">Value</a></li>
+
       <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>

@@ -4,7 +4,26 @@
 \name{sluRm}
 \alias{sluRm}
 \alias{sluRm-package}
-\title{A lightweight wrapper for HPC with Slurm}
+\title{A Lightweight Wrapper for 'Slurm'}
 \description{
-A lightweight wrapper for HPC with Slurm
+A Lightweight Wrapper for 'Slurm'
+}
+\details{
+To cite sluRm in publications use:
+
+Vega Yon et al., (2019). sluRm: A lightweight wrapper for HPC with Slurm. Journal of Open Source Software,
+4(39), 1493, https://doi.org/10.21105/joss.01493
+
+A BibTeX entry for LaTeX users is\preformatted{ @Article{,
+  title = {sluRm: A lightweight wrapper for HPC with Slurm},
+  author = {George {Vega Yon} and Paul Marjoram},
+  journal = {The Journal of Open Source Software},
+  year = {2019},
+  month = {jul},
+  volume = {4},
+  number = {39},
+  doi = {10.21105/joss.01493},
+  url = {https://doi.org/10.21105/joss.01493},
+}
+}
 }

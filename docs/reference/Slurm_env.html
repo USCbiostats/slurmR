@@ -144,6 +144,12 @@ the function will return a 1 (see <a href='opts_sluRm.html'>opts_sluRm</a>).</p>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>If slurm is available and the R session is running under a job
+array, meaning that <code>SLURM_ARRAY_TASK_ID</code> is defined, then it returns that
+value, otherwise it will return <code>1</code>.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other utilities: <code><a href='Slurm_clean.html'>Slurm_clean</a></code>,
@@ -158,6 +164,8 @@ the function will return a 1 (see <a href='opts_sluRm.html'>opts_sluRm</a>).</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#value">Value</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 

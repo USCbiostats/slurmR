@@ -43,6 +43,9 @@ of R objects on disk.}
 
 \item{hooks}{A list of functions (passed to \link{new_slurm_job}).}
 }
+\value{
+A list of length \code{njobs}.
+}
 \description{
 Submit an expression to be evaluated to multiple jobs.
 }

@@ -5,6 +5,7 @@
 #' @template sbatch_opt
 #' @template rscript_opt
 #' @template njobs
+#' @return A list of length `njobs`.
 #' @export
 Slurm_EvalQ <- function(
   expr,

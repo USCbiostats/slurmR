@@ -136,14 +136,31 @@ last_job <- last_submitted_job
 #' submits it to the queue. In debug mode the job will be submitted via `sh`
 #' instead.
 #'
+#' @return In the case of `sbatch`, depends on what `x` is:
+#'
+#' - If `x` is of class [slurm_job], then it returns the same object including
+#'   the Slurm job ID (if the job was submitted to the queue).
+#'
+#' - If `x` is a file path (e.g. a bash script), an integer with the jobid number
+#'   (again, if the job was submitted to Slurm).
+#'
+#' The functions `squeue` and `sacct` return a data frame with the information
+#' returned by the command line utilities. The function `scancel` returns NULL.
+#'
+#' `slurm_available()` returns a logical scalar equal to `TRUE` if Slurm is
+#' available.
+#'
+#' `slurm.conf()` and `SchedulerParameters()` return information about the
+#' Slurm cluster, if available.
+#'
 #' @export
 #' @aliases submit
 sbatch <- function(x, wait = FALSE, submit = TRUE, ...) UseMethod("sbatch")
 
 hline <- function(..., sep="\n") {
-  cat("\n",rep("-", options("width")), "\n",sep="")
-  do.call(cat, c(list(...), sep=sep))
-  cat(rep("-", options("width")), "\n",sep="")
+  message(paste(rep("-", options("width")), collapse=""))
+  message(paste(..., collapse = "\n"))
+  message(paste(rep("-", options("width")), collapse=""))
 }
 
 #' @export
@@ -191,13 +208,13 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
       "[VERBOSE MODE ON] The R script that will be used is located at:",
       x$rscript, "and has the following contents:"
       )
-    cat(readLines(x$rscript), sep = "\n")
+    message(paste(readLines(x$rscript), collapse = "\n"))
     hline(
       "The bash file that will be used is located at:",
       x$bashfile,
       "and has the following contents:"
       )
-    cat(readLines(x$bashfile), sep = "\n")
+    message(paste(readLines(x$bashfile), collapse = "\n"))
     hline("EOF")
   }
 
@@ -260,9 +277,6 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
 #' @rdname sbatch
 sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
 
-  # This will stop if slurm is not available
-  stopifnot_slurm()
-
   # Checking whether this is a valid file
   if (!file.exists(x))
     stop(
@@ -276,7 +290,9 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
   if (is.na(job_name))
     job_name <- gsub(".+[/](?=[^/]+$)", "", x, perl=TRUE)
 
-  option <- c(parse_flags(..., `job-name` = job_name), x)
+  option <- if (!opts_sluRm$get_debug())
+   c(parse_flags(..., `job-name` = job_name), x)
+  else c(x, ifelse(wait, "", "&"))
 
   # Not submitting means that we just want the script
   if (!submit) {
@@ -293,6 +309,20 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
 
     return(invisible(NULL))
   }
+
+  if (opts_sluRm$get_verbose()) {
+    hline(
+      "[VERBOSE MODE ON] The bash file that will be used is located at:",
+      x,
+      "and has the following contents:"
+    )
+    message(paste(readLines(x), collapse = "\n"))
+    hline("EOF")
+  }
+
+  # This will stop if slurm is not available
+  if (!opts_sluRm$get_debug())
+    stopifnot_slurm()
 
   # Submitting the job
   message("Submitting job...", appendLF = FALSE)

@@ -11,11 +11,12 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="A Lightweight Wrapper for Slurm">
 <meta property="og:description" content="'Slurm', Simple Linux Utility for Resource Management, 
-  is a popular 'Linux' based software used to schedule jobs in HPC clusters. This
-  R package provides a specialized lightweight wrapper of 'Slurm' with a syntax
-  similar to that found in the 'parallel' R package. The package also includes a
-  method for creating socket cluster objects spanning multiple nodes that can be
-  used with the 'parallel' package.">
+  &lt;https://slurm.schedmd.com/&gt; is a popular 'Linux' based software used to
+  schedule jobs in HPC clusters. This R package provides a specialized
+  lightweight wrapper of 'Slurm' with a syntax similar to that found in the
+  'parallel' R package. The package also includes a method for creating socket
+  cluster objects spanning multiple nodes that can be used with the 'parallel'
+  package.">
 <meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -152,61 +153,54 @@ A BibTeX entry for LaTeX users is
 <p>We can use the function <code>Slurm_lapply</code> to distribute computations</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">ans &lt;-<span class="st"> </span><span class="kw"><a href="reference/Slurm_lapply.html">Slurm_lapply</a></span>(x, mean, <span class="dt">plan =</span> <span class="st">"none"</span>)</a>
 <a class="sourceLine" id="cb4-2" title="2"><span class="co">#  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:</span></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="co">#  sbatch --job-name=sluRm-job-442e200fe229 /home/vegayon/Documents/sluRm/sluRm-job-442e200fe229/01-bash.sh</span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="co">#  sbatch --job-name=sluRm-job-4d6e2d1a04af /home/vegayon/Documents/sluRm/sluRm-job-4d6e2d1a04af/01-bash.sh</span></a>
 <a class="sourceLine" id="cb4-4" title="4"><span class="kw"><a href="reference/Slurm_clean.html">Slurm_clean</a></span>(ans) <span class="co"># Cleaning after you</span></a></code></pre></div>
 <p>Notice the <code>plan = "none"</code> option, this tells <code>Slurm_lapply</code> to only create the job object, but do nothing with it, i.e., skip submission. To get more info, we can actually set the verbose mode on</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">opts_sluRm<span class="op">$</span><span class="kw">verbose_on</span>()</a>
 <a class="sourceLine" id="cb5-2" title="2">ans &lt;-<span class="st"> </span><span class="kw"><a href="reference/Slurm_lapply.html">Slurm_lapply</a></span>(x, mean, <span class="dt">plan =</span> <span class="st">"none"</span>)</a>
-<a class="sourceLine" id="cb5-3" title="3"><span class="co">#  </span></a>
-<a class="sourceLine" id="cb5-4" title="4"><span class="co">#  --------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb5-5" title="5"><span class="co">#  [VERBOSE MODE ON] The R script that will be used is located at:</span></a>
-<a class="sourceLine" id="cb5-6" title="6"><span class="co">#  /home/vegayon/Documents/sluRm/sluRm-job-442e200fe229/00-rscript.r</span></a>
-<a class="sourceLine" id="cb5-7" title="7"><span class="co">#  and has the following contents:</span></a>
-<a class="sourceLine" id="cb5-8" title="8"><span class="co">#  --------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb5-9" title="9"><span class="co">#  .libPaths(c("/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))</span></a>
-<a class="sourceLine" id="cb5-10" title="10"><span class="co">#  Slurm_env &lt;- function (x) </span></a>
-<a class="sourceLine" id="cb5-11" title="11"><span class="co">#  {</span></a>
-<a class="sourceLine" id="cb5-12" title="12"><span class="co">#      y &lt;- Sys.getenv(x)</span></a>
-<a class="sourceLine" id="cb5-13" title="13"><span class="co">#      if ((x == "SLURM_ARRAY_TASK_ID") &amp;&amp; y == "") {</span></a>
-<a class="sourceLine" id="cb5-14" title="14"><span class="co">#          return(1)</span></a>
-<a class="sourceLine" id="cb5-15" title="15"><span class="co">#      }</span></a>
-<a class="sourceLine" id="cb5-16" title="16"><span class="co">#      y</span></a>
-<a class="sourceLine" id="cb5-17" title="17"><span class="co">#  }</span></a>
-<a class="sourceLine" id="cb5-18" title="18"><span class="co">#  ARRAY_ID         &lt;- as.integer(Slurm_env("SLURM_ARRAY_TASK_ID"))</span></a>
-<a class="sourceLine" id="cb5-19" title="19"><span class="co">#  JOB_PATH         &lt;- "/home/vegayon/Documents/sluRm/sluRm-job-442e200fe229/"</span></a>
-<a class="sourceLine" id="cb5-20" title="20"><span class="co">#  INDICES          &lt;- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-442e200fe229/INDICES.rds")</span></a>
-<a class="sourceLine" id="cb5-21" title="21"><span class="co">#  X                &lt;- readRDS(sprintf("/home/vegayon/Documents/sluRm/sluRm-job-442e200fe229/X_%04d.rds", ARRAY_ID))</span></a>
-<a class="sourceLine" id="cb5-22" title="22"><span class="co">#  FUN              &lt;- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-442e200fe229/FUN.rds")</span></a>
-<a class="sourceLine" id="cb5-23" title="23"><span class="co">#  mc.cores         &lt;- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-442e200fe229/mc.cores.rds")</span></a>
-<a class="sourceLine" id="cb5-24" title="24"><span class="co">#  seeds            &lt;- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-442e200fe229/seeds.rds")</span></a>
-<a class="sourceLine" id="cb5-25" title="25"><span class="co">#  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)</span></a>
-<a class="sourceLine" id="cb5-26" title="26"><span class="co">#  ans &lt;- parallel::mclapply(</span></a>
-<a class="sourceLine" id="cb5-27" title="27"><span class="co">#      X                = X,</span></a>
-<a class="sourceLine" id="cb5-28" title="28"><span class="co">#      FUN              = FUN,</span></a>
-<a class="sourceLine" id="cb5-29" title="29"><span class="co">#      mc.cores         = mc.cores</span></a>
-<a class="sourceLine" id="cb5-30" title="30"><span class="co">#  )</span></a>
-<a class="sourceLine" id="cb5-31" title="31"><span class="co">#  saveRDS(ans, sprintf("/home/vegayon/Documents/sluRm/sluRm-job-442e200fe229/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)</span></a>
-<a class="sourceLine" id="cb5-32" title="32"><span class="co">#  </span></a>
-<a class="sourceLine" id="cb5-33" title="33"><span class="co">#  --------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb5-34" title="34"><span class="co">#  The bash file that will be used is located at:</span></a>
-<a class="sourceLine" id="cb5-35" title="35"><span class="co">#  /home/vegayon/Documents/sluRm/sluRm-job-442e200fe229/01-bash.sh</span></a>
-<a class="sourceLine" id="cb5-36" title="36"><span class="co">#  and has the following contents:</span></a>
-<a class="sourceLine" id="cb5-37" title="37"><span class="co">#  --------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb5-38" title="38"><span class="co">#  #!/bin/sh</span></a>
-<a class="sourceLine" id="cb5-39" title="39"><span class="co">#  #SBATCH --job-name=sluRm-job-442e200fe229</span></a>
-<a class="sourceLine" id="cb5-40" title="40"><span class="co">#  #SBATCH --output=/home/vegayon/Documents/sluRm/sluRm-job-442e200fe229/02-output-%A-%a.out</span></a>
-<a class="sourceLine" id="cb5-41" title="41"><span class="co">#  #SBATCH --array=1-2</span></a>
-<a class="sourceLine" id="cb5-42" title="42"><span class="co">#  #SBATCH --ntasks=1</span></a>
-<a class="sourceLine" id="cb5-43" title="43"><span class="co">#  #SBATCH --cpus-per-task=1</span></a>
-<a class="sourceLine" id="cb5-44" title="44"><span class="co">#  export OMP_NUM_THREADS=1</span></a>
-<a class="sourceLine" id="cb5-45" title="45"><span class="co">#  /usr/lib/R/bin/Rscript --vanilla /home/vegayon/Documents/sluRm/sluRm-job-442e200fe229/00-rscript.r</span></a>
-<a class="sourceLine" id="cb5-46" title="46"><span class="co">#  </span></a>
-<a class="sourceLine" id="cb5-47" title="47"><span class="co">#  --------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb5-48" title="48"><span class="co">#  EOF</span></a>
-<a class="sourceLine" id="cb5-49" title="49"><span class="co">#  --------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb5-50" title="50"><span class="co">#  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:</span></a>
-<a class="sourceLine" id="cb5-51" title="51"><span class="co">#  sbatch --job-name=sluRm-job-442e200fe229 /home/vegayon/Documents/sluRm/sluRm-job-442e200fe229/01-bash.sh</span></a>
-<a class="sourceLine" id="cb5-52" title="52"><span class="kw"><a href="reference/Slurm_clean.html">Slurm_clean</a></span>(ans) <span class="co"># Cleaning after you</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-3" title="3"><span class="co">#  --------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="co">#  [VERBOSE MODE ON] The R script that will be used is located at: /home/vegayon/Documents/sluRm/sluRm-job-4d6e2d1a04af/00-rscript.r and has the following contents:</span></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="co">#  --------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb5-6" title="6"><span class="co">#  .libPaths(c("/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))</span></a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="co">#  Slurm_env &lt;- function (x) </span></a>
+<a class="sourceLine" id="cb5-8" title="8"><span class="co">#  {</span></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="co">#      y &lt;- Sys.getenv(x)</span></a>
+<a class="sourceLine" id="cb5-10" title="10"><span class="co">#      if ((x == "SLURM_ARRAY_TASK_ID") &amp;&amp; y == "") {</span></a>
+<a class="sourceLine" id="cb5-11" title="11"><span class="co">#          return(1)</span></a>
+<a class="sourceLine" id="cb5-12" title="12"><span class="co">#      }</span></a>
+<a class="sourceLine" id="cb5-13" title="13"><span class="co">#      y</span></a>
+<a class="sourceLine" id="cb5-14" title="14"><span class="co">#  }</span></a>
+<a class="sourceLine" id="cb5-15" title="15"><span class="co">#  ARRAY_ID         &lt;- as.integer(Slurm_env("SLURM_ARRAY_TASK_ID"))</span></a>
+<a class="sourceLine" id="cb5-16" title="16"><span class="co">#  JOB_PATH         &lt;- "/home/vegayon/Documents/sluRm/sluRm-job-4d6e2d1a04af/"</span></a>
+<a class="sourceLine" id="cb5-17" title="17"><span class="co">#  INDICES          &lt;- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-4d6e2d1a04af/INDICES.rds")</span></a>
+<a class="sourceLine" id="cb5-18" title="18"><span class="co">#  X                &lt;- readRDS(sprintf("/home/vegayon/Documents/sluRm/sluRm-job-4d6e2d1a04af/X_%04d.rds", ARRAY_ID))</span></a>
+<a class="sourceLine" id="cb5-19" title="19"><span class="co">#  FUN              &lt;- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-4d6e2d1a04af/FUN.rds")</span></a>
+<a class="sourceLine" id="cb5-20" title="20"><span class="co">#  mc.cores         &lt;- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-4d6e2d1a04af/mc.cores.rds")</span></a>
+<a class="sourceLine" id="cb5-21" title="21"><span class="co">#  seeds            &lt;- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-4d6e2d1a04af/seeds.rds")</span></a>
+<a class="sourceLine" id="cb5-22" title="22"><span class="co">#  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)</span></a>
+<a class="sourceLine" id="cb5-23" title="23"><span class="co">#  ans &lt;- parallel::mclapply(</span></a>
+<a class="sourceLine" id="cb5-24" title="24"><span class="co">#      X                = X,</span></a>
+<a class="sourceLine" id="cb5-25" title="25"><span class="co">#      FUN              = FUN,</span></a>
+<a class="sourceLine" id="cb5-26" title="26"><span class="co">#      mc.cores         = mc.cores</span></a>
+<a class="sourceLine" id="cb5-27" title="27"><span class="co">#  )</span></a>
+<a class="sourceLine" id="cb5-28" title="28"><span class="co">#  saveRDS(ans, sprintf("/home/vegayon/Documents/sluRm/sluRm-job-4d6e2d1a04af/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)</span></a>
+<a class="sourceLine" id="cb5-29" title="29"><span class="co">#  --------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb5-30" title="30"><span class="co">#  The bash file that will be used is located at: /home/vegayon/Documents/sluRm/sluRm-job-4d6e2d1a04af/01-bash.sh and has the following contents:</span></a>
+<a class="sourceLine" id="cb5-31" title="31"><span class="co">#  --------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb5-32" title="32"><span class="co">#  #!/bin/sh</span></a>
+<a class="sourceLine" id="cb5-33" title="33"><span class="co">#  #SBATCH --job-name=sluRm-job-4d6e2d1a04af</span></a>
+<a class="sourceLine" id="cb5-34" title="34"><span class="co">#  #SBATCH --output=/home/vegayon/Documents/sluRm/sluRm-job-4d6e2d1a04af/02-output-%A-%a.out</span></a>
+<a class="sourceLine" id="cb5-35" title="35"><span class="co">#  #SBATCH --array=1-2</span></a>
+<a class="sourceLine" id="cb5-36" title="36"><span class="co">#  #SBATCH --ntasks=1</span></a>
+<a class="sourceLine" id="cb5-37" title="37"><span class="co">#  #SBATCH --cpus-per-task=1</span></a>
+<a class="sourceLine" id="cb5-38" title="38"><span class="co">#  export OMP_NUM_THREADS=1</span></a>
+<a class="sourceLine" id="cb5-39" title="39"><span class="co">#  /usr/lib/R/bin/Rscript --vanilla /home/vegayon/Documents/sluRm/sluRm-job-4d6e2d1a04af/00-rscript.r</span></a>
+<a class="sourceLine" id="cb5-40" title="40"><span class="co">#  --------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb5-41" title="41"><span class="co">#  EOF</span></a>
+<a class="sourceLine" id="cb5-42" title="42"><span class="co">#  --------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb5-43" title="43"><span class="co">#  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:</span></a>
+<a class="sourceLine" id="cb5-44" title="44"><span class="co">#  sbatch --job-name=sluRm-job-4d6e2d1a04af /home/vegayon/Documents/sluRm/sluRm-job-4d6e2d1a04af/01-bash.sh</span></a>
+<a class="sourceLine" id="cb5-45" title="45"><span class="kw"><a href="reference/Slurm_clean.html">Slurm_clean</a></span>(ans) <span class="co"># Cleaning after you</span></a></code></pre></div>
 </div>
 <div id="example-2-job-resubmission" class="section level2">
 <h2 class="hasAnchor">
@@ -469,7 +463,7 @@ active
 </tr>
 <tr>
 <td colspan="8" height="17" align="left" valign="middle" bgcolor="#FFFFFF">
-[3] Number of directed/recursive dependencies. As reported in <a href="https://tinyverse.netlify.com/status/">https://tinyverse.netlify.com/status/</a> (June 4th, 2019)
+[3] Number of directed/recursive dependencies. As reported in <a href="https://tinyverse.netlify.com">https://tinyverse.netlify.com/</a> (June 4th, 2019)
 </td>
 </tr>
 </tbody>
@@ -479,7 +473,7 @@ active
 <h2 class="hasAnchor">
 <a href="#contributing" class="anchor"></a>Contributing</h2>
 <p>We welcome contributions to <code>sluRm</code>. Whether it is reporting a bug, starting a discussion by asking a question, or proposing/requesting a new feature, please go by creating a new issue <a href="https://github.com/USCbiostats/sluRm/issues">here</a> so that we can talk about it.</p>
-<p>Please note that this project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
+<p>Please note that this project is released with a Contributor Code of Conduct (see the CODE_OF_CONDUCT.md file included in this project). By participating in this project you agree to abide by its terms.</p>
 </div>
 <div id="who-uses-slurm" class="section level2">
 <h2 class="hasAnchor">

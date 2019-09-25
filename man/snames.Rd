@@ -11,6 +11,9 @@ snames(type, array_id)
 
 \item{array_id}{Integer. ID of the array to create the name.}
 }
+\value{
+A character scalar. The normalized path to the corresponding file.
+}
 \description{
 Using \link{opts_sluRm}\code{$get_tmp_path} and \link{opts_sluRm}\code{$get_job_name} creates
 file names with full path to the objects. This function is intended for

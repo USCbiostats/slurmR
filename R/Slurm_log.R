@@ -10,6 +10,8 @@
 #' @param which. An integer scalar. The number of the array job to check. This
 #' should range between 1 and `x$njobs`.
 #'
+#' @return Whatever the command-line call returns.
+#'
 #' @export
 #' @family post submission
 #' @family utilities

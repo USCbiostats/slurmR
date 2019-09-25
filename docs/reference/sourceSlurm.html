@@ -130,7 +130,7 @@ and submitting it via <a href='sbatch.html'>sbatch</a>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>sourceSlurm</span>(<span class='no'>file</span>, <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(),
-  <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>sbatch_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='no'>...</span>)</pre>
+  <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -154,23 +154,69 @@ nodes in the network (See <a href='opts_sluRm.html'>opts_sluRm</a>).</p></td>
       <td><p>List. Options to be passed to <code>Rscript</code>.</p></td>
     </tr>
     <tr>
-      <th>sbatch_opt</th>
-      <td><p>List of options to be passed to <code>sbatch</code>. This is usually
-done by adding the flags <code>#SBATCH</code> to the bash file.</p></td>
-    </tr>
-    <tr>
       <th>...</th>
-      <td><p>Further arguments to be passed to <a href='sbatch.html'>sbatch</a>.</p></td>
+      <td><p>Further options passed to <a href='sbatch.html'>sbatch</a>.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>Whatever <a href='sbatch.html'>sbatch</a> returns.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p><code>sourceSlurm</code> checks for flags that may be included in the Slurm job file. If
+the R script starts with <code>#!/bin/</code> or similar, then <code>#SBATCH</code> flags will be
+read from the R script and added to the Slurm job file.</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># In this example we will be sourcing an R script that also has #SBATCH</span>
+<span class='co'># flags. Here are the contents</span>
+<span class='no'>file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"example.R"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"sluRm"</span>)
+
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cat'>cat</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/readLines'>readLines</a></span>(<span class='no'>file</span>), <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>"\n"</span>)</div><div class='output co'>#&gt; #!/bin/sh
+#&gt; #SBATCH --account=lc_ggv
+#&gt; #SBATCH --time=01:00:00
+#&gt; #SBATCH --mem-per-cpu=4G
+#&gt; #SBATCH --job-name=Waiting
+#&gt; Sys.sleep(10)
+#&gt; message("done.")
+#&gt; </div><div class='input'># #!/bin/sh
+# #SBATCH --account=lc_ggv
+# #SBATCH --time=01:00:00
+# #SBATCH --mem-per-cpu=4G
+# #SBATCH --job-name=Waiting
+# Sys.sleep(10)
+# message("done.")
+
+# We can directly submit this R script as a job by calling `sourceSlurm`.
+# (of course you need Slurm to do this!)
+</div><span class='co'># NOT RUN {</span>
+<span class='fu'>sourceSlurm</span>(<span class='no'>file</span>)
+<span class='co'># }</span><div class='input'>
+# The function will create a bash script that is used later to be submitted to
+# the queue using `sbatch`. The resulting file looks something like this
+# #!/bin/sh
+# #SBATCH --job-name=Waiting
+# #SBATCH --output=/home/vegayon/Documents/sluRm/Waiting.out
+# #SBATCH --account=lc_ggv
+# #SBATCH --time=01:00:00
+# #SBATCH --mem-per-cpu=4G
+# /usr/lib/R/bin/Rscript --vanilla /usr/local/lib/R/site-library/sluRm/example.R
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

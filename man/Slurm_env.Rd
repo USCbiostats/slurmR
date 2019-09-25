@@ -9,6 +9,11 @@ Slurm_env(x)
 \arguments{
 \item{x}{Character scalar. Environment variable to get.}
 }
+\value{
+If slurm is available and the R session is running under a job
+array, meaning that \code{SLURM_ARRAY_TASK_ID} is defined, then it returns that
+value, otherwise it will return \code{1}.
+}
 \description{
 This function is used within the R script written by \code{sluRm} to get the
 current value of \code{SLURM_ARRAY_TASK_ID}, an environment variable that Slurm

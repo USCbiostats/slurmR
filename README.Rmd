@@ -245,7 +245,7 @@ There are several ways to enhance R for HPC. Depending on what are your goals/re
 		<td colspan="8" height="17" align="left" valign="middle" bgcolor="#FFFFFF">[2] Functionality similar to the apply family in base R.</td>
 		</tr>
 	<tr>
-		<td colspan="8" height="17" align="left" valign="middle" bgcolor="#FFFFFF">[3] Number of directed/recursive dependencies. As reported in <a href="https://tinyverse.netlify.com/status/">https://tinyverse.netlify.com/status/</a> (June 4th, 2019)</td>
+		<td colspan="8" height="17" align="left" valign="middle" bgcolor="#FFFFFF">[3] Number of directed/recursive dependencies. As reported in <a href="https://tinyverse.netlify.com">https://tinyverse.netlify.com/</a> (June 4th, 2019)</td>
 		</tr>
 </tbody></table>
 
@@ -253,8 +253,9 @@ There are several ways to enhance R for HPC. Depending on what are your goals/re
 
 We welcome contributions to `sluRm`. Whether it is reporting a bug, starting a discussion by asking a question, or proposing/requesting a new feature, please go by creating a new issue [here](https://github.com/USCbiostats/sluRm/issues) so that we can talk about it.
 
-Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
-By participating in this project you agree to abide by its terms.
+Please note that this project is released with a Contributor Code of Conduct (see
+the CODE_OF_CONDUCT.md file included in this project). By participating in this
+project you agree to abide by its terms.
 
 ## Who uses Slurm
 

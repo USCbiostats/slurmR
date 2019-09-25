@@ -17,6 +17,9 @@ parse_flags(...)
 
 \item{x}{A named list.}
 }
+\value{
+A character vector with the processed flags.
+}
 \description{
 Utility function
 }

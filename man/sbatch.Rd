@@ -63,6 +63,24 @@ flag to \code{Slurm} and set \code{wait = TRUE} in the \link{system2} call.}
 \item{brief, parsable}{Logical. When \code{TRUE}, these are passed as flags directly
 to the command line function \code{sacct}.}
 }
+\value{
+In the case of \code{sbatch}, depends on what \code{x} is:
+\itemize{
+\item If \code{x} is of class \link{slurm_job}, then it returns the same object including
+the Slurm job ID (if the job was submitted to the queue).
+\item If \code{x} is a file path (e.g. a bash script), an integer with the jobid number
+(again, if the job was submitted to Slurm).
+}
+
+The functions \code{squeue} and \code{sacct} return a data frame with the information
+returned by the command line utilities. The function \code{scancel} returns NULL.
+
+\code{slurm_available()} returns a logical scalar equal to \code{TRUE} if Slurm is
+available.
+
+\code{slurm.conf()} and \code{SchedulerParameters()} return information about the
+Slurm cluster, if available.
+}
 \description{
 The functions \code{sbatch}, \code{scancel}, \code{squeue}, \code{sacct}, and \code{slurm.conf} are
 wrappers of calls to Slurm functions via \link{system2}.

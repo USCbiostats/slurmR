@@ -23,6 +23,7 @@ check_path <- function() {
 #' @examples
 #' cat(parse_flags(a=1, b=TRUE, hola=2, y="I have spaces", ms=2, `cpus-per-task`=4))
 #' # -a 1 -b --hola=2 -y "I have spaces" --ms=2 --cpus-per-task=4
+#' @return A character vector with the processed flags.
 #' @export
 #' @family utilities
 parse_flags <- function(...) UseMethod("parse_flags")
@@ -85,6 +86,7 @@ parse_flags.list <- function(x, ...) {
 #' @param type can be any of r, sh, out, or rds.
 #' @param array_id Integer. ID of the array to create the name.
 #' @family utilities
+#' @return A character scalar. The normalized path to the corresponding file.
 #' @export
 snames <- function(type, array_id) {
 
@@ -321,6 +323,10 @@ print.slurm_status <- function(x, ...) {
 #' creates when running an array. In the case that `opts_sluRm$get_debug() == TRUE`,
 #' the function will return a 1 (see [opts_sluRm]).
 #'
+#' @return If slurm is available and the R session is running under a job
+#' array, meaning that `SLURM_ARRAY_TASK_ID` is defined, then it returns that
+#' value, otherwise it will return `1`.
+#'
 #' @param x Character scalar. Environment variable to get.
 #' @family utilities
 #' @export
@@ -347,6 +353,9 @@ Slurm_env <- function(x) {
 #' @export
 #' @family post submission
 #' @family utilities
+#' @details If the job is finalized, it returns 0 if able to clean the directory
+#' otherwise return whatever [unlink] returns after trying to remove the job
+#' path.
 #' @examples
 #' \dontrun{
 #'
@@ -384,6 +393,8 @@ Slurm_clean <- function(x) {
 #' This returns a named vector with the following variables:
 #' \Sexpr{paste(names(sluRm::WhoAmI()), collapse = ", ")}
 #' @export
+#' @return A character vector with the corresponding system environment variables'
+#' values.
 #' @family utilities
 WhoAmI <- function() {
 

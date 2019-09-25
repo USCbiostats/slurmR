@@ -9,6 +9,9 @@ expand_array_indexes(x)
 \arguments{
 \item{x}{A character vector. Array indexes (see details).}
 }
+\value{
+A character vector with the expanded indices.
+}
 \description{
 When submitting array jobs using \code{sbatch}, users can specify ranges in several
 ways. These could be specified as ranges, "\code{1-9}", lists, "\code{1,2,5}", or intervals

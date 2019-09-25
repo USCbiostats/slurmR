@@ -58,6 +58,10 @@ of R objects on disk.}
 
 \item{simplify}{Logical scalar. See \link{sapply}.}
 }
+\value{
+If \code{plan == "collect"}, then whatever the analogous function returns,
+otherwise, an object of class \link{slurm_job}.
+}
 \description{
 The Slurm version of the \code{\link[=lapply]{*apply}} family of functions.
 }

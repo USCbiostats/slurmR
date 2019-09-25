@@ -5,7 +5,7 @@
 \title{Source an R script as a Slurm job}
 \usage{
 sourceSlurm(file, job_name = NULL, tmp_path = tempdir(),
-  rscript_opt = list(vanilla = TRUE), sbatch_opt = list(), ...)
+  rscript_opt = list(vanilla = TRUE), ...)
 }
 \arguments{
 \item{file}{Character. Path to the R script to source using Slurm.}
@@ -18,12 +18,47 @@ nodes in the network (See \link{opts_sluRm}).}
 
 \item{rscript_opt}{List. Options to be passed to \code{Rscript}.}
 
-\item{sbatch_opt}{List of options to be passed to \code{sbatch}. This is usually
-done by adding the flags \code{#SBATCH} to the bash file.}
-
-\item{...}{Further arguments to be passed to \link{sbatch}.}
+\item{...}{Further options passed to \link{sbatch}.}
+}
+\value{
+Whatever \link{sbatch} returns.
 }
 \description{
 This function sources R scripts using Slurm by creating a batch script file
 and submitting it via \link{sbatch}.
+}
+\details{
+\code{sourceSlurm} checks for flags that may be included in the Slurm job file. If
+the R script starts with \code{#!/bin/} or similar, then \code{#SBATCH} flags will be
+read from the R script and added to the Slurm job file.
+}
+\examples{
+# In this example we will be sourcing an R script that also has #SBATCH
+# flags. Here are the contents
+file <- system.file("example.R", package="sluRm")
+
+cat(readLines(file), sep="\\n")
+# #!/bin/sh
+# #SBATCH --account=lc_ggv
+# #SBATCH --time=01:00:00
+# #SBATCH --mem-per-cpu=4G
+# #SBATCH --job-name=Waiting
+# Sys.sleep(10)
+# message("done.")
+
+# We can directly submit this R script as a job by calling `sourceSlurm`.
+# (of course you need Slurm to do this!)
+\dontrun{
+sourceSlurm(file)
+}
+
+# The function will create a bash script that is used later to be submitted to
+# the queue using `sbatch`. The resulting file looks something like this
+# #!/bin/sh
+# #SBATCH --job-name=Waiting
+# #SBATCH --output=/home/vegayon/Documents/sluRm/Waiting.out
+# #SBATCH --account=lc_ggv
+# #SBATCH --time=01:00:00
+# #SBATCH --mem-per-cpu=4G
+# /usr/lib/R/bin/Rscript --vanilla /usr/local/lib/R/site-library/sluRm/example.R
 }

@@ -14,7 +14,7 @@
 #' "8123_5", and "8123_6".
 #'
 #' This function was developed mainly to be used internally.
-#'
+#' @return A character vector with the expanded indices.
 #' @examples
 #'
 #' expand_array_indexes(c("123_1", "55_[1-5]", "122_[1, 5-6]", "44_[1-3:2]"))

@@ -1,4 +1,5 @@
 #!/bin/sh
+# This is a random comment, this should be skipped!
 #SBATCH --job-name=NameOfTheJob
 #SBATCH --output=logfile.out
 #SBATCH --array=1-100

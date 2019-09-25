@@ -15,6 +15,9 @@ should range between 1 and \code{x$njobs}.}
 \item{cmd}{Character scalar. The name of the command to use to call view the
 log file.}
 }
+\value{
+Whatever the command-line call returns.
+}
 \description{
 After submission, the functions of type \link[=Slurm_lapply]{Slurm_*apply} generate
 log files, one per each job in the job array. The \code{Slurm_log} function can be

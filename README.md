@@ -97,7 +97,7 @@ We can use the function `Slurm_lapply` to distribute computations
 ``` r
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=sluRm-job-1ee645a21743 /home/vegayon/Documents/sluRm/sluRm-job-1ee645a21743/01-bash.sh
+#  sbatch --job-name=sluRm-job-3f7e76a82f4f /home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -108,11 +108,8 @@ get more info, we can actually set the verbose mode on
 ``` r
 opts_sluRm$verbose_on()
 ans <- Slurm_lapply(x, mean, plan = "none")
-#  
 #  --------------------------------------------------------------------------------
-#  [VERBOSE MODE ON] The R script that will be used is located at:
-#  /home/vegayon/Documents/sluRm/sluRm-job-1ee645a21743/00-rscript.r
-#  and has the following contents:
+#  [VERBOSE MODE ON] The R script that will be used is located at: /home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/00-rscript.r and has the following contents:
 #  --------------------------------------------------------------------------------
 #  .libPaths(c("/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))
 #  Slurm_env <- function (x) 
@@ -124,39 +121,35 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #      y
 #  }
 #  ARRAY_ID         <- as.integer(Slurm_env("SLURM_ARRAY_TASK_ID"))
-#  JOB_PATH         <- "/home/vegayon/Documents/sluRm/sluRm-job-1ee645a21743/"
-#  INDICES          <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-1ee645a21743/INDICES.rds")
-#  X                <- readRDS(sprintf("/home/vegayon/Documents/sluRm/sluRm-job-1ee645a21743/X_%04d.rds", ARRAY_ID))
-#  FUN              <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-1ee645a21743/FUN.rds")
-#  mc.cores         <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-1ee645a21743/mc.cores.rds")
-#  seeds            <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-1ee645a21743/seeds.rds")
+#  JOB_PATH         <- "/home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/"
+#  INDICES          <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/INDICES.rds")
+#  X                <- readRDS(sprintf("/home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/X_%04d.rds", ARRAY_ID))
+#  FUN              <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/FUN.rds")
+#  mc.cores         <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/mc.cores.rds")
+#  seeds            <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/seeds.rds")
 #  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)
 #  ans <- parallel::mclapply(
 #      X                = X,
 #      FUN              = FUN,
 #      mc.cores         = mc.cores
 #  )
-#  saveRDS(ans, sprintf("/home/vegayon/Documents/sluRm/sluRm-job-1ee645a21743/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
-#  
+#  saveRDS(ans, sprintf("/home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
 #  --------------------------------------------------------------------------------
-#  The bash file that will be used is located at:
-#  /home/vegayon/Documents/sluRm/sluRm-job-1ee645a21743/01-bash.sh
-#  and has the following contents:
+#  The bash file that will be used is located at: /home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/01-bash.sh and has the following contents:
 #  --------------------------------------------------------------------------------
 #  #!/bin/sh
-#  #SBATCH --job-name=sluRm-job-1ee645a21743
-#  #SBATCH --output=/home/vegayon/Documents/sluRm/sluRm-job-1ee645a21743/02-output-%A-%a.out
+#  #SBATCH --job-name=sluRm-job-3f7e76a82f4f
+#  #SBATCH --output=/home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/02-output-%A-%a.out
 #  #SBATCH --array=1-2
 #  #SBATCH --ntasks=1
 #  #SBATCH --cpus-per-task=1
 #  export OMP_NUM_THREADS=1
-#  /usr/lib/R/bin/Rscript --vanilla /home/vegayon/Documents/sluRm/sluRm-job-1ee645a21743/00-rscript.r
-#  
+#  /usr/lib/R/bin/Rscript --vanilla /home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/00-rscript.r
 #  --------------------------------------------------------------------------------
 #  EOF
 #  --------------------------------------------------------------------------------
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=sluRm-job-1ee645a21743 /home/vegayon/Documents/sluRm/sluRm-job-1ee645a21743/01-bash.sh
+#  sbatch --job-name=sluRm-job-3f7e76a82f4f /home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -659,7 +652,7 @@ R.
 <td colspan="8" height="17" align="left" valign="middle" bgcolor="#FFFFFF">
 
 \[3\] Number of directed/recursive dependencies. As reported in
-<a href="https://tinyverse.netlify.com/status/">https://tinyverse.netlify.com/status/</a>
+<a href="https://tinyverse.netlify.com">https://tinyverse.netlify.com/</a>
 (June 4th, 2019)
 
 </td>
@@ -678,9 +671,9 @@ new feature, please go by creating a new issue
 [here](https://github.com/USCbiostats/sluRm/issues) so that we can talk
 about it.
 
-Please note that this project is released with a [Contributor Code of
-Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree
-to abide by its terms.
+Please note that this project is released with a Contributor Code of
+Conduct (see the CODE\_OF\_CONDUCT.md file included in this project). By
+participating in this project you agree to abide by its terms.
 
 ## Who uses Slurm
 

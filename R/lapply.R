@@ -15,6 +15,9 @@
 #' `Slurm_sapply` and `Slurm_Map`, this is, the data is split by chunks so all
 #' the information is sent at once when the job is submitted.
 #'
+#' @return If `plan == "collect"`, then whatever the analogous function returns,
+#' otherwise, an object of class [slurm_job].
+#'
 #' @seealso For resubmitting a job, see the example in [sbatch].
 #' @examples
 #' \dontrun{

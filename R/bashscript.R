@@ -26,7 +26,7 @@ new_bash <- function(
   filename,
   job_name,
   tmp_path,
-  output   = sprintf("%s/%s.out", tmp_path, job_name),
+  output   = NULL,
   njobs    = NULL
   ) {
 

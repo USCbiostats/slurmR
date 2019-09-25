@@ -94,7 +94,7 @@ sourceSlurm <- function(
   x$write()
 
   message(
-    "Sourcing an R script using Slurm.",
+    "Sourcing an R script using Slurm. ",
     "The created file can be found here:\n ",
     script_path
     )

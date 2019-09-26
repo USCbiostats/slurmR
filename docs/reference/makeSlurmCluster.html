@@ -129,9 +129,9 @@ makeSlurmCluster main feature is adding node addresses." />
     
     </div>
 
-    <pre class="usage"><span class='fu'>makeSlurmCluster</span>(<span class='no'>njobs</span>, <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_job_name</span>(),
+    <pre class="usage"><span class='fu'>makeSlurmCluster</span>(<span class='no'>n</span>, <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_job_name</span>(),
   <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_tmp_path</span>(), <span class='kw'>cluster_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(),
-  <span class='kw'>max_wait</span> <span class='kw'>=</span> <span class='fl'>300L</span>, <span class='kw'>verb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>offspring_per_job</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='no'>...</span>)
+  <span class='kw'>max_wait</span> <span class='kw'>=</span> <span class='fl'>300L</span>, <span class='kw'>verb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for slurm_cluster</span>
 <span class='fu'>stopCluster</span>(<span class='no'>cl</span>)</pre>
@@ -140,10 +140,8 @@ makeSlurmCluster main feature is adding node addresses." />
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>njobs</th>
-      <td><p>Integer. Number of jobs to use in the job-array. This specifies
-the number of R sessions to initialize. This does not specify the number of
-cores to be used.</p></td>
+      <th>n</th>
+      <td><p>Integer scalar. Size of the cluster object (see details).</p></td>
     </tr>
     <tr>
       <th>job_name</th>
@@ -170,10 +168,6 @@ trying to read the nodes information.</p></td>
 screen reporting on the status of the job submission.</p></td>
     </tr>
     <tr>
-      <th>offspring_per_job</th>
-      <td><p>Integer scalar. Number of R sessions to start per job (see details).</p></td>
-    </tr>
-    <tr>
       <th>...</th>
       <td><p>Further arguments passed to <a href='Slurm_EvalQ.html'>Slurm_EvalQ</a> via <code>sbatch_opt</code>.</p></td>
     </tr>
@@ -189,8 +183,6 @@ screen reporting on the status of the job submission.</p></td>
 is the same as what is returned by <a href='https://www.rdocumentation.org/packages/parallel/topics/makeCluster'>parallel::makePSOCKcluster</a> with the main
 difference that it has two extra attributes:</p><ul>
 <li><p><code>SLURM_JOBID</code> Which is the id of the Job that initialized tha cluster.</p></li>
-<li><p><code>SLURM_PIDS</code> Which is an integer vector of the PIDs of the R processes that
-the job started in the remote machines.</p></li>
 </ul>
 
     
@@ -201,19 +193,8 @@ then it is set to the value <code>01:00:00</code>, this is, 1 hour.</p>
 <p>Once a job is submitted via Slurm, the user gets access to the nodes
 associated with it, which allows users to star new processes within those.
 By means of this, we can create Socket, also knwon as "PSOCK", clusters across
-nodes in a Slurm environment. In particular, <code>makeSlurmCluster</code> performs the
-following steps:</p><ol>
-<li><p>Using <a href='Slurm_EvalQ.html'>Slurm_EvalQ</a>, a job is submitted using an array with <code>njobs</code>.</p></li>
-<li><p>Each job within the array stores information regarding the node where they
-are being executed, including the name of the node.</p></li>
-<li><p>Create a PSOCK cluster using the node names obtained from the <code>Slurm_EvalQ</code>
-call.</p></li>
-</ol>
-    <p>The number of worker/child/offspring sessions that will be used is the product between
-<code>offspring_per_job</code> and <code>njobs</code>. In some Slurm settings users may be constrained in the
-number of jobs that can be executed simultaneously, hence, increasing the
-number of child sessions per job may be a solution to increase the number of workers.
-This is done by setting the <code>--cpus-per-task</code> flag equal to <code>offspring_per_job</code>.</p>
+nodes in a Slurm environment. The name of the hosts are retrieved and passed
+later on to <a href='https://www.rdocumentation.org/packages/parallel/topics/makeCluster'>parallel::makePSOCKcluster</a>.</p>
 <p>The method <code>stopCluster</code> for <code>slurm_cluster</code> stops the cluster doing
 the following:</p><ol>
 <li><p>Closes the conection by calling the <code>stopCluster</code> method for <code>PSOCK</code> objects.</p></li>
@@ -227,7 +208,7 @@ the following:</p><ol>
 in R-sig-hpc <a href='https://stat.ethz.ch/pipermail/r-sig-hpc/2012-May/001373.html'>https://stat.ethz.ch/pipermail/r-sig-hpc/2012-May/001373.html</a>)
 Current maximum is 128 (R version 3.6.1). To modify that limit, you would need
 to reinstall R updating the macro <code>NCONNECTIONS</code> in the file <code>src/main/connections.c</code>.</p>
-<p>For now, if the user sets <code>njobs</code> above 128 it will get an immediate warning
+<p>For now, if the user sets <code>n</code> above 128 it will get an immediate warning
 pointing to this issue, in particular, specifying that the cluster object
 may not be able to be created.</p>
     

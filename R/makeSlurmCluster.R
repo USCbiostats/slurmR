@@ -1,9 +1,57 @@
+get_hosts <- function(ntasks=1, tmp_path = getwd(), ...) {
+
+  # In case that the host retrival fails, this should be the exit mechanism
+  on.exit({
+    if (exists("jobid") && !exists("clean"))
+      tryCatch(scancel(jobid), error = function(e) e)
+  })
+
+  # Creating job name and file
+  fn   <- tempfile("sluRm-job-")
+  jn   <- gsub(".+(?=sluRm-job-)", "", fn, perl = TRUE)
+  out  <- sprintf("%s/%s.out", tmp_path, jn)
+
+  # Writing the script
+  dots <- c(list(ntasks = ntasks, output = out), list(...))
+  dat  <- paste(
+    "#!/bin/sh",
+    paste0("#SBATCH ", parse_flags(dots), collapse = "\n"),
+    "echo ==start-hostnames==",
+    "srun hostname",
+    "sleep infinity", sep = "\n"
+  )
+
+  writeLines(dat, fn)
+
+  # Submitting the job
+  jobid <- sbatch(fn, wait = FALSE, submit = TRUE)
+
+  # Returning
+  hosts <- function() {
+    tryCatch({
+      hostnames <- readLines(out)
+      hostnames_start <- which(grepl("^==start-hostnames==$", hostnames)) + 1L
+      hostnames[hostnames_start:(hostnames_start + ntasks - 1L)]
+    }, error = function(e) e)
+  }
+
+  clean <- function() suppressWarnings(file.remove(out))
+
+  list(
+    hosts  = hosts,
+    jobid  = jobid,
+    output = out,
+    script = fn,
+    clean  = clean
+  )
+
+}
+
 #' Create a Parallel Socket Cluster using Slurm
 #'
 #' This function is essentially a wrapper of the function [parallel::makePSOCKcluster].
 #' `makeSlurmCluster` main feature is adding node addresses.
 #'
-#' @template njobs
 #' @template job_name-tmp_path
 #' @details By default, if the `time` option is not specified via `...`,
 #' then it is set to the value `01:00:00`, this is, 1 hour.
@@ -13,28 +61,14 @@
 #' @param ... Further arguments passed to [Slurm_EvalQ] via `sbatch_opt`.
 #' @param verb Logical scalar. If `TRUE`, the function will print messages on
 #' screen reporting on the status of the job submission.
-#' @param offspring_per_job Integer scalar. Number of R sessions to start per job (see details).
+#' @param n Integer scalar. Size of the cluster object (see details).
 #'
 #' @export
 #' @details Once a job is submitted via Slurm, the user gets access to the nodes
 #' associated with it, which allows users to star new processes within those.
 #' By means of this, we can create Socket, also knwon as "PSOCK", clusters across
-#' nodes in a Slurm environment. In particular, `makeSlurmCluster` performs the
-#' following steps:
-#'
-#' 1. Using [Slurm_EvalQ], a job is submitted using an array with `njobs`.
-#'
-#' 2. Each job within the array stores information regarding the node where they
-#'    are being executed, including the name of the node.
-#'
-#' 3. Create a PSOCK cluster using the node names obtained from the `Slurm_EvalQ`
-#'    call.
-#'
-#' The number of worker/child/offspring sessions that will be used is the product between
-#' `offspring_per_job` and `njobs`. In some Slurm settings users may be constrained in the
-#' number of jobs that can be executed simultaneously, hence, increasing the
-#' number of child sessions per job may be a solution to increase the number of workers.
-#' This is done by setting the `--cpus-per-task` flag equal to `offspring_per_job`.
+#' nodes in a Slurm environment. The name of the hosts are retrieved and passed
+#' later on to [parallel::makePSOCKcluster].
 #'
 #' @section Maximum number of connections:
 #'
@@ -43,7 +77,7 @@
 #' Current maximum is 128 (R version 3.6.1). To modify that limit, you would need
 #' to reinstall R updating the macro `NCONNECTIONS` in the file `src/main/connections.c`.
 #'
-#' For now, if the user sets `njobs` above 128 it will get an immediate warning
+#' For now, if the user sets `n` above 128 it will get an immediate warning
 #' pointing to this issue, in particular, specifying that the cluster object
 #' may not be able to be created.
 #'
@@ -52,9 +86,6 @@
 #' difference that it has two extra attributes:
 #'
 #' - `SLURM_JOBID` Which is the id of the Job that initialized tha cluster.
-#'
-#' - `SLURM_PIDS` Which is an integer vector of the PIDs of the R processes that
-#'   the job started in the remote machines.
 #'
 #' @examples
 #' \dontrun{
@@ -86,17 +117,16 @@
 #' }
 #'
 makeSlurmCluster <- function(
-  njobs,
+  n,
   job_name       = opts_sluRm$get_job_name(),
   tmp_path       = opts_sluRm$get_tmp_path(),
   cluster_opt    = list(),
   max_wait       = 300L,
   verb           = TRUE,
-  offspring_per_job = 1L,
   ...
   ) {
 
-  if (njobs * offspring_per_job > 128L)
+  if (n > 128L)
     warning(
       "By this version of sluRm, the maximum number of connections in R ",
       "is 128. makeSlurmCluster will try to create the cluster object, ",
@@ -104,8 +134,11 @@ makeSlurmCluster <- function(
       immediate. = TRUE
       )
 
-  sbatch_opt        <- list(...)
-  sbatch_opt$`cpus-per-task` <- offspring_per_job
+  # No need of anything fancy in this case!
+  if (opts_sluRm$get_debug())
+    return(do.call(parallel::makePSOCKcluster, list(names = n, cluster_opt)))
+
+  sbatch_opt <- list(...)
 
   if (is.null(sbatch_opt$time))
     sbatch_opt$time <- "01:00:00"
@@ -124,7 +157,7 @@ makeSlurmCluster <- function(
         "object.", call. = FALSE, immediate. = TRUE
         )
       e <- tryCatch(parallel::stopCluster(cl), error = function(e) e)
-      e <- tryCatch(scancel(job), error = function(e) e)
+      e <- tryCatch(scancel(job$jobid), error = function(e) e)
       if (inherits(e, "error") && !is.na(job$jobid)) {
         warning(
           "The job ", job$jobid, " is still running. Try canceling it using ",
@@ -133,38 +166,14 @@ makeSlurmCluster <- function(
       }
     }
   })
-  job <- Slurm_EvalQ(expr = {
 
-    # Saving the process id... so we can kill it!
-    jobinfo <- list(pid = Sys.getpid(), who = sluRm::whoami())
-    saveRDS(jobinfo, normalizePath(sprintf("%s/jobinfo%05d.rds", JOB_PATH, ARRAY_ID)))
+  sbatch_opt$ntasks     <- n
+  sbatch_opt$tmp_path   <- tmp_path
+  sbatch_opt$`job-name` <- job_name
 
-    # Wait ad-infinitum -- The job will be killed eitherway once the
-    while (TRUE) {
-      Sys.sleep(100)
-    }
-
-    },
-    njobs       = njobs,
-    job_name    = job_name,
-    tmp_path    = tmp_path,
-    sbatch_opt  = sbatch_opt,
-    plan        = "submit",
-    rscript_opt = list(vanilla = TRUE, slave = TRUE)
-    )
-
+  job <- do.call(get_hosts, sbatch_opt)
 
   # Now, we wait until the jobs have started. All should return "RUNNING"
-  try_readRDS <- function(...) tryCatch({
-    suppressWarnings(readRDS(...))
-    }, error = function(e) e)
-
-  files2read  <- ifelse(opts_sluRm$get_debug(), 1L, njobs)
-  files2read  <- suppressWarnings(normalizePath(
-    sprintf("%s/%s/jobinfo%05d.rds", tmp_path, job_name , 1L:files2read)
-    ))
-
-
   # Let's just wait a few seconds before jumping into conclusions!
   Sys.sleep(1)
   ntry  <- -1L
@@ -179,12 +188,7 @@ makeSlurmCluster <- function(
     if (verb && ntry > 0L && !(ntry %% 5)) {
 
       if (s %in% c(1L, 3L)) {
-        message(
-          sprintf(
-             "%4d/%-4d jobs need to start before continuing.",
-             length(attr(s, "pending")), njobs
-             ), appendLF = FALSE
-        )
+        message("The job needs to start before continuing ", appendLF = FALSE)
       } else if (s == 2L) {
         message("All jobs are running, waiting for the nodenames ", appendLF = FALSE)
       }
@@ -216,16 +220,16 @@ makeSlurmCluster <- function(
       next
 
     # Trying to read the dataset
-    info <- lapply(files2read, try_readRDS)
+    nodenames <- job$hosts()
 
-    if (any(sapply(info, inherits, what = "error")))
+    if (inherits(nodenames, what = "error"))
       next
     else
       break
 
   }
 
-  if (any(sapply(info, inherits, what = "error"))) {
+  if (inherits(nodenames, what = "error")) {
     scancel(job$jobid)
     stop(
       "While trying to read information regarding the created jobs, one or ",
@@ -237,19 +241,17 @@ makeSlurmCluster <- function(
   if (verb)
     message("Success! All jobs have been allocated. Creating the cluster object...")
 
-  # Extracting the relevant information
-  pids      <- sapply(info, "[[", "pid")
-  nodenames <- sapply(info, function(i) i$who["SLURMD_NODENAME"])
-
   # Creating the PSOCK cluster
   cl <- do.call(
     parallel::makePSOCKcluster,
-    c(list(names = rep(nodenames, offspring_per_job)), cluster_opt)
+    c(list(names = nodenames), cluster_opt)
   )
 
-  attr(cl, "SLURM_PIDS")  <- pids
   attr(cl, "SLURM_JOBID") <- job$jobid
   attr(cl, "class")       <- c("slurm_cluster", attr(cl, "class"))
+
+  # The temp file is no longer needed
+  job$clean()
 
   cl
 

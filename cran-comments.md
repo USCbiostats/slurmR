@@ -19,47 +19,14 @@ package and use some of its functions.
 
 ## On the latest CRAN comments
 
-1. 'Slurm' and 'HPC' single-quoted in title and description.
-
-2. HPC acronym expanded
-
-3. Added a link to Slurm in the description (and also as in the URL field)
-
-4. Most of the examples should be run in a Slurm cluster, that's the reason why
-   most of them have a \dontrun tag. This also implies that most examples cannot
-   be run by `examples()`, so the \donttest flag is not a good replacement.
-
-5. This is a complicated point. Using getwd() as a default is actually also used
-   in another R package on CRAN (rslurm). Still, if that weren't the case, most
-   users enjoy the "plug-and-play" way in which the package work (like myself),
-   so forcing them to set other directory than getwd() would go against the package's
-   philosophy.
+1. The "invalid URLs: URL: https://rc.hms.harvard.edu/#cluster" is a false positive.
+   either way, it is not the main website of Slurm but the site of one of the clusters
+   that I've listed on the README.md file. No need to change that.
    
-   You could argue that a better choice would be tempdir() as a default, but in 
-   the case of Slurm clusters that doesn't ensure the functions to work, since
-   I have no way to know if all the nodes have access to the tmp directory where
-   that folder is created, causing errors.
-   
-   Moreover, users can change that if needed, and when the package loads it warns
-   the user that the current default `tmp_path` is getwd(), so they are adviced
-   to change that.
-   
-   Finally, no file I/O is done until the user explicitly calls one of the functions
-   that do such, e.g. Slurm_*apply functions.
+2. The Description field does not start with the name of the package, but rather
+   with the name of the HPC job scheduler's name. So this is a false positive 
+   as well. Notice that the name of the package is "sluRm", while the scheduler
+   is "Slurm" (different capitals :P)
 
-6. No example using mc.cores uses more than 1 core. The only place where this may
-   look like it is using more than 2 is in `makeSlurmCluster` which is wrapped
-   with \dontrun since it requires Slurm to be executed. I won't change that since
-   that is actually the whole point of that function, creating cluster objects with
-   dozens of workers.
-   
-7. Again, almost none of the examples can be executed without Slurm. I cannot
-   unwrap them from \dontrun, and I cannot create toy examples of those (actually
-   most of them are toy examples to be run under a Slurm cluster).
+Thanks
 
-8. There was one place in the code where I was writing to the console using cat,
-   this has now been changed to message instead.
-   
-9. I've added \value when possible.
-
-Thanks!

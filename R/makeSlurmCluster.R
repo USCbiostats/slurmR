@@ -29,7 +29,7 @@ get_hosts <- function(ntasks=1, tmp_path = getwd(), ...) {
   # Returning
   hosts <- function() {
     tryCatch({
-      hostnames <- readLines(out)
+      hostnames <- suppressWarnings(readLines(out))
       hostnames_start <- which(grepl("^==start-hostnames==$", hostnames)) + 1L
       hostnames[hostnames_start:(hostnames_start + ntasks - 1L)]
     }, error = function(e) e)
@@ -207,7 +207,7 @@ makeSlurmCluster <- function(
     # In the case of debug mode on, we don't need to check for the job status.
     # we can go directly to the R sessions
     if (!opts_sluRm$get_debug())
-      s <- status(job)
+      s <- status(job$jobid)
 
     # One or more failed
     if (s == 99L) {

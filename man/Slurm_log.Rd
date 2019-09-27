@@ -25,7 +25,7 @@ used to check the log files of jobs in the array that failed.
 }
 \examples{
 \dontrun{
-x <- Slurm_EvalQ(sluRm::whoami(), plan = "wait")
+x <- Slurm_EvalQ(slurrm::whoami(), plan = "wait")
 Slurm_log(x) # Checking the R log
 }
 }

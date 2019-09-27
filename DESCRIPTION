@@ -1,4 +1,4 @@
-Package: sluRm
+Package: slurrm
 Title: A Lightweight Wrapper for 'Slurm'
 Version: 0.2-0
 Authors@R: c( person("George", "Vega Yon", email = "g.vegayon@gmail.com", role =

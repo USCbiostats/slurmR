@@ -3,13 +3,13 @@
 \docType{data}
 \name{opts_sluRm}
 \alias{opts_sluRm}
-\title{Get and set default options for \code{sbatch} and \code{sluRm} internals}
+\title{Get and set default options for \code{sbatch} and \code{slurrm} internals}
 \format{An object of class \code{opts_sluRm} of length 14.}
 \usage{
 opts_sluRm
 }
 \description{
-Most of the functions in the \code{sluRm} package use \code{tmp_path} and \code{job-name}
+Most of the functions in the \code{slurrm} package use \code{tmp_path} and \code{job-name}
 options to write and submit jobs to \strong{Slurm}. These options have global
 defaults that are set and retrieved using \code{opts_sluRm}.
 }
@@ -26,36 +26,36 @@ Current supported options are:
 
 Debugging mode
 \itemize{
-\item \code{debug_on : function ()} \Sexpr{attr(sluRm::opts_sluRm$debug_on, "desc")}
-\item \code{debug_off : function ()} \Sexpr{attr(sluRm::opts_sluRm$debug_off, "desc")}
-\item \code{get_debug : function ()} \Sexpr{attr(sluRm::opts_sluRm$get_debug, "desc")}
+\item \code{debug_on : function ()} \Sexpr{attr(slurrm::opts_sluRm$debug_on, "desc")}
+\item \code{debug_off : function ()} \Sexpr{attr(slurrm::opts_sluRm$debug_off, "desc")}
+\item \code{get_debug : function ()} \Sexpr{attr(slurrm::opts_sluRm$get_debug, "desc")}
 }
 
 Verbose mode
 \itemize{
-\item \code{verbose_on : function ()} \Sexpr{attr(sluRm::opts_sluRm$verbose_on, "desc")}
-\item \code{verbose_off : function ()} \Sexpr{attr(sluRm::opts_sluRm$verbose_off, "desc")}
-\item \code{get_verbose : function ()} \Sexpr{attr(sluRm::opts_sluRm$get_verbose, "desc")}
+\item \code{verbose_on : function ()} \Sexpr{attr(slurrm::opts_sluRm$verbose_on, "desc")}
+\item \code{verbose_off : function ()} \Sexpr{attr(slurrm::opts_sluRm$verbose_off, "desc")}
+\item \code{get_verbose : function ()} \Sexpr{attr(slurrm::opts_sluRm$get_verbose, "desc")}
 }
 
 Slurm options
 \itemize{
-\item \code{set_tmp_path : function (path, recursive = TRUE)} \Sexpr{attr(sluRm::opts_sluRm$set_tmp_path, "desc")}
-\item \code{get_tmp_path : function ()} \Sexpr{attr(sluRm::opts_sluRm$get_tmp_path, "desc")}
-\item \code{set_job_name : function (path, check = TRUE, overwrite = TRUE)} \Sexpr{attr(sluRm::opts_sluRm$set_job_name, "desc")}.
-\item \code{get_job_name : function (check = TRUE)} \Sexpr{attr(sluRm::opts_sluRm$get_job_name, "desc")}
+\item \code{set_tmp_path : function (path, recursive = TRUE)} \Sexpr{attr(slurrm::opts_sluRm$set_tmp_path, "desc")}
+\item \code{get_tmp_path : function ()} \Sexpr{attr(slurrm::opts_sluRm$get_tmp_path, "desc")}
+\item \code{set_job_name : function (path, check = TRUE, overwrite = TRUE)} \Sexpr{attr(slurrm::opts_sluRm$set_job_name, "desc")}.
+\item \code{get_job_name : function (check = TRUE)} \Sexpr{attr(slurrm::opts_sluRm$get_job_name, "desc")}
 }
 
 Other options
 \itemize{
-\item \code{get_cmd : function ()} \Sexpr{attr(sluRm::opts_sluRm$get_cmd, "desc")}
+\item \code{get_cmd : function ()} \Sexpr{attr(slurrm::opts_sluRm$get_cmd, "desc")}
 }
 
 For general set/retrieve options
 \itemize{
-\item \code{set_opts : function (...)} \Sexpr{attr(sluRm::opts_sluRm$set_opts, "desc")}
-\item \code{get_opts_job : function (...)} \Sexpr{attr(sluRm::opts_sluRm$get_opts_job, "desc")}
-\item \code{get_opts_r : function (...)} \Sexpr{attr(sluRm::opts_sluRm$get_opts_r, "desc")}
+\item \code{set_opts : function (...)} \Sexpr{attr(slurrm::opts_sluRm$set_opts, "desc")}
+\item \code{get_opts_job : function (...)} \Sexpr{attr(slurrm::opts_sluRm$get_opts_job, "desc")}
+\item \code{get_opts_r : function (...)} \Sexpr{attr(slurrm::opts_sluRm$get_opts_r, "desc")}
 }
 }
 \examples{

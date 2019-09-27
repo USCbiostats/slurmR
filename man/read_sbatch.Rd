@@ -20,7 +20,7 @@ Read a slurm batch file and capture the SBATCH options
 \examples{
 
 # Reading in an example script
-x <- system.file("example.slurm", package="sluRm")
+x <- system.file("example.slurm", package="slurrm")
 read_sbatch(x)
 
 }

@@ -168,7 +168,7 @@ hline <- function(..., sep="\n") {
 #' @examples
 #' \dontrun{
 #' # Submitting a simple job
-#' job <- Slurm_EvalQ(sluRm::WhoAmI(), njobs = 4L, plan = "submit")
+#' job <- Slurm_EvalQ(slurrm::WhoAmI(), njobs = 4L, plan = "submit")
 #'
 #' # Checking the status of the job (we can simply print)
 #' job

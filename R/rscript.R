@@ -23,8 +23,8 @@ list_loaded_pkgs <- function() {
 rscript_header <- function(pkgs, seeds = NULL) {
 
   # For testing purposes, the instalation of the package is somewhere else
-  if ("sluRm" %in% names(pkgs))
-    pkgs[names(pkgs) == "sluRm"] <- NULL
+  if ("slurrm" %in% names(pkgs))
+    pkgs[names(pkgs) == "slurrm"] <- NULL
 
   sprintf("library(%s, lib.loc = \"%s\")", names(pkgs), unlist(pkgs))
 

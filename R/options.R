@@ -1,7 +1,7 @@
 
-#' Get and set default options for `sbatch` and `sluRm` internals
+#' Get and set default options for `sbatch` and `slurrm` internals
 #'
-#' Most of the functions in the `sluRm` package use `tmp_path` and `job-name`
+#' Most of the functions in the `slurrm` package use `tmp_path` and `job-name`
 #' options to write and submit jobs to **Slurm**. These options have global
 #' defaults that are set and retrieved using `opts_sluRm`.
 #'
@@ -17,42 +17,42 @@
 #'
 #' Debugging mode
 #'
-#' - `debug_on : function ()` \Sexpr{attr(sluRm::opts_sluRm$debug_on, "desc")}
+#' - `debug_on : function ()` \Sexpr{attr(slurrm::opts_sluRm$debug_on, "desc")}
 #'
-#' - `debug_off : function ()` \Sexpr{attr(sluRm::opts_sluRm$debug_off, "desc")}
+#' - `debug_off : function ()` \Sexpr{attr(slurrm::opts_sluRm$debug_off, "desc")}
 #'
-#' - `get_debug : function ()` \Sexpr{attr(sluRm::opts_sluRm$get_debug, "desc")}
+#' - `get_debug : function ()` \Sexpr{attr(slurrm::opts_sluRm$get_debug, "desc")}
 #'
 #' Verbose mode
 #'
-#' - `verbose_on : function ()` \Sexpr{attr(sluRm::opts_sluRm$verbose_on, "desc")}
+#' - `verbose_on : function ()` \Sexpr{attr(slurrm::opts_sluRm$verbose_on, "desc")}
 #'
-#' - `verbose_off : function ()` \Sexpr{attr(sluRm::opts_sluRm$verbose_off, "desc")}
+#' - `verbose_off : function ()` \Sexpr{attr(slurrm::opts_sluRm$verbose_off, "desc")}
 #'
-#' - `get_verbose : function ()` \Sexpr{attr(sluRm::opts_sluRm$get_verbose, "desc")}
+#' - `get_verbose : function ()` \Sexpr{attr(slurrm::opts_sluRm$get_verbose, "desc")}
 #'
 #' Slurm options
 #'
-#' - `set_tmp_path : function (path, recursive = TRUE)` \Sexpr{attr(sluRm::opts_sluRm$set_tmp_path, "desc")}
+#' - `set_tmp_path : function (path, recursive = TRUE)` \Sexpr{attr(slurrm::opts_sluRm$set_tmp_path, "desc")}
 #'
-#' - `get_tmp_path : function ()` \Sexpr{attr(sluRm::opts_sluRm$get_tmp_path, "desc")}
+#' - `get_tmp_path : function ()` \Sexpr{attr(slurrm::opts_sluRm$get_tmp_path, "desc")}
 #'
-#' - `set_job_name : function (path, check = TRUE, overwrite = TRUE)` \Sexpr{attr(sluRm::opts_sluRm$set_job_name, "desc")}.
+#' - `set_job_name : function (path, check = TRUE, overwrite = TRUE)` \Sexpr{attr(slurrm::opts_sluRm$set_job_name, "desc")}.
 #'
-#' - `get_job_name : function (check = TRUE)` \Sexpr{attr(sluRm::opts_sluRm$get_job_name, "desc")}
+#' - `get_job_name : function (check = TRUE)` \Sexpr{attr(slurrm::opts_sluRm$get_job_name, "desc")}
 #'
 #' Other options
 #'
-#' - `get_cmd : function ()` \Sexpr{attr(sluRm::opts_sluRm$get_cmd, "desc")}
+#' - `get_cmd : function ()` \Sexpr{attr(slurrm::opts_sluRm$get_cmd, "desc")}
 #'
 #'
 #' For general set/retrieve options
 #'
-#' - `set_opts : function (...)` \Sexpr{attr(sluRm::opts_sluRm$set_opts, "desc")}
+#' - `set_opts : function (...)` \Sexpr{attr(slurrm::opts_sluRm$set_opts, "desc")}
 #'
-#' - `get_opts_job : function (...)` \Sexpr{attr(sluRm::opts_sluRm$get_opts_job, "desc")}
+#' - `get_opts_job : function (...)` \Sexpr{attr(slurrm::opts_sluRm$get_opts_job, "desc")}
 #'
-#' - `get_opts_r : function (...)` \Sexpr{attr(sluRm::opts_sluRm$get_opts_r, "desc")}
+#' - `get_opts_r : function (...)` \Sexpr{attr(slurrm::opts_sluRm$get_opts_r, "desc")}
 #'
 #'
 #' @examples

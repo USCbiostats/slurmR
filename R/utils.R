@@ -391,7 +391,7 @@ Slurm_clean <- function(x) {
 #' Information about where jobs are submitted
 #'
 #' This returns a named vector with the following variables:
-#' \Sexpr{paste(names(sluRm::WhoAmI()), collapse = ", ")}
+#' \Sexpr{paste(names(slurrm::WhoAmI()), collapse = ", ")}
 #' @export
 #' @return A character vector with the corresponding system environment variables'
 #' values.

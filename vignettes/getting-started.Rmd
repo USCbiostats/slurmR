@@ -1,10 +1,10 @@
 ---
-title: "Getting Started with sluRm"
+title: "Getting Started with slurrm"
 author: "George G. Vega Yon"
 date: "June 26, 2019"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Getting Started with sluRm}
+  %\VignetteIndexEntry{Getting Started with slurrm}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -25,9 +25,9 @@ First, some important definitions
 For more information, see https://slurm.schedmd.com/cpu_management.html
 
 
-# Implementation of the `sluRrm` package
+# Implementation of the `slurrm` package
 
-Just like `rslurm`, `sluRm` has two levels of job distribution: first, Slurm Jobs (via
+Just like `rslurm`, `slurrm` has two levels of job distribution: first, Slurm Jobs (via
 the `Slurm_lapply` and `Slurm_Map` functions), and second, within each job via `parallel::mclapply`
 and `parallel::mcMap` (task forking).
 
@@ -93,7 +93,7 @@ mean(unlist(ans))
 Which estimates pi using a single node(computer). However, we can simply exploit parallelization using `Slurm_lapply`, by writing
 
 ```{r slurm-opts, warning=FALSE}
-library(sluRm)
+library(slurrm)
 
 # Setting required parameters
 opts_sluRm$set_tmp_path(tempdir())

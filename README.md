@@ -2,20 +2,21 @@
 [![DOI](http://joss.theoj.org/papers/10.21105/joss.01493/status.svg)](https://doi.org/10.21105/joss.01493)
 [![Travis build
 status](https://travis-ci.org/USCbiostats/sluRm.svg?branch=master)](https://travis-ci.org/USCbiostats/sluRm)
-[![codecov](https://codecov.io/gh/USCbiostats/sluRm/branch/master/graph/badge.svg)](https://codecov.io/gh/USCbiostats/sluRm)
+[![codecov](https://codecov.io/gh/USCbiostats/slurmR/branch/master/graph/badge.svg)](https://codecov.io/gh/USCbiostats/slurmR)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/sluRm)](https://CRAN.R-project.org/package=sluRm)
+status](https://www.r-pkg.org/badges/version/slurmR)](https://CRAN.R-project.org/package=slurmR)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# sluRm: A Lightweight Wrapper for Slurm <img src="man/figures/logo.png" height="180px" align="right"/>
+# slurmR: A Lightweight Wrapper for Slurm <img src="man/figures/logo.png" height="180px" align="right"/>
 
 Slurm Workload Manager is a popular HPC cluster job scheduler found in
-many of the top 500 super computers. The `sluRm` R package provides an R
-wrapper to it that matches the parallel package’s syntax, this is, just
-like `parallel` provides the `parLapply`, `clusterMap`, `parSapply`,
-etc., `sluRm` provides `Slurm_lapply`, `Slurm_Map`, `Slurm_sapply`, etc.
+many of the top 500 super computers. The `slurmR` R package provides an
+R wrapper to it that matches the parallel package’s syntax, this is,
+just like `parallel` provides the `parLapply`, `clusterMap`,
+`parSapply`, etc., `slurmR` provides `Slurm_lapply`, `Slurm_Map`,
+`Slurm_sapply`, etc.
 
 While there are other alternatives such as `future.batchtools`,
 `batchtools`, `clustermq`, and `rslurm`, this R package has the
@@ -39,7 +40,7 @@ following goals:
     cluster objects for multi-node operations. (See the examples below
     on how this can be used with other R packages)
 
-Checkout the [VS section](#vs) section for comparing `sluRm` with other
+Checkout the [VS section](#vs) section for comparing `slurmR` with other
 R packages. Wondering who is using Slurm? Checkout the [list at the end
 of this document](#who-uses-slurm).
 
@@ -49,7 +50,7 @@ And the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("USCbiostats/sluRm")
+devtools::install_github("USCbiostats/slurmR")
 ```
 
 ## Citation
@@ -80,12 +81,12 @@ A BibTeX entry for LaTeX users is
 ## Example 1: Computing means (and looking under the hood)
 
 ``` r
-library(sluRm)
+library(slurmR)
 #  Loading required package: parallel
-#  On load, `sluRm` sets default options for your jobs (`tmp_path`, which is the default directory where sluRm will use to create the auxiliar files, and `job-name`, which is the option of the same name in Slurm. You can view/set these at:
-#     ?opts_sluRm
+#  On load, `slurmR` sets default options for your jobs: (1) `tmp_path`, which is the default directory where `slurmR` will use to create the auxiliar files (default to getwd()), and (2) `job-name`, which is the option of the same name in Slurm. You can view/set these at:
+#     ?opts_slurmR
 #  or you could just type
-#     "opts_sluRm".
+#     "opts_slurmR".
 
 # Suppose that we have 100 vectors of length 50 ~ Unif(0,1)
 set.seed(881)
@@ -97,7 +98,7 @@ We can use the function `Slurm_lapply` to distribute computations
 ``` r
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=sluRm-job-3f7e76a82f4f /home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/01-bash.sh
+#  sbatch --job-name=slurmR-job-581172a181e4 /home/vegayon/Documents/slurmR/slurmR-job-581172a181e4/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -106,10 +107,10 @@ create the job object, but do nothing with it, i.e., skip submission. To
 get more info, we can actually set the verbose mode on
 
 ``` r
-opts_sluRm$verbose_on()
+opts_slurmR$verbose_on()
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  --------------------------------------------------------------------------------
-#  [VERBOSE MODE ON] The R script that will be used is located at: /home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/00-rscript.r and has the following contents:
+#  [VERBOSE MODE ON] The R script that will be used is located at: /home/vegayon/Documents/slurmR/slurmR-job-581172a181e4/00-rscript.r and has the following contents:
 #  --------------------------------------------------------------------------------
 #  .libPaths(c("/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))
 #  Slurm_env <- function (x) 
@@ -121,35 +122,35 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #      y
 #  }
 #  ARRAY_ID         <- as.integer(Slurm_env("SLURM_ARRAY_TASK_ID"))
-#  JOB_PATH         <- "/home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/"
-#  INDICES          <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/INDICES.rds")
-#  X                <- readRDS(sprintf("/home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/X_%04d.rds", ARRAY_ID))
-#  FUN              <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/FUN.rds")
-#  mc.cores         <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/mc.cores.rds")
-#  seeds            <- readRDS("/home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/seeds.rds")
+#  JOB_PATH         <- "/home/vegayon/Documents/slurmR/slurmR-job-581172a181e4/"
+#  INDICES          <- readRDS("/home/vegayon/Documents/slurmR/slurmR-job-581172a181e4/INDICES.rds")
+#  X                <- readRDS(sprintf("/home/vegayon/Documents/slurmR/slurmR-job-581172a181e4/X_%04d.rds", ARRAY_ID))
+#  FUN              <- readRDS("/home/vegayon/Documents/slurmR/slurmR-job-581172a181e4/FUN.rds")
+#  mc.cores         <- readRDS("/home/vegayon/Documents/slurmR/slurmR-job-581172a181e4/mc.cores.rds")
+#  seeds            <- readRDS("/home/vegayon/Documents/slurmR/slurmR-job-581172a181e4/seeds.rds")
 #  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)
 #  ans <- parallel::mclapply(
 #      X                = X,
 #      FUN              = FUN,
 #      mc.cores         = mc.cores
 #  )
-#  saveRDS(ans, sprintf("/home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
+#  saveRDS(ans, sprintf("/home/vegayon/Documents/slurmR/slurmR-job-581172a181e4/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
 #  --------------------------------------------------------------------------------
-#  The bash file that will be used is located at: /home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/01-bash.sh and has the following contents:
+#  The bash file that will be used is located at: /home/vegayon/Documents/slurmR/slurmR-job-581172a181e4/01-bash.sh and has the following contents:
 #  --------------------------------------------------------------------------------
 #  #!/bin/sh
-#  #SBATCH --job-name=sluRm-job-3f7e76a82f4f
-#  #SBATCH --output=/home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/02-output-%A-%a.out
+#  #SBATCH --job-name=slurmR-job-581172a181e4
+#  #SBATCH --output=/home/vegayon/Documents/slurmR/slurmR-job-581172a181e4/02-output-%A-%a.out
 #  #SBATCH --array=1-2
 #  #SBATCH --ntasks=1
 #  #SBATCH --cpus-per-task=1
 #  export OMP_NUM_THREADS=1
-#  /usr/lib/R/bin/Rscript --vanilla /home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/00-rscript.r
+#  /usr/lib/R/bin/Rscript --vanilla /home/vegayon/Documents/slurmR/slurmR-job-581172a181e4/00-rscript.r
 #  --------------------------------------------------------------------------------
 #  EOF
 #  --------------------------------------------------------------------------------
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=sluRm-job-3f7e76a82f4f /home/vegayon/Documents/sluRm/sluRm-job-3f7e76a82f4f/01-bash.sh
+#  sbatch --job-name=slurmR-job-581172a181e4 /home/vegayon/Documents/slurmR/slurmR-job-581172a181e4/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -159,7 +160,7 @@ The following example from the package’s manual.
 
 ``` r
 # Submitting a simple job
-job <- Slurm_EvalQ(sluRm::WhoAmI(), njobs = 20, plan = "submit")
+job <- Slurm_EvalQ(slurmR::WhoAmI(), njobs = 20, plan = "submit")
 
 # Checking the status of the job (we can simply print)
 job
@@ -182,12 +183,12 @@ Slurm_clean(res)
 
 Take a look at the vignette [here](vignettes/getting-started.Rmd).
 
-## Example 3: Using sluRm and future/doParallel/boot/…
+## Example 3: Using slurmR and future/doParallel/boot/…
 
 The function `makeSlurmCluster` creates a PSOCK cluster within a Slurm
 HPC network, meaning that users can go beyond a single node cluster
 object and take advantage of Slurm to create a multi-node cluster
-object. This feature allows then using `sluRm` with other R packages
+object. This feature allows then using `slurmR` with other R packages
 that support working with `SOCKcluster` class objects. Here are some
 examples
 
@@ -195,7 +196,7 @@ With the [`future`](https://cran.r-project.org/package=future) package
 
 ``` r
 library(future)
-library(sluRm)
+library(slurmR)
 
 cl <- makeSlurmCluster(50)
 
@@ -213,7 +214,7 @@ package
 
 ``` r
 library(doParallel)
-library(sluRm)
+library(slurmR)
 
 cl <- makeSlurmCluster(50)
 
@@ -367,7 +368,7 @@ active
 
 <td height="36" align="left" valign="middle" bgcolor="#CCCCCC">
 
-<b>sluRm</b>
+<b>slurmR</b>
 
 </td>
 
@@ -665,10 +666,10 @@ R.
 
 ## Contributing
 
-We welcome contributions to `sluRm`. Whether it is reporting a bug,
+We welcome contributions to `slurmR`. Whether it is reporting a bug,
 starting a discussion by asking a question, or proposing/requesting a
 new feature, please go by creating a new issue
-[here](https://github.com/USCbiostats/sluRm/issues) so that we can talk
+[here](https://github.com/USCbiostats/slurmR/issues) so that we can talk
 about it.
 
 Please note that this project is released with a Contributor Code of

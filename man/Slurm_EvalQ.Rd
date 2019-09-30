@@ -4,8 +4,8 @@
 \alias{Slurm_EvalQ}
 \title{Submit an expression to be evaluated to multiple jobs.}
 \usage{
-Slurm_EvalQ(expr, njobs = 2L, job_name = opts_sluRm$get_job_name(),
-  tmp_path = opts_sluRm$get_tmp_path(), plan = "collect",
+Slurm_EvalQ(expr, njobs = 2L, job_name = opts_slurmR$get_job_name(),
+  tmp_path = opts_slurmR$get_tmp_path(), plan = "collect",
   sbatch_opt = list(ntasks = 1L), rscript_opt = list(vanilla = TRUE),
   seeds = NULL, compress = TRUE, export = NULL,
   libPaths = .libPaths(), hooks = NULL)
@@ -21,7 +21,7 @@ cores to be used.}
 
 \item{tmp_path}{Character. Path to the directory where all the data (including
 scripts) will be stored. Notice that this path must be accessible by all the
-nodes in the network (See \link{opts_sluRm}).}
+nodes in the network (See \link{opts_slurmR}).}
 
 \item{plan}{A character scalar. (See \link{the_plan}).}
 

@@ -6,7 +6,7 @@ check_path <- function() {
   # Path specification
   path <- sprintf(
     "%s/%s",
-    opts_sluRm$get_tmp_path(), opts_sluRm$get_job_name()
+    opts_slurmR$get_tmp_path(), opts_slurmR$get_job_name()
     )
 
   # The thing
@@ -79,7 +79,7 @@ parse_flags.list <- function(x, ...) {
 
 #' Full path names for Slurm jobs
 #'
-#' Using [opts_sluRm]`$get_tmp_path` and [opts_sluRm]`$get_job_name` creates
+#' Using [opts_slurmR]`$get_tmp_path` and [opts_slurmR]`$get_job_name` creates
 #' file names with full path to the objects. This function is intended for
 #' internal use only.
 #'
@@ -113,8 +113,8 @@ snames <- function(type, array_id) {
 
   sprintf(
     "%s/%s/%s",
-    opts_sluRm$get_tmp_path(),
-    opts_sluRm$get_job_name(),
+    opts_slurmR$get_tmp_path(),
+    opts_slurmR$get_job_name(),
     type
   )
 
@@ -318,10 +318,10 @@ print.slurm_status <- function(x, ...) {
 
 #' A wrapper of [Sys.getenv]
 #'
-#' This function is used within the R script written by `sluRm` to get the
+#' This function is used within the R script written by `slurmR` to get the
 #' current value of `SLURM_ARRAY_TASK_ID`, an environment variable that Slurm
-#' creates when running an array. In the case that `opts_sluRm$get_debug() == TRUE`,
-#' the function will return a 1 (see [opts_sluRm]).
+#' creates when running an array. In the case that `opts_slurmR$get_debug() == TRUE`,
+#' the function will return a 1 (see [opts_slurmR]).
 #'
 #' @return If slurm is available and the R session is running under a job
 #' array, meaning that `SLURM_ARRAY_TASK_ID` is defined, then it returns that
@@ -368,7 +368,7 @@ Slurm_env <- function(x) {
 Slurm_clean <- function(x) {
 
   # Checking if the job is running
-  s <- if (opts_sluRm$get_debug() | !slurm_available()) 0
+  s <- if (opts_slurmR$get_debug() | !slurm_available()) 0
     else status(x)
 
   if (s %in% 1L:3L)
@@ -378,7 +378,7 @@ Slurm_clean <- function(x) {
   # Path specification
   path <- sprintf(
     "%s/%s",
-    opts_sluRm$get_tmp_path(), opts_sluRm$get_job_name()
+    opts_slurmR$get_tmp_path(), opts_slurmR$get_job_name()
   )
 
   if (dir.exists(path))
@@ -391,7 +391,7 @@ Slurm_clean <- function(x) {
 #' Information about where jobs are submitted
 #'
 #' This returns a named vector with the following variables:
-#' \Sexpr{paste(names(slurrm::WhoAmI()), collapse = ", ")}
+#' \Sexpr{paste(names(slurmR::WhoAmI()), collapse = ", ")}
 #' @export
 #' @return A character vector with the corresponding system environment variables'
 #' values.
@@ -410,7 +410,7 @@ WhoAmI <- function() {
 
   ans <- structure(sapply(vars, Sys.getenv), names = vars)
   # I only do this b/c I may need to use this in other context
-  if (!slurm_available() | opts_sluRm$get_debug()) {
+  if (!slurm_available() | opts_slurmR$get_debug()) {
     ans["SLURM_TASK_PID"] <- Sys.getpid()
     ans["SLURMD_NODENAME"] <- "localhost"
     ans["SLURM_ARRAY_TASK_ID"] <- 1

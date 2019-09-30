@@ -105,14 +105,14 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="3.959798"
-     inkscape:cx="43.011062"
-     inkscape:cy="89.962925"
+     inkscape:cx="69.148759"
+     inkscape:cy="89.710387"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1855"
      inkscape:window-height="1056"
-     inkscape:window-x="65"
+     inkscape:window-x="1985"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
      inkscape:snap-grids="true"
@@ -244,12 +244,12 @@
        id="path3736"
        sodipodi:cx="58.208336"
        sodipodi:cy="203.85609"
-       sodipodi:expansion="0.17"
+       sodipodi:expansion="2.96"
        sodipodi:revolution="0.40000001"
        sodipodi:radius="11.930826"
        sodipodi:argument="-3.9269907"
-       sodipodi:t0="0.57999998"
-       d="m 49.699366,197.0829 c 2.174767,-3.49825 6.311688,-5.37559 10.375364,-5.01074"
+       sodipodi:t0="0.76999998"
+       d="m 55.959108,198.83259 c 0.426047,-2.67296 2.098391,-5.02742 4.115622,-6.76043"
        inkscape:export-xdpi="201.92999"
        inkscape:export-ydpi="201.92999" />
     <g
@@ -1103,53 +1103,33 @@
        inkscape:export-ydpi="201.92999"
        inkscape:label="border"
        transform="matrix(0.26458333,0,0,0.26458333,30.402855,170.93828)" />
-    <g
-       id="g3732"
-       inkscape:label="sluRm"
-       transform="matrix(1.1400534,0,0,1.1400534,-5.2064704,-27.455474)"
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8.46666622px;line-height:125%;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#5c5c5c;fill-opacity:1;stroke:#ffffff;stroke-width:0.29725465;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       x="31.757921"
+       y="202.39568"
+       id="text1020-4"
        inkscape:export-xdpi="201.92999"
-       inkscape:export-ydpi="201.92999">
-      <text
-         inkscape:label="text"
-         inkscape:export-ydpi="201.92999"
-         inkscape:export-xdpi="201.92999"
-         id="text1020-4"
-         y="205.4872"
-         x="32.706577"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:9.19832802px;line-height:125%;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#5c5c5c;fill-opacity:1;stroke:#ffffff;stroke-width:0.26073748;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         xml:space="preserve"><tspan
-           y="205.4872"
-           x="32.706577"
-           id="tspan2583"
-           sodipodi:role="line">slu</tspan></text>
-      <text
-         inkscape:label="text"
-         inkscape:export-ydpi="201.92999"
-         inkscape:export-xdpi="201.92999"
-         id="text1020-4-3"
-         y="205.45583"
-         x="53.574036"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:9.19832802px;line-height:125%;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#5c5c5c;fill-opacity:1;stroke:#ffffff;stroke-width:0.26073748;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         xml:space="preserve"><tspan
-           y="205.45583"
-           x="53.574036"
-           id="tspan2583-7"
-           sodipodi:role="line"
-           style="fill:#5c5c5c;fill-opacity:1;stroke-width:0.26073748">m</tspan></text>
-      <text
-         inkscape:label="text"
-         inkscape:export-ydpi="201.92999"
-         inkscape:export-xdpi="201.92999"
-         id="text1020-4-4"
-         y="205.58838"
-         x="45.575203"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:15.875px;line-height:125%;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#046e00;stroke-width:0.26073748;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         xml:space="preserve"><tspan
-           y="205.58838"
-           x="45.575203"
-           id="tspan2583-5"
-           sodipodi:role="line"
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:15.875px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#046e00;stroke-width:0.26073748;stroke-opacity:1">R</tspan></text>
-    </g>
+       inkscape:export-ydpi="201.92999"
+       inkscape:label="text"><tspan
+         sodipodi:role="line"
+         id="tspan166"
+         x="31.757921"
+         y="202.39568">slurm</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.98559093px;line-height:125%;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#046e00;stroke-width:0.29725465;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       x="52.752449"
+       y="207.53107"
+       id="text1020-4-4"
+       inkscape:export-xdpi="201.92999"
+       inkscape:export-ydpi="201.92999"
+       inkscape:label="text"
+       transform="scale(0.99884133,1.00116)"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.98559093px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:#046e00;stroke-width:0.29725465;stroke-opacity:1"
+         sodipodi:role="line"
+         id="tspan2583-5"
+         x="52.752449"
+         y="207.53107">R</tspan></text>
   </g>
 </svg>

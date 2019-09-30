@@ -38,8 +38,8 @@ Slurm_Map <- function(
   ...,
   njobs       = 2L,
   mc.cores    = 1L,
-  job_name    = opts_sluRm$get_job_name(),
-  tmp_path    = opts_sluRm$get_tmp_path(),
+  job_name    = opts_slurmR$get_job_name(),
+  tmp_path    = opts_slurmR$get_tmp_path(),
   plan        = "collect",
   sbatch_opt  = list(ntasks=1L, `cpus-per-task`=mc.cores),
   rscript_opt = list(vanilla=TRUE),
@@ -91,8 +91,8 @@ Slurm_Map <- function(
   }
 
   # Setting the job name
-  opts_sluRm$set_tmp_path(tmp_path)
-  opts_sluRm$set_job_name(job_name)
+  opts_slurmR$set_tmp_path(tmp_path)
+  opts_slurmR$set_job_name(job_name)
 
   # Writing the data on the disk -----------------------------------------------
   INDICES   <- parallel::splitIndices(length(dots[[1]]), njobs)
@@ -134,8 +134,8 @@ Slurm_Map <- function(
   # Writing the bash script out ------------------------------------------------
   bash <- new_bash(
     njobs    = njobs,
-    job_name = opts_sluRm$get_job_name(),
-    tmp_path = opts_sluRm$get_tmp_path(),
+    job_name = opts_slurmR$get_job_name(),
+    tmp_path = opts_slurmR$get_tmp_path(),
     output   = snames("out"),
     filename = snames("sh")
     )
@@ -157,8 +157,8 @@ Slurm_Map <- function(
     bashfile = snames("sh"),
     robjects = NULL,
     njobs    = njobs,
-    opts_job = opts_sluRm$get_opts_job(),
-    opts_r   = opts_sluRm$get_opts_r(),
+    opts_job = opts_slurmR$get_opts_job(),
+    opts_r   = opts_slurmR$get_opts_r(),
     hooks    = hooks
   )
 

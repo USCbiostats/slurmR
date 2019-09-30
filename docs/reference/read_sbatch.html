@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read a slurm batch file and capture the SBATCH options — read_sbatch • sluRm</title>
+<title>Read a slurm batch file and capture the SBATCH options — read_sbatch • slurmR</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -64,7 +64,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">sluRm</a>
+        <a class="navbar-link" href="../index.html">slurmR</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
@@ -88,7 +88,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/getting-started.html">Getting Started with sluRm</a>
+      <a href="../articles/getting-started.html">Getting Started with slurmR</a>
     </li>
   </ul>
 </li>
@@ -99,7 +99,7 @@
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/USCbiostats/sluRm">
+  <a href="https://github.com/USCbiostats/slurmR">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -117,7 +117,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Read a slurm batch file and capture the SBATCH options</h1>
-    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/sluRm/blob/master/R/read_sbatch.R'><code>R/read_sbatch.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/slurmR/blob/master/R/read_sbatch.R'><code>R/read_sbatch.R</code></a></small>
     <div class="hidden name"><code>read_sbatch.Rd</code></div>
     </div>
 
@@ -148,7 +148,7 @@ If no option is found, then returns a character vector length 0.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># Reading in an example script</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"example.slurm"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"sluRm"</span>)
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"example.slurm"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"slurmR"</span>)
 <span class='fu'>read_sbatch</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt;             job-name               output                array 
 #&gt;       "NameOfTheJob"        "logfile.out"              "1-100" 
 #&gt;               ntasks            partition 

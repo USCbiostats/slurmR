@@ -5,8 +5,8 @@
 \alias{stopCluster.slurm_cluster}
 \title{Create a Parallel Socket Cluster using Slurm}
 \usage{
-makeSlurmCluster(n, job_name = opts_sluRm$get_job_name(),
-  tmp_path = opts_sluRm$get_tmp_path(), cluster_opt = list(),
+makeSlurmCluster(n, job_name = opts_slurmR$get_job_name(),
+  tmp_path = opts_slurmR$get_tmp_path(), cluster_opt = list(),
   max_wait = 300L, verb = TRUE, ...)
 
 \method{stopCluster}{slurm_cluster}(cl)
@@ -18,7 +18,7 @@ makeSlurmCluster(n, job_name = opts_sluRm$get_job_name(),
 
 \item{tmp_path}{Character. Path to the directory where all the data (including
 scripts) will be stored. Notice that this path must be accessible by all the
-nodes in the network (See \link{opts_sluRm}).}
+nodes in the network (See \link{opts_slurmR}).}
 
 \item{cluster_opt}{A list of arguments passed to \link[parallel:makePSOCKcluster]{parallel::makePSOCKcluster}.}
 

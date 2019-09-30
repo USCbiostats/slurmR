@@ -37,7 +37,7 @@ be applied sequentially to the set of retrieved results before returning.
 \examples{
 \dontrun{
 # Collecting a job after calling it
-job <- Slurm_EvalQ(slurrm::WhoAmI(), njobs = 4, plan = "wait")
+job <- Slurm_EvalQ(slurmR::WhoAmI(), njobs = 4, plan = "wait")
 Slurm_collect(job)
 
 # Collecting a job from a previous R session

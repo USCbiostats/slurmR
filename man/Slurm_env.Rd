@@ -15,10 +15,10 @@ array, meaning that \code{SLURM_ARRAY_TASK_ID} is defined, then it returns that
 value, otherwise it will return \code{1}.
 }
 \description{
-This function is used within the R script written by \code{sluRm} to get the
+This function is used within the R script written by \code{slurmR} to get the
 current value of \code{SLURM_ARRAY_TASK_ID}, an environment variable that Slurm
-creates when running an array. In the case that \code{opts_sluRm$get_debug() == TRUE},
-the function will return a 1 (see \link{opts_sluRm}).
+creates when running an array. In the case that \code{opts_slurmR$get_debug() == TRUE},
+the function will return a 1 (see \link{opts_slurmR}).
 }
 \seealso{
 Other utilities: \code{\link{Slurm_clean}},

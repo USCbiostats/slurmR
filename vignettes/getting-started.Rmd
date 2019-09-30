@@ -1,17 +1,17 @@
 ---
-title: "Getting Started with slurrm"
+title: "Getting Started with slurmR"
 author: "George G. Vega Yon"
 date: "June 26, 2019"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Getting Started with slurrm}
+  %\VignetteIndexEntry{Getting Started with slurmR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 # Introduction
 
-Nowadays, high-performance-computing (HPC) clusters are commonly available tools for either in or out of cloud settings. [Slurm Work Manager](https://slurm.schedmd.com/) (formerly *Simple Linux Utility for Resource Manager*) is a program written in C that is used to efficiently manage resources in HPC clusters. The sluRm R package provides tools for using R in HPC settings that work with Slurm. It provides wrappers and auxiliary functions that allow the user to seamlessly integrate their analysis pipeline with HPC, putting emphasis on providing the user with a family of functions similar to those that the parallel R package provides.
+Nowadays, high-performance-computing (HPC) clusters are commonly available tools for either in or out of cloud settings. [Slurm Work Manager](https://slurm.schedmd.com/) (formerly *Simple Linux Utility for Resource Manager*) is a program written in C that is used to efficiently manage resources in HPC clusters. The slurmR R package provides tools for using R in HPC settings that work with Slurm. It provides wrappers and auxiliary functions that allow the user to seamlessly integrate their analysis pipeline with HPC, putting emphasis on providing the user with a family of functions similar to those that the parallel R package provides.
 
 First, some important definitions
 
@@ -25,9 +25,9 @@ First, some important definitions
 For more information, see https://slurm.schedmd.com/cpu_management.html
 
 
-# Implementation of the `slurrm` package
+# Implementation of the `slurmR` package
 
-Just like `rslurm`, `slurrm` has two levels of job distribution: first, Slurm Jobs (via
+Just like `rslurm`, `slurmR` has two levels of job distribution: first, Slurm Jobs (via
 the `Slurm_lapply` and `Slurm_Map` functions), and second, within each job via `parallel::mclapply`
 and `parallel::mcMap` (task forking).
 
@@ -93,17 +93,17 @@ mean(unlist(ans))
 Which estimates pi using a single node(computer). However, we can simply exploit parallelization using `Slurm_lapply`, by writing
 
 ```{r slurm-opts, warning=FALSE}
-library(slurrm)
+library(slurmR)
 
 # Setting required parameters
-opts_sluRm$set_tmp_path(tempdir())
-opts_sluRm$set_job_name("test1")
+opts_slurmR$set_tmp_path(tempdir())
+opts_slurmR$set_job_name("test1")
 
 # Optional parameters are set via set_opts
-opts_sluRm$set_opts(partition="conti", account="lc_dvc")
+opts_slurmR$set_opts(partition="conti", account="lc_dvc")
 
 # We can look at the setup
-opts_sluRm
+opts_slurmR
 ```
 
 

@@ -7,15 +7,15 @@
 \title{The Slurm version of the \code{\link[=lapply]{*apply}} family of functions.}
 \usage{
 Slurm_Map(f, ..., njobs = 2L, mc.cores = 1L,
-  job_name = opts_sluRm$get_job_name(),
-  tmp_path = opts_sluRm$get_tmp_path(), plan = "collect",
+  job_name = opts_slurmR$get_job_name(),
+  tmp_path = opts_slurmR$get_tmp_path(), plan = "collect",
   sbatch_opt = list(ntasks = 1L, `cpus-per-task` = mc.cores),
   rscript_opt = list(vanilla = TRUE), seeds = NULL, compress = TRUE,
   export = NULL, libPaths = .libPaths(), hooks = NULL)
 
 Slurm_lapply(X, FUN, ..., njobs = 2L, mc.cores = 1L,
-  job_name = opts_sluRm$get_job_name(),
-  tmp_path = opts_sluRm$get_tmp_path(), plan = "collect",
+  job_name = opts_slurmR$get_job_name(),
+  tmp_path = opts_slurmR$get_tmp_path(), plan = "collect",
   sbatch_opt = list(ntasks = 1L, `cpus-per-task` = mc.cores),
   rscript_opt = list(vanilla = TRUE), seeds = NULL, compress = TRUE,
   export = NULL, libPaths = .libPaths(), hooks = NULL)
@@ -31,7 +31,7 @@ cores to be used.}
 
 \item{tmp_path}{Character. Path to the directory where all the data (including
 scripts) will be stored. Notice that this path must be accessible by all the
-nodes in the network (See \link{opts_sluRm}).}
+nodes in the network (See \link{opts_slurmR}).}
 
 \item{plan}{A character scalar. (See \link{the_plan}).}
 

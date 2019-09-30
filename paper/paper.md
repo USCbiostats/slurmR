@@ -1,5 +1,5 @@
 ---
-title: 'slurrm: A lightweight wrapper for HPC with Slurm'
+title: 'slurmR: A lightweight wrapper for HPC with Slurm'
 authors:
 - affiliation: 1
   name: George G Vega Yon
@@ -26,11 +26,11 @@ affiliations:
 
 Nowadays, high-performance-computing (HPC) clusters are commonly available tools for either **in** or **out** of cloud settings. [Slurm Workload Manager](https://slurm.schedmd.com/) (see @Jette02slurm) is a program written in C that is used to efficiently manage resources in HPC clusters.
 
-While the R programming language [@R] has not been developed for HPC settings, there are currently several ways in which R can be enhanced by means of HPC. The `slurrm` R package is one of those ways.
+While the R programming language [@R] has not been developed for HPC settings, there are currently several ways in which R can be enhanced by means of HPC. The `slurmR` R package is one of those ways.
 
-The `slurrm` R package provides tools for using R in HPC settings that work with Slurm. It provides wrappers and auxiliary functions that allow the user to seamlessly integrate their analysis pipeline with HPC, putting emphasis on providing the user with a family of functions similar to those that the `parallel` R package [@R] provides.
+The `slurmR` R package provides tools for using R in HPC settings that work with Slurm. It provides wrappers and auxiliary functions that allow the user to seamlessly integrate their analysis pipeline with HPC, putting emphasis on providing the user with a family of functions similar to those that the `parallel` R package [@R] provides.
 
-While there are other tools for integrating R in a HPC envirnment that works with Slurm--see for example `rslurm`[@Marchand2018], `batchtools` [@Bischl2015], `drake` [@Landau2018], `future.batchtools` [@Bengtsson2019], `clustermq` [@Schubert2019]--`slurrm` has some advantages regarding syntax, number of dependencies, and flexibility (in terms of the integration with Slurm itself). In particular, you may want to use `slurrm` if you:
+While there are other tools for integrating R in a HPC envirnment that works with Slurm--see for example `rslurm`[@Marchand2018], `batchtools` [@Bischl2015], `drake` [@Landau2018], `future.batchtools` [@Bengtsson2019], `clustermq` [@Schubert2019]--`slurmR` has some advantages regarding syntax, number of dependencies, and flexibility (in terms of the integration with Slurm itself). In particular, you may want to use `slurmR` if you:
 
 1. Need a dependency-free tool. Besides of Slurm itself[^actually], this R package only depends on other R packages that are part of base R.,
 
@@ -46,9 +46,9 @@ Other features that are included with this R package, and that are available in 
 
 5. resubmit failed jobs: A very common issue with heterogenous computing clusters is the fact that some jobs succeed while others fail. Partial-job-resubmission is out-of-the-box as users can specify which jobs (as in Job Arrays) should be re-run.
 
-Both of the latter two also available in `batchtools`. A comparison table of R packages that work with Slurm is available at https://github.com/USCbiostats/slurrm.
+Both of the latter two also available in `batchtools`. A comparison table of R packages that work with Slurm is available at https://github.com/USCbiostats/slurmR.
 
-In summary, `slurrm` provides a dependency-free and purpose-built alternative for R users working in a HPC environment with Slurm.
+In summary, `slurmR` provides a dependency-free and purpose-built alternative for R users working in a HPC environment with Slurm.
 
 # Funding and Support
 

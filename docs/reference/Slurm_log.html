@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Check the R logfile of a job. — Slurm_log • sluRm</title>
+<title>Check the R logfile of a job. — Slurm_log • slurmR</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -66,7 +66,7 @@ used to check the log files of jobs in the array that failed." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">sluRm</a>
+        <a class="navbar-link" href="../index.html">slurmR</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
@@ -90,7 +90,7 @@ used to check the log files of jobs in the array that failed." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/getting-started.html">Getting Started with sluRm</a>
+      <a href="../articles/getting-started.html">Getting Started with slurmR</a>
     </li>
   </ul>
 </li>
@@ -101,7 +101,7 @@ used to check the log files of jobs in the array that failed." />
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/USCbiostats/sluRm">
+  <a href="https://github.com/USCbiostats/slurmR">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -119,7 +119,7 @@ used to check the log files of jobs in the array that failed." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Check the R logfile of a job.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/sluRm/blob/master/R/Slurm_log.R'><code>R/Slurm_log.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/slurmR/blob/master/R/Slurm_log.R'><code>R/Slurm_log.R</code></a></small>
     <div class="hidden name"><code>Slurm_log.Rd</code></div>
     </div>
 
@@ -168,7 +168,7 @@ log file.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Slurm_EvalQ.html'>Slurm_EvalQ</a></span>(<span class='kw pkg'>sluRm</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/sluRm/topics/WhoAmI'>whoami</a></span>(), <span class='kw'>plan</span> <span class='kw'>=</span> <span class='st'>"wait"</span>)
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Slurm_EvalQ.html'>Slurm_EvalQ</a></span>(<span class='kw pkg'>slurmR</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/slurmR/topics/WhoAmI'>whoami</a></span>(), <span class='kw'>plan</span> <span class='kw'>=</span> <span class='st'>"wait"</span>)
 <span class='fu'>Slurm_log</span>(<span class='no'>x</span>) <span class='co'># Checking the R log</span>
 <span class='co'># }</span></pre>
   </div>

@@ -15,7 +15,7 @@ values.
 }
 \description{
 This returns a named vector with the following variables:
-\Sexpr{paste(names(slurrm::WhoAmI()), collapse = ", ")}
+\Sexpr{paste(names(slurmR::WhoAmI()), collapse = ", ")}
 }
 \details{
 \code{whoami} is just an alias of \code{WhoAmI}.

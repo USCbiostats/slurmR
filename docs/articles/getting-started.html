@@ -5,11 +5,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Getting Started with sluRm • sluRm</title>
+<title>Getting Started with slurmR • slurmR</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Getting Started with sluRm">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Getting Started with slurmR">
 <meta property="og:description" content="">
 <meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
@@ -30,7 +30,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">sluRm</a>
+        <a class="navbar-link" href="../index.html">slurmR</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
@@ -54,7 +54,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/getting-started.html">Getting Started with sluRm</a>
+      <a href="../articles/getting-started.html">Getting Started with slurmR</a>
     </li>
   </ul>
 </li>
@@ -64,7 +64,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/USCbiostats/sluRm">
+  <a href="https://github.com/USCbiostats/slurmR">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -81,12 +81,12 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Getting Started with sluRm</h1>
+      <h1>Getting Started with slurmR</h1>
                         <h4 class="author">George G. Vega Yon</h4>
             
             <h4 class="date">June 26, 2019</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/USCbiostats/sluRm/blob/master/vignettes/getting-started.Rmd"><code>vignettes/getting-started.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/USCbiostats/slurmR/blob/master/vignettes/getting-started.Rmd"><code>vignettes/getting-started.Rmd</code></a></small>
       <div class="hidden name"><code>getting-started.Rmd</code></div>
 
     </div>
@@ -96,7 +96,7 @@
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
-<p>Nowadays, high-performance-computing (HPC) clusters are commonly available tools for either in or out of cloud settings. <a href="https://slurm.schedmd.com/">Slurm Work Manager</a> (formerly <em>Simple Linux Utility for Resource Manager</em>) is a program written in C that is used to efficiently manage resources in HPC clusters. The sluRm R package provides tools for using R in HPC settings that work with Slurm. It provides wrappers and auxiliary functions that allow the user to seamlessly integrate their analysis pipeline with HPC, putting emphasis on providing the user with a family of functions similar to those that the parallel R package provides.</p>
+<p>Nowadays, high-performance-computing (HPC) clusters are commonly available tools for either in or out of cloud settings. <a href="https://slurm.schedmd.com/">Slurm Work Manager</a> (formerly <em>Simple Linux Utility for Resource Manager</em>) is a program written in C that is used to efficiently manage resources in HPC clusters. The slurmR R package provides tools for using R in HPC settings that work with Slurm. It provides wrappers and auxiliary functions that allow the user to seamlessly integrate their analysis pipeline with HPC, putting emphasis on providing the user with a family of functions similar to those that the parallel R package provides.</p>
 <p>First, some important definitions</p>
 <ol style="list-style-type: decimal">
 <li>
@@ -113,10 +113,10 @@
 </ol>
 <p>For more information, see <a href="https://slurm.schedmd.com/cpu_management.html" class="uri">https://slurm.schedmd.com/cpu_management.html</a></p>
 </div>
-<div id="implementation-of-the-slurrm-package" class="section level1">
+<div id="implementation-of-the-slurmr-package" class="section level1">
 <h1 class="hasAnchor">
-<a href="#implementation-of-the-slurrm-package" class="anchor"></a>Implementation of the <code>sluRrm</code> package</h1>
-<p>Just like <code>rslurm</code>, <code>sluRm</code> has two levels of job distribution: first, Slurm Jobs (via the <code>Slurm_lapply</code> and <code>Slurm_Map</code> functions), and second, within each job via <code><a href="https://www.rdocumentation.org/packages/parallel/topics/mclapply">parallel::mclapply</a></code> and <code><a href="https://www.rdocumentation.org/packages/parallel/topics/mclapply">parallel::mcMap</a></code> (task forking).</p>
+<a href="#implementation-of-the-slurmr-package" class="anchor"></a>Implementation of the <code>slurmR</code> package</h1>
+<p>Just like <code>rslurm</code>, <code>slurmR</code> has two levels of job distribution: first, Slurm Jobs (via the <code>Slurm_lapply</code> and <code>Slurm_Map</code> functions), and second, within each job via <code><a href="https://www.rdocumentation.org/packages/parallel/topics/mclapply">parallel::mclapply</a></code> and <code><a href="https://www.rdocumentation.org/packages/parallel/topics/mclapply">parallel::mcMap</a></code> (task forking).</p>
 <p>In general, the function <code>Slurm_*</code> is implemented as follows:</p>
 <ol style="list-style-type: decimal">
 <li><p>List whatever R packages are loaded, including the path to the R package.</p></li>
@@ -148,21 +148,21 @@
 <a class="sourceLine" id="cb2-2" title="2">ans &lt;-<span class="st"> </span>parallel<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/parallel/topics/mclapply">mclapply</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="fl">1e6</span>, <span class="dv">100</span>), simpi)</a>
 <a class="sourceLine" id="cb2-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unlist">unlist</a></span>(ans))</a></code></pre></div>
 <p>Which estimates pi using a single node(computer). However, we can simply exploit parallelization using <code>Slurm_lapply</code>, by writing</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sluRm)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(slurmR)</a></code></pre></div>
 <pre><code>## Loading required package: parallel</code></pre>
-<pre><code>## On load, `sluRm` sets default options for your jobs: (1) `tmp_path`, which is the default directory where sluRm will use to create the auxiliar files (default to getwd()), and (2) `job-name`, which is the option of the same name in Slurm. You can view/set these at:
-##    ?opts_sluRm
+<pre><code>## On load, `slurmR` sets default options for your jobs: (1) `tmp_path`, which is the default directory where `slurmR` will use to create the auxiliar files (default to getwd()), and (2) `job-name`, which is the option of the same name in Slurm. You can view/set these at:
+##    ?opts_slurmR
 ## or you could just type
-##    "opts_sluRm".</code></pre>
+##    "opts_slurmR".</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="co"># Setting required parameters</span></a>
-<a class="sourceLine" id="cb6-2" title="2">opts_sluRm<span class="op">$</span><span class="kw">set_tmp_path</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>())</a>
-<a class="sourceLine" id="cb6-3" title="3">opts_sluRm<span class="op">$</span><span class="kw">set_job_name</span>(<span class="st">"test1"</span>)</a>
+<a class="sourceLine" id="cb6-2" title="2">opts_slurmR<span class="op">$</span><span class="kw">set_tmp_path</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>())</a>
+<a class="sourceLine" id="cb6-3" title="3">opts_slurmR<span class="op">$</span><span class="kw">set_job_name</span>(<span class="st">"test1"</span>)</a>
 <a class="sourceLine" id="cb6-4" title="4"></a>
 <a class="sourceLine" id="cb6-5" title="5"><span class="co"># Optional parameters are set via set_opts</span></a>
-<a class="sourceLine" id="cb6-6" title="6">opts_sluRm<span class="op">$</span><span class="kw">set_opts</span>(<span class="dt">partition=</span><span class="st">"conti"</span>, <span class="dt">account=</span><span class="st">"lc_dvc"</span>)</a>
+<a class="sourceLine" id="cb6-6" title="6">opts_slurmR<span class="op">$</span><span class="kw">set_opts</span>(<span class="dt">partition=</span><span class="st">"conti"</span>, <span class="dt">account=</span><span class="st">"lc_dvc"</span>)</a>
 <a class="sourceLine" id="cb6-7" title="7"></a>
 <a class="sourceLine" id="cb6-8" title="8"><span class="co"># We can look at the setup</span></a>
-<a class="sourceLine" id="cb6-9" title="9">opts_sluRm</a></code></pre></div>
+<a class="sourceLine" id="cb6-9" title="9">opts_slurmR</a></code></pre></div>
 <pre><code>## Current default for Slurm jobs:
 ## 
 ## List of 3
@@ -170,7 +170,7 @@
 ##  $ account  : chr "lc_dvc"
 ##  $ job-name : chr "test1"
 ## 
-## To get and set options for Slurm jobs creation use (see ?opts_sluRm):
+## To get and set options for Slurm jobs creation use (see ?opts_slurmR):
 ## 
 ## debug_off : function ()  
 ## debug_on : function ()  
@@ -222,7 +222,7 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#introduction">Introduction</a></li>
-      <li><a href="#implementation-of-the-slurrm-package">Implementation of the <code>sluRrm</code> package</a></li>
+      <li><a href="#implementation-of-the-slurmr-package">Implementation of the <code>slurmR</code> package</a></li>
       <li>
 <a href="#examples">Examples</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#simulating-pi">Simulating Pi</a></li>

@@ -15,7 +15,7 @@ snames(type, array_id)
 A character scalar. The normalized path to the corresponding file.
 }
 \description{
-Using \link{opts_sluRm}\code{$get_tmp_path} and \link{opts_sluRm}\code{$get_job_name} creates
+Using \link{opts_slurmR}\code{$get_tmp_path} and \link{opts_slurmR}\code{$get_job_name} creates
 file names with full path to the objects. This function is intended for
 internal use only.
 }

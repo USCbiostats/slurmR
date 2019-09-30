@@ -18,7 +18,7 @@
 #' @examples
 #' \dontrun{
 #' # Collecting a job after calling it
-#' job <- Slurm_EvalQ(sluRm::WhoAmI(), njobs = 4, plan = "wait")
+#' job <- Slurm_EvalQ(slurmR::WhoAmI(), njobs = 4, plan = "wait")
 #' Slurm_collect(job)
 #'
 #' # Collecting a job from a previous R session
@@ -36,19 +36,19 @@ Slurm_collect <- function(...) UseMethod("Slurm_collect")
 Slurm_collect.slurm_job <- function(x, any. = FALSE, wait = 10L, ...) {
 
   # Making sure the previous setup is kept -------------------------------------
-  old_job_name <- opts_sluRm$get_job_name(check = FALSE)
-  old_tmp_path <- opts_sluRm$get_tmp_path()
+  old_job_name <- opts_slurmR$get_job_name(check = FALSE)
+  old_tmp_path <- opts_slurmR$get_tmp_path()
 
   on.exit({
-    opts_sluRm$set_job_name(old_job_name, check = FALSE, overwrite = FALSE)
-    opts_sluRm$set_tmp_path(old_tmp_path)
+    opts_slurmR$set_job_name(old_job_name, check = FALSE, overwrite = FALSE)
+    opts_slurmR$set_tmp_path(old_tmp_path)
   })
 
   # Setting the job_status -----------------------------------------------------
-  opts_sluRm$set_tmp_path(x$opts_r$tmp_path)
-  opts_sluRm$set_job_name(x$opts_job$`job-name`, overwrite = FALSE)
+  opts_slurmR$set_tmp_path(x$opts_r$tmp_path)
+  opts_slurmR$set_job_name(x$opts_job$`job-name`, overwrite = FALSE)
 
-  res <- if (!opts_sluRm$get_debug()) {
+  res <- if (!opts_slurmR$get_debug()) {
 
     # Checking the state of the job
     S <- status(x)

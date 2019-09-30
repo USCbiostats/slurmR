@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>General purpose function to write R scripts — new_rscript • sluRm</title>
+<title>General purpose function to write R scripts — new_rscript • slurmR</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="General purpose function to write R scripts — new_rscript" />
 
-<meta property="og:description" content="This function will create an object of class sluRm_rscript that can be used
+<meta property="og:description" content="This function will create an object of class slurmR_rscript that can be used
 to write the R component in a batch job." />
 
 <meta property="og:image" content="/logo.png" />
@@ -65,7 +65,7 @@ to write the R component in a batch job." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">sluRm</a>
+        <a class="navbar-link" href="../index.html">slurmR</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
@@ -89,7 +89,7 @@ to write the R component in a batch job." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/getting-started.html">Getting Started with sluRm</a>
+      <a href="../articles/getting-started.html">Getting Started with slurmR</a>
     </li>
   </ul>
 </li>
@@ -100,7 +100,7 @@ to write the R component in a batch job." />
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/USCbiostats/sluRm">
+  <a href="https://github.com/USCbiostats/slurmR">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -118,13 +118,13 @@ to write the R component in a batch job." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>General purpose function to write R scripts</h1>
-    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/sluRm/blob/master/R/rscript.R'><code>R/rscript.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/slurmR/blob/master/R/rscript.R'><code>R/rscript.R</code></a></small>
     <div class="hidden name"><code>new_rscript.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function will create an object of class <code>sluRm_rscript</code> that can be used
+    <p>This function will create an object of class <code>slurmR_rscript</code> that can be used
 to write the R component in a batch job.</p>
     
     </div>
@@ -152,7 +152,7 @@ the R packages to be loaded.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An environment of class <code>sluRm_rscript</code>. This has the following accessible
+    <p>An environment of class <code>slurmR_rscript</code>. This has the following accessible
 components:</p><ul>
 <li><p><code>add_rds</code> Add rds files to be loaded in each job.", <code>x</code> is a named list
 with the objects that should be loaded in the jobs. If <code>index = TRUE</code> the
@@ -160,7 +160,7 @@ function assumes that the user will be accessing a particular subset of <code>x<
 during the job, which is accessed according to <code>INDICES[[ARRAY_ID]]</code>. The
 option <code>compress</code> is passed to <a href='https://www.rdocumentation.org/packages/base/topics/readRDS'>saveRDS</a>.</p>
 <p>One important side effect is that when this function is called, the object
-will be saved in the current job directory, this is <code>opts_sluRm$get_tmp_path()</code>.</p></li>
+will be saved in the current job directory, this is <code>opts_slurmR$get_tmp_path()</code>.</p></li>
 <li><p><code>append</code> Adds a line to the R script. Its only argument, <code>x</code> is a character
 vector that will be added to the R script.</p></li>
 <li><p><code>rscript</code> A character vector. This is the actual R script that will be written

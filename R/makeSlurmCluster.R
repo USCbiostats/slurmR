@@ -7,8 +7,8 @@ get_hosts <- function(ntasks=1, tmp_path = getwd(), ...) {
   })
 
   # Creating job name and file
-  fn   <- tempfile("sluRm-job-")
-  jn   <- gsub(".+(?=sluRm-job-)", "", fn, perl = TRUE)
+  fn   <- tempfile("slurmR-job-")
+  jn   <- gsub(".+(?=slurmR-job-)", "", fn, perl = TRUE)
   out  <- sprintf("%s/%s.out", tmp_path, jn)
 
   # Writing the script
@@ -118,8 +118,8 @@ get_hosts <- function(ntasks=1, tmp_path = getwd(), ...) {
 #'
 makeSlurmCluster <- function(
   n,
-  job_name       = opts_sluRm$get_job_name(),
-  tmp_path       = opts_sluRm$get_tmp_path(),
+  job_name       = opts_slurmR$get_job_name(),
+  tmp_path       = opts_slurmR$get_tmp_path(),
   cluster_opt    = list(),
   max_wait       = 300L,
   verb           = TRUE,
@@ -128,14 +128,14 @@ makeSlurmCluster <- function(
 
   if (n > 128L)
     warning(
-      "By this version of sluRm, the maximum number of connections in R ",
+      "By this version of slurmR, the maximum number of connections in R ",
       "is 128. makeSlurmCluster will try to create the cluster object, ",
       "but it is possible that the function fails to do so (see ?makeSlurmCluster).",
       immediate. = TRUE
       )
 
   # No need of anything fancy in this case!
-  if (opts_sluRm$get_debug())
+  if (opts_slurmR$get_debug())
     return(do.call(parallel::makePSOCKcluster, list(names = n, cluster_opt)))
 
   sbatch_opt <- list(...)
@@ -206,7 +206,7 @@ makeSlurmCluster <- function(
 
     # In the case of debug mode on, we don't need to check for the job status.
     # we can go directly to the R sessions
-    if (!opts_sluRm$get_debug())
+    if (!opts_slurmR$get_debug())
       s <- status(job$jobid)
 
     # One or more failed
@@ -276,7 +276,7 @@ stopCluster.slurm_cluster <- function(cl) {
   class(cl) <- setdiff(class(cl), "slurm_cluster")
   parallel::stopCluster(cl)
 
-  if (!opts_sluRm$get_debug())
+  if (!opts_slurmR$get_debug())
     scancel(attr(cl, "SLURM_JOBID"))
 
   invisible()

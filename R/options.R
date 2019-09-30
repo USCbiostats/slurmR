@@ -1,9 +1,9 @@
 
-#' Get and set default options for `sbatch` and `sluRm` internals
+#' Get and set default options for `sbatch` and `slurmR` internals
 #'
-#' Most of the functions in the `sluRm` package use `tmp_path` and `job-name`
+#' Most of the functions in the `slurmR` package use `tmp_path` and `job-name`
 #' options to write and submit jobs to **Slurm**. These options have global
-#' defaults that are set and retrieved using `opts_sluRm`.
+#' defaults that are set and retrieved using `opts_slurmR`.
 #'
 #' Whatever the path specified on `tmp_path`, all nodes should have access to it.
 #' Moreover, it is recommended to use a path located in a high-performing drive.
@@ -17,55 +17,55 @@
 #'
 #' Debugging mode
 #'
-#' - `debug_on : function ()` \Sexpr{attr(sluRm::opts_sluRm$debug_on, "desc")}
+#' - `debug_on : function ()` \Sexpr{attr(slurmR::opts_slurmR$debug_on, "desc")}
 #'
-#' - `debug_off : function ()` \Sexpr{attr(sluRm::opts_sluRm$debug_off, "desc")}
+#' - `debug_off : function ()` \Sexpr{attr(slurmR::opts_slurmR$debug_off, "desc")}
 #'
-#' - `get_debug : function ()` \Sexpr{attr(sluRm::opts_sluRm$get_debug, "desc")}
+#' - `get_debug : function ()` \Sexpr{attr(slurmR::opts_slurmR$get_debug, "desc")}
 #'
 #' Verbose mode
 #'
-#' - `verbose_on : function ()` \Sexpr{attr(sluRm::opts_sluRm$verbose_on, "desc")}
+#' - `verbose_on : function ()` \Sexpr{attr(slurmR::opts_slurmR$verbose_on, "desc")}
 #'
-#' - `verbose_off : function ()` \Sexpr{attr(sluRm::opts_sluRm$verbose_off, "desc")}
+#' - `verbose_off : function ()` \Sexpr{attr(slurmR::opts_slurmR$verbose_off, "desc")}
 #'
-#' - `get_verbose : function ()` \Sexpr{attr(sluRm::opts_sluRm$get_verbose, "desc")}
+#' - `get_verbose : function ()` \Sexpr{attr(slurmR::opts_slurmR$get_verbose, "desc")}
 #'
 #' Slurm options
 #'
-#' - `set_tmp_path : function (path, recursive = TRUE)` \Sexpr{attr(sluRm::opts_sluRm$set_tmp_path, "desc")}
+#' - `set_tmp_path : function (path, recursive = TRUE)` \Sexpr{attr(slurmR::opts_slurmR$set_tmp_path, "desc")}
 #'
-#' - `get_tmp_path : function ()` \Sexpr{attr(sluRm::opts_sluRm$get_tmp_path, "desc")}
+#' - `get_tmp_path : function ()` \Sexpr{attr(slurmR::opts_slurmR$get_tmp_path, "desc")}
 #'
-#' - `set_job_name : function (path, check = TRUE, overwrite = TRUE)` \Sexpr{attr(sluRm::opts_sluRm$set_job_name, "desc")}.
+#' - `set_job_name : function (path, check = TRUE, overwrite = TRUE)` \Sexpr{attr(slurmR::opts_slurmR$set_job_name, "desc")}.
 #'
-#' - `get_job_name : function (check = TRUE)` \Sexpr{attr(sluRm::opts_sluRm$get_job_name, "desc")}
+#' - `get_job_name : function (check = TRUE)` \Sexpr{attr(slurmR::opts_slurmR$get_job_name, "desc")}
 #'
 #' Other options
 #'
-#' - `get_cmd : function ()` \Sexpr{attr(sluRm::opts_sluRm$get_cmd, "desc")}
+#' - `get_cmd : function ()` \Sexpr{attr(slurmR::opts_slurmR$get_cmd, "desc")}
 #'
 #'
 #' For general set/retrieve options
 #'
-#' - `set_opts : function (...)` \Sexpr{attr(sluRm::opts_sluRm$set_opts, "desc")}
+#' - `set_opts : function (...)` \Sexpr{attr(slurmR::opts_slurmR$set_opts, "desc")}
 #'
-#' - `get_opts_job : function (...)` \Sexpr{attr(sluRm::opts_sluRm$get_opts_job, "desc")}
+#' - `get_opts_job : function (...)` \Sexpr{attr(slurmR::opts_slurmR$get_opts_job, "desc")}
 #'
-#' - `get_opts_r : function (...)` \Sexpr{attr(sluRm::opts_sluRm$get_opts_r, "desc")}
+#' - `get_opts_r : function (...)` \Sexpr{attr(slurmR::opts_slurmR$get_opts_r, "desc")}
 #'
 #'
 #' @examples
 #'
 #' # Common setup
 #' \dontrun{
-#' opts_sluRm$set_tmp_path("/staging/pdt/vegayon")
-#' opts_sluRm$set_job_name("simulations-1")
+#' opts_slurmR$set_tmp_path("/staging/pdt/vegayon")
+#' opts_slurmR$set_job_name("simulations-1")
 #' opts_slurm$set_opts(partition="thomas", account="lc_pdt")
 #' }
 #'
 #' @export
-opts_sluRm <- (function() {
+opts_slurmR <- (function() {
 
   # Default chdir is null and will be set at the first call of the function
   OPTS_SLURM            <- new.env(parent = emptyenv())
@@ -158,7 +158,7 @@ opts_sluRm <- (function() {
     # Checking if one or more have already set
     test <- names(dots)[which(names(dots) %in% c('job-name', "chdir"))]
     if (length(test))
-      warning("The following options can be set via `opts_sluRm$set_*`: `",
+      warning("The following options can be set via `opts_slurmR$set_*`: `",
               paste0(test, collapse="`, `"), "`.", call. = FALSE)
 
     Map(
@@ -217,7 +217,7 @@ opts_sluRm <- (function() {
     OPTS_R$verbose <- TRUE
     message("Debug mode is now active. Which means that jobs will be called via",
             " `sh` and not `sbatch`. You can de-activate debug mode by calling",
-            " opts_sluRm$debug_off(). Notice that only 1/njobs will be submitted",
+            " opts_slurmR$debug_off(). Notice that only 1/njobs will be submitted",
             ", so not all the data will be processed.")
     invisible()
   }
@@ -272,21 +272,21 @@ opts_sluRm <- (function() {
         desc =  "If debug mode is active, then it returns `sh`, otherwise `sbatch`"
       )
     )
-  ), class = "opts_sluRm")
+  ), class = "opts_slurmR")
 
 })()
 
 #' @export
-print.opts_sluRm <- function(x, ...) {
+print.opts_slurmR <- function(x, ...) {
 
   cat("Current default for Slurm jobs:\n\n")
   str(x$get_opts_job())
-  cat("\nTo get and set options for Slurm jobs creation use (see ?opts_sluRm):\n\n")
+  cat("\nTo get and set options for Slurm jobs creation use (see ?opts_slurmR):\n\n")
   print(utils::ls.str(x))
 
   if(x$get_debug())
     cat("Debugging mode is currently active, which means that `sbatch` will use `sh`",
-        " instead (to deactivate it use opts_sluRm$debug_off()).\n")
+        " instead (to deactivate it use opts_slurmR$debug_off()).\n")
 
   invisible(x)
 

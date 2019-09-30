@@ -14,7 +14,7 @@ sourceSlurm(file, job_name = NULL, tmp_path = tempdir(),
 
 \item{tmp_path}{Character. Path to the directory where all the data (including
 scripts) will be stored. Notice that this path must be accessible by all the
-nodes in the network (See \link{opts_sluRm}).}
+nodes in the network (See \link{opts_slurmR}).}
 
 \item{rscript_opt}{List. Options to be passed to \code{Rscript}.}
 
@@ -35,7 +35,7 @@ read from the R script and added to the Slurm job file.
 \examples{
 # In this example we will be sourcing an R script that also has #SBATCH
 # flags. Here are the contents
-file <- system.file("example.R", package="sluRm")
+file <- system.file("example.R", package="slurmR")
 
 cat(readLines(file), sep="\\n")
 # #!/bin/sh
@@ -56,9 +56,9 @@ sourceSlurm(file)
 # the queue using `sbatch`. The resulting file looks something like this
 # #!/bin/sh
 # #SBATCH --job-name=Waiting
-# #SBATCH --output=/home/vegayon/Documents/sluRm/Waiting.out
+# #SBATCH --output=/home/vegayon/Documents/slurmR/Waiting.out
 # #SBATCH --account=lc_ggv
 # #SBATCH --time=01:00:00
 # #SBATCH --mem-per-cpu=4G
-# /usr/lib/R/bin/Rscript --vanilla /usr/local/lib/R/site-library/sluRm/example.R
+# /usr/lib/R/bin/Rscript --vanilla /usr/local/lib/R/site-library/slurmR/example.R
 }

@@ -7,7 +7,7 @@
 #' @examples
 #'
 #' # Reading in an example script
-#' x <- system.file("example.slurm", package="sluRm")
+#' x <- system.file("example.slurm", package="slurmR")
 #' read_sbatch(x)
 #'
 #' @export

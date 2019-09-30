@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Submit an expression to be evaluated to multiple jobs. — Slurm_EvalQ • sluRm</title>
+<title>Submit an expression to be evaluated to multiple jobs. — Slurm_EvalQ • slurmR</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -64,7 +64,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">sluRm</a>
+        <a class="navbar-link" href="../index.html">slurmR</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
@@ -88,7 +88,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/getting-started.html">Getting Started with sluRm</a>
+      <a href="../articles/getting-started.html">Getting Started with slurmR</a>
     </li>
   </ul>
 </li>
@@ -99,7 +99,7 @@
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/USCbiostats/sluRm">
+  <a href="https://github.com/USCbiostats/slurmR">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -117,7 +117,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Submit an expression to be evaluated to multiple jobs.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/sluRm/blob/master/R/evalq.R'><code>R/evalq.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/slurmR/blob/master/R/evalq.R'><code>R/evalq.R</code></a></small>
     <div class="hidden name"><code>Slurm_EvalQ.Rd</code></div>
     </div>
 
@@ -127,8 +127,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>Slurm_EvalQ</span>(<span class='no'>expr</span>, <span class='kw'>njobs</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_job_name</span>(),
-  <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='no'>opts_sluRm</span>$<span class='fu'>get_tmp_path</span>(), <span class='kw'>plan</span> <span class='kw'>=</span> <span class='st'>"collect"</span>,
+    <pre class="usage"><span class='fu'>Slurm_EvalQ</span>(<span class='no'>expr</span>, <span class='kw'>njobs</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='no'>opts_slurmR</span>$<span class='fu'>get_job_name</span>(),
+  <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='no'>opts_slurmR</span>$<span class='fu'>get_tmp_path</span>(), <span class='kw'>plan</span> <span class='kw'>=</span> <span class='st'>"collect"</span>,
   <span class='kw'>sbatch_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>ntasks</span> <span class='kw'>=</span> <span class='fl'>1L</span>), <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
   <span class='kw'>seeds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>compress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>export</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>libPaths</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/libPaths'>.libPaths</a></span>(), <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
@@ -154,7 +154,7 @@ cores to be used.</p></td>
       <th>tmp_path</th>
       <td><p>Character. Path to the directory where all the data (including
 scripts) will be stored. Notice that this path must be accessible by all the
-nodes in the network (See <a href='opts_sluRm.html'>opts_sluRm</a>).</p></td>
+nodes in the network (See <a href='opts_slurmR.html'>opts_slurmR</a>).</p></td>
     </tr>
     <tr>
       <th>plan</th>

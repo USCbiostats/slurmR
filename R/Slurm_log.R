@@ -17,7 +17,7 @@
 #' @family utilities
 #' @examples
 #' \dontrun{
-#' x <- Slurm_EvalQ(sluRm::whoami(), plan = "wait")
+#' x <- Slurm_EvalQ(slurmR::whoami(), plan = "wait")
 #' Slurm_log(x) # Checking the R log
 #' }
 Slurm_log <- function(x, which. = NULL, cmd = "less") {

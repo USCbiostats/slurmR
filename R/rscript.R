@@ -12,7 +12,7 @@ list_loaded_pkgs <- function() {
       gsub(sprintf("/%s/.+", p$Package), "", attr(p, "file"))
     }),
     names = names(pkgs),
-    class = "sluRm_loaded_packages"
+    class = "slurmR_loaded_packages"
   )
 
 }
@@ -23,8 +23,8 @@ list_loaded_pkgs <- function() {
 rscript_header <- function(pkgs, seeds = NULL) {
 
   # For testing purposes, the instalation of the package is somewhere else
-  if ("sluRm" %in% names(pkgs))
-    pkgs[names(pkgs) == "sluRm"] <- NULL
+  if ("slurmR" %in% names(pkgs))
+    pkgs[names(pkgs) == "slurmR"] <- NULL
 
   sprintf("library(%s, lib.loc = \"%s\")", names(pkgs), unlist(pkgs))
 
@@ -41,7 +41,7 @@ save_objects <- function(
   check_path()
 
   # Creating and checking  path
-  path <- sprintf("%s/%s", opts_sluRm$get_tmp_path(), opts_sluRm$get_job_name())
+  path <- sprintf("%s/%s", opts_slurmR$get_tmp_path(), opts_slurmR$get_job_name())
 
   # Saving objects
   for (i in seq_along(objects)) {
@@ -78,7 +78,7 @@ save_objects <- function(
 
 #' General purpose function to write R scripts
 #'
-#' This function will create an object of class `sluRm_rscript` that can be used
+#' This function will create an object of class `slurmR_rscript` that can be used
 #' to write the R component in a batch job.
 #' @param njobs Integer scalar. Number of jobs to be submitted.
 #' @param pkgs A named list with packages to be included. Each element of the list
@@ -86,7 +86,7 @@ save_objects <- function(
 #' the R packages to be loaded.
 #' @param libPaths A character vector. See [.libPaths].
 #'
-#' @return An environment of class `sluRm_rscript`. This has the following accessible
+#' @return An environment of class `slurmR_rscript`. This has the following accessible
 #' components:
 #'
 #' - `add_rds` Add rds files to be loaded in each job.", `x` is a named list
@@ -96,7 +96,7 @@ save_objects <- function(
 #'   option `compress` is passed to [saveRDS].
 #'
 #'   One important side effect is that when this function is called, the object
-#'   will be saved in the current job directory, this is `opts_sluRm$get_tmp_path()`.
+#'   will be saved in the current job directory, this is `opts_slurmR$get_tmp_path()`.
 #'
 #' - `append` Adds a line to the R script. Its only argument, `x` is a character
 #'   vector that will be added to the R script.
@@ -168,8 +168,8 @@ new_rscript <- function(
   env$append(sprintf(
     "%-16s <- \"%s/%s/\"",
     "JOB_PATH",
-    opts_sluRm$get_tmp_path(),
-    opts_sluRm$get_job_name()
+    opts_slurmR$get_tmp_path(),
+    opts_slurmR$get_job_name()
     )
     )
 
@@ -212,8 +212,8 @@ new_rscript <- function(
           "%-16s <- readRDS(\"%s/%s/%1$s.rds\")"
         },
         names(x)[i],
-        opts_sluRm$get_tmp_path(),
-        opts_sluRm$get_job_name()
+        opts_slurmR$get_tmp_path(),
+        opts_slurmR$get_job_name()
       )
 
       # if (split)
@@ -250,12 +250,12 @@ new_rscript <- function(
     writeLines(env$rscript, snames("r"))
   }
 
-  structure(env, class = "sluRm_rscript")
+  structure(env, class = "slurmR_rscript")
 
 }
 
 
-print.sluRm_rscript <- function(x, ...) {
+print.slurmR_rscript <- function(x, ...) {
 
   cat(x$rscript, sep = "\n")
 

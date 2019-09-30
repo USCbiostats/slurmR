@@ -18,7 +18,7 @@
 #' @examples
 #' # In this example we will be sourcing an R script that also has #SBATCH
 #' # flags. Here are the contents
-#' file <- system.file("example.R", package="sluRm")
+#' file <- system.file("example.R", package="slurmR")
 #'
 #' cat(readLines(file), sep="\n")
 #' # #!/bin/sh
@@ -39,11 +39,11 @@
 #' # the queue using `sbatch`. The resulting file looks something like this
 #' # #!/bin/sh
 #' # #SBATCH --job-name=Waiting
-#' # #SBATCH --output=/home/vegayon/Documents/sluRm/Waiting.out
+#' # #SBATCH --output=/home/vegayon/Documents/slurmR/Waiting.out
 #' # #SBATCH --account=lc_ggv
 #' # #SBATCH --time=01:00:00
 #' # #SBATCH --mem-per-cpu=4G
-#' # /usr/lib/R/bin/Rscript --vanilla /usr/local/lib/R/site-library/sluRm/example.R
+#' # /usr/lib/R/bin/Rscript --vanilla /usr/local/lib/R/site-library/slurmR/example.R
 sourceSlurm <- function(
   file,
   job_name    = NULL,

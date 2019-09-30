@@ -28,7 +28,7 @@ stopifnot_slurm <- function() {
   if (!slurm_available())
     stop(
       "Slurm is not available on this system. If you are trying to debug or ",
-      "run some tests, you should set the debug mode on (see opts_sluRm).",
+      "run some tests, you should set the debug mode on (see opts_slurmR).",
       call. = FALSE
       )
 
@@ -168,7 +168,7 @@ hline <- function(..., sep="\n") {
 #' @examples
 #' \dontrun{
 #' # Submitting a simple job
-#' job <- Slurm_EvalQ(sluRm::WhoAmI(), njobs = 4L, plan = "submit")
+#' job <- Slurm_EvalQ(slurmR::WhoAmI(), njobs = 4L, plan = "submit")
 #'
 #' # Checking the status of the job (we can simply print)
 #' job
@@ -197,13 +197,13 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
   # Preparing options
   option <- x$bashfile
 
-  if (!opts_sluRm$get_debug()) {
+  if (!opts_slurmR$get_debug()) {
     option <- c(parse_flags(c(x$opts_job,...)), option)
   } else {
     option <- c(option, paste(">", snames("out"), ifelse(wait, "", "&")))
   }
 
-  if (opts_sluRm$get_verbose()) {
+  if (opts_slurmR$get_verbose()) {
     hline(
       "[VERBOSE MODE ON] The R script that will be used is located at:",
       x$rscript, "and has the following contents:"
@@ -221,18 +221,18 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
   if (submit) {
 
     # If the command used to execute the job is slurm, then this is an error.
-    if (opts_sluRm$get_cmd() == "sbatch")
+    if (opts_slurmR$get_cmd() == "sbatch")
       stopifnot_slurm()
 
     message("Submitting job...", appendLF = FALSE)
-    ans <- silent_system2(opts_sluRm$get_cmd(), option, stdout = TRUE, wait=TRUE)
+    ans <- silent_system2(opts_slurmR$get_cmd(), option, stdout = TRUE, wait=TRUE)
 
   } else {
     warning(
       "[submit = FALSE] The job hasn't been submitted yet.",
       " Use sbatch() to submit the job, or you can submit it via command line",
       " using the following:\n", paste(
-        opts_sluRm$get_cmd(),
+        opts_slurmR$get_cmd(),
         paste(option, collapse=" ")
         ),
       immediate. = TRUE,
@@ -242,7 +242,7 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
   }
 
   # Warning that the call has been made and storing the id
-  if (!opts_sluRm$get_debug()) {
+  if (!opts_slurmR$get_debug()) {
 
     x$jobid <- as.integer(gsub(pattern = ".+ (?=[0-9]+$)", "", ans, perl=TRUE))
     message(" jobid:", x$jobid, ".")
@@ -290,7 +290,7 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
   if (is.na(job_name))
     job_name <- gsub(".+[/](?=[^/]+$)", "", x, perl=TRUE)
 
-  option <- if (!opts_sluRm$get_debug())
+  option <- if (!opts_slurmR$get_debug())
    c(parse_flags(..., `job-name` = job_name), x)
   else c(x, ifelse(wait, "", "&"))
 
@@ -300,7 +300,7 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
       "[submit = FALSE] The job hasn't been submitted yet.",
       " Use sbatch() to submit the job, or you can submit it via command line",
       " using the following:\n", paste(
-        opts_sluRm$get_cmd(),
+        opts_slurmR$get_cmd(),
         paste(option, collapse=" ")
       ),
       immediate. = TRUE,
@@ -310,7 +310,7 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
     return(invisible(NULL))
   }
 
-  if (opts_sluRm$get_verbose()) {
+  if (opts_slurmR$get_verbose()) {
     hline(
       "[VERBOSE MODE ON] The bash file that will be used is located at:",
       x,
@@ -321,12 +321,12 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
   }
 
   # This will stop if slurm is not available
-  if (!opts_sluRm$get_debug())
+  if (!opts_slurmR$get_debug())
     stopifnot_slurm()
 
   # Submitting the job
   message("Submitting job...", appendLF = FALSE)
-  ans <- silent_system2(opts_sluRm$get_cmd(), option, stdout = TRUE, wait=TRUE)
+  ans <- silent_system2(opts_slurmR$get_cmd(), option, stdout = TRUE, wait=TRUE)
 
   jobid <- as.integer(gsub(pattern = ".+ (?=[0-9]+$)", "", ans, perl=TRUE))
   message(" jobid:", jobid, ".")
@@ -351,7 +351,7 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
 #' @noRd
 sbatch_dummy <- function(...) {
 
-  if (opts_sluRm$get_debug()) {
+  if (opts_slurmR$get_debug()) {
     warning("Waiting is not available in debug mode.", call.=FALSE)
     return(0)
   }

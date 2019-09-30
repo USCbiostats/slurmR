@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>R wrappers for <em>Slurm</em> commands — slurm_available • sluRm</title>
+<title>R wrappers for <em>Slurm</em> commands — slurm_available • slurmR</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -65,7 +65,7 @@ wrappers of calls to Slurm functions via system2." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">sluRm</a>
+        <a class="navbar-link" href="../index.html">slurmR</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
@@ -89,7 +89,7 @@ wrappers of calls to Slurm functions via system2." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/getting-started.html">Getting Started with sluRm</a>
+      <a href="../articles/getting-started.html">Getting Started with slurmR</a>
     </li>
   </ul>
 </li>
@@ -100,7 +100,7 @@ wrappers of calls to Slurm functions via system2." />
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/USCbiostats/sluRm">
+  <a href="https://github.com/USCbiostats/slurmR">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -118,7 +118,7 @@ wrappers of calls to Slurm functions via system2." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>R wrappers for <em>Slurm</em> commands</h1>
-    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/sluRm/blob/master/R/bash.R'><code>R/bash.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/slurmR/blob/master/R/bash.R'><code>R/bash.R</code></a></small>
     <div class="hidden name"><code>sbatch.Rd</code></div>
     </div>
 
@@ -239,7 +239,7 @@ file and has information relevant for the scheduler.</p>
 <span class='fu'>slurm_available</span>()</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'>
 </div><span class='co'># NOT RUN {</span>
 <span class='co'># Submitting a simple job</span>
-<span class='no'>job</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Slurm_EvalQ.html'>Slurm_EvalQ</a></span>(<span class='kw pkg'>sluRm</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/sluRm/topics/WhoAmI'>WhoAmI</a></span>(), <span class='kw'>njobs</span> <span class='kw'>=</span> <span class='fl'>4L</span>, <span class='kw'>plan</span> <span class='kw'>=</span> <span class='st'>"submit"</span>)
+<span class='no'>job</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Slurm_EvalQ.html'>Slurm_EvalQ</a></span>(<span class='kw pkg'>slurmR</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/slurmR/topics/WhoAmI'>WhoAmI</a></span>(), <span class='kw'>njobs</span> <span class='kw'>=</span> <span class='fl'>4L</span>, <span class='kw'>plan</span> <span class='kw'>=</span> <span class='st'>"submit"</span>)
 
 <span class='co'># Checking the status of the job (we can simply print)</span>
 <span class='no'>job</span>

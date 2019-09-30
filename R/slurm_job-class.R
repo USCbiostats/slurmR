@@ -11,7 +11,7 @@
 #' @param robjects A character vector of R objects that will be imported in the job.
 #' @param opts_job,opts_r List. In the case of `opts_job`, a list of parameters
 #' passed to [sbatch]. `opts_r` is a list of parameters used within R. Both can
-#' be retrieved by [opts_sluRm]`$get_opts_job()` and [opts_sluRm]`$get_opts_r()`
+#' be retrieved by [opts_slurmR]`$get_opts_job()` and [opts_slurmR]`$get_opts_r()`
 #' respectively.
 #' @param njobs Integer. Number of jobs to start (array).
 #' @param hooks List of functions. To be called on the collected results after
@@ -34,8 +34,8 @@ NULL
 #' - `bashfile` The full path to the bash file to be executed by [sbatch].
 #' - `robjects` Ignored.
 #' - `njobs` The number of jobs to be submitted (job array).
-#' - `opts_job`,`opts_r` Two lists of options as returned by [opts_sluRm]$get_opts_job()
-#' and [opts_sluRm]$get_r_opts() at the moment of the creation of the `slurm_job`.
+#' - `opts_job`,`opts_r` Two lists of options as returned by [opts_slurmR]$get_opts_job()
+#' and [opts_slurmR]$get_r_opts() at the moment of the creation of the `slurm_job`.
 #' - `hooks` A list of functions to be called on the collected objects
 #' by [Slurm_collect].
 #'
@@ -168,16 +168,16 @@ write_slurm_job <- function(x, path = NULL) {
   # Setting the old ones
   if (is.null(path)) {
     oldopts <- c(
-      opts_sluRm$get_opts_job("chdir"),
-      opts_sluRm$get_opts_r("tmp_path")
+      opts_slurmR$get_opts_job("chdir"),
+      opts_slurmR$get_opts_r("tmp_path")
     )
     on.exit({
-      opts_sluRm$set_tmp_path(oldopts$tmp_path)
-      opts_sluRm$set_job_name(oldopts$`job-name`)
+      opts_slurmR$set_tmp_path(oldopts$tmp_path)
+      opts_slurmR$set_job_name(oldopts$`job-name`)
       })
 
-    opts_sluRm$set_tmp_path(x$opts_r$tmp_path)
-    opts_sluRm$set_job_name(x$opts_job$`job-name`)
+    opts_slurmR$set_tmp_path(x$opts_r$tmp_path)
+    opts_slurmR$set_job_name(x$opts_job$`job-name`)
 
     path <- snames("job")
   }

@@ -16,7 +16,7 @@ the R packages to be loaded.}
 \item{libPaths}{A character vector. See \link{.libPaths}.}
 }
 \value{
-An environment of class \code{sluRm_rscript}. This has the following accessible
+An environment of class \code{slurmR_rscript}. This has the following accessible
 components:
 \itemize{
 \item \code{add_rds} Add rds files to be loaded in each job.", \code{x} is a named list
@@ -26,7 +26,7 @@ during the job, which is accessed according to \code{INDICES[[ARRAY_ID]]}. The
 option \code{compress} is passed to \link{saveRDS}.
 
 One important side effect is that when this function is called, the object
-will be saved in the current job directory, this is \code{opts_sluRm$get_tmp_path()}.
+will be saved in the current job directory, this is \code{opts_slurmR$get_tmp_path()}.
 \item \code{append} Adds a line to the R script. Its only argument, \code{x} is a character
 vector that will be added to the R script.
 \item \code{rscript} A character vector. This is the actual R script that will be written
@@ -44,6 +44,6 @@ folder to be used with Slurm.
 }
 }
 \description{
-This function will create an object of class \code{sluRm_rscript} that can be used
+This function will create an object of class \code{slurmR_rscript} that can be used
 to write the R component in a batch job.
 }

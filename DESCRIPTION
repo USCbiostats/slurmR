@@ -1,4 +1,4 @@
-Package: sluRm
+Package: slurmR
 Title: A Lightweight Wrapper for 'Slurm'
 Version: 0.2-0
 Authors@R: c( person("George", "Vega Yon", email = "g.vegayon@gmail.com", role =
@@ -18,8 +18,8 @@ Description: 'Slurm', Simple Linux Utility for Resource Management
   package.
 Depends: R (>= 3.3.0), parallel
 License: MIT + file LICENSE
-BugReports: https://github.com/USCbiostats/sluRm/issues
-URL: https://github.com/USCbiostats/sluRm, https://slurm.schedmd.com/
+BugReports: https://github.com/USCbiostats/slurmR/issues
+URL: https://github.com/USCbiostats/slurmR, https://slurm.schedmd.com/
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

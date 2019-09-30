@@ -10,8 +10,8 @@
 Slurm_EvalQ <- function(
   expr,
   njobs       = 2L,
-  job_name    = opts_sluRm$get_job_name(),
-  tmp_path    = opts_sluRm$get_tmp_path(),
+  job_name    = opts_slurmR$get_job_name(),
+  tmp_path    = opts_slurmR$get_tmp_path(),
   plan        = "collect",
   sbatch_opt  = list(ntasks=1L),
   rscript_opt = list(vanilla=TRUE),
@@ -26,8 +26,8 @@ Slurm_EvalQ <- function(
   plan <- the_plan(plan)
 
   # Setting the job name
-  opts_sluRm$set_tmp_path(tmp_path)
-  opts_sluRm$set_job_name(job_name)
+  opts_slurmR$set_tmp_path(tmp_path)
+  opts_slurmR$set_job_name(job_name)
 
   # Parsing expression ---------------------------------------------------------
   sexpr <- deparse(substitute(expr))
@@ -57,8 +57,8 @@ Slurm_EvalQ <- function(
   # BASH script ----------------------------------------------------------------
   bash <- new_bash(
     njobs    = njobs,
-    job_name = opts_sluRm$get_job_name(),
-    tmp_path = opts_sluRm$get_tmp_path(),
+    job_name = opts_slurmR$get_job_name(),
+    tmp_path = opts_slurmR$get_tmp_path(),
     output   = snames("out"),
     filename = snames("sh")
     )
@@ -78,8 +78,8 @@ Slurm_EvalQ <- function(
     bashfile = snames("sh"),
     robjects = NULL,
     njobs    = njobs,
-    opts_job = opts_sluRm$get_opts_job(),
-    opts_r   = opts_sluRm$get_opts_r(),
+    opts_job = opts_slurmR$get_opts_job(),
+    opts_r   = opts_slurmR$get_opts_r(),
     hooks    = hooks
   )
 

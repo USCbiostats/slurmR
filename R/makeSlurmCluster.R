@@ -136,7 +136,7 @@ makeSlurmCluster <- function(
 
   # No need of anything fancy in this case!
   if (opts_slurmR$get_debug())
-    return(do.call(parallel::makePSOCKcluster, list(names = n, cluster_opt)))
+    return(do.call(parallel::makePSOCKcluster, c(list(names = n), cluster_opt)))
 
   sbatch_opt <- list(...)
 

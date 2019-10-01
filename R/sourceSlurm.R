@@ -7,6 +7,7 @@
 #' @template job_name-tmp_path
 #' @template rscript_opt
 #' @param ... Further options passed to [sbatch].
+#' @param plan A character scalar. (See [the_plan]).
 #'
 #' @details
 #' `sourceSlurm` checks for flags that may be included in the Slurm job file. If
@@ -49,6 +50,7 @@ sourceSlurm <- function(
   job_name    = NULL,
   tmp_path    = tempdir(),
   rscript_opt = list(vanilla = TRUE),
+  plan        = "wait",
   ...
   ) {
 
@@ -99,6 +101,13 @@ sourceSlurm <- function(
     script_path
     )
 
-  #message("Here are the contents:", paste(readLines(script_path), collapse="\n"), "\n")
-  sbatch(script_path, ...)
+  # Figuring out the plan
+  plan <- the_plan(plan)
+  if (plan$collect)
+    warning("When using Slurm via sourceSlurm, collection is not possible.", call. = FALSE)
+  
+  # Submitting the job
+  sbatch(script_path, submit = plan$submit, wait = plan$wait, ...)
+
 }
+

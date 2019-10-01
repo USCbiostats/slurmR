@@ -2,7 +2,7 @@
 #
 # test_that("Utility functions work", {
 
-  tmp <- tempdir()
+  tmp <- getwd()
   x   <- suppressWarnings(
     Slurm_EvalQ(print("Hello"), plan = "none", tmp_path = tmp)
     )

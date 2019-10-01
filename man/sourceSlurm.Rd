@@ -5,7 +5,7 @@
 \title{Source an R script as a Slurm job}
 \usage{
 sourceSlurm(file, job_name = NULL, tmp_path = tempdir(),
-  rscript_opt = list(vanilla = TRUE), ...)
+  rscript_opt = list(vanilla = TRUE), plan = "wait", ...)
 }
 \arguments{
 \item{file}{Character. Path to the R script to source using Slurm.}
@@ -17,6 +17,8 @@ scripts) will be stored. Notice that this path must be accessible by all the
 nodes in the network (See \link{opts_slurmR}).}
 
 \item{rscript_opt}{List. Options to be passed to \code{Rscript}.}
+
+\item{plan}{A character scalar. (See \link{the_plan}).}
 
 \item{...}{Further options passed to \link{sbatch}.}
 }

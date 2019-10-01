@@ -1,6 +1,7 @@
 if (slurm_available()) {
 
-  cl1 <- makeSlurmCluster(2, partition="conti", account="lc_dvc")
+  cl1 <- makeSlurmCluster(2, partition="conti", account="lc_dvc", time = "01:00:00",
+    tmp_path=getwd(), job_name = "test-makeSlurmCluster")
   cl2 <- makePSOCKcluster(2)
 
   set.seed(123155)

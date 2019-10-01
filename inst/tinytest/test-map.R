@@ -65,4 +65,8 @@
   expect_warning(Slurm_Map(function(x,y) mean(x,y), x = 1, y = 1:2, njobs = 4, plan = "none"), "length")
   expect_error(Slurm_Map(function(x) mean(x), x = list(1), 4, njobs = 2, plan = "none"), "unname")
 
+suppressMessages(
+  opts_slurmR$debug_off()
+)
+
 # })

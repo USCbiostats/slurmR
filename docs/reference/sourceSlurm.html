@@ -130,7 +130,7 @@ and submitting it via <a href='sbatch.html'>sbatch</a>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>sourceSlurm</span>(<span class='no'>file</span>, <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(),
-  <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='no'>...</span>)</pre>
+  <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>plan</span> <span class='kw'>=</span> <span class='st'>"wait"</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,6 +152,10 @@ nodes in the network (See <a href='opts_slurmR.html'>opts_slurmR</a>).</p></td>
     <tr>
       <th>rscript_opt</th>
       <td><p>List. Options to be passed to <code>Rscript</code>.</p></td>
+    </tr>
+    <tr>
+      <th>plan</th>
+      <td><p>A character scalar. (See <a href='the_plan.html'>the_plan</a>).</p></td>
     </tr>
     <tr>
       <th>...</th>

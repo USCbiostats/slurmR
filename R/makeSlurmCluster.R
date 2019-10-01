@@ -188,9 +188,9 @@ makeSlurmCluster <- function(
     if (verb && ntry > 0L && !(ntry %% 5)) {
 
       if (s %in% c(1L, 3L)) {
-        message("The job needs to start before continuing ", appendLF = FALSE)
+        message("The job needs to start before continuing. ", appendLF = FALSE)
       } else if (s == 2L) {
-        message("All jobs are running, waiting for the nodenames ", appendLF = FALSE)
+        message("The job is running, waiting for the nodenames. ", appendLF = FALSE)
       }
 
       # Common message
@@ -239,7 +239,7 @@ makeSlurmCluster <- function(
   }
 
   if (verb)
-    message("Success! All jobs have been allocated. Creating the cluster object...")
+    message("Success! nodenames collected. Creating the cluster object...")
 
   # Creating the PSOCK cluster
   cl <- do.call(
@@ -292,3 +292,4 @@ print.slurm_cluster <- function(x, ...) {
   invisible(NULL)
 
 }
+

@@ -1,6 +1,6 @@
-context("Map functions")
-
-test_that("Works in debug mode", {
+# context("Map functions")
+#
+# test_that("Works in debug mode", {
 
   # Setting it up
   x <- tempdir()
@@ -22,10 +22,10 @@ test_that("Works in debug mode", {
 
   expect_equal(sol[[1]], list(x=a[[1]], y=b[[1]]))
 
-})
+# })
 
 
-test_that("Exporting", {
+# test_that("Exporting", {
 
   # Setting it up
   x <- tempdir()
@@ -49,10 +49,10 @@ test_that("Exporting", {
 
   expect_equal(sol[[1]], list(x=a[[1]], y=b[[1]]))
 
-})
+# })
 
 
-test_that("Warnings and errors", {
+# test_that("Warnings and errors", {
 
   x <- tempdir()
   suppressMessages({
@@ -65,4 +65,4 @@ test_that("Warnings and errors", {
   expect_warning(Slurm_Map(function(x,y) mean(x,y), x = 1, y = 1:2, njobs = 4, plan = "none"), "length")
   expect_error(Slurm_Map(function(x) mean(x), x = list(1), 4, njobs = 2, plan = "none"), "unname")
 
-})
+# })

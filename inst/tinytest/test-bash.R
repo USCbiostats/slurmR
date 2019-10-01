@@ -1,8 +1,8 @@
-context("Bash wrappers")
+# context("Bash wrappers")
+#
+# test_that("If no slurm, then errors", {
 
-test_that("If no slurm, then errors", {
-
-  skip_if(slurm_available())
+if (slurm_available()) {
 
   tmp <- tempdir()
   x <- suppressWarnings(Slurm_EvalQ(1+1, plan = "none", tmp_path = tmp))
@@ -16,7 +16,7 @@ test_that("If no slurm, then errors", {
   expect_error(squeue(x), "started")
   expect_error(sacct(x), "started")
 
-
-})
+}
+# })
 
 

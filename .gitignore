@@ -3,3 +3,4 @@
 .RData
 sluRm
 inst/doc
+codecov.yml

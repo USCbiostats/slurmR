@@ -1,6 +1,6 @@
-context("Utils")
-
-test_that("Utility functions work", {
+# context("Utils")
+#
+# test_that("Utility functions work", {
 
   tmp <- tempdir()
   x   <- suppressWarnings(
@@ -11,4 +11,4 @@ test_that("Utility functions work", {
   Slurm_clean(x)
   expect_true(!dir.exists(paste0(tmp, "/", x$opts_job$`job-name`)))
 
-})
+# })

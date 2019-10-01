@@ -1,5 +1,6 @@
   # Setting it up
-  x <- tempdir()
+x <- ifelse(slurm_available(), "/staging/ggv/", tempdir())
+
   suppressMessages({
     opts_slurmR$set_tmp_path(x)
     opts_slurmR$debug_on()

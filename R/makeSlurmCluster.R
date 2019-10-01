@@ -239,7 +239,9 @@ makeSlurmCluster <- function(
   }
 
   if (verb)
-    message("Success! nodenames collected. Creating the cluster object...")
+    message("Success! nodenames collected (",
+    paste(unique(nodenames), collapse=", "),
+    "). Creating the cluster object...")
 
   # Creating the PSOCK cluster
   cl <- do.call(

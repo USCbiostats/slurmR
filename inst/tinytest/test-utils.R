@@ -2,7 +2,7 @@
 #
 # test_that("Utility functions work", {
 
-  tmp <- getwd()
+  tmp <- ifelse(slurm_available(), "/staging/ggv/", tempdir())
   x   <- suppressWarnings(
     Slurm_EvalQ(print("Hello"), plan = "none", tmp_path = tmp)
     )

@@ -34,19 +34,19 @@ While there are other tools for integrating R in a HPC envirnment that works wit
 
 1. Need a dependency-free tool. Besides of Slurm itself[^actually], this R package only depends on other R packages that are part of base R.,
 
-[^actually]: In fact, users can install this R package regardless of whether they have or they don't have Slurm on their systems. The debug mode of this software allows users to setup jobs (including R scripts and batch files) without having to submit them to a Slurm job-scheduler.
+[^actually]: In fact, users can install this R package regardless of whether or not they have Slurm on their systems. The debug mode of this software allows users to setup jobs (including R scripts and batch files) without having to submit them to a Slurm job-scheduler.
 
-2. need an R package that is fully integrated with Slurm, e.g., submitting jobs with an arbitrary set of Slurm parameters without the need of using templates, call Slurm commands from within R like `sacct`, `scancel`, `squeue`, `sbatch`, etc. with their corresponding flags, and
+2. Need an R package that is fully integrated with Slurm, e.g., submitting jobs with an arbitrary set of Slurm parameters without the need of using templates, call Slurm commands from within R like `sacct`, `scancel`, `squeue`, `sbatch`, etc. with their corresponding flags, and
 
-3. what to use an R package that is ready-to-go. Once loaded, users can submit jobs by just specifying how many cores, for example, they need.
+3. Want to use an R package that is ready-to-go. Once loaded, users can submit jobs by just specifying how many cores, for example, they need.
 
 Other features that are included with this R package, and that are available in some others, are:
 
-4. Use a syntax similar to the apply family of functions in the parallel R package, including `Slurm_lapply`, `Slurm_sapply`, `Slurm_EvalQ`, and `Slurm_Map`, 
+4. It uses a syntax similar to the apply family of functions in the parallel R package, including `Slurm_lapply`, `Slurm_sapply`, `Slurm_EvalQ`, and `Slurm_Map`, 
 
-5. resubmit failed jobs: A very common issue with heterogenous computing clusters is the fact that some jobs succeed while others fail. Partial-job-resubmission is out-of-the-box as users can specify which jobs (as in Job Arrays) should be re-run.
+5. It can resubmit failed jobs: A very common issue with heterogenous computing clusters is the fact that some jobs succeed while others fail. Partial-job-resubmission is out-of-the-box as users can specify which jobs (as in Job Arrays) should be re-run.
 
-Both of the latter two also available in `batchtools`. A comparison table of R packages that work with Slurm is available at https://github.com/USCbiostats/slurmR.
+Both of the latter two features also available in `batchtools`. A comparison table of R packages that work with Slurm is available at https://github.com/USCbiostats/slurmR.
 
 In summary, `slurmR` provides a dependency-free and purpose-built alternative for R users working in a HPC environment with Slurm.
 

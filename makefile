@@ -7,6 +7,9 @@ build:
 check:
 	$(MAKE) build && cd .. && R CMD check --as-cran slurmR_*.tar.gz
 
+checknotest:
+	$(MAKE) build && cd .. && R CMD check --as-cran --no-tests slurmR_*.tar.gz
+
 clean:
 	rm -rf slurmR-job*
 

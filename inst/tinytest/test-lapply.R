@@ -24,12 +24,34 @@ x <- ifelse(slurm_available(), "/staging/ggv/", tempdir())
                  plan = "wait", job_name = "test-lapply2")
     )
     )
+  ans0 <-  suppressMessages(suppressWarnings(
+    Slurm_sapply(b, function(z) mymean(z), njobs=2, mc.cores = 1L, export="mymean",
+                 plan = "wait", job_name = "test-lapply3", simplify = FALSE)
+    )
+    )
+
+  # These two should be equivalent
+  expect_equal(Slurm_collect(ans0), Slurm_collect(ans))
+  
+  # Checking printing and reading
+  expect_silent(print(ans))
+  ans1 <- read_slurm_job(paste0(opts_slurmR$get_tmp_path(), "/", "test-lapply2"))
+  tmpjob <- tempfile()
+  write_slurm_job(ans, tmpjob)
+  ans2 <- read_slurm_job(tmpjob)
+  expect_equal(ans, ans1)
+  expect_equal(ans, ans2)
+  expect_equal(as.integer(print(status(ans))), -1L)
+  
   sol <- Slurm_collect(ans)
 
   expect_equal(sol[[1]], mean(b[[1]]))
 
   expect_warning(Slurm_lapply(list(1), mean, njobs = 2, plan = "none", job_name = "test-lapply3"), "length")
   expect_error(Slurm_lapply(list(1), mean, njobs = 1, 4, plan = "none", job_name = "test-lapply4"), "unname")
+
+# If slurm is available
+
 
 # Default debug option
 suppressMessages(

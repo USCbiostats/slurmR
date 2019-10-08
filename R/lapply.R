@@ -58,6 +58,7 @@ Slurm_lapply <- function(
   seeds       = NULL,
   compress    = TRUE,
   export      = NULL,
+  export_env  = NULL,
   libPaths    = .libPaths(),
   hooks       = NULL
   ) {
@@ -121,6 +122,9 @@ Slurm_lapply <- function(
   rscript <- new_rscript(njobs, libPaths = libPaths)
 
   # Adding readRDS
+  if (is.null(export_env))
+    export_env <- parent.frame()
+
   rscript$add_rds(list(INDICES = INDICES), split = FALSE, compress = FALSE)
   rscript$add_rds(list(X = X), split = TRUE, compress = compress)
   rscript$add_rds(
@@ -128,7 +132,7 @@ Slurm_lapply <- function(
       list(FUN = FUN, mc.cores=mc.cores),
       dots,
       if (length(export))
-        mget(export, envir=parent.frame())
+        mget(export, envir = export_env)
       else
         NULL
     ), split = FALSE, compress = compress)

@@ -18,7 +18,8 @@ Slurm_lapply(X, FUN, ..., njobs = 2L, mc.cores = 1L,
   tmp_path = opts_slurmR$get_tmp_path(), plan = "collect",
   sbatch_opt = list(ntasks = 1L, `cpus-per-task` = mc.cores),
   rscript_opt = list(vanilla = TRUE), seeds = NULL, compress = TRUE,
-  export = NULL, libPaths = .libPaths(), hooks = NULL)
+  export = NULL, export_env = NULL, libPaths = .libPaths(),
+  hooks = NULL)
 
 Slurm_sapply(X, FUN, ..., simplify = TRUE)
 }
@@ -55,6 +56,9 @@ of R objects on disk.}
 
 \item{X, FUN, f, mc.cores, ...}{Arguments passed to either \link[parallel:mclapply]{parallel::mclapply} or
 \link[parallel:mcMap]{parallel::mcMap}.}
+
+\item{export_env}{An environment. Environment where the objects listed in
+\code{export} are located (default \code{\link[=parent.frame]{parent.frame()}}).}
 
 \item{simplify}{Logical scalar. See \link{sapply}.}
 }

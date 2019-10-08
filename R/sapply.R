@@ -11,7 +11,17 @@ Slurm_sapply <- function(
   simplify = TRUE
 ) {
 
-  Slurm_lapply(X, FUN, ..., hooks = if (simplify)
-    list(simplify2array) else NULL)
+  dots <- list(...)
+ 
+  if (is.null(dots$export_env))
+    dots$export_env <- parent.frame()
+  
+  if (simplify)
+    dots$hooks <- c(dots$hooks, list(simplify2array))
+
+  do.call(
+    "Slurm_lapply",
+    c(list(X = X, FUN = FUN), dots)
+  )
 
 }

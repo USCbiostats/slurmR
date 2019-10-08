@@ -11,6 +11,11 @@ if (!slurm_available()) {
   expect_error(squeue(1), "not available")
   expect_error(sbatch(x), "not available")
   expect_error(sacct(1), "not available")
+} else {
+
+  expect_true(is.list(SchedulerParameters()))
+  expect_true(length(slurm.conf()) > 0)
+
 }
 # })
 

@@ -5,6 +5,8 @@
 #' @param seeds Integer vector of length `njobs`. Seeds to be passed to each
 #' job. When `NULL` (default), seeds will be picked automatically (see [new_rscript]).
 #' @param export A named list with objects to be included in the Spawned sessions.
+#' @param export_env An environment. Environment where the objects listed in
+#' `export` are located (default [parent.frame()]). 
 #' @param libPaths A character vector. See [.libPaths].
 #' @param hooks A list of functions (passed to [new_slurm_job]).
 #'

@@ -31,7 +31,10 @@ get_hosts <- function(ntasks=1, tmp_path = getwd(), ...) {
     tryCatch({
       hostnames <- suppressWarnings(readLines(out))
       hostnames_start <- which(grepl("^==start-hostnames==$", hostnames)) + 1L
-      hostnames[hostnames_start:(hostnames_start + ntasks - 1L)]
+      ans <- hostnames[hostnames_start:(hostnames_start + ntasks - 1L)]
+      if (any(is.na(ans)))
+         stop("Still reading...", call. = FALSE)
+      ans
     }, error = function(e) e)
   }
 

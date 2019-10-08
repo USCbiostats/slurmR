@@ -157,13 +157,13 @@ x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumenta
 <p>We can use the function <code>Slurm_lapply</code> to distribute computations</p>
 <pre class="sourceCode r"><code class="sourceCode r">ans &lt;-<span class="st"> </span><span class="kw"><a href="reference/Slurm_lapply.html">Slurm_lapply</a></span>(x, mean, <span class="dt">plan =</span> <span class="st">"none"</span>)
 <span class="co">#  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:</span>
-<span class="co">#  sbatch --job-name=slurmR-job-63ae730c7187 /auto/rcf-40/vegayon/slurmR/slurmR-job-63ae730c7187/01-bash.sh</span>
+<span class="co">#  sbatch --job-name=slurmR-job-45612008f60f /auto/rcf-40/vegayon/slurmR/slurmR-job-45612008f60f/01-bash.sh</span>
 <span class="kw"><a href="reference/Slurm_clean.html">Slurm_clean</a></span>(ans) <span class="co"># Cleaning after you</span></code></pre>
 <p>Notice the <code>plan = "none"</code> option, this tells <code>Slurm_lapply</code> to only create the job object, but do nothing with it, i.e., skip submission. To get more info, we can actually set the verbose mode on</p>
 <pre class="sourceCode r"><code class="sourceCode r">opts_slurmR$<span class="kw">verbose_on</span>()
 ans &lt;-<span class="st"> </span><span class="kw"><a href="reference/Slurm_lapply.html">Slurm_lapply</a></span>(x, mean, <span class="dt">plan =</span> <span class="st">"none"</span>)
 <span class="co">#  --------------------------------------------------------------------------------</span>
-<span class="co">#  [VERBOSE MODE ON] The R script that will be used is located at: /auto/rcf-40/vegayon/slurmR/slurmR-job-63ae730c7187/00-rscript.r and has the following contents:</span>
+<span class="co">#  [VERBOSE MODE ON] The R script that will be used is located at: /auto/rcf-40/vegayon/slurmR/slurmR-job-45612008f60f/00-rscript.r and has the following contents:</span>
 <span class="co">#  --------------------------------------------------------------------------------</span>
 <span class="co">#  .libPaths(c("/auto/rcf-proj2/wjg/vegayon/R/x86_64-pc-linux-gnu-library/3.5", "/auto/usc/R/3.5.0/lib64/R/library"))</span>
 <span class="co">#  Slurm_env &lt;- function (x) </span>
@@ -175,35 +175,35 @@ ans &lt;-<span class="st"> </span><span class="kw"><a href="reference/Slurm_lapp
 <span class="co">#      y</span>
 <span class="co">#  }</span>
 <span class="co">#  ARRAY_ID         &lt;- as.integer(Slurm_env("SLURM_ARRAY_TASK_ID"))</span>
-<span class="co">#  JOB_PATH         &lt;- "/auto/rcf-40/vegayon/slurmR/slurmR-job-63ae730c7187/"</span>
-<span class="co">#  INDICES          &lt;- readRDS("/auto/rcf-40/vegayon/slurmR/slurmR-job-63ae730c7187/INDICES.rds")</span>
-<span class="co">#  X                &lt;- readRDS(sprintf("/auto/rcf-40/vegayon/slurmR/slurmR-job-63ae730c7187/X_%04d.rds", ARRAY_ID))</span>
-<span class="co">#  FUN              &lt;- readRDS("/auto/rcf-40/vegayon/slurmR/slurmR-job-63ae730c7187/FUN.rds")</span>
-<span class="co">#  mc.cores         &lt;- readRDS("/auto/rcf-40/vegayon/slurmR/slurmR-job-63ae730c7187/mc.cores.rds")</span>
-<span class="co">#  seeds            &lt;- readRDS("/auto/rcf-40/vegayon/slurmR/slurmR-job-63ae730c7187/seeds.rds")</span>
+<span class="co">#  JOB_PATH         &lt;- "/auto/rcf-40/vegayon/slurmR/slurmR-job-45612008f60f/"</span>
+<span class="co">#  INDICES          &lt;- readRDS("/auto/rcf-40/vegayon/slurmR/slurmR-job-45612008f60f/INDICES.rds")</span>
+<span class="co">#  X                &lt;- readRDS(sprintf("/auto/rcf-40/vegayon/slurmR/slurmR-job-45612008f60f/X_%04d.rds", ARRAY_ID))</span>
+<span class="co">#  FUN              &lt;- readRDS("/auto/rcf-40/vegayon/slurmR/slurmR-job-45612008f60f/FUN.rds")</span>
+<span class="co">#  mc.cores         &lt;- readRDS("/auto/rcf-40/vegayon/slurmR/slurmR-job-45612008f60f/mc.cores.rds")</span>
+<span class="co">#  seeds            &lt;- readRDS("/auto/rcf-40/vegayon/slurmR/slurmR-job-45612008f60f/seeds.rds")</span>
 <span class="co">#  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)</span>
 <span class="co">#  ans &lt;- parallel::mclapply(</span>
 <span class="co">#      X                = X,</span>
 <span class="co">#      FUN              = FUN,</span>
 <span class="co">#      mc.cores         = mc.cores</span>
 <span class="co">#  )</span>
-<span class="co">#  saveRDS(ans, sprintf("/auto/rcf-40/vegayon/slurmR/slurmR-job-63ae730c7187/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)</span>
+<span class="co">#  saveRDS(ans, sprintf("/auto/rcf-40/vegayon/slurmR/slurmR-job-45612008f60f/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)</span>
 <span class="co">#  --------------------------------------------------------------------------------</span>
-<span class="co">#  The bash file that will be used is located at: /auto/rcf-40/vegayon/slurmR/slurmR-job-63ae730c7187/01-bash.sh and has the following contents:</span>
+<span class="co">#  The bash file that will be used is located at: /auto/rcf-40/vegayon/slurmR/slurmR-job-45612008f60f/01-bash.sh and has the following contents:</span>
 <span class="co">#  --------------------------------------------------------------------------------</span>
 <span class="co">#  #!/bin/sh</span>
-<span class="co">#  #SBATCH --job-name=slurmR-job-63ae730c7187</span>
-<span class="co">#  #SBATCH --output=/auto/rcf-40/vegayon/slurmR/slurmR-job-63ae730c7187/02-output-%A-%a.out</span>
+<span class="co">#  #SBATCH --job-name=slurmR-job-45612008f60f</span>
+<span class="co">#  #SBATCH --output=/auto/rcf-40/vegayon/slurmR/slurmR-job-45612008f60f/02-output-%A-%a.out</span>
 <span class="co">#  #SBATCH --array=1-2</span>
 <span class="co">#  #SBATCH --ntasks=1</span>
 <span class="co">#  #SBATCH --cpus-per-task=1</span>
 <span class="co">#  export OMP_NUM_THREADS=1</span>
-<span class="co">#  /usr/usc/R/3.5.0/lib64/R/bin/Rscript --vanilla /auto/rcf-40/vegayon/slurmR/slurmR-job-63ae730c7187/00-rscript.r</span>
+<span class="co">#  /usr/usc/R/3.5.0/lib64/R/bin/Rscript --vanilla /auto/rcf-40/vegayon/slurmR/slurmR-job-45612008f60f/00-rscript.r</span>
 <span class="co">#  --------------------------------------------------------------------------------</span>
 <span class="co">#  EOF</span>
 <span class="co">#  --------------------------------------------------------------------------------</span>
 <span class="co">#  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:</span>
-<span class="co">#  sbatch --job-name=slurmR-job-63ae730c7187 /auto/rcf-40/vegayon/slurmR/slurmR-job-63ae730c7187/01-bash.sh</span>
+<span class="co">#  sbatch --job-name=slurmR-job-45612008f60f /auto/rcf-40/vegayon/slurmR/slurmR-job-45612008f60f/01-bash.sh</span>
 <span class="kw"><a href="reference/Slurm_clean.html">Slurm_clean</a></span>(ans) <span class="co"># Cleaning after you</span></code></pre>
 </div>
 <div id="example-2-job-resubmission" class="section level2">

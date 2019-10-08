@@ -7,7 +7,7 @@
 Slurm_EvalQ(expr, njobs = 2L, job_name = opts_slurmR$get_job_name(),
   tmp_path = opts_slurmR$get_tmp_path(), plan = "collect",
   sbatch_opt = list(ntasks = 1L), rscript_opt = list(vanilla = TRUE),
-  seeds = NULL, compress = TRUE, export = NULL,
+  seeds = NULL, compress = TRUE, export = NULL, export_env = NULL,
   libPaths = .libPaths(), hooks = NULL)
 }
 \arguments{
@@ -38,6 +38,9 @@ this value to \code{FALSE} can be useful when the user requires faster read/writ
 of R objects on disk.}
 
 \item{export}{A named list with objects to be included in the Spawned sessions.}
+
+\item{export_env}{An environment. Environment where the objects listed in
+\code{export} are located (default \code{\link[=parent.frame]{parent.frame()}}).}
 
 \item{libPaths}{A character vector. See \link{.libPaths}.}
 

@@ -18,6 +18,7 @@ Slurm_EvalQ <- function(
   seeds       = NULL,
   compress    = TRUE,
   export      = NULL,
+  export_env  = NULL,
   libPaths    = .libPaths(),
   hooks       = NULL
 ) {
@@ -33,11 +34,14 @@ Slurm_EvalQ <- function(
   sexpr <- deparse(substitute(expr))
 
   # RSCRIPT --------------------------------------------------------------------
+  if (is.null(export_env))
+    export_env <- parent.frame()
+
   rscript <- new_rscript(njobs, libPaths = libPaths)
 
   if (length(export)) {
     rscript$add_rds(
-      mget(export, envir=parent.frame()), compress = compress, index = FALSE)
+      mget(export, envir = export_env), compress = compress, index = FALSE)
   }
 
   # Setting the seeds

@@ -365,7 +365,8 @@ sbatch_dummy <- function(...) {
         quiet  = TRUE,
         wait   = TRUE
         ),
-      ...)
+      list(...)
+    )
     )
 
   # Checking for slurm

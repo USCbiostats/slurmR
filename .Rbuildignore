@@ -23,3 +23,4 @@ slurmR-coverage\.rds
 pkgdown
 .+\.pdf
 
+^appveyor\.yml$

@@ -20,4 +20,6 @@ data-raw
 ^playground$
 slurmR-coverage\.rds
 .+\.R?out
+pkgdown
+.+\.pdf
 

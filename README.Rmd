@@ -265,7 +265,7 @@ Here is a list of educational institutions using Slurm:
 
 - Princeton [Princeton Research Computing](https://researchcomputing.princeton.edu/education/online-tutorials/getting-started/introducing-slurm)
 
-- Harvard [FAS](https://www.rc.fas.harvard.edu/resources/quickstart-guide/), [HMS research computing](https://rc.hms.harvard.edu/#cluster)
+- Harvard [FAS](https://www.rc.fas.harvard.edu/resources/quickstart-guide/), [HMS research computing](https://rc.hms.harvard.edu/)
 
 - UCSan Diego [WM Keck Lab for Integrated Biology](https://keck2.ucsd.edu/dokuwiki/doku.php/wiki:slurm)
 

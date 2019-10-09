@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Lightweight Wrapper for Slurm • slurmR</title>
+<title>A Lightweight Wrapper for 'Slurm' • slurmR</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
@@ -13,17 +13,16 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="A Lightweight Wrapper for Slurm">
-<meta property="og:description" content="Slurm, Simple Linux Utility for Resource Management
-          &lt;https://slurm.schedmd.com/&gt;, is a popular Linux based software used to
-          schedule jobs in HPC (High Performance Computing) clusters. This R package
-          provides a specialized lightweight wrapper of Slurm with a syntax similar to
-          that found in the parallel R package. The package also includes a method for
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="pkgdown.js"></script><meta property="og:title" content="A Lightweight Wrapper for 'Slurm'">
+<meta property="og:description" content="'Slurm', Simple Linux Utility for Resource Management
+          &lt;https://slurm.schedmd.com/&gt;, is a popular 'Linux' based software used to
+          schedule jobs in 'HPC' (High Performance Computing) clusters. This R package
+          provides a specialized lightweight wrapper of 'Slurm' with a syntax similar to
+          that found in the 'parallel' R package. The package also includes a method for
           creating socket cluster objects spanning multiple nodes that can be used with
-          the parallel package.">
+          the 'parallel' package.">
 <meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -32,7 +31,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-home">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -52,7 +51,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -78,7 +77,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/USCbiostats/slurmR">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -91,24 +90,21 @@
 <!--/.navbar -->
 
       
-
       </header><div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
+    
 
+    
+    
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-
-
-
-
 <div id="slurmr-a-lightweight-wrapper-for-slurm" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#slurmr-a-lightweight-wrapper-for-slurm" class="anchor"></a>slurmR: A Lightweight Wrapper for Slurm <img src="reference/figures/logo.png" height="180px" align="right">
 </h1></div>
 <p>Slurm Workload Manager is a popular HPC cluster job scheduler found in many of the top 500 super computers. The <code>slurmR</code> R package provides an R wrapper to it that matches the parallel package’s syntax, this is, just like <code>parallel</code> provides the <code>parLapply</code>, <code>clusterMap</code>, <code>parSapply</code>, etc., <code>slurmR</code> provides <code>Slurm_lapply</code>, <code>Slurm_Map</code>, <code>Slurm_sapply</code>, etc.</p>
 <p>While there are other alternatives such as <code>future.batchtools</code>, <code>batchtools</code>, <code>clustermq</code>, and <code>rslurm</code>, this R package has the following goals:</p>
-<ol>
+<ol style="list-style-type: decimal">
 <li><p>It is dependency free, which means that it works out-of-the-box</p></li>
 <li><p>Puts an emphasis on been similar to the workflow in the R package <code>parallel</code></p></li>
 <li><p>It provides a general framework for the user to create its own wrappers without using template files.</p></li>
@@ -120,121 +116,122 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>And the development version from <a href="https://github.com/">GitHub</a> with:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
-devtools::<span class="kw">install_github</span>(<span class="st">"USCbiostats/slurmR"</span>)</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># install.packages("devtools")</span></a>
+<a class="sourceLine" id="cb1-2" title="2">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"USCbiostats/slurmR"</span>)</a></code></pre></div>
 </div>
 <div id="citation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#citation" class="anchor"></a>Citation</h2>
-<pre class="sourceCode R"><code class="sourceCode r">To cite slurmR in publications use:
+<pre><code>
+To cite slurmR in publications use:
 
-<span class="st">  </span>Vega Yon et al., (<span class="dv">2019</span>). slurmR:<span class="st"> </span>A lightweight wrapper for HPC with
-  Slurm. Journal of Open Source Software, <span class="dv">4</span>(<span class="dv">39</span>), <span class="dv">1493</span>,
-  https:<span class="er">//</span>doi.org/<span class="fl">10.21105</span>/joss<span class="fl">.01493</span>
+  Vega Yon et al., (2019). slurmR: A lightweight wrapper for HPC with
+  Slurm. Journal of Open Source Software, 4(39), 1493,
+  https://doi.org/10.21105/joss.01493
 
 A BibTeX entry for LaTeX users is
 
   @Article{,
-    title =<span class="st"> </span>{slurmR:<span class="st"> </span>A lightweight wrapper for HPC with Slurm},
-    author =<span class="st"> </span>{George {Vega Yon} and Paul Marjoram},
-    journal =<span class="st"> </span>{The Journal of Open Source Software},
-    year =<span class="st"> </span>{<span class="dv">2019</span>},
-    month =<span class="st"> </span>{jul},
-    volume =<span class="st"> </span>{<span class="dv">4</span>},
-    number =<span class="st"> </span>{<span class="dv">39</span>},
-    doi =<span class="st"> </span>{<span class="fl">10.21105</span>/joss<span class="fl">.01493</span>},
-    url =<span class="st"> </span>{https:<span class="er">//</span>doi.org/<span class="fl">10.21105</span>/joss<span class="fl">.01493</span>},
+    title = {slurmR: A lightweight wrapper for HPC with Slurm},
+    author = {George {Vega Yon} and Paul Marjoram},
+    journal = {The Journal of Open Source Software},
+    year = {2019},
+    month = {jul},
+    volume = {4},
+    number = {39},
+    doi = {10.21105/joss.01493},
+    url = {https://doi.org/10.21105/joss.01493},
   }</code></pre>
 </div>
 <div id="example-1-computing-means-and-looking-under-the-hood" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example-1-computing-means-and-looking-under-the-hood" class="anchor"></a>Example 1: Computing means (and looking under the hood)</h2>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(slurmR)
-<span class="co">#  Loading required package: parallel</span>
-<span class="co">#  On load, `slurmR` sets default options for your jobs: (1) `tmp_path`, which is the default directory where `slurmR` will use to create the auxiliar files (default to getwd()), and (2) `job-name`, which is the option of the same name in Slurm. You can view/set these at:</span>
-<span class="co">#     ?opts_slurmR</span>
-<span class="co">#  or you could just type</span>
-<span class="co">#     "opts_slurmR".</span>
-
-<span class="co"># Suppose that we have 100 vectors of length 50 ~ Unif(0,1)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">881</span>)
-x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span>(<span class="dv">100</span>, <span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="dv">50</span>), <span class="dt">simplify =</span> <span class="ot">FALSE</span>)</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(slurmR)</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="co">#  Loading required package: parallel</span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="co">#  On load, `slurmR` sets default options for your jobs: (1) `tmp_path`, which is the default directory where `slurmR` will use to create the auxiliar files (default to getwd()), and (2) `job-name`, which is the option of the same name in Slurm. You can view/set these at:</span></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="co">#     ?opts_slurmR</span></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="co">#  or you could just type</span></a>
+<a class="sourceLine" id="cb3-6" title="6"><span class="co">#     "opts_slurmR".</span></a>
+<a class="sourceLine" id="cb3-7" title="7"></a>
+<a class="sourceLine" id="cb3-8" title="8"><span class="co"># Suppose that we have 100 vectors of length 50 ~ Unif(0,1)</span></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">881</span>)</a>
+<a class="sourceLine" id="cb3-10" title="10">x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">replicate</a></span>(<span class="dv">100</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif</a></span>(<span class="dv">50</span>), <span class="dt">simplify =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p>We can use the function <code>Slurm_lapply</code> to distribute computations</p>
-<pre class="sourceCode r"><code class="sourceCode r">ans &lt;-<span class="st"> </span><span class="kw"><a href="reference/Slurm_lapply.html">Slurm_lapply</a></span>(x, mean, <span class="dt">plan =</span> <span class="st">"none"</span>)
-<span class="co">#  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:</span>
-<span class="co">#  sbatch --job-name=slurmR-job-2f7843f422e0 /auto/rcf-40/vegayon/slurmR/slurmR-job-2f7843f422e0/01-bash.sh</span>
-<span class="kw"><a href="reference/Slurm_clean.html">Slurm_clean</a></span>(ans) <span class="co"># Cleaning after you</span></code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">ans &lt;-<span class="st"> </span><span class="kw"><a href="reference/Slurm_lapply.html">Slurm_lapply</a></span>(x, mean, <span class="dt">plan =</span> <span class="st">"none"</span>)</a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="co">#  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:</span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="co">#  sbatch --job-name=slurmR-job-42c85c6bbc39 /home/vegayon/Documents/slurmR/slurmR-job-42c85c6bbc39/01-bash.sh</span></a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="kw"><a href="reference/Slurm_clean.html">Slurm_clean</a></span>(ans) <span class="co"># Cleaning after you</span></a></code></pre></div>
 <p>Notice the <code>plan = "none"</code> option, this tells <code>Slurm_lapply</code> to only create the job object, but do nothing with it, i.e., skip submission. To get more info, we can actually set the verbose mode on</p>
-<pre class="sourceCode r"><code class="sourceCode r">opts_slurmR$<span class="kw">verbose_on</span>()
-ans &lt;-<span class="st"> </span><span class="kw"><a href="reference/Slurm_lapply.html">Slurm_lapply</a></span>(x, mean, <span class="dt">plan =</span> <span class="st">"none"</span>)
-<span class="co">#  --------------------------------------------------------------------------------</span>
-<span class="co">#  [VERBOSE MODE ON] The R script that will be used is located at: /auto/rcf-40/vegayon/slurmR/slurmR-job-2f7843f422e0/00-rscript.r and has the following contents:</span>
-<span class="co">#  --------------------------------------------------------------------------------</span>
-<span class="co">#  .libPaths(c("/auto/rcf-proj2/wjg/vegayon/R/x86_64-pc-linux-gnu-library/3.6", "/auto/usc/R/3.6.0/lib64/R/library"))</span>
-<span class="co">#  Slurm_env &lt;- function (x) </span>
-<span class="co">#  {</span>
-<span class="co">#      y &lt;- Sys.getenv(x)</span>
-<span class="co">#      if ((x == "SLURM_ARRAY_TASK_ID") &amp;&amp; y == "") {</span>
-<span class="co">#          return(1)</span>
-<span class="co">#      }</span>
-<span class="co">#      y</span>
-<span class="co">#  }</span>
-<span class="co">#  ARRAY_ID         &lt;- as.integer(Slurm_env("SLURM_ARRAY_TASK_ID"))</span>
-<span class="co">#  JOB_PATH         &lt;- "/auto/rcf-40/vegayon/slurmR/slurmR-job-2f7843f422e0/"</span>
-<span class="co">#  INDICES          &lt;- readRDS("/auto/rcf-40/vegayon/slurmR/slurmR-job-2f7843f422e0/INDICES.rds")</span>
-<span class="co">#  X                &lt;- readRDS(sprintf("/auto/rcf-40/vegayon/slurmR/slurmR-job-2f7843f422e0/X_%04d.rds", ARRAY_ID))</span>
-<span class="co">#  FUN              &lt;- readRDS("/auto/rcf-40/vegayon/slurmR/slurmR-job-2f7843f422e0/FUN.rds")</span>
-<span class="co">#  mc.cores         &lt;- readRDS("/auto/rcf-40/vegayon/slurmR/slurmR-job-2f7843f422e0/mc.cores.rds")</span>
-<span class="co">#  seeds            &lt;- readRDS("/auto/rcf-40/vegayon/slurmR/slurmR-job-2f7843f422e0/seeds.rds")</span>
-<span class="co">#  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)</span>
-<span class="co">#  ans &lt;- parallel::mclapply(</span>
-<span class="co">#      X                = X,</span>
-<span class="co">#      FUN              = FUN,</span>
-<span class="co">#      mc.cores         = mc.cores</span>
-<span class="co">#  )</span>
-<span class="co">#  saveRDS(ans, sprintf("/auto/rcf-40/vegayon/slurmR/slurmR-job-2f7843f422e0/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)</span>
-<span class="co">#  --------------------------------------------------------------------------------</span>
-<span class="co">#  The bash file that will be used is located at: /auto/rcf-40/vegayon/slurmR/slurmR-job-2f7843f422e0/01-bash.sh and has the following contents:</span>
-<span class="co">#  --------------------------------------------------------------------------------</span>
-<span class="co">#  #!/bin/sh</span>
-<span class="co">#  #SBATCH --job-name=slurmR-job-2f7843f422e0</span>
-<span class="co">#  #SBATCH --output=/auto/rcf-40/vegayon/slurmR/slurmR-job-2f7843f422e0/02-output-%A-%a.out</span>
-<span class="co">#  #SBATCH --array=1-2</span>
-<span class="co">#  #SBATCH --ntasks=1</span>
-<span class="co">#  #SBATCH --cpus-per-task=1</span>
-<span class="co">#  export OMP_NUM_THREADS=1</span>
-<span class="co">#  /usr/usc/R/3.6.0/lib64/R/bin/Rscript --vanilla /auto/rcf-40/vegayon/slurmR/slurmR-job-2f7843f422e0/00-rscript.r</span>
-<span class="co">#  --------------------------------------------------------------------------------</span>
-<span class="co">#  EOF</span>
-<span class="co">#  --------------------------------------------------------------------------------</span>
-<span class="co">#  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:</span>
-<span class="co">#  sbatch --job-name=slurmR-job-2f7843f422e0 /auto/rcf-40/vegayon/slurmR/slurmR-job-2f7843f422e0/01-bash.sh</span>
-<span class="kw"><a href="reference/Slurm_clean.html">Slurm_clean</a></span>(ans) <span class="co"># Cleaning after you</span></code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">opts_slurmR<span class="op">$</span><span class="kw">verbose_on</span>()</a>
+<a class="sourceLine" id="cb5-2" title="2">ans &lt;-<span class="st"> </span><span class="kw"><a href="reference/Slurm_lapply.html">Slurm_lapply</a></span>(x, mean, <span class="dt">plan =</span> <span class="st">"none"</span>)</a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="co">#  --------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="co">#  [VERBOSE MODE ON] The R script that will be used is located at: /home/vegayon/Documents/slurmR/slurmR-job-42c85c6bbc39/00-rscript.r and has the following contents:</span></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="co">#  --------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb5-6" title="6"><span class="co">#  .libPaths(c("/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))</span></a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="co">#  Slurm_env &lt;- function (x) </span></a>
+<a class="sourceLine" id="cb5-8" title="8"><span class="co">#  {</span></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="co">#      y &lt;- Sys.getenv(x)</span></a>
+<a class="sourceLine" id="cb5-10" title="10"><span class="co">#      if ((x == "SLURM_ARRAY_TASK_ID") &amp;&amp; y == "") {</span></a>
+<a class="sourceLine" id="cb5-11" title="11"><span class="co">#          return(1)</span></a>
+<a class="sourceLine" id="cb5-12" title="12"><span class="co">#      }</span></a>
+<a class="sourceLine" id="cb5-13" title="13"><span class="co">#      y</span></a>
+<a class="sourceLine" id="cb5-14" title="14"><span class="co">#  }</span></a>
+<a class="sourceLine" id="cb5-15" title="15"><span class="co">#  ARRAY_ID         &lt;- as.integer(Slurm_env("SLURM_ARRAY_TASK_ID"))</span></a>
+<a class="sourceLine" id="cb5-16" title="16"><span class="co">#  JOB_PATH         &lt;- "/home/vegayon/Documents/slurmR/slurmR-job-42c85c6bbc39/"</span></a>
+<a class="sourceLine" id="cb5-17" title="17"><span class="co">#  INDICES          &lt;- readRDS("/home/vegayon/Documents/slurmR/slurmR-job-42c85c6bbc39/INDICES.rds")</span></a>
+<a class="sourceLine" id="cb5-18" title="18"><span class="co">#  X                &lt;- readRDS(sprintf("/home/vegayon/Documents/slurmR/slurmR-job-42c85c6bbc39/X_%04d.rds", ARRAY_ID))</span></a>
+<a class="sourceLine" id="cb5-19" title="19"><span class="co">#  FUN              &lt;- readRDS("/home/vegayon/Documents/slurmR/slurmR-job-42c85c6bbc39/FUN.rds")</span></a>
+<a class="sourceLine" id="cb5-20" title="20"><span class="co">#  mc.cores         &lt;- readRDS("/home/vegayon/Documents/slurmR/slurmR-job-42c85c6bbc39/mc.cores.rds")</span></a>
+<a class="sourceLine" id="cb5-21" title="21"><span class="co">#  seeds            &lt;- readRDS("/home/vegayon/Documents/slurmR/slurmR-job-42c85c6bbc39/seeds.rds")</span></a>
+<a class="sourceLine" id="cb5-22" title="22"><span class="co">#  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)</span></a>
+<a class="sourceLine" id="cb5-23" title="23"><span class="co">#  ans &lt;- parallel::mclapply(</span></a>
+<a class="sourceLine" id="cb5-24" title="24"><span class="co">#      X                = X,</span></a>
+<a class="sourceLine" id="cb5-25" title="25"><span class="co">#      FUN              = FUN,</span></a>
+<a class="sourceLine" id="cb5-26" title="26"><span class="co">#      mc.cores         = mc.cores</span></a>
+<a class="sourceLine" id="cb5-27" title="27"><span class="co">#  )</span></a>
+<a class="sourceLine" id="cb5-28" title="28"><span class="co">#  saveRDS(ans, sprintf("/home/vegayon/Documents/slurmR/slurmR-job-42c85c6bbc39/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)</span></a>
+<a class="sourceLine" id="cb5-29" title="29"><span class="co">#  --------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb5-30" title="30"><span class="co">#  The bash file that will be used is located at: /home/vegayon/Documents/slurmR/slurmR-job-42c85c6bbc39/01-bash.sh and has the following contents:</span></a>
+<a class="sourceLine" id="cb5-31" title="31"><span class="co">#  --------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb5-32" title="32"><span class="co">#  #!/bin/sh</span></a>
+<a class="sourceLine" id="cb5-33" title="33"><span class="co">#  #SBATCH --job-name=slurmR-job-42c85c6bbc39</span></a>
+<a class="sourceLine" id="cb5-34" title="34"><span class="co">#  #SBATCH --output=/home/vegayon/Documents/slurmR/slurmR-job-42c85c6bbc39/02-output-%A-%a.out</span></a>
+<a class="sourceLine" id="cb5-35" title="35"><span class="co">#  #SBATCH --array=1-2</span></a>
+<a class="sourceLine" id="cb5-36" title="36"><span class="co">#  #SBATCH --ntasks=1</span></a>
+<a class="sourceLine" id="cb5-37" title="37"><span class="co">#  #SBATCH --cpus-per-task=1</span></a>
+<a class="sourceLine" id="cb5-38" title="38"><span class="co">#  export OMP_NUM_THREADS=1</span></a>
+<a class="sourceLine" id="cb5-39" title="39"><span class="co">#  /usr/lib/R/bin/Rscript --vanilla /home/vegayon/Documents/slurmR/slurmR-job-42c85c6bbc39/00-rscript.r</span></a>
+<a class="sourceLine" id="cb5-40" title="40"><span class="co">#  --------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb5-41" title="41"><span class="co">#  EOF</span></a>
+<a class="sourceLine" id="cb5-42" title="42"><span class="co">#  --------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb5-43" title="43"><span class="co">#  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:</span></a>
+<a class="sourceLine" id="cb5-44" title="44"><span class="co">#  sbatch --job-name=slurmR-job-42c85c6bbc39 /home/vegayon/Documents/slurmR/slurmR-job-42c85c6bbc39/01-bash.sh</span></a>
+<a class="sourceLine" id="cb5-45" title="45"><span class="kw"><a href="reference/Slurm_clean.html">Slurm_clean</a></span>(ans) <span class="co"># Cleaning after you</span></a></code></pre></div>
 </div>
 <div id="example-2-job-resubmission" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example-2-job-resubmission" class="anchor"></a>Example 2: Job resubmission</h2>
 <p>The following example from the package’s manual.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Submitting a simple job</span>
-job &lt;-<span class="st"> </span><span class="kw"><a href="reference/Slurm_EvalQ.html">Slurm_EvalQ</a></span>(slurmR::<span class="kw"><a href="reference/WhoAmI.html">WhoAmI</a></span>(), <span class="dt">njobs =</span> <span class="dv">20</span>, <span class="dt">plan =</span> <span class="st">"submit"</span>)
-
-<span class="co"># Checking the status of the job (we can simply print)</span>
-job
-<span class="kw"><a href="reference/status.html">status</a></span>(job) <span class="co"># or use the state function</span>
-<span class="kw"><a href="reference/sbatch.html">sacct</a></span>(job) <span class="co"># or get more info with the sactt wrapper.</span>
-
-<span class="co"># Suppose some of the jobs are taking too long to complete (say 1, 2, and 15 through 20)</span>
-<span class="co"># we can stop it and resubmit the job as follows:</span>
-<span class="kw"><a href="reference/sbatch.html">scancel</a></span>(job)
-
-<span class="co"># Resubmitting only </span>
-<span class="kw"><a href="reference/sbatch.html">sbatch</a></span>(job, <span class="dt">array =</span> <span class="st">"1,2,15-20"</span>) <span class="co"># A new jobid will be assigned</span>
-
-<span class="co"># Once its done, we can collect all the results at once</span>
-res &lt;-<span class="st"> </span><span class="kw"><a href="reference/Slurm_collect.html">Slurm_collect</a></span>(job)
-
-<span class="co"># And clean up if we don't need to use it again</span>
-<span class="kw"><a href="reference/Slurm_clean.html">Slurm_clean</a></span>(res)</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="co"># Submitting a simple job</span></a>
+<a class="sourceLine" id="cb6-2" title="2">job &lt;-<span class="st"> </span><span class="kw"><a href="reference/Slurm_EvalQ.html">Slurm_EvalQ</a></span>(slurmR<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/slurmR/topics/WhoAmI">WhoAmI</a></span>(), <span class="dt">njobs =</span> <span class="dv">20</span>, <span class="dt">plan =</span> <span class="st">"submit"</span>)</a>
+<a class="sourceLine" id="cb6-3" title="3"></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="co"># Checking the status of the job (we can simply print)</span></a>
+<a class="sourceLine" id="cb6-5" title="5">job</a>
+<a class="sourceLine" id="cb6-6" title="6"><span class="kw"><a href="reference/status.html">status</a></span>(job) <span class="co"># or use the state function</span></a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="kw"><a href="reference/sbatch.html">sacct</a></span>(job) <span class="co"># or get more info with the sactt wrapper.</span></a>
+<a class="sourceLine" id="cb6-8" title="8"></a>
+<a class="sourceLine" id="cb6-9" title="9"><span class="co"># Suppose some of the jobs are taking too long to complete (say 1, 2, and 15 through 20)</span></a>
+<a class="sourceLine" id="cb6-10" title="10"><span class="co"># we can stop it and resubmit the job as follows:</span></a>
+<a class="sourceLine" id="cb6-11" title="11"><span class="kw"><a href="reference/sbatch.html">scancel</a></span>(job)</a>
+<a class="sourceLine" id="cb6-12" title="12"></a>
+<a class="sourceLine" id="cb6-13" title="13"><span class="co"># Resubmitting only </span></a>
+<a class="sourceLine" id="cb6-14" title="14"><span class="kw"><a href="reference/sbatch.html">sbatch</a></span>(job, <span class="dt">array =</span> <span class="st">"1,2,15-20"</span>) <span class="co"># A new jobid will be assigned</span></a>
+<a class="sourceLine" id="cb6-15" title="15"></a>
+<a class="sourceLine" id="cb6-16" title="16"><span class="co"># Once its done, we can collect all the results at once</span></a>
+<a class="sourceLine" id="cb6-17" title="17">res &lt;-<span class="st"> </span><span class="kw"><a href="reference/Slurm_collect.html">Slurm_collect</a></span>(job)</a>
+<a class="sourceLine" id="cb6-18" title="18"></a>
+<a class="sourceLine" id="cb6-19" title="19"><span class="co"># And clean up if we don't need to use it again</span></a>
+<a class="sourceLine" id="cb6-20" title="20"><span class="kw"><a href="reference/Slurm_clean.html">Slurm_clean</a></span>(res)</a></code></pre></div>
 <p>Take a look at the vignette <a href="vignettes/getting-started.Rmd">here</a>.</p>
 </div>
 <div id="example-3-using-slurmr-and-futuredoparallelboot" class="section level2">
@@ -242,35 +239,35 @@ res &lt;-<span class="st"> </span><span class="kw"><a href="reference/Slurm_coll
 <a href="#example-3-using-slurmr-and-futuredoparallelboot" class="anchor"></a>Example 3: Using slurmR and future/doParallel/boot/…</h2>
 <p>The function <code>makeSlurmCluster</code> creates a PSOCK cluster within a Slurm HPC network, meaning that users can go beyond a single node cluster object and take advantage of Slurm to create a multi-node cluster object. This feature allows then using <code>slurmR</code> with other R packages that support working with <code>SOCKcluster</code> class objects. Here are some examples</p>
 <p>With the <a href="https://cran.r-project.org/package=future"><code>future</code></a> package</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(future)
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(slurmR)
-
-cl &lt;-<span class="st"> </span><span class="kw"><a href="reference/makeSlurmCluster.html">makeSlurmCluster</a></span>(<span class="dv">50</span>)
-
-<span class="co"># It only takes using a cluster plan!</span>
-<span class="kw">plan</span>(cluster, cl)
-
-...your fancy futuristic code...
-
-<span class="co"># Slurm Clusters are stopped in the same way any cluster object is</span>
-<span class="kw">stopCluster</span>(cl)</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(future)</a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(slurmR)</a>
+<a class="sourceLine" id="cb7-3" title="3"></a>
+<a class="sourceLine" id="cb7-4" title="4">cl &lt;-<span class="st"> </span><span class="kw"><a href="reference/makeSlurmCluster.html">makeSlurmCluster</a></span>(<span class="dv">50</span>)</a>
+<a class="sourceLine" id="cb7-5" title="5"></a>
+<a class="sourceLine" id="cb7-6" title="6"><span class="co"># It only takes using a cluster plan!</span></a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="kw">plan</span>(cluster, cl)</a>
+<a class="sourceLine" id="cb7-8" title="8"></a>
+<a class="sourceLine" id="cb7-9" title="9">...your fancy futuristic code...</a>
+<a class="sourceLine" id="cb7-10" title="10"></a>
+<a class="sourceLine" id="cb7-11" title="11"><span class="co"># Slurm Clusters are stopped in the same way any cluster object is</span></a>
+<a class="sourceLine" id="cb7-12" title="12"><span class="kw">stopCluster</span>(cl)</a></code></pre></div>
 <p>With the <a href="https://cran.r-project.org/package=doParallel"><code>doParallel</code></a> package</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(doParallel)
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(slurmR)
-
-cl &lt;-<span class="st"> </span><span class="kw"><a href="reference/makeSlurmCluster.html">makeSlurmCluster</a></span>(<span class="dv">50</span>)
-
-<span class="kw">registerDoParallel</span>(cl)
-m &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="dv">9</span>), <span class="dv">3</span>, <span class="dv">3</span>)
-<span class="kw">foreach</span>(<span class="dt">i=</span><span class="dv">1</span>:<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(m), <span class="dt">.combine=</span>rbind) 
-
-<span class="kw">stopCluster</span>(cl)</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(doParallel)</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(slurmR)</a>
+<a class="sourceLine" id="cb8-3" title="3"></a>
+<a class="sourceLine" id="cb8-4" title="4">cl &lt;-<span class="st"> </span><span class="kw"><a href="reference/makeSlurmCluster.html">makeSlurmCluster</a></span>(<span class="dv">50</span>)</a>
+<a class="sourceLine" id="cb8-5" title="5"></a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/doParallel/topics/registerDoParallel">registerDoParallel</a></span>(cl)</a>
+<a class="sourceLine" id="cb8-7" title="7">m &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(<span class="dv">9</span>), <span class="dv">3</span>, <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="kw">foreach</span>(<span class="dt">i=</span><span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(m), <span class="dt">.combine=</span>rbind) </a>
+<a class="sourceLine" id="cb8-9" title="9"></a>
+<a class="sourceLine" id="cb8-10" title="10"><span class="kw">stopCluster</span>(cl)</a></code></pre></div>
 </div>
 <div id="vs" class="section level2">
 <h2 class="hasAnchor">
 <a href="#vs" class="anchor"></a>VS</h2>
 <p>There are several ways to enhance R for HPC. Depending on what are your goals/restrictions/preferences, you can use any of the following:</p>
-<table class="table">
+<table class="table table">
 <colgroup width="125"></colgroup>
 <colgroup width="85"></colgroup>
 <colgroup width="73"></colgroup>
@@ -282,199 +279,199 @@ m &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base
 <td height="36" align="center" valign="middle" bgcolor="#FFFFFF">
 <b>Package</b>
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 <b>Rerun (1)</b>
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 <b>apply family (2)</b>
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 <b>Slurm options</b>
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 <b>Focus on [blank]</b>
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 <b>System [blank]</b>
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 <b>Dependencies (3)</b>
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 <b>Status</b>
 </td>
-    </tr>
+</tr>
 <tr>
 <td style="border-top: 1px solid #000000" height="36" align="left" valign="middle" bgcolor="#FFFFFF">
 <b>drake</b>
 </td>
-        <td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
 yes
 </td>
-        <td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
 no
 </td>
-        <td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
 by template
 </td>
-        <td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
 workflows
 </td>
-        <td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
 agnostic
 </td>
-        <td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF" sdnum="1033;0;@">
+<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF" sdnum="1033;0;@">
 5/9
 </td>
-        <td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
 active
 </td>
-    </tr>
+</tr>
 <tr>
 <td height="36" align="left" valign="middle" bgcolor="#CCCCCC">
 <b>slurmR</b>
 </td>
-        <td align="center" valign="middle" bgcolor="#CCCCCC">
+<td align="center" valign="middle" bgcolor="#CCCCCC">
 yes
 </td>
-        <td align="center" valign="middle" bgcolor="#CCCCCC">
+<td align="center" valign="middle" bgcolor="#CCCCCC">
 yes
 </td>
-        <td align="center" valign="middle" bgcolor="#CCCCCC">
+<td align="center" valign="middle" bgcolor="#CCCCCC">
 on the fly
 </td>
-        <td align="center" valign="middle" bgcolor="#CCCCCC">
+<td align="center" valign="middle" bgcolor="#CCCCCC">
 calls
 </td>
-        <td align="center" valign="middle" bgcolor="#CCCCCC">
+<td align="center" valign="middle" bgcolor="#CCCCCC">
 specific
 </td>
-        <td align="center" valign="middle" bgcolor="#CCCCCC" sdnum="1033;0;@">
+<td align="center" valign="middle" bgcolor="#CCCCCC" sdnum="1033;0;@">
 0/0
 </td>
-        <td align="center" valign="middle" bgcolor="#CCCCCC">
+<td align="center" valign="middle" bgcolor="#CCCCCC">
 active
 </td>
-    </tr>
+</tr>
 <tr>
 <td height="36" align="left" valign="middle" bgcolor="#FFFFFF">
 <b>rslurm</b>
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 no
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 no
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 on the fly
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 calls
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 specific
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF" sdnum="1033;0;@">
+<td align="center" valign="middle" bgcolor="#FFFFFF" sdnum="1033;0;@">
 1/1
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 inactive (since 2017)
 </td>
-    </tr>
+</tr>
 <tr>
 <td height="36" align="left" valign="middle" bgcolor="#FFFFFF">
 <b>future.batchtools</b>
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 no
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 yes
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 by template
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 calls
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 agnostic
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF" sdnum="1033;0;@">
+<td align="center" valign="middle" bgcolor="#FFFFFF" sdnum="1033;0;@">
 2/24
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 active
 </td>
-    </tr>
+</tr>
 <tr>
 <td height="36" align="left" valign="middle" bgcolor="#FFFFFF">
 <b>batchtools</b>
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 yes
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 yes
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 by template
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 calls
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 agnostic
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF" sdnum="1033;0;@">
+<td align="center" valign="middle" bgcolor="#FFFFFF" sdnum="1033;0;@">
 12/20
 </td>
-        <td align="center" valign="middle" bgcolor="#FFFFFF">
+<td align="center" valign="middle" bgcolor="#FFFFFF">
 active
 </td>
-    </tr>
+</tr>
 <tr>
 <td style="border-bottom: 1px solid #000000" height="36" align="left" valign="middle" bgcolor="#FFFFFF">
 <b>clustermq</b>
 </td>
-        <td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
 no
 </td>
-        <td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
 no
 </td>
-        <td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
 by template
 </td>
-        <td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
 calls
 </td>
-        <td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
 agnostic
 </td>
-        <td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF" sdnum="1033;0;@">
+<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF" sdnum="1033;0;@">
 6/16
 </td>
-        <td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
 active
 </td>
-    </tr>
+</tr>
 <tr>
 <td colspan="8" height="17" align="left" valign="middle" bgcolor="#FFFFFF">
 [1] After errors, the part or the entire job can be resubmitted.
 </td>
-        </tr>
+</tr>
 <tr>
 <td colspan="8" height="17" align="left" valign="middle" bgcolor="#FFFFFF">
 [2] Functionality similar to the apply family in base R.
 </td>
-        </tr>
+</tr>
 <tr>
 <td colspan="8" height="17" align="left" valign="middle" bgcolor="#FFFFFF">
 [3] Number of directed/recursive dependencies. As reported in <a href="https://tinyverse.netlify.com">https://tinyverse.netlify.com/</a> (June 4th, 2019)
 </td>
-        </tr>
+</tr>
 </tbody>
 </table>
 </div>
@@ -491,7 +488,7 @@ active
 <ul>
 <li><p>USC <a href="https://hpcc.usc.edu">High Performance Computing Center</a></p></li>
 <li><p>Princeton <a href="https://researchcomputing.princeton.edu/education/online-tutorials/getting-started/introducing-slurm">Princeton Research Computing</a></p></li>
-<li><p>Harvard <a href="https://www.rc.fas.harvard.edu/resources/quickstart-guide/">FAS</a>, <a href="https://rc.hms.harvard.edu/#cluster">HMS research computing</a></p></li>
+<li><p>Harvard <a href="https://www.rc.fas.harvard.edu/resources/quickstart-guide/">FAS</a>, <a href="https://rc.hms.harvard.edu/">HMS research computing</a></p></li>
 <li><p>UCSan Diego <a href="https://keck2.ucsd.edu/dokuwiki/doku.php/wiki:slurm">WM Keck Lab for Integrated Biology</a></p></li>
 <li><p>Stanford <a href="https://www.sherlock.stanford.edu/docs/overview/introduction/">Sherlock</a>, <a href="https://login.scg.stanford.edu/tutorials/job_scripts/">SCG Informatics Cluster</a></p></li>
 <li><p>Berkeley <a href="http://research-it.berkeley.edu/services/high-performance-computing/running-your-jobs">Research IT</a></p></li>
@@ -508,7 +505,6 @@ active
 <p>Computation for the work described in this paper was supported by the University of Southern California’s Center for High-Performance Computing (hpcc.usc.edu).</p>
 </div>
 </div>
-
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -528,12 +524,6 @@ active
 <li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
-<div class="community">
-<h2>Community</h2>
-<ul class="list-unstyled">
-<li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
-</ul>
-</div>
 <div class="citation">
 <h2>Citation</h2>
 <ul class="list-unstyled">
@@ -543,24 +533,25 @@ active
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>George Vega Yon <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-3171-0844" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
+<li>George Vega Yon <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-3171-0844" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
 <li>National Cancer Institute (NCI) <br><small class="roles"> Funder </small>  <br><small>(Grant Number 5P01CA196569-02)</small>
 </li>
 <li><a href="authors.html">All authors...</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
+      <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://doi.org/10.21105/joss.01493"><img src="http://joss.theoj.org/papers/10.21105/joss.01493/status.svg" alt="DOI"></a></li>
-<li><a href="https://travis-ci.org/USCbiostats/slurmR"><embed src="https://travis-ci.org/USCbiostats/slurmR.svg?branch=master"></embed></a></li>
+<li><a href="https://travis-ci.org/USCbiostats/slurmR"><img src="https://travis-ci.org/USCbiostats/slurmR.svg?branch=master" alt="Travis build status"></a></li>
 <li><a href="https://codecov.io/gh/USCbiostats/slurmR"><img src="https://codecov.io/gh/USCbiostats/slurmR/branch/master/graph/badge.svg" alt="codecov"></a></li>
 <li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
 <li><a href="https://CRAN.R-project.org/package=slurmR"><img src="https://www.r-pkg.org/badges/version/slurmR" alt="CRAN status"></a></li>
 </ul>
 </div>
 </div>
+
 </div>
 
 
@@ -569,14 +560,12 @@ active
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
-
       </footer>
 </div>
 
   
-
 
   </body>
 </html>

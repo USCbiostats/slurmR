@@ -6,7 +6,7 @@ if (slurm_available()) {
   tmpf <- tempfile()
 
   job1  <- Slurm_EvalQ(1 + 1, njobs = 2, job_name = "test-Slurm_EvalQ",
-             sbatch_opt = list(partition = "conti", account = "lc_dvc", time="02:00:00"),
+             sbatch_opt = list(partition = "scavenge", time="02:00:00"),
              plan = "wait", tmp_path = tmpd
            )
 

@@ -7,7 +7,7 @@ if (!slurm_available()) {
 
 expect_message(
   suppressWarnings(sourceSlurm(system.file("example.R", package="slurmR"), plan = "submit",
-    job_name = "test-sourceSlurm", partition="conti", account="lc_dvc", time = "01:00:00")),
+    job_name = "test-sourceSlurm", partition="scavenge", time = "01:00:00")),
   ".*Sourcing an R script using Slurm.*"
 )
 

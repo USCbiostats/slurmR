@@ -5,6 +5,7 @@ x <- ifelse(slurm_available(), "/staging/ggv/", tempdir())
     opts_slurmR$set_tmp_path(x)
     opts_slurmR$debug_on()
     opts_slurmR$verbose_off()
+    opts_slurmR$set_opts(partition="scavenge")
   })
 
   b <- list(1:5, 1:10)
@@ -56,5 +57,6 @@ x <- ifelse(slurm_available(), "/staging/ggv/", tempdir())
 # Default debug option
 suppressMessages(
   opts_slurmR$debug_off()
+  opts_slurmR$set_opts(partition=NULL)
 )
 

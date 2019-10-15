@@ -197,10 +197,16 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
         )
 
   # Preparing options
-  option <- x$bashfile
+  option   <- x$bashfile
+  tmp_opts <- list(...)
+  for (i in names(x$opts_job)) {
+    if (!(i %in% names(tmp_opts)))
+      tmp_opts[[i]] <- x$opts_job[[i]]
+  }
+
 
   if (!opts_slurmR$get_debug()) {
-    option <- c(parse_flags(c(x$opts_job,...)), option)
+    option <- c(parse_flags(tmp_opts), option)
   } else {
     option <- c(option, paste(">", snames("out"), ifelse(wait, "", "&")))
   }
@@ -258,12 +264,21 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
 
   if (wait) {
 
-    ans <- sbatch_dummy(
-      `job-name` = paste0(x$opts_job$`job-name`, "-dummy"),
-      dependency = paste0("afterany:", x$jobid),
-      partition  = x$opts_job$partition,
-      account    = x$opts_job$account
-      )
+    # We care about the partition and account for running the dummy job, no
+    # more than that.
+    dummy_opts <- list()
+    dummy_opts$`job-name` <- paste0(x$opts_job$`job-name`, "-dummy")
+    dummy_opts$dependency <- paste0("afterany:", x$jobid)
+
+    job_info <- sacct(x$jobid, brief=FALSE)
+    job_info <- job_info[job_info$Partition != "",,drop=FALSE]
+
+    if (nrow(job_info)) {
+      dummy_opts$partition <- job_info$Partition[1]
+      dummy_opts$account   <- job_info$Account[1]   
+    }
+   
+    ans <- do.call(sbatch_dummy, dummy_opts)
     check_error("srun", ans)
 
   }

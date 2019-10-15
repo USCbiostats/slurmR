@@ -22,9 +22,7 @@ package and use some of its functions.
 
 ## On the latest CRAN comments
 
-1. The "invalid URLs: URL: https://rc.hms.harvard.edu/#cluster" is a false positive.
-   either way, it is not the main website of Slurm but the site of one of the clusters
-   that I've listed on the README.md file. No need to change that.
+1. The "invalid URLs: URL: https://rc.hms.harvard.edu/#cluster" has been corrected.
    
 2. On the package's name. I've contacted the team behind Slurm and, unfortunately,
    they asked me to change the name. Because of this, the R package is now called

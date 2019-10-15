@@ -48,8 +48,14 @@ Wondering who is using Slurm? Checkout the [list at the end of this document](#w
 
 ## Installation
 
+From your HPC command line, you can install the development version from [GitHub](https://github.com/) with:
 
-And the development version from [GitHub](https://github.com/) with:
+```bash
+$ git clone https://github.com/USCbiostats/slurmR.git
+$ R CMD INSTALL slurmR/
+```
+
+Or using the `devtools` from within R:
 
 ``` r
 # install.packages("devtools")

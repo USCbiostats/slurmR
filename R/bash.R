@@ -10,15 +10,17 @@
 #' @rdname sbatch
 slurm_available <- function() {
 
+  if (.Platform$OS.type != "unix")
+    return(FALSE)
+
   x <- tryCatch(
-    system2("type", "sbatch", stderr = TRUE, stdout = TRUE),
+    system2("sbatch", "--version", stderr = TRUE, stdout = TRUE),
     error = function(e) e)
 
   if (inherits(x, "error"))
     FALSE
   else
     TRUE
-
 }
 
 #' Returns with an error if Slurm is not available

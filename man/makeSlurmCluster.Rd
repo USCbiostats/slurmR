@@ -5,7 +5,7 @@
 \alias{stopCluster.slurm_cluster}
 \title{Create a Parallel Socket Cluster using Slurm}
 \usage{
-makeSlurmCluster(n, job_name = opts_slurmR$get_job_name(),
+makeSlurmCluster(n, job_name = random_job_name(),
   tmp_path = opts_slurmR$get_tmp_path(), cluster_opt = list(),
   max_wait = 300L, verb = TRUE, ...)
 

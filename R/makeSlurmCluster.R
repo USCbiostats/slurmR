@@ -121,7 +121,7 @@ get_hosts <- function(ntasks=1, tmp_path = getwd(), ...) {
 #'
 makeSlurmCluster <- function(
   n,
-  job_name       = opts_slurmR$get_job_name(),
+  job_name       = random_job_name(),
   tmp_path       = opts_slurmR$get_tmp_path(),
   cluster_opt    = list(),
   max_wait       = 300L,

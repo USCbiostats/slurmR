@@ -27,11 +27,11 @@
 #' }
 Slurm_log <- function(x, which. = NULL, cmd = "less") {
 
-  if (!inherits(x, "slurm_job") & Sys.getenv("R_SLURMR_TEST") != "TRUE")
+  if (!inherits(x, "slurm_job"))
     stop("`x` must be an object of class \"slurm_job\".", call. = FALSE)
 
   # We only execute this function if we are running in interactive mode!
-  if (!interactive()) {
+  if (!interactive() & Sys.getenv("R_SLURMR_TEST") != "TRUE") {
     message("The Slurm_log function only works in interactive mode.")
     return(invisible())
   }

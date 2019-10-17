@@ -26,10 +26,8 @@ if (slurm_available()) {
   )
 
   # Cleanup
-  system2("rm", c("-rf", tmpd))
   Slurm_clean(job1)
   Slurm_clean(job2)
-  Slurm_clean(job3)
 
 }
 

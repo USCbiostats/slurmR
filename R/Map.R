@@ -38,7 +38,7 @@ Slurm_Map <- function(
   ...,
   njobs       = 2L,
   mc.cores    = 1L,
-  job_name    = opts_slurmR$get_job_name(),
+  job_name    = random_job_name(),
   tmp_path    = opts_slurmR$get_tmp_path(),
   plan        = "collect",
   sbatch_opt  = list(ntasks=1L, `cpus-per-task`=mc.cores),

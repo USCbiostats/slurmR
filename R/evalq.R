@@ -10,7 +10,7 @@
 Slurm_EvalQ <- function(
   expr,
   njobs       = 2L,
-  job_name    = opts_slurmR$get_job_name(),
+  job_name    = random_job_name(),
   tmp_path    = opts_slurmR$get_tmp_path(),
   plan        = "collect",
   sbatch_opt  = list(ntasks=1L),

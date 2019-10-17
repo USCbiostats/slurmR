@@ -30,11 +30,8 @@ NULL
 .onLoad <- function(libname, pkgname) {
 
   opts_slurmR$set_tmp_path(getwd())
-
   tmp <- tempfile("slurmR-job-", opts_slurmR$get_tmp_path())
-  tmp <- gsub(".+(?=slurmR-job-)", "", tmp, perl = TRUE)
 
-  opts_slurmR$set_job_name(tmp)
 }
 
 

@@ -7,19 +7,18 @@
 \title{The Slurm version of the \code{\link[=lapply]{*apply}} family of functions.}
 \usage{
 Slurm_Map(f, ..., njobs = 2L, mc.cores = 1L,
-  job_name = opts_slurmR$get_job_name(),
-  tmp_path = opts_slurmR$get_tmp_path(), plan = "collect",
-  sbatch_opt = list(ntasks = 1L, `cpus-per-task` = mc.cores),
-  rscript_opt = list(vanilla = TRUE), seeds = NULL, compress = TRUE,
-  export = NULL, libPaths = .libPaths(), hooks = NULL)
+  job_name = random_job_name(), tmp_path = opts_slurmR$get_tmp_path(),
+  plan = "collect", sbatch_opt = list(ntasks = 1L, `cpus-per-task` =
+  mc.cores), rscript_opt = list(vanilla = TRUE), seeds = NULL,
+  compress = TRUE, export = NULL, libPaths = .libPaths(),
+  hooks = NULL)
 
 Slurm_lapply(X, FUN, ..., njobs = 2L, mc.cores = 1L,
-  job_name = opts_slurmR$get_job_name(),
-  tmp_path = opts_slurmR$get_tmp_path(), plan = "collect",
-  sbatch_opt = list(ntasks = 1L, `cpus-per-task` = mc.cores),
-  rscript_opt = list(vanilla = TRUE), seeds = NULL, compress = TRUE,
-  export = NULL, export_env = NULL, libPaths = .libPaths(),
-  hooks = NULL)
+  job_name = random_job_name(), tmp_path = opts_slurmR$get_tmp_path(),
+  plan = "collect", sbatch_opt = list(ntasks = 1L, `cpus-per-task` =
+  mc.cores), rscript_opt = list(vanilla = TRUE), seeds = NULL,
+  compress = TRUE, export = NULL, export_env = NULL,
+  libPaths = .libPaths(), hooks = NULL)
 
 Slurm_sapply(X, FUN, ..., simplify = TRUE)
 }

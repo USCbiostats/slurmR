@@ -1,3 +1,11 @@
+#' Generate a random job name
+#' @return A character scalar that can be used as job
+#' @export
+random_job_name <- function() {
+  job <- tempfile("slurmR-job-", tmpdir = opts_slurmR$get_tmp_path())
+  gsub(".+(?=slurmR-job-)", "", job, perl = TRUE)
+}
+
 #' Utility function
 #' If the job folder doesn't exists, this creates it.
 #' @noRd

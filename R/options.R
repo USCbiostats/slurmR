@@ -69,7 +69,6 @@ opts_slurmR <- (function() {
 
   # Default chdir is null and will be set at the first call of the function
   OPTS_SLURM            <- new.env(parent = emptyenv())
-  # OPTS_SLURM$chdir      <- NULL
   OPTS_SLURM$`job-name` <- NULL
 
   OPTS_R          <- new.env(parent = emptyenv())

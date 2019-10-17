@@ -1,3 +1,5 @@
+.PHONY: instal build check clean docs man
+
 install:
 	R CMD INSTALL .
 
@@ -23,4 +25,4 @@ covr:
 	Rscript -e 'cv <- covr::package_coverage();saveRDS(cv, "slurmR-coverage.rds");covr::codecov(coverage=cv)' \
 		> slurmR-coverage.Rout &
 
-.PHONY: instal build check clean docs man
+

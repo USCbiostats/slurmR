@@ -24,3 +24,5 @@ pkgdown
 .+\.pdf
 
 ^appveyor\.yml$
+^doc$
+^Meta$

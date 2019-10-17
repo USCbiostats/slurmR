@@ -262,26 +262,8 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
   } else
     x$jobid <- NA
 
-  if (wait) {
-
-    # We care about the partition and account for running the dummy job, no
-    # more than that.
-    dummy_opts <- list()
-    dummy_opts$`job-name` <- paste0(x$opts_job$`job-name`, "-dummy")
-    dummy_opts$dependency <- paste0("afterany:", x$jobid)
-
-    job_info <- sacct(x$jobid, brief=FALSE)
-    job_info <- job_info[job_info$Partition != "",,drop=FALSE]
-
-    if (nrow(job_info)) {
-      dummy_opts$partition <- job_info$Partition[1]
-      dummy_opts$account   <- job_info$Account[1]   
-    }
-   
-    ans <- do.call(sbatch_dummy, dummy_opts)
-    check_error("srun", ans)
-
-  }
+  if (wait)
+    wait_slurm(x$jobid)
 
   # Not necesary
   invisible(x)
@@ -348,17 +330,8 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
   jobid <- as.integer(gsub(pattern = ".+ (?=[0-9]+$)", "", ans, perl=TRUE))
   message(" jobid:", jobid, ".")
 
-  if (wait) {
-
-    ans <- sbatch_dummy(
-      `job-name` = paste0(job_name, "-dummy"),
-      dependency = paste0("afterany:", jobid),
-      partition  = SBATCH["partition"],
-      account    = SBATCH["account"]
-    )
-    check_error("srun", ans)
-
-  }
+  if (wait)
+    wait_slurm(jobid)
 
   invisible(jobid)
 
@@ -366,43 +339,48 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
 
 #' Waits for the `jobid` to be completed
 #' @noRd
-sbatch_dummy <- function(...) {
+wait_slurm <- function(pid, freq = 0.1) {
 
-  if (opts_slurmR$get_debug()) {
-    warning("Waiting is not available in debug mode.", call.=FALSE)
-    return(0)
+  # Checking if Slurm and debug mode
+  if (!slurm_available()) {
+
+    if (opts_slurmR$get_debug()) {
+      warning("waiting is not available in debug mode.", call. = FALSE)
+      return()
+    } else
+      stopifnot_slurm()
   }
 
-  message("Waiting for the job to be done...", appendLF = FALSE)
+  while(TRUE) {
 
-  flags <- parse_flags(
-    c(
-      list(
-        output = "/dev/null",
-        quiet  = TRUE,
-        wait   = TRUE
-        ),
-      list(...)
-    )
-    )
+    # Getting status, every freq secs
+    Sys.sleep(freq)
+    s <- status(pid)
 
-  # Checking for slurm
-  stopifnot_slurm()
+    # The job has not been found
+    if (s == -1L) {
+      print(s)
+      break
+    }
 
-  # Dummy file to run sbatch
-  tmp <- tempfile(fileext = ".sbatch")
-  writeLines("#!/bin/sh\n\necho 0", tmp)
+    # Is it a job array?
+    njobs <- attr(s, "njobs")
+    if (njobs > 1L) {
 
-  cmd <- sprintf("%s %s", paste(flags, collapse=" "), tmp)
-  ans <- silent_system2("sbatch", cmd, wait = TRUE, stdout=TRUE)
+      # End if either done or failed
+      ncompleted <- attr(s, "failed") + attr(s, "done")
+      if (ncompleted == njobs)
+        break
 
-  message("Done.")
+    } else if (s %in% c(0L, 99L))
+      # If it is not a job array (either failed or done)
+      break
 
-  structure(ans, cmd = paste("srun", cmd))
+  }
 
+  return()
 
 }
-
 
 #' @export
 #' @rdname sbatch
@@ -478,17 +456,23 @@ scancel.slurm_job <- function(x = NULL, ...) {
 sacct <- function(x, ...) UseMethod("sacct")
 
 #' @export
-#' @param brief,parsable Logical. When `TRUE`, these are passed as flags directly
+#' @param brief,parsable,allocations Logical. When `TRUE`, these are passed as flags directly
 #' to the command line function `sacct`.
 #' @rdname sbatch
-sacct.default <- function(x = NULL, brief=TRUE, parsable = TRUE, ...) {
+sacct.default <- function(
+  x           = NULL,
+  brief       = TRUE,
+  parsable    = TRUE,
+  allocations = TRUE,
+  ...
+  ) {
 
   # Checking for slurm
   stopifnot_slurm()
 
   flags <- parse_flags(
     c(
-      list(brief = brief, parsable = parsable, jobs = x),
+      list(brief = brief, parsable = parsable, jobs = x, allocations = allocations),
       list(...)
       )
     )

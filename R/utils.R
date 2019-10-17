@@ -209,14 +209,13 @@ status.default <- function(x) {
   if (is.na(x))
     return(wrap(-1L, NULL))
 
-  dat <- sacct(x)
+  dat <- sacct(x, brief = TRUE, parsable = TRUE, allocations = TRUE)
 
   # We only need to keep the main line of the account
   if (!nrow(dat))
     return(wrap(-1L, NULL))
 
   # Processing ids
-  dat  <- dat[grepl("^[^\\.]+$", dat$JobID), , drop=FALSE]
   dat. <- NULL
   for (i in 1L:nrow(dat)) {
 
@@ -244,7 +243,7 @@ status.default <- function(x) {
 
   # Filtering the data, we don't use the steps, just the jobs.
   JobID <- dat$JobID
-  State <- gsub("\\s+.+", "", dat$State)
+  State <- dat$State
 
   STATE_CODES <- split(JOB_STATE_CODES$name, JOB_STATE_CODES$type)
 

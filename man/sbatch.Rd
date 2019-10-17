@@ -41,7 +41,8 @@ scancel(x = NULL, ...)
 
 sacct(x, ...)
 
-\method{sacct}{default}(x = NULL, brief = TRUE, parsable = TRUE, ...)
+\method{sacct}{default}(x = NULL, brief = TRUE, parsable = TRUE,
+  allocations = TRUE, ...)
 
 \method{sacct}{slurm_job}(x, ...)
 
@@ -60,7 +61,7 @@ flag to \code{Slurm} and set \code{wait = TRUE} in the \link{system2} call.}
 
 \item{...}{Further flags passed to the command line function.}
 
-\item{brief, parsable}{Logical. When \code{TRUE}, these are passed as flags directly
+\item{brief, parsable, allocations}{Logical. When \code{TRUE}, these are passed as flags directly
 to the command line function \code{sacct}.}
 }
 \value{

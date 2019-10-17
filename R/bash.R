@@ -379,7 +379,7 @@ wait_slurm <- function(pid, freq = 0.1, force = TRUE) {
 
   }
 
-  return()
+  invisible(NULL)
 
 }
 

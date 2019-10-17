@@ -161,6 +161,8 @@ read_slurm_job <- function(path) {
 #' and saves it in, if `path` is not specified, whatever the `job$options$chdir`
 #' folder is under the name `job.rds`. If a path is specified, the it is directly
 #' passed to [saveRDS()].
+#' @return In the case of the function `write_slurm_job`, it returns the full
+#' path to the file.
 write_slurm_job <- function(x, path = NULL) {
 
   stopifnot_slurm_job(x)
@@ -183,5 +185,7 @@ write_slurm_job <- function(x, path = NULL) {
   }
 
   saveRDS(x, path, compress = FALSE)
+
+  invisible(path)
 
 }

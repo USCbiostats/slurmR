@@ -60,6 +60,9 @@ and \link{opts_slurmR}$get_r_opts() at the moment of the creation of the \code{s
 \item \code{hooks} A list of functions to be called on the collected objects
 by \link{Slurm_collect}.
 }
+
+In the case of the function \code{write_slurm_job}, it returns the full
+path to the file.
 }
 \description{
 Utilities to deal with objects of class \code{slurm_job}. The function \code{new_slurm_job},

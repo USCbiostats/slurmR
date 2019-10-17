@@ -155,13 +155,19 @@ should range between 1 and <code>x$njobs</code>.</p></td>
     <tr>
       <th>cmd</th>
       <td><p>Character scalar. The name of the command to use to call view the
-log file.</p></td>
+log file. Default to <code>less</code> (see details).</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Whatever the command-line call returns.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>If other than <code>less</code> is used, then the function will try to
+check by calling <code>cmd --version</code>. If returns with error, it assumes the
+function is not available.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -185,6 +191,8 @@ log file.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

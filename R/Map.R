@@ -27,7 +27,7 @@ verify_lengths <- function(env, nam) {
 
   }
 
-  return()
+  invisible(NULL)
 
 }
 

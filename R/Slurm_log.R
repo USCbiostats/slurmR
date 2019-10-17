@@ -6,9 +6,14 @@
 #'
 #' @param x An object of class [slurm_job].
 #' @param cmd Character scalar. The name of the command to use to call view the
-#' log file.
+#' log file. Default to `less` (see details).
 #' @param which. An integer scalar. The number of the array job to check. This
 #' should range between 1 and `x$njobs`.
+#'
+#' @details
+#' If other than `less` is used, then the function will try to
+#' check by calling `cmd --version`. If returns with error, it assumes the
+#' function is not available.
 #'
 #' @return Whatever the command-line call returns.
 #'
@@ -22,7 +27,7 @@
 #' }
 Slurm_log <- function(x, which. = NULL, cmd = "less") {
 
-  if (!inherits(x, "slurm_job"))
+  if (!inherits(x, "slurm_job") & Sys.getenv("R_SLURMR_TEST") != "TRUE")
     stop("`x` must be an object of class \"slurm_job\".", call. = FALSE)
 
   # We only execute this function if we are running in interactive mode!
@@ -72,10 +77,11 @@ Slurm_log <- function(x, which. = NULL, cmd = "less") {
 
   # Checking if less is available on the system
   less_available <- tryCatch(
-    system2("type", cmd, stderr = TRUE, stdout = TRUE),
-    error = function(e) e)
+    silent_system2(cmd, "--version", stderr = TRUE, stdout = TRUE),
+    error = function(e) e
+    )
 
-  if (inherits(x, "error"))
+  if (inherits(less_available, "error"))
     stop(
       cmd," is not available in your system. Talk to your system admin.",
       call. = FALSE

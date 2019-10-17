@@ -10,6 +10,7 @@ if (slurm_available()) {
   ans2 <- parSapply(cl2, x, mean)
 
   expect_equal(ans1, ans2)
+  expect_silent(print(cl1))
 
   stopCluster(cl1)
   stopCluster(cl2)

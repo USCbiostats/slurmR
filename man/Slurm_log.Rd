@@ -13,7 +13,7 @@ Slurm_log(x, which. = NULL, cmd = "less")
 should range between 1 and \code{x$njobs}.}
 
 \item{cmd}{Character scalar. The name of the command to use to call view the
-log file.}
+log file. Default to \code{less} (see details).}
 }
 \value{
 Whatever the command-line call returns.
@@ -22,6 +22,11 @@ Whatever the command-line call returns.
 After submission, the functions of type \link[=Slurm_lapply]{Slurm_*apply} generate
 log files, one per each job in the job array. The \code{Slurm_log} function can be
 used to check the log files of jobs in the array that failed.
+}
+\details{
+If other than \code{less} is used, then the function will try to
+check by calling \code{cmd --version}. If returns with error, it assumes the
+function is not available.
 }
 \examples{
 \dontrun{

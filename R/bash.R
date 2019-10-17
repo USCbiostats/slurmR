@@ -339,17 +339,14 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
 
 #' Waits for the `jobid` to be completed
 #' @noRd
-wait_slurm <- function(pid, freq = 0.1) {
+wait_slurm <- function(pid, freq = 0.1, force = TRUE) {
 
   # Checking if Slurm and debug mode
-  if (!slurm_available()) {
-
-    if (opts_slurmR$get_debug()) {
-      warning("waiting is not available in debug mode.", call. = FALSE)
-      return()
-    } else
-      stopifnot_slurm()
-  }
+  if (opts_slurmR$get_debug()) {
+    warning("waiting is not available in debug mode.", call. = FALSE)
+    return()
+  } else if (!slurm_available())
+    stopifnot_slurm()
 
   while(TRUE) {
 
@@ -357,8 +354,12 @@ wait_slurm <- function(pid, freq = 0.1) {
     Sys.sleep(freq)
     s <- status(pid)
 
-    # The job has not been found
-    if (s == -1L) {
+    # The job has not been found. If force = TRUE, then, if the job has not
+    # been found, then just retry until it finds the job. Otherwise, if no
+    # forcing, then break out if no job has been found.
+    if (force && s == -1L) {
+      next
+    } else if (!force && s == -1L) {
       print(s)
       break
     }
@@ -368,7 +369,7 @@ wait_slurm <- function(pid, freq = 0.1) {
     if (njobs > 1L) {
 
       # End if either done or failed
-      ncompleted <- attr(s, "failed") + attr(s, "done")
+      ncompleted <- length(attr(s, "failed")) + length(attr(s, "done"))
       if (ncompleted == njobs)
         break
 

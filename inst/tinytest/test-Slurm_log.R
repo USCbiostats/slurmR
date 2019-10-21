@@ -10,10 +10,10 @@ if (slurm_available()) {
   sbatch(x, wait = TRUE)
 
   # Checking errors
-  expect_error(Slurm_log(x, which. = c(1,2)), "length 1")
-  expect_error(Slurm_log(x, which. = 3), "within")
-  expect_error(Slurm_log(x, cmd = "acommandthatdoesntexists"), "system admin")
+  expect_error(Slurm_log(x, which. = c(1,2), SLURMR_TEST = TRUE), "length 1")
+  expect_error(Slurm_log(x, which. = 3, SLURMR_TEST = TRUE), "within")
+  expect_error(Slurm_log(x, cmd = "acommandthatdoesntexists", SLURMR_TEST=TRUE), "system admin")
   Slurm_clean(x)
-  expect_error(Slurm_log(x), "path to its temp")
+  expect_error(Slurm_log(x, SLURMR_TEST = TRUE), "path to its temp")
 
 }

@@ -138,7 +138,7 @@ used to check the log files of jobs in the array that failed.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>Slurm_log</span>(<span class='no'>x</span>, <span class='kw'>which.</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cmd</span> <span class='kw'>=</span> <span class='st'>"less"</span>)</pre>
+    <pre class="usage"><span class='fu'>Slurm_log</span>(<span class='no'>x</span>, <span class='kw'>which.</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cmd</span> <span class='kw'>=</span> <span class='st'>"less"</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,6 +156,10 @@ should range between 1 and <code>x$njobs</code>.</p></td>
       <th>cmd</th>
       <td><p>Character scalar. The name of the command to use to call view the
 log file. Default to <code>less</code> (see details).</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Ignored.</p></td>
     </tr>
     </table>
     

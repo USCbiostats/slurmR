@@ -169,13 +169,12 @@ write_slurm_job <- function(x, path = NULL) {
 
   # Setting the old ones
   if (is.null(path)) {
-    oldopts <- c(
-      opts_slurmR$get_opts_job("chdir"),
-      opts_slurmR$get_opts_r("tmp_path")
-    )
+    oldpath <- opts_slurmR$get_tmp_path()
+    oldname <- opts_slurmR$get_job_name(check=FALSE)
     on.exit({
-      opts_slurmR$set_tmp_path(oldopts$tmp_path)
-      opts_slurmR$set_job_name(oldopts$`job-name`)
+      opts_slurmR$set_tmp_path(oldpath)
+      if (!is.null(oldname))
+        opts_slurmR$set_job_name(oldname)
       })
 
     opts_slurmR$set_tmp_path(x$opts_r$tmp_path)

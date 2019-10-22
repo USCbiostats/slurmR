@@ -6,15 +6,15 @@
 #'
 #' @param x An object of class [slurm_job].
 #' @param cmd Character scalar. The name of the command to use to call view the
-#' log file. Default to `less` (see details).
+#' log file. Default to `less` when interactive mode, otherwise `cat` (see details).
 #' @param which. An integer scalar. The number of the array job to check. This
 #' should range between 1 and `x$njobs`.
-#' @param ... Ignored.
 #'
 #' @details
 #' If other than `less` is used, then the function will try to
 #' check by calling `cmd --version`. If returns with error, it assumes the
-#' function is not available.
+#' function is not available. Using the `cmd` argument only works in interactive
+#' mode.
 #'
 #' @return Whatever the command-line call returns.
 #'
@@ -26,20 +26,20 @@
 #' x <- Slurm_EvalQ(slurmR::whoami(), plan = "wait")
 #' Slurm_log(x) # Checking the R log
 #' }
-Slurm_log <- function(x, which. = NULL, cmd = "less", ...) {
+Slurm_log <- function(x, which. = NULL, cmd = NULL) {
 
   if (!inherits(x, "slurm_job"))
     stop("`x` must be an object of class \"slurm_job\".", call. = FALSE)
 
-  if ("SLURMR_TEST" %in% names(list(...)))
-    SLURMR_TEST <- TRUE
-  else
-    SLURMR_TEST <- FALSE
-
   # We only execute this function if we are running in interactive mode!
-  if (!interactive() & !SLURMR_TEST) {
-    message("The Slurm_log function only works in interactive mode.")
+  if (!is.null(cmd) & !interactive()) {
+    message("Specifying a cmd in Slurm_log function only works in interactive mode.")
     return(invisible())
+  }
+
+  if (is.null(cmd)) {
+    if (interactive()) cmd <- "less"
+    else cmd <- "cat"
   }
 
   # Checking if the job has been submitted, and if the files are available.
@@ -93,13 +93,16 @@ Slurm_log <- function(x, which. = NULL, cmd = "less", ...) {
       call. = FALSE
     )
 
+
+  msg <- paste0(
+    "You are about to call \"", cmd, "\"  to checkout the log file of\n",
+    "your Slurm job #", x$jobid, ". You can also checkout the log file in\n",
+    "the following location:\n  ", logs,"\nContinue? Yes(y) / No(n). "
+  )
+
   key <- ""
-  while (!(key %in% c("y", "n"))) {
-    key <- readline(paste0(
-      "You are about to call \"", cmd, "\"  to checkout the log file of\n",
-      "your Slurm job #", x$jobid, ". You can also checkout the log file in\n",
-      "the following location:\n  ", logs,"\nContinue? Yes(y) / No(n). "
-    ))
+  while (interactive() & !(key %in% c("y", "n"))) {
+    key <- readline(msg)
 
     if (!(key %in% c("y", "n", ""))) {
       cat("You must press either y or n.\n")
@@ -109,6 +112,13 @@ Slurm_log <- function(x, which. = NULL, cmd = "less", ...) {
 
     break
   }
+  if (!interactive())
+    message("Printing the log: ", logs)
+
+  on.exit({
+    if (cmd == "cat")
+      cat("\n")
+  })
 
   system2(cmd, logs)
 

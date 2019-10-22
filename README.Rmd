@@ -52,10 +52,11 @@ From your HPC command line, you can install the development version from [GitHub
 
 ```bash
 $ git clone https://github.com/USCbiostats/slurmR.git
-$ R CMD INSTALL slurmR/
+$ R CMD INSTALL slurmR/ 
 ```
 
-Or using the `devtools` from within R:
+The second line assumes you have R available in your system (usually loaded via
+`module R` or some other command). Or using the `devtools` from within R:
 
 ``` r
 # install.packages("devtools")

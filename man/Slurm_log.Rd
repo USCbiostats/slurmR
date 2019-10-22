@@ -4,7 +4,7 @@
 \alias{Slurm_log}
 \title{Check the R logfile of a job.}
 \usage{
-Slurm_log(x, which. = NULL, cmd = "less", ...)
+Slurm_log(x, which. = NULL, cmd = NULL)
 }
 \arguments{
 \item{x}{An object of class \link{slurm_job}.}
@@ -13,9 +13,7 @@ Slurm_log(x, which. = NULL, cmd = "less", ...)
 should range between 1 and \code{x$njobs}.}
 
 \item{cmd}{Character scalar. The name of the command to use to call view the
-log file. Default to \code{less} (see details).}
-
-\item{...}{Ignored.}
+log file. Default to \code{less} when interactive mode, otherwise \code{cat} (see details).}
 }
 \value{
 Whatever the command-line call returns.
@@ -28,7 +26,8 @@ used to check the log files of jobs in the array that failed.
 \details{
 If other than \code{less} is used, then the function will try to
 check by calling \code{cmd --version}. If returns with error, it assumes the
-function is not available.
+function is not available. Using the \code{cmd} argument only works in interactive
+mode.
 }
 \examples{
 \dontrun{

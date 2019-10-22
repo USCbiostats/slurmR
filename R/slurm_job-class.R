@@ -172,13 +172,13 @@ write_slurm_job <- function(x, path = NULL) {
     oldpath <- opts_slurmR$get_tmp_path()
     oldname <- opts_slurmR$get_job_name(check=FALSE)
     on.exit({
-      opts_slurmR$set_tmp_path(oldpath)
+      opts_slurmR$set_tmp_path(oldpath, overwrite = FALSE)
       if (!is.null(oldname))
-        opts_slurmR$set_job_name(oldname)
+        opts_slurmR$set_job_name(oldname, overwrite = FALSE)
       })
 
-    opts_slurmR$set_tmp_path(x$opts_r$tmp_path)
-    opts_slurmR$set_job_name(x$opts_job$`job-name`)
+    opts_slurmR$set_tmp_path(x$opts_r$tmp_path, overwrite = FALSE)
+    opts_slurmR$set_job_name(x$opts_job$`job-name`, overwrite = FALSE)
 
     path <- snames("job")
   }
@@ -188,3 +188,5 @@ write_slurm_job <- function(x, path = NULL) {
   invisible(path)
 
 }
+
+

@@ -160,7 +160,6 @@ Slurm_lapply <- function(
   bash <- new_bash(
     njobs    = njobs,
     job_name = opts_slurmR$get_job_name(),
-    tmp_path = opts_slurmR$get_tmp_path(),
     output   = snames("out"),
     filename = snames("sh")
     )

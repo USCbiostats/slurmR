@@ -2,10 +2,13 @@
 % Please edit documentation in R/sourceSlurm.R
 \name{sourceSlurm}
 \alias{sourceSlurm}
+\alias{slurmr_cmd}
 \title{Source an R script as a Slurm job}
 \usage{
 sourceSlurm(file, job_name = NULL, tmp_path = tempdir(),
   rscript_opt = list(vanilla = TRUE), plan = "wait", ...)
+
+slurmr_cmd(cmd_path, cmd_name = "sbatchr")
 }
 \arguments{
 \item{file}{Character. Path to the R script to source using Slurm.}
@@ -21,6 +24,10 @@ nodes in the network (See \link{opts_slurmR}).}
 \item{plan}{A character scalar. (See \link{the_plan}).}
 
 \item{...}{Further options passed to \link{sbatch}.}
+
+\item{cmd_path}{Character scalar. Path (directory) where to put the comand function.}
+
+\item{cmd_name}{Character scalar. Name of the command (of the file).}
 }
 \value{
 Whatever \link{sbatch} returns.
@@ -33,6 +40,17 @@ and submitting it via \link{sbatch}.
 \code{sourceSlurm} checks for flags that may be included in the Slurm job file. If
 the R script starts with \code{#!/bin/} or similar, then \code{#SBATCH} flags will be
 read from the R script and added to the Slurm job file.
+
+The function \code{slurmr_cmd} writes a simple command that works as a wrapper
+of \code{sourceSlurm}. In particular, from command line, if the user wants to source an
+R script using \code{sourceSlurm}, we can either:\preformatted{$ Rscript -e "slurmR::sourceSlurm('path/to/the/script.R', plan = 'submit')"
+}
+
+Or, after calling \code{slurmr_cmd} from within R, do the following instead\preformatted{$ ./sbatchr path/to/the/script.R
+}
+
+The main side effect of this function is that it creates a file named \code{cmd_name}
+in the directory specified by \code{cmd_path}.
 }
 \examples{
 # In this example we will be sourcing an R script that also has #SBATCH

@@ -24,8 +24,7 @@
 #' @noRd
 new_bash <- function(
   filename,
-  job_name,
-  tmp_path,
+  job_name = NULL,
   output   = NULL,
   njobs    = NULL
   ) {
@@ -48,8 +47,9 @@ new_bash <- function(
   env$add_SBATCH <- function(x) {
 
     # Adding whatever options are there
-    if (length(x))
-      env$append(paste("#SBATCH", parse_flags(x)))
+    if (length(x)) {
+      env$append(sprintf("#SBATCH %s", parse_flags(x)))
+    }
 
     invisible()
   }

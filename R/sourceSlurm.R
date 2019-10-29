@@ -81,8 +81,7 @@ sourceSlurm <- function(
 
   x <- new_bash(
     filename = script_path,
-    job_name = job_name,
-    tmp_path = tmp_path
+    job_name = job_name
     )
 
   # Adding options
@@ -115,11 +114,49 @@ sourceSlurm <- function(
   plan <- the_plan(plan)
   if (plan$collect)
     warning("When using Slurm via sourceSlurm, collection is not possible.", call. = FALSE)
-  
+
   # Submitting the job
   sbatch(script_path, submit = plan$submit, wait = plan$wait, ...)
 
 }
 
+#' @export
+#' @rdname sourceSlurm
+#' @param cmd_path Character scalar. Path (directory) where to put the comand function.
+#' @param cmd_name Character scalar. Name of the command (of the file).
+#' @details The function `slurmr_cmd` writes a simple command that works as a wrapper
+#' of `sourceSlurm`. In particular, from command line, if the user wants to source an
+#' R script using `sourceSlurm`, we can either:
+#'
+#' ```
+#' $ Rscript -e "slurmR::sourceSlurm('path/to/the/script.R', plan = 'submit')"
+#' ```
+#'
+#' Or, after calling `slurmr_cmd` from within R, do the following instead
+#'
+#' ```
+#' $ ./sbatchr path/to/the/script.R
+#' ```
+#'
+#' The main side effect of this function is that it creates a file named `cmd_name`
+#' in the directory specified by `cmd_path`.
+#'
+#' @rdname sourceSlurm
+slurmr_cmd <- function(cmd_path, cmd_name = "sbatchr") {
 
+  fn   <- suppressWarnings(normalizePath(sprintf("%s/%s", cmd_path, cmd_name), ))
+  bash <- new_bash(fn)
+  bash$Rscript("", flags = list(vanilla = TRUE, e = "slurmR::sourceSlurm('$1', plan = 'submit')"))
+  bash$write()
+
+  system2("chmod", sprintf("u+x %s", fn))
+
+  message(
+    "Success! The file has been written in: \n  ", fn,
+    "\nYou can submits jobs from your command line using the following:\n",
+    "  ./", cmd_name, " path/to/rscript/to/run.R\n",
+    "Remember that this is a wrapper of `sourceSlurm`, to the file must start with '#!/bin/sh'."
+    )
+
+}
 

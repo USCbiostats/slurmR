@@ -53,7 +53,7 @@ parse_flags.list <- function(x, ...) {
 
   # If no flags are passed, then return ""
   if (!length(x))
-    return("")
+    return(character(0L))
 
   single_char <- nchar(names(x)) == 1
 

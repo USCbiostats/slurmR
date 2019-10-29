@@ -95,11 +95,21 @@ sourceSlurm <- function(
   # Writing the script
   x$write()
 
-  message(
-    "Sourcing an R script using Slurm. ",
-    "The created file can be found here:\n ",
-    script_path
+  if (interactive())
+    message(
+      "\nSourcing an R script using Slurm. ",
+      "The created file can be found here:\n ",
+      script_path
+      )
+  else {
+    message("\n") # We need an extra skip
+    hline(
+      "Sourcing an R script using Slurm.",
+      "The bashscript has the following contents:"
     )
+    message(paste(readLines(script_path), collapse="\n"))
+    hline("EOF")
+  }
 
   # Figuring out the plan
   plan <- the_plan(plan)
@@ -110,4 +120,6 @@ sourceSlurm <- function(
   sbatch(script_path, submit = plan$submit, wait = plan$wait, ...)
 
 }
+
+
 

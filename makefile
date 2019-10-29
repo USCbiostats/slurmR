@@ -1,10 +1,13 @@
-.PHONY: instal build check clean docs man
+.PHONY: instal build check clean docs man checkalloc
 
 install:
 	R CMD INSTALL .
 
 build:
 	cd ../ && R CMD build slurmR/
+
+checkalloc:
+	salloc --partition=scavenge --time=01:00:00 --cpus-per-task=4 --job-name=slurmR-pkg-check --mem-per-cpu=1G srun -n1 $(MAKE) check
 
 check:
 	$(MAKE) build && cd .. && R CMD check --as-cran slurmR_*.tar.gz ; $(MAKE) clean

@@ -50,7 +50,7 @@ sourceSlurm <- function(
   job_name    = NULL,
   tmp_path    = tempdir(),
   rscript_opt = list(vanilla = TRUE),
-  plan        = "wait",
+  plan        = "submit",
   ...
   ) {
 

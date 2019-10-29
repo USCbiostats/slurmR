@@ -137,7 +137,9 @@ and submitting it via <a href='sbatch.html'>sbatch</a>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>sourceSlurm</span>(<span class='no'>file</span>, <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(),
-  <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>plan</span> <span class='kw'>=</span> <span class='st'>"wait"</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>plan</span> <span class='kw'>=</span> <span class='st'>"submit"</span>, <span class='no'>...</span>)
+
+<span class='fu'>slurmr_cmd</span>(<span class='no'>cmd_path</span>, <span class='kw'>cmd_name</span> <span class='kw'>=</span> <span class='st'>"sbatchr"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -168,6 +170,14 @@ nodes in the network (See <a href='opts_slurmR.html'>opts_slurmR</a>).</p></td>
       <th>...</th>
       <td><p>Further options passed to <a href='sbatch.html'>sbatch</a>.</p></td>
     </tr>
+    <tr>
+      <th>cmd_path</th>
+      <td><p>Character scalar. Path (directory) where to put the comand function.</p></td>
+    </tr>
+    <tr>
+      <th>cmd_name</th>
+      <td><p>Character scalar. Name of the command (of the file).</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -179,6 +189,14 @@ nodes in the network (See <a href='opts_slurmR.html'>opts_slurmR</a>).</p></td>
     <p><code>sourceSlurm</code> checks for flags that may be included in the Slurm job file. If
 the R script starts with <code>#!/bin/</code> or similar, then <code>#SBATCH</code> flags will be
 read from the R script and added to the Slurm job file.</p>
+<p>The function <code>slurmr_cmd</code> writes a simple command that works as a wrapper
+of <code>sourceSlurm</code>. In particular, from command line, if the user wants to source an
+R script using <code>sourceSlurm</code>, we can either:</p><pre>$ Rscript -e "slurmR::sourceSlurm('path/to/the/script.R', plan = 'submit')"
+</pre>
+    <p>Or, after calling <code>slurmr_cmd</code> from within R, do the following instead</p><pre>$ ./sbatchr path/to/the/script.R
+</pre>
+    <p>The main side effect of this function is that it creates a file named <code>cmd_name</code>
+in the directory specified by <code>cmd_path</code>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -188,6 +206,7 @@ read from the R script and added to the Slurm job file.</p>
 
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cat'>cat</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/readLines'>readLines</a></span>(<span class='no'>file</span>), <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>"\n"</span>)</div><div class='output co'>#&gt; #!/bin/sh
 #&gt; #SBATCH --account=lc_ggv
+#&gt; #SBATCH --partition=scavenge
 #&gt; #SBATCH --time=01:00:00
 #&gt; #SBATCH --mem-per-cpu=4G
 #&gt; #SBATCH --job-name=Waiting

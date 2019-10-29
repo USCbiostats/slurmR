@@ -138,7 +138,7 @@ used to check the log files of jobs in the array that failed.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>Slurm_log</span>(<span class='no'>x</span>, <span class='kw'>which.</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cmd</span> <span class='kw'>=</span> <span class='st'>"less"</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>Slurm_log</span>(<span class='no'>x</span>, <span class='kw'>which.</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cmd</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,11 +155,7 @@ should range between 1 and <code>x$njobs</code>.</p></td>
     <tr>
       <th>cmd</th>
       <td><p>Character scalar. The name of the command to use to call view the
-log file. Default to <code>less</code> (see details).</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Ignored.</p></td>
+log file. Default to <code>less</code> when interactive mode, otherwise <code>cat</code> (see details).</p></td>
     </tr>
     </table>
     
@@ -171,7 +167,8 @@ log file. Default to <code>less</code> (see details).</p></td>
 
     <p>If other than <code>less</code> is used, then the function will try to
 check by calling <code>cmd --version</code>. If returns with error, it assumes the
-function is not available.</p>
+function is not available. Using the <code>cmd</code> argument only works in interactive
+mode.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

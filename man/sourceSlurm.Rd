@@ -6,7 +6,7 @@
 \title{Source an R script as a Slurm job}
 \usage{
 sourceSlurm(file, job_name = NULL, tmp_path = tempdir(),
-  rscript_opt = list(vanilla = TRUE), plan = "wait", ...)
+  rscript_opt = list(vanilla = TRUE), plan = "submit", ...)
 
 slurmr_cmd(cmd_path, cmd_name = "sbatchr")
 }

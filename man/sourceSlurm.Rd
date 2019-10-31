@@ -8,7 +8,7 @@
 sourceSlurm(file, job_name = NULL, tmp_path = tempdir(),
   rscript_opt = list(vanilla = TRUE), plan = "submit", ...)
 
-slurmr_cmd(cmd_path, cmd_name = "sbatchr", add_alias = TRUE,
+slurmr_cmd(cmd_path, cmd_name = "slurmr", add_alias = TRUE,
   bashrc_path = "~/.bashrc")
 }
 \arguments{
@@ -55,11 +55,11 @@ of \code{sourceSlurm}. In particular, from command line, if the user wants to so
 R script using \code{sourceSlurm}, we can either:\preformatted{$ Rscript -e "slurmR::sourceSlurm('path/to/the/script.R', plan = 'submit')"
 }
 
-Or, after calling \code{slurmr_cmd} from within R, do the following instead\preformatted{$ ./sbatchr path/to/the/script.R
+Or, after calling \code{slurmr_cmd} from within R, do the following instead\preformatted{$ ./slurmr path/to/the/script.R
 }
 
 And, if you used the option \code{add_alias = TRUE}, then, after restarting bash,
-you can run R scripts with Slurm as follows:\preformatted{$ sbatchr path/to/the/script.R
+you can run R scripts with Slurm as follows:\preformatted{$ slurmr path/to/the/script.R
 }
 
 The main side effect of this function is that it creates a file named \code{cmd_name}

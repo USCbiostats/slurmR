@@ -140,14 +140,14 @@ sourceSlurm <- function(
 #' Or, after calling `slurmr_cmd` from within R, do the following instead
 #'
 #' ```
-#' $ ./sbatchr path/to/the/script.R
+#' $ ./slurmr path/to/the/script.R
 #' ```
 #'
 #' And, if you used the option `add_alias = TRUE`, then, after restarting bash,
 #' you can run R scripts with Slurm as follows:
 #'
 #' ```
-#' $ sbatchr path/to/the/script.R
+#' $ slurmr path/to/the/script.R
 #' ```
 #'
 #' The main side effect of this function is that it creates a file named `cmd_name`
@@ -157,7 +157,7 @@ sourceSlurm <- function(
 #'
 #' @return The function `slurmr_cmd` returns `invisible()`.
 #' @rdname sourceSlurm
-slurmr_cmd <- function(cmd_path, cmd_name = "sbatchr", add_alias = TRUE, bashrc_path = "~/.bashrc") {
+slurmr_cmd <- function(cmd_path, cmd_name = "slurmr", add_alias = TRUE, bashrc_path = "~/.bashrc") {
 
   fn   <- suppressWarnings(normalizePath(sprintf("%s/%s", cmd_path, cmd_name), ))
   bash <- new_bash(fn)

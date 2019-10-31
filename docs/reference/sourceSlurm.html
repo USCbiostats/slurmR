@@ -142,7 +142,7 @@ and submitting it via <a href='sbatch.html'>sbatch</a>.</p>
     <pre class="usage"><span class='fu'>sourceSlurm</span>(<span class='no'>file</span>, <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),
   <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>plan</span> <span class='kw'>=</span> <span class='st'>"submit"</span>, <span class='no'>...</span>)
 
-<span class='fu'>slurmr_cmd</span>(<span class='no'>cmd_path</span>, <span class='kw'>cmd_name</span> <span class='kw'>=</span> <span class='st'>"sbatchr"</span>, <span class='kw'>add_alias</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+<span class='fu'>slurmr_cmd</span>(<span class='no'>cmd_path</span>, <span class='kw'>cmd_name</span> <span class='kw'>=</span> <span class='st'>"slurmr"</span>, <span class='kw'>add_alias</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>bashrc_path</span> <span class='kw'>=</span> <span class='st'>"~/.bashrc"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -206,11 +206,11 @@ of <code>sourceSlurm</code>. In particular, from command line, if the user wants
 R script using <code>sourceSlurm</code>, we can either:</p><pre>$ Rscript -e "slurmR::sourceSlurm('path/to/the/script.R', plan = 'submit')"
 </pre>
 
-<p>Or, after calling <code>slurmr_cmd</code> from within R, do the following instead</p><pre>$ ./sbatchr path/to/the/script.R
+<p>Or, after calling <code>slurmr_cmd</code> from within R, do the following instead</p><pre>$ ./slurmr path/to/the/script.R
 </pre>
 
 <p>And, if you used the option <code>add_alias = TRUE</code>, then, after restarting bash,
-you can run R scripts with Slurm as follows:</p><pre>$ sbatchr path/to/the/script.R
+you can run R scripts with Slurm as follows:</p><pre>$ slurmr path/to/the/script.R
 </pre>
 
 <p>The main side effect of this function is that it creates a file named <code>cmd_name</code>

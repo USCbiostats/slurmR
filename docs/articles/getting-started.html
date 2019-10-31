@@ -92,7 +92,7 @@
       <h1>Getting Started with slurmR</h1>
                         <h4 class="author">George G. Vega Yon</h4>
             
-            <h4 class="date">June 26, 2019</h4>
+            <h4 class="date">June 26, 2019 (last update Oct 31, 2019)</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/USCbiostats/slurmR/blob/master/vignettes/getting-started.Rmd"><code>vignettes/getting-started.Rmd</code></a></small>
       <div class="hidden name"><code>getting-started.Rmd</code></div>
@@ -124,6 +124,9 @@
 <div id="implementation-of-the-slurmr-package" class="section level1">
 <h1 class="hasAnchor">
 <a href="#implementation-of-the-slurmr-package" class="anchor"></a>Implementation of the <code>slurmR</code> package</h1>
+<div id="apply-family" class="section level2">
+<h2 class="hasAnchor">
+<a href="#apply-family" class="anchor"></a>*apply family</h2>
 <p>Just like <code>rslurm</code>, <code>slurmR</code> has two levels of job distribution: first, Slurm Jobs (via the <code>Slurm_lapply</code> and <code>Slurm_Map</code> functions), and second, within each job via <code><a href="https://rdrr.io/r/parallel/mclapply.html">parallel::mclapply</a></code> and <code><a href="https://rdrr.io/r/parallel/mclapply.html">parallel::mcMap</a></code> (task forking).</p>
 <p>In general, the function <code>Slurm_*</code> is implemented as follows:</p>
 <ol style="list-style-type: decimal">
@@ -133,7 +136,29 @@
 <li><p>If <code>submit = TRUE</code> (the default), the job will be submitted to the queue, which implies that <code>Slurm_lapply</code> will call <code><a href="../reference/sbatch.html">sbatch()</a></code>. Then return.</p></li>
 <li><p>Once <code><a href="../reference/sbatch.html">sbatch()</a></code> is called, a Job Array will be submitted in which each R job will lunch up to <code>mc.cores</code> forked processes (2nd layer of parallelization)</p></li>
 </ol>
-<p>Users can collect their results using the function <code>Slurm_collect</code>.</p>
+<p>Users can collect their results using the function <code>Slurm_collect</code>. Furthermore The advantage of using this approach instead of using the <code>makeSlurmCluster</code> wrapper (which is discussed later) is that job-arrays can be re-submitted and, furthermore, the user can chose to not wait for the job to wait, and thus, quit the R session after submitting jobs to the queue.</p>
+</div>
+<div id="integration-with-the-parallel-package" class="section level2">
+<h2 class="hasAnchor">
+<a href="#integration-with-the-parallel-package" class="anchor"></a>Integration with the parallel package</h2>
+<p>Another important component of <code>slurmR</code> is <code>makeSlurmCluster</code> function. This allow users creating multi-node PSOCKCluster class objects. The implementation of this function, wrapper of <code><a href="https://rdrr.io/r/parallel/makeCluster.html">parallel::makePSOCKcluster</a></code>, is very simple:</p>
+<ol style="list-style-type: decimal">
+<li><p>It submits a job to Slurm requesting the desired number of tasks. Each task will then return information regarding the node at which it is operating.</p></li>
+<li><p>Once Slurm allocates the resources, the master R session (from which the job was submitted) will read in the node names returned by each task.</p></li>
+<li><p>With the full list of nodenames in usage, <code>makeSlurmCluster</code> will pass the list of names to <code><a href="https://rdrr.io/r/parallel/makeCluster.html">parallel::makePSOCKcluster</a></code>, which ultimately creates the <code>cluster</code> class object.</p></li>
+</ol>
+<p>After creating the cluster object, the workflow is exactly the same as with the <code>parallel</code> package. Here is an example from the <code>makeSlurmCluster</code> manual</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># Creating a cluster with 100 workers/offpring/child R sessions</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">cl &lt;-<span class="st"> </span><span class="kw"><a href="../reference/makeSlurmCluster.html">makeSlurmCluster</a></span>(<span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co"># Computing the mean of a 100 random uniforms within each worker</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co"># for this we can use any of the function available in the parallel package.</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">ans &lt;-<span class="st"> </span><span class="kw">parSapply</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">200</span>, <span class="cf">function</span>(x) <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="dv">100</span>)))</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co"># We simply call stopCluster as we would do with any other cluster</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co"># object</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw">stopCluster</span>(ans)</a></code></pre></div>
+</div>
 </div>
 <div id="examples" class="section level1">
 <h1 class="hasAnchor">
@@ -142,41 +167,45 @@
 <h2 class="hasAnchor">
 <a href="#simulating-pi" class="anchor"></a>Simulating Pi</h2>
 <p>We would like to implement a simulation algorithm to be run in a cluster. In this case, we have the very simple function we would like to parallelize:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">simpi &lt;-<span class="st"> </span><span class="cf">function</span>(n) {</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">  points &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(n<span class="op">*</span><span class="dv">2</span>), <span class="dt">ncol=</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">  <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span>(points<span class="op">^</span><span class="dv">2</span>) <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1</span>)<span class="op">*</span><span class="dv">4</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">}</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">simpi &lt;-<span class="st"> </span><span class="cf">function</span>(n) {</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">  points &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(n<span class="op">*</span><span class="dv">2</span>), <span class="dt">ncol=</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">  <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span>(points<span class="op">^</span><span class="dv">2</span>) <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1</span>)<span class="op">*</span><span class="dv">4</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">}</a></code></pre></div>
 <p>This simple function generates an estimate of Pi. This approximation is based on the following observation</p>
 <p><span class="math display">\[
 \mbox{Area} = \pi\times r^2 \implies \frac{Area}{r^2} = \pi
 \]</span></p>
 <p>Since we know what <span class="math inline">\(r\)</span> is, we just need to get an estimate of the Area to obtain an approximation of <span class="math inline">\(\pi\)</span>. A rather simple way of doing so is with Monte Carlo simulations, in particular, sampling points in a unit square. The proportion of points that fall within the unit circle, i.e. the proportion of points whose distance to the origin is smaller than the radius of the circle, has an expected value equal to the area of its circumscribed circle (for more details, check out the Wikipedia article about this topic <a href="https://en.wikipedia.org/wiki/Approximations_of_%CF%80#Summing_a_circle's_area">here</a>).</p>
 <p>Using <code><a href="https://rdrr.io/r/parallel/mclapply.html">parallel::mclapply</a></code>, we could just type</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">12</span>)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">ans &lt;-<span class="st"> </span>parallel<span class="op">::</span><span class="kw"><a href="https://rdrr.io/r/parallel/mclapply.html">mclapply</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">1e6</span>, <span class="dv">100</span>), simpi)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(ans))</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">12</span>)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">ans &lt;-<span class="st"> </span>parallel<span class="op">::</span><span class="kw"><a href="https://rdrr.io/r/parallel/mclapply.html">mclapply</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">1e6</span>, <span class="dv">100</span>), simpi)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(ans))</a></code></pre></div>
 <p>Which estimates pi using a single node(computer). However, we can simply exploit parallelization using <code>Slurm_lapply</code>, by writing</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(slurmR)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(slurmR)</a></code></pre></div>
 <pre><code>## Loading required package: parallel</code></pre>
-<pre><code>## On load, `slurmR` sets default options for your jobs: (1) `tmp_path`, which is the default directory where `slurmR` will use to create the auxiliar files (default to getwd()), and (2) `job-name`, which is the option of the same name in Slurm. You can view/set these at:
-##    ?opts_slurmR
-## or you could just type
-##    "opts_slurmR".</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># Setting required parameters</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">opts_slurmR<span class="op">$</span><span class="kw">set_tmp_path</span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>())</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">opts_slurmR<span class="op">$</span><span class="kw">set_job_name</span>(<span class="st">"test1"</span>)</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co"># Optional parameters are set via set_opts</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6">opts_slurmR<span class="op">$</span><span class="kw">set_opts</span>(<span class="dt">partition=</span><span class="st">"conti"</span>, <span class="dt">account=</span><span class="st">"lc_dvc"</span>)</a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co"># We can look at the setup</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9">opts_slurmR</a></code></pre></div>
-<pre><code>## Current default for Slurm jobs:
+<pre><code>## slurmR default options for `tmp_path` (used to store auxiliar files) set to:
+##   /home/george/Documents/slurmR/vignettes
+## You can change this and checkout other slurmR options using: ?opts_slurmR, or you could just type "opts_slurmR" on the terminal.</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Setting required parameters</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">opts_slurmR<span class="op">$</span><span class="kw">set_tmp_path</span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>())</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">opts_slurmR<span class="op">$</span><span class="kw">set_job_name</span>(<span class="st">"test1"</span>)</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co"># Optional parameters are set via set_opts</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">opts_slurmR<span class="op">$</span><span class="kw">set_opts</span>(<span class="dt">partition=</span><span class="st">"conti"</span>, <span class="dt">account=</span><span class="st">"lc_dvc"</span>)</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co"># We can look at the setup</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">opts_slurmR</a></code></pre></div>
+<pre><code>## 
+## Options for sbatch (Slurm workflow):
+##   partition   : conti
+##   account     : lc_dvc
+##   job-name    : test1
 ## 
-## List of 3
-##  $ partition: chr "conti"
-##  $ account  : chr "lc_dvc"
-##  $ job-name : chr "test1"
+## Other options (R workflow):
+##   tmp_path    : /tmp/RtmpnZ8XqJ
+##   cmd         : sbatch
+##   verbose     : FALSE
+##   debug       : FALSE
 ## 
 ## To get and set options for Slurm jobs creation use (see ?opts_slurmR):
 ## 
@@ -194,9 +223,9 @@
 ## set_tmp_path : function (path, recursive = TRUE, overwrite = FALSE)  
 ## verbose_off : function ()  
 ## verbose_on : function ()</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">job &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Slurm_lapply.html">Slurm_lapply</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">1e6</span>, <span class="dv">100</span>), simpi, <span class="dt">njobs=</span><span class="dv">10</span>, <span class="dt">mc.cores=</span><span class="dv">10</span>, <span class="dt">plan =</span> <span class="st">"wait"</span>)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">ans &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Slurm_collect.html">Slurm_collect</a></span>(job)</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(ans))</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">job &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Slurm_lapply.html">Slurm_lapply</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">1e6</span>, <span class="dv">100</span>), simpi, <span class="dt">njobs=</span><span class="dv">10</span>, <span class="dt">mc.cores=</span><span class="dv">10</span>, <span class="dt">plan =</span> <span class="st">"wait"</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">ans &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Slurm_collect.html">Slurm_collect</a></span>(job)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(ans))</a></code></pre></div>
 </div>
 </div>
 <div id="common-options-to-pass-via-sbatch_opt" class="section level1">
@@ -204,12 +233,12 @@
 <a href="#common-options-to-pass-via-sbatch_opt" class="anchor"></a>Common options to pass via <code>sbatch_opt</code>
 </h1>
 <p>Options to <code>sbatch</code> can be passed via <code>sbatch_opt</code> as a list. For example, the following</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">  <span class="st">`</span><span class="dt">job-name</span><span class="st">`</span>    =<span class="st"> "my-fancy-slurm-job"</span>,</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3">  <span class="st">`</span><span class="dt">mem-per-cpu</span><span class="st">`</span> =<span class="st"> "4G"</span>,</a>
-<a class="sourceLine" id="cb9-4" data-line-number="4">  <span class="dt">time          =</span> <span class="st">"12:00:00"</span>,</a>
-<a class="sourceLine" id="cb9-5" data-line-number="5">  <span class="dt">ntasks        =</span> <span class="dv">10</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6">)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">  <span class="st">`</span><span class="dt">job-name</span><span class="st">`</span>    =<span class="st"> "my-fancy-slurm-job"</span>,</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">  <span class="st">`</span><span class="dt">mem-per-cpu</span><span class="st">`</span> =<span class="st"> "4G"</span>,</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">  <span class="dt">time          =</span> <span class="st">"12:00:00"</span>,</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">  <span class="dt">ntasks        =</span> <span class="dv">10</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">)</a></code></pre></div>
 <p>Advises Slurm to allocate 4G of memory per task, set a maximum time limit of 12 hours, and specify that you will be running 10 tasks per job.</p>
 <p>A comprehensive list of options can be found <a href="https://slurm.schedmd.com/sbatch.html">here</a>.</p>
 </div>
@@ -231,7 +260,12 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#introduction">Introduction</a></li>
-      <li><a href="#implementation-of-the-slurmr-package">Implementation of the <code>slurmR</code> package</a></li>
+      <li>
+<a href="#implementation-of-the-slurmr-package">Implementation of the <code>slurmR</code> package</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#apply-family">*apply family</a></li>
+      <li><a href="#integration-with-the-parallel-package">Integration with the parallel package</a></li>
+      </ul>
+</li>
       <li>
 <a href="#examples">Examples</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#simulating-pi">Simulating Pi</a></li>

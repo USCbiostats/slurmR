@@ -92,15 +92,6 @@ stopCluster(ans)
 cl <- makeSlurmCluster(200, partition = "thomas", time = "02:00:00")
 stopCluster(cl)
 
-# Limited number of simultaneous jobs ---------------------------------------
-# Suppose that the user cannot run more than 10 jobs at a time. We can
-# increase the number of workers by increasing the number of child-sessions per job
-
-cl <- makeSlurmCluster(9, offspring_per_job = 5) # We leave one job as the master session.
-
-# This will have in total 45 child processes!
-cl
-
 }
 
 }

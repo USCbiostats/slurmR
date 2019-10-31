@@ -46,6 +46,7 @@ Slurm_Map <- function(
   seeds       = NULL,
   compress    = TRUE,
   export      = NULL,
+  export_env  = NULL,
   libPaths    = .libPaths(),
   hooks       = NULL
   ) {
@@ -54,6 +55,7 @@ Slurm_Map <- function(
   plan <- the_plan(plan)
 
   # Checks
+  f <- match.fun(f)
   if (!is.function(f))
     stop("f should be a function, instead it is: ", class(f), call. = FALSE)
 
@@ -107,8 +109,12 @@ Slurm_Map <- function(
   rscript$add_rds(list(f = f, mc.cores=mc.cores), split = FALSE, compress = compress)
   rscript$add_rds(dots, split = TRUE, compress = compress)
 
+  # Adding readRDS
+  if (is.null(export_env))
+    export_env <- parent.frame()
+
   if (length(export))
-    rscript$add_rds(mget(export, envir=parent.frame()), split = FALSE, compress = compress)
+    rscript$add_rds(mget(export, envir = export_env), split = FALSE, compress = compress)
 
   # Setting the seeds
   rscript$set_seed(seeds)

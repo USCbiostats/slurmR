@@ -108,15 +108,6 @@ get_hosts <- function(ntasks=1, tmp_path = getwd(), ...) {
 #' cl <- makeSlurmCluster(200, partition = "thomas", time = "02:00:00")
 #' stopCluster(cl)
 #'
-#' # Limited number of simultaneous jobs ---------------------------------------
-#' # Suppose that the user cannot run more than 10 jobs at a time. We can
-#' # increase the number of workers by increasing the number of child-sessions per job
-#'
-#' cl <- makeSlurmCluster(9, offspring_per_job = 5) # We leave one job as the master session.
-#'
-#' # This will have in total 45 child processes!
-#' cl
-#'
 #' }
 #'
 makeSlurmCluster <- function(
@@ -145,10 +136,6 @@ makeSlurmCluster <- function(
 
   if (is.null(sbatch_opt$time))
     sbatch_opt$time <- "01:00:00"
-
-  # Creating a job to be submitted
-  JOB_PATH <- NULL # THIS IS CREATED JUST TO AVOID THE NOTE DURING R CMD CHECK
-  ARRAY_ID <- NULL # THIS IS CREATED JUST TO AVOID THE NOTE DURING R CMD CHECK
 
   # These are emergency steps taken in case that the user presses break or
   # an error happens after the creating of the job object.

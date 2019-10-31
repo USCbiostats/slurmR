@@ -141,8 +141,8 @@
   <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='fu'><a href='random_job_name.html'>random_job_name</a></span>(), <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='no'>opts_slurmR</span>$<span class='fu'>get_tmp_path</span>(),
   <span class='kw'>plan</span> <span class='kw'>=</span> <span class='st'>"collect"</span>, <span class='kw'>sbatch_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>ntasks</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>`cpus-per-task`</span> <span class='kw'>=</span>
   <span class='no'>mc.cores</span>), <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>seeds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>compress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>export</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>libPaths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/libPaths.html'>.libPaths</a></span>(),
-  <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+  <span class='kw'>compress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>export</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>export_env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>libPaths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/libPaths.html'>.libPaths</a></span>(), <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>Slurm_lapply</span>(<span class='no'>X</span>, <span class='no'>FUN</span>, <span class='no'>...</span>, <span class='kw'>njobs</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='kw'>mc.cores</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
   <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='fu'><a href='random_job_name.html'>random_job_name</a></span>(), <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='no'>opts_slurmR</span>$<span class='fu'>get_tmp_path</span>(),
@@ -151,7 +151,7 @@
   <span class='kw'>compress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>export</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>export_env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>libPaths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/libPaths.html'>.libPaths</a></span>(), <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>Slurm_sapply</span>(<span class='no'>X</span>, <span class='no'>FUN</span>, <span class='no'>...</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+<span class='fu'>Slurm_sapply</span>(<span class='no'>X</span>, <span class='no'>FUN</span>, <span class='no'>...</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>USE.NAMES</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -201,6 +201,11 @@ of R objects on disk.</p></td>
       <td><p>A named list with objects to be included in the Spawned sessions.</p></td>
     </tr>
     <tr>
+      <th>export_env</th>
+      <td><p>An environment. Environment where the objects listed in
+<code>export</code> are located (default <code><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame()</a></code>).</p></td>
+    </tr>
+    <tr>
       <th>libPaths</th>
       <td><p>A character vector. See <a href='https://rdrr.io/r/base/libPaths.html'>.libPaths</a>.</p></td>
     </tr>
@@ -214,12 +219,7 @@ of R objects on disk.</p></td>
 <a href='https://rdrr.io/r/parallel/mclapply.html'>parallel::mcMap</a>.</p></td>
     </tr>
     <tr>
-      <th>export_env</th>
-      <td><p>An environment. Environment where the objects listed in
-<code>export</code> are located (default <code><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame()</a></code>).</p></td>
-    </tr>
-    <tr>
-      <th>simplify</th>
+      <th>simplify, USE.NAMES</th>
       <td><p>Logical scalar. See <a href='https://rdrr.io/r/base/lapply.html'>sapply</a>.</p></td>
     </tr>
     </table>

@@ -38,10 +38,9 @@ NULL
 .onAttach <- function(libname, pkgname) {
 
   packageStartupMessage(
-    "On load, `slurmR` sets default options for your jobs: (1) `tmp_path`, which is the ",
-    "default directory where `slurmR` will use to create the auxiliar files (default to getwd()), and ",
-    "(2) `job-name`, which is the option of the same name in Slurm. You can view/set",
-    " these at:\n   ?opts_slurmR\nor you could just type\n   \"opts_slurmR\"."
+    "slurmR default options for `tmp_path` (used to store auxiliar files) set to:\n  ", getwd(),
+    "\nYou can change this and checkout other slurmR options using: ",
+    "?opts_slurmR, or you could just type \"opts_slurmR\" on the terminal."
   )
 
 }

@@ -278,14 +278,21 @@ opts_slurmR <- (function() {
 #' @export
 print.opts_slurmR <- function(x, ...) {
 
-  cat("Current default for Slurm jobs:\n\n")
-  str(x$get_opts_job())
+  options_printer <- function(x) {
+    cat(sprintf("  %-12s: %s", names(x), as.character(x)), sep="\n")
+  }
+
+  cat("\nOptions for sbatch (Slurm workflow):\n")
+  options_printer(x$get_opts_job())
+  cat("\nOther options (R workflow):\n")
+  options_printer(x$get_opts_r())
   cat("\nTo get and set options for Slurm jobs creation use (see ?opts_slurmR):\n\n")
   print(utils::ls.str(x))
 
   if(x$get_debug())
     cat("Debugging mode is currently active, which means that `sbatch` will use `sh`",
         " instead (to deactivate it use opts_slurmR$debug_off()).\n")
+  else cat("\n")
 
   invisible(x)
 

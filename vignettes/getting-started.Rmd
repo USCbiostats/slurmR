@@ -1,7 +1,7 @@
 ---
 title: "Getting Started with slurmR"
 author: "George G. Vega Yon"
-date: "June 26, 2019"
+date: "June 26, 2019 (last update Oct 31, 2019)"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Getting Started with slurmR}
@@ -27,6 +27,8 @@ For more information, see https://slurm.schedmd.com/cpu_management.html
 
 # Implementation of the `slurmR` package
 
+## *apply family
+
 Just like `rslurm`, `slurmR` has two levels of job distribution: first, Slurm Jobs (via
 the `Slurm_lapply` and `Slurm_Map` functions), and second, within each job via `parallel::mclapply`
 and `parallel::mcMap` (task forking).
@@ -48,9 +50,44 @@ In general, the function `Slurm_*` is implemented as follows:
 5.  Once `sbatch()` is called, a Job Array will be submitted in which each R
     job will lunch up to `mc.cores` forked processes (2nd layer of parallelization)
     
-    
-Users can collect their results using the function `Slurm_collect`.
-  
+Users can collect their results using the function `Slurm_collect`. Furthermore
+The advantage of using this approach instead of using the `makeSlurmCluster`
+wrapper (which is discussed later) is that job-arrays can be re-submitted and,
+furthermore, the user can chose to not wait for the job to wait, and thus, quit
+the R session after submitting jobs to the queue.
+
+## Integration with the parallel package
+
+Another important component of `slurmR` is `makeSlurmCluster` function. This
+allow users creating multi-node PSOCKCluster class objects. The implementation
+of this function, wrapper of `parallel::makePSOCKcluster`, is very simple:
+
+1. It submits a job to Slurm requesting the desired number of tasks. Each task
+will then return information regarding the node at which it is operating.
+
+2. Once Slurm allocates the resources, the master R session (from which the
+job was submitted) will read in the node names returned by each task.
+
+3. With the full list of nodenames in usage, `makeSlurmCluster` will pass the
+list of names to `parallel::makePSOCKcluster`, which ultimately creates the
+`cluster` class object.
+
+After creating the cluster object, the workflow is exactly the same as with
+the `parallel` package. Here is an example from the `makeSlurmCluster`
+manual
+
+```r
+# Creating a cluster with 100 workers/offpring/child R sessions
+cl <- makeSlurmCluster(100)
+
+# Computing the mean of a 100 random uniforms within each worker
+# for this we can use any of the function available in the parallel package.
+ans <- parSapply(1:200, function(x) mean(runif(100)))
+
+# We simply call stopCluster as we would do with any other cluster
+# object
+stopCluster(ans)
+```
 
 # Examples
 

@@ -93,10 +93,9 @@ A BibTeX entry for LaTeX users is
 ``` r
 library(slurmR)
 #  Loading required package: parallel
-#  On load, `slurmR` sets default options for your jobs: (1) `tmp_path`, which is the default directory where `slurmR` will use to create the auxiliar files (default to getwd()), and (2) `job-name`, which is the option of the same name in Slurm. You can view/set these at:
-#     ?opts_slurmR
-#  or you could just type
-#     "opts_slurmR".
+#  slurmR default options for `tmp_path` (used to store auxiliar files) set to:
+#    /home/george/Documents/slurmR
+#  You can change this and checkout other slurmR options using: ?opts_slurmR, or you could just type "opts_slurmR" on the terminal.
 
 # Suppose that we have 100 vectors of length 50 ~ Unif(0,1)
 set.seed(881)
@@ -108,7 +107,7 @@ We can use the function `Slurm_lapply` to distribute computations
 ``` r
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=slurmR-job-30bc514ffb07 /home/george/Documents/slurmR/slurmR-job-30bc514ffb07/01-bash.sh
+#  sbatch --job-name=slurmR-job-5b0b59993f04 /home/george/Documents/slurmR/slurmR-job-5b0b59993f04/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -120,7 +119,7 @@ get more info, we can actually set the verbose mode on
 opts_slurmR$verbose_on()
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  --------------------------------------------------------------------------------
-#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/slurmR/slurmR-job-30bc49697157/00-rscript.r and has the following contents:
+#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/slurmR/slurmR-job-5b0b63536e93/00-rscript.r and has the following contents:
 #  --------------------------------------------------------------------------------
 #  .libPaths(c("/home/george/R/x86_64-pc-linux-gnu-library/3.6", "/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))
 #  Slurm_env <- function (x) 
@@ -132,35 +131,35 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #      y
 #  }
 #  ARRAY_ID         <- as.integer(Slurm_env("SLURM_ARRAY_TASK_ID"))
-#  JOB_PATH         <- "/home/george/Documents/slurmR/slurmR-job-30bc49697157/"
-#  INDICES          <- readRDS("/home/george/Documents/slurmR/slurmR-job-30bc49697157/INDICES.rds")
-#  X                <- readRDS(sprintf("/home/george/Documents/slurmR/slurmR-job-30bc49697157/X_%04d.rds", ARRAY_ID))
-#  FUN              <- readRDS("/home/george/Documents/slurmR/slurmR-job-30bc49697157/FUN.rds")
-#  mc.cores         <- readRDS("/home/george/Documents/slurmR/slurmR-job-30bc49697157/mc.cores.rds")
-#  seeds            <- readRDS("/home/george/Documents/slurmR/slurmR-job-30bc49697157/seeds.rds")
+#  JOB_PATH         <- "/home/george/Documents/slurmR/slurmR-job-5b0b63536e93/"
+#  INDICES          <- readRDS("/home/george/Documents/slurmR/slurmR-job-5b0b63536e93/INDICES.rds")
+#  X                <- readRDS(sprintf("/home/george/Documents/slurmR/slurmR-job-5b0b63536e93/X_%04d.rds", ARRAY_ID))
+#  FUN              <- readRDS("/home/george/Documents/slurmR/slurmR-job-5b0b63536e93/FUN.rds")
+#  mc.cores         <- readRDS("/home/george/Documents/slurmR/slurmR-job-5b0b63536e93/mc.cores.rds")
+#  seeds            <- readRDS("/home/george/Documents/slurmR/slurmR-job-5b0b63536e93/seeds.rds")
 #  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)
 #  ans <- parallel::mclapply(
 #      X                = X,
 #      FUN              = FUN,
 #      mc.cores         = mc.cores
 #  )
-#  saveRDS(ans, sprintf("/home/george/Documents/slurmR/slurmR-job-30bc49697157/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
+#  saveRDS(ans, sprintf("/home/george/Documents/slurmR/slurmR-job-5b0b63536e93/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
 #  --------------------------------------------------------------------------------
-#  The bash file that will be used is located at: /home/george/Documents/slurmR/slurmR-job-30bc49697157/01-bash.sh and has the following contents:
+#  The bash file that will be used is located at: /home/george/Documents/slurmR/slurmR-job-5b0b63536e93/01-bash.sh and has the following contents:
 #  --------------------------------------------------------------------------------
 #  #!/bin/sh
-#  #SBATCH --job-name=slurmR-job-30bc49697157
-#  #SBATCH --output=/home/george/Documents/slurmR/slurmR-job-30bc49697157/02-output-%A-%a.out
+#  #SBATCH --job-name=slurmR-job-5b0b63536e93
+#  #SBATCH --output=/home/george/Documents/slurmR/slurmR-job-5b0b63536e93/02-output-%A-%a.out
 #  #SBATCH --array=1-2
 #  #SBATCH --ntasks=1
 #  #SBATCH --cpus-per-task=1
 #  export OMP_NUM_THREADS=1
-#  /usr/lib/R/bin/Rscript --vanilla /home/george/Documents/slurmR/slurmR-job-30bc49697157/00-rscript.r
+#  /usr/lib/R/bin/Rscript --vanilla /home/george/Documents/slurmR/slurmR-job-5b0b63536e93/00-rscript.r
 #  --------------------------------------------------------------------------------
 #  EOF
 #  --------------------------------------------------------------------------------
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=slurmR-job-30bc49697157 /home/george/Documents/slurmR/slurmR-job-30bc49697157/01-bash.sh
+#  sbatch --job-name=slurmR-job-5b0b63536e93 /home/george/Documents/slurmR/slurmR-job-5b0b63536e93/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -291,7 +290,8 @@ $ slurmr example.R
 ## VS
 
 There are several ways to enhance R for HPC. Depending on what are your
-goals/restrictions/preferences, you can use any of the following:
+goals/restrictions/preferences, you can use any of the following from
+this **manually curated** list:
 
 <table cellspacing="0" border="0">
 
@@ -307,7 +307,7 @@ goals/restrictions/preferences, you can use any of the following:
 
 </colgroup>
 
-<colgroup span="3" width="85">
+<colgroup span="4" width="85">
 
 </colgroup>
 
@@ -343,6 +343,12 @@ goals/restrictions/preferences, you can use any of the following:
 
 <td align="center" valign="middle" bgcolor="#FFFFFF">
 
+<b>Multinode cluster (3)</b>
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
 <b>Slurm options</b>
 
 </td>
@@ -362,7 +368,7 @@ goals/restrictions/preferences, you can use any of the following:
 <td align="center" valign="middle" bgcolor="#FFFFFF">
 
 <b>Dependencies
-(3)</b>
+(4)</b>
 
 </td>
 
@@ -390,7 +396,13 @@ yes
 
 <td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
 
-no
+\-
+
+</td>
+
+<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+
+\-
 
 </td>
 
@@ -449,6 +461,12 @@ yes
 
 <td align="center" valign="middle" bgcolor="#CCCCCC">
 
+yes
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#CCCCCC">
+
 on the fly
 
 </td>
@@ -489,13 +507,19 @@ active
 
 <td align="center" valign="middle" bgcolor="#FFFFFF">
 
-no
+\-
 
 </td>
 
 <td align="center" valign="middle" bgcolor="#FFFFFF">
 
-no
+\-
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+\-
 
 </td>
 
@@ -525,7 +549,7 @@ specific
 
 <td align="center" valign="middle" bgcolor="#FFFFFF">
 
-inactive (since 2017)
+active
 
 </td>
 
@@ -541,7 +565,13 @@ inactive (since 2017)
 
 <td align="center" valign="middle" bgcolor="#FFFFFF">
 
-no
+\-
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
+yes
 
 </td>
 
@@ -605,6 +635,12 @@ yes
 
 <td align="center" valign="middle" bgcolor="#FFFFFF">
 
+\-
+
+</td>
+
+<td align="center" valign="middle" bgcolor="#FFFFFF">
+
 by
 template
 
@@ -646,13 +682,19 @@ active
 
 <td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
 
-no
+\-
 
 </td>
 
 <td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
 
-no
+\-
+
+</td>
+
+<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
+
+\-
 
 </td>
 
@@ -691,7 +733,7 @@ active
 
 <tr>
 
-<td colspan="8" height="17" align="left" valign="middle" bgcolor="#FFFFFF">
+<td colspan="9" height="17" align="left" valign="middle" bgcolor="#FFFFFF">
 
 \[1\] After errors, the part or the entire job can be
 resubmitted.
@@ -702,10 +744,11 @@ resubmitted.
 
 <tr>
 
-<td colspan="8" height="17" align="left" valign="middle" bgcolor="#FFFFFF">
+<td colspan="9" height="17" align="left" valign="middle" bgcolor="#FFFFFF">
 
-\[2\] Functionality similar to the apply family in base
-R.
+\[2\] Functionality similar to the apply family in base R, e.g. lapply,
+sapply, mapply or
+similar.
 
 </td>
 
@@ -713,10 +756,20 @@ R.
 
 <tr>
 
-<td colspan="8" height="17" align="left" valign="middle" bgcolor="#FFFFFF">
+<td colspan="9" height="17" align="left" valign="middle" bgcolor="#FFFFFF">
 
-\[3\] Number of directed/recursive dependencies. As reported in
-<a href="https://tinyverse.netlify.com">https://tinyverse.netlify.com/</a>
+\[3\] Creating a cluster object using either MPI or Socket connection.
+
+</td>
+
+</tr>
+
+<tr>
+
+<td colspan="9" height="17" align="left" bgcolor="#FFFFFF">
+
+\[4\] Number of directed/recursive dependencies. As reported in
+<a href="https://tinyverse.netlify.com/status/">https://tinyverse.netlify.com/status/</a>
 (June 4th, 2019)
 
 </td>
@@ -726,6 +779,8 @@ R.
 </tbody>
 
 </table>
+
+Please submit an issue or a PR if you find anything off.
 
 ## Contributing
 

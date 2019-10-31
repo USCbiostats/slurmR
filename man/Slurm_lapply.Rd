@@ -10,8 +10,8 @@ Slurm_Map(f, ..., njobs = 2L, mc.cores = 1L,
   job_name = random_job_name(), tmp_path = opts_slurmR$get_tmp_path(),
   plan = "collect", sbatch_opt = list(ntasks = 1L, `cpus-per-task` =
   mc.cores), rscript_opt = list(vanilla = TRUE), seeds = NULL,
-  compress = TRUE, export = NULL, libPaths = .libPaths(),
-  hooks = NULL)
+  compress = TRUE, export = NULL, export_env = NULL,
+  libPaths = .libPaths(), hooks = NULL)
 
 Slurm_lapply(X, FUN, ..., njobs = 2L, mc.cores = 1L,
   job_name = random_job_name(), tmp_path = opts_slurmR$get_tmp_path(),
@@ -20,7 +20,7 @@ Slurm_lapply(X, FUN, ..., njobs = 2L, mc.cores = 1L,
   compress = TRUE, export = NULL, export_env = NULL,
   libPaths = .libPaths(), hooks = NULL)
 
-Slurm_sapply(X, FUN, ..., simplify = TRUE)
+Slurm_sapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE)
 }
 \arguments{
 \item{njobs}{Integer. Number of jobs to use in the job-array. This specifies
@@ -49,6 +49,9 @@ of R objects on disk.}
 
 \item{export}{A named list with objects to be included in the Spawned sessions.}
 
+\item{export_env}{An environment. Environment where the objects listed in
+\code{export} are located (default \code{\link[=parent.frame]{parent.frame()}}).}
+
 \item{libPaths}{A character vector. See \link{.libPaths}.}
 
 \item{hooks}{A list of functions (passed to \link{new_slurm_job}).}
@@ -56,10 +59,7 @@ of R objects on disk.}
 \item{X, FUN, f, mc.cores, ...}{Arguments passed to either \link[parallel:mclapply]{parallel::mclapply} or
 \link[parallel:mcMap]{parallel::mcMap}.}
 
-\item{export_env}{An environment. Environment where the objects listed in
-\code{export} are located (default \code{\link[=parent.frame]{parent.frame()}}).}
-
-\item{simplify}{Logical scalar. See \link{sapply}.}
+\item{simplify, USE.NAMES}{Logical scalar. See \link{sapply}.}
 }
 \value{
 If \code{plan == "collect"}, then whatever the analogous function returns,

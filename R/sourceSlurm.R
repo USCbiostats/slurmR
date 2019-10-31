@@ -170,10 +170,10 @@ slurmr_cmd <- function(cmd_path, cmd_name = "sbatchr", add_alias = TRUE, bashrc_
 
     # This is the entry
     l_alias <- sprintf(
-      "# Alias created by the slurmR R package on %1$s\nalias %2$s=\"%3$s/./%2$s\"",
-      as.character(Sys.time()),
+      "alias %1$s=\"%2$s/./%1$s\" # Alias created by the slurmR R package on %3$s",
       cmd_name,
-      cmd_path
+      cmd_path,
+      as.character(Sys.time())
     )
 
     # Checking whether the file exists or not

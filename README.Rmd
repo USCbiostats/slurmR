@@ -164,6 +164,51 @@ foreach(i=1:nrow(m), .combine=rbind)
 stopCluster(cl)
 ```
 
+## Example 4: Using slurmR directly from the command line
+
+The `slurmR` package has a couple of convenient functions designed for the user
+to save time. First, the function `sourceSlurm()` allows skipping the explicit
+creating of a bash script file to be used together with `sbatch` by putting all
+the required config files on the first lines of an R scripts, for example:
+
+```{r, results='asis', echo=FALSE}
+cat("```\n")
+cat(readLines(system.file("example.R", package="slurmR")), sep="\n")
+cat("```\n")
+```
+
+Is an R script that on the first line coincides with that of a bash script for
+Slurm: `#!/bin/bash`. The following lines start with `#SBATCH` explicitly
+specifying options for `sbatch`, and the reminder lines are just R code.
+
+The previous R script is included in the package (type `system.file("example.R", package="slurmR")`).
+
+Imagine that that R script is named `mybigjob.R`, then you use the `sourceSlurm`
+function to submit it to Slurm as follows:
+
+```r
+slurmR::sourceSlurm("example.R")
+```
+
+This will create the corresponding bash file required to be used with `sbatch`,
+and submit it to Slurm.
+
+Another nice tool is the `slurmr_cmd()`. This function will create a simple bash
+script that can be used as a command line tool to submit this type of R scripts.
+Moreover, this command will can add the command to your session's [**alias**](https://en.wikipedia.org/wiki/Alias_(command)) as follows:
+
+```r
+library(slurmR)
+slurmr_cmd("~", add_alias = TRUE)
+```
+
+Once that's done, you can simply submit R scripts with "Slurm-like headers" (as
+shown previously) as follows:
+
+```bash
+$ slurmr example.R
+```
+
 ## VS 
 
 There are several ways to enhance R for HPC. Depending on what are your goals/restrictions/preferences, you can use any of the following:

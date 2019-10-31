@@ -15,21 +15,25 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -37,14 +41,14 @@
 
 
 
-<meta property="og:title" content="Get and set default options for <code>sbatch</code> and <code>slurmR</code> internals — opts_slurmR" />
 
+<meta property="og:title" content="Get and set default options for <code>sbatch</code> and <code>slurmR</code> internals — opts_slurmR" />
 <meta property="og:description" content="Most of the functions in the slurmR package use tmp_path and job-name
 options to write and submit jobs to Slurm. These options have global
 defaults that are set and retrieved using opts_slurmR." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -56,6 +60,7 @@ defaults that are set and retrieved using opts_slurmR." />
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -82,7 +87,7 @@ defaults that are set and retrieved using opts_slurmR." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -105,11 +110,10 @@ defaults that are set and retrieved using opts_slurmR." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/USCbiostats/slurmR">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -120,6 +124,7 @@ defaults that are set and retrieved using opts_slurmR." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -131,19 +136,17 @@ defaults that are set and retrieved using opts_slurmR." />
     </div>
 
     <div class="ref-description">
-    
     <p>Most of the functions in the <code>slurmR</code> package use <code>tmp_path</code> and <code>job-name</code>
 options to write and submit jobs to <strong>Slurm</strong>. These options have global
 defaults that are set and retrieved using <code>opts_slurmR</code>.</p>
-    
     </div>
 
     <pre class="usage"><span class='no'>opts_slurmR</span></pre>
-        
+
+
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
     <p>An object of class <code>opts_slurmR</code> of length 14.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Whatever the path specified on <code>tmp_path</code>, all nodes should have access to it.
@@ -158,51 +161,52 @@ do such.</p>
 <li><p><code>debug_off : function ()</code> Deactivates the debugging mode.</p></li>
 <li><p><code>get_debug : function ()</code> Returns TRUE of debug mode is on</p></li>
 </ul>
-    <p>Verbose mode</p><ul>
+
+<p>Verbose mode</p><ul>
 <li><p><code>verbose_on : function ()</code> Deactivates the verbose mode. When ON, sbatch prints the Rscript and batch files on screen so that the user knows what will be submitted to Slurm.</p></li>
 <li><p><code>verbose_off : function ()</code> Deactivates the verbose mode.</p></li>
 <li><p><code>get_verbose : function ()</code> Returns TRUE if verbose mode is on.</p></li>
 </ul>
-    <p>Slurm options</p><ul>
+
+<p>Slurm options</p><ul>
 <li><p><code>set_tmp_path : function (path, recursive = TRUE)</code> Sets the tempfile path for I/O</p></li>
 <li><p><code>get_tmp_path : function ()</code> Retrieves tempfile path for I/O</p></li>
 <li><p><code>set_job_name : function (path, check = TRUE, overwrite = TRUE)</code> Changes the job-name. When changing the name of the job the function will check whether the folder chdir/job-name is empty or not. If empty/not created it will create it, otherwise it will delete its contents (if `overwrite = TRUE``, else it will return with an Error).
 .</p></li>
 <li><p><code>get_job_name : function (check = TRUE)</code> Returns the current value of `job-name`.</p></li>
 </ul>
-    <p>Other options</p><ul>
+
+<p>Other options</p><ul>
 <li><p><code>get_cmd : function ()</code> If debug mode is active, then it returns `sh`, otherwise `sbatch`</p></li>
 </ul>
-    <p>For general set/retrieve options</p><ul>
+
+<p>For general set/retrieve options</p><ul>
 <li><p><code>set_opts : function (...)</code> A generic function to set options.</p></li>
 <li><p><code>get_opts_job : function (...)</code> A generic function to retrieve options for the job (Slurm).</p></li>
 <li><p><code>get_opts_r : function (...)</code> A generic function to retrieve options in R.</p></li>
 </ul>
-    
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-# Common setup
-</div><span class='co'># NOT RUN {</span>
+<span class='co'># Common setup</span>
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='no'>opts_slurmR</span>$<span class='fu'>set_tmp_path</span>(<span class='st'>"/staging/pdt/vegayon"</span>)
 <span class='no'>opts_slurmR</span>$<span class='fu'>set_job_name</span>(<span class='st'>"simulations-1"</span>)
 <span class='no'>opts_slurm</span>$<span class='fu'>set_opts</span>(<span class='kw'>partition</span><span class='kw'>=</span><span class='st'>"thomas"</span>, <span class='kw'>account</span><span class='kw'>=</span><span class='st'>"lc_pdt"</span>)
-<span class='co'># }</span><div class='input'>
-</div></pre>
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
       <li><a href="#format">Format</a></li>
-
       <li><a href="#details">Details</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -210,13 +214,16 @@ do such.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

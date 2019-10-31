@@ -8,7 +8,8 @@
 sourceSlurm(file, job_name = NULL, tmp_path = tempdir(),
   rscript_opt = list(vanilla = TRUE), plan = "submit", ...)
 
-slurmr_cmd(cmd_path, cmd_name = "sbatchr")
+slurmr_cmd(cmd_path, cmd_name = "sbatchr", add_alias = TRUE,
+  bashrc_path = "~/.bashrc")
 }
 \arguments{
 \item{file}{Character. Path to the R script to source using Slurm.}
@@ -25,12 +26,20 @@ nodes in the network (See \link{opts_slurmR}).}
 
 \item{...}{Further options passed to \link{sbatch}.}
 
-\item{cmd_path}{Character scalar. Path (directory) where to put the comand function.}
+\item{cmd_path}{Character scalar. Path (directory) where to put the comand function.
+This is usually your home directory.}
 
 \item{cmd_name}{Character scalar. Name of the command (of the file).}
+
+\item{add_alias, bashrc_path}{Logical scalar and character scalar. When
+\code{add_alias=TRUE} it will modify (or create, if non-existent) the \code{.bashrc}
+file to add an alias of the same name of \code{cmd_name}. The path to \code{.bashrc} can be
+specified via the \code{bashrc_path} option.}
 }
 \value{
-Whatever \link{sbatch} returns.
+In the case of \code{sourceSlurm}, Whatever \link{sbatch} returns.
+
+The function \code{slurmr_cmd} returns \code{invisible()}.
 }
 \description{
 This function sources R scripts using Slurm by creating a batch script file
@@ -49,8 +58,14 @@ R script using \code{sourceSlurm}, we can either:\preformatted{$ Rscript -e "slu
 Or, after calling \code{slurmr_cmd} from within R, do the following instead\preformatted{$ ./sbatchr path/to/the/script.R
 }
 
+And, if you used the option \code{add_alias = TRUE}, then, after restarting bash,
+you can run R scripts with Slurm as follows:\preformatted{$ sbatchr path/to/the/script.R
+}
+
 The main side effect of this function is that it creates a file named \code{cmd_name}
-in the directory specified by \code{cmd_path}.
+in the directory specified by \code{cmd_path}, and, if \code{add_alias = TRUE}. it will
+create (if not found) or modify (if found) the \code{.bashrc} file adding a line
+with an alias. For more information on \code{.bashrc} see \href{https://superuser.com/questions/49289}{here}.
 }
 \examples{
 # In this example we will be sourcing an R script that also has #SBATCH

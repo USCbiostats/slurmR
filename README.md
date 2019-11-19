@@ -107,7 +107,7 @@ We can use the function `Slurm_lapply` to distribute computations
 ``` r
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=slurmR-job-5b0b59993f04 /home/george/Documents/slurmR/slurmR-job-5b0b59993f04/01-bash.sh
+#  sbatch --job-name=slurmR-job-3be51d3ebe15 /home/george/Documents/slurmR/slurmR-job-3be51d3ebe15/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -119,7 +119,7 @@ get more info, we can actually set the verbose mode on
 opts_slurmR$verbose_on()
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  --------------------------------------------------------------------------------
-#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/slurmR/slurmR-job-5b0b63536e93/00-rscript.r and has the following contents:
+#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/slurmR/slurmR-job-3be51f05b127/00-rscript.r and has the following contents:
 #  --------------------------------------------------------------------------------
 #  .libPaths(c("/home/george/R/x86_64-pc-linux-gnu-library/3.6", "/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))
 #  Slurm_env <- function (x) 
@@ -131,35 +131,35 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #      y
 #  }
 #  ARRAY_ID         <- as.integer(Slurm_env("SLURM_ARRAY_TASK_ID"))
-#  JOB_PATH         <- "/home/george/Documents/slurmR/slurmR-job-5b0b63536e93/"
-#  INDICES          <- readRDS("/home/george/Documents/slurmR/slurmR-job-5b0b63536e93/INDICES.rds")
-#  X                <- readRDS(sprintf("/home/george/Documents/slurmR/slurmR-job-5b0b63536e93/X_%04d.rds", ARRAY_ID))
-#  FUN              <- readRDS("/home/george/Documents/slurmR/slurmR-job-5b0b63536e93/FUN.rds")
-#  mc.cores         <- readRDS("/home/george/Documents/slurmR/slurmR-job-5b0b63536e93/mc.cores.rds")
-#  seeds            <- readRDS("/home/george/Documents/slurmR/slurmR-job-5b0b63536e93/seeds.rds")
+#  JOB_PATH         <- "/home/george/Documents/slurmR/slurmR-job-3be51f05b127/"
+#  INDICES          <- readRDS("/home/george/Documents/slurmR/slurmR-job-3be51f05b127/INDICES.rds")
+#  X                <- readRDS(sprintf("/home/george/Documents/slurmR/slurmR-job-3be51f05b127/X_%04d.rds", ARRAY_ID))
+#  FUN              <- readRDS("/home/george/Documents/slurmR/slurmR-job-3be51f05b127/FUN.rds")
+#  mc.cores         <- readRDS("/home/george/Documents/slurmR/slurmR-job-3be51f05b127/mc.cores.rds")
+#  seeds            <- readRDS("/home/george/Documents/slurmR/slurmR-job-3be51f05b127/seeds.rds")
 #  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)
 #  ans <- parallel::mclapply(
 #      X                = X,
 #      FUN              = FUN,
 #      mc.cores         = mc.cores
 #  )
-#  saveRDS(ans, sprintf("/home/george/Documents/slurmR/slurmR-job-5b0b63536e93/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
+#  saveRDS(ans, sprintf("/home/george/Documents/slurmR/slurmR-job-3be51f05b127/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
 #  --------------------------------------------------------------------------------
-#  The bash file that will be used is located at: /home/george/Documents/slurmR/slurmR-job-5b0b63536e93/01-bash.sh and has the following contents:
+#  The bash file that will be used is located at: /home/george/Documents/slurmR/slurmR-job-3be51f05b127/01-bash.sh and has the following contents:
 #  --------------------------------------------------------------------------------
 #  #!/bin/sh
-#  #SBATCH --job-name=slurmR-job-5b0b63536e93
-#  #SBATCH --output=/home/george/Documents/slurmR/slurmR-job-5b0b63536e93/02-output-%A-%a.out
+#  #SBATCH --job-name=slurmR-job-3be51f05b127
+#  #SBATCH --output=/home/george/Documents/slurmR/slurmR-job-3be51f05b127/02-output-%A-%a.out
 #  #SBATCH --array=1-2
 #  #SBATCH --ntasks=1
 #  #SBATCH --cpus-per-task=1
 #  export OMP_NUM_THREADS=1
-#  /usr/lib/R/bin/Rscript --vanilla /home/george/Documents/slurmR/slurmR-job-5b0b63536e93/00-rscript.r
+#  /usr/lib/R/bin/Rscript --vanilla /home/george/Documents/slurmR/slurmR-job-3be51f05b127/00-rscript.r
 #  --------------------------------------------------------------------------------
 #  EOF
 #  --------------------------------------------------------------------------------
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=slurmR-job-5b0b63536e93 /home/george/Documents/slurmR/slurmR-job-5b0b63536e93/01-bash.sh
+#  sbatch --job-name=slurmR-job-3be51f05b127 /home/george/Documents/slurmR/slurmR-job-3be51f05b127/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -367,8 +367,7 @@ this **manually curated** list:
 
 <td align="center" valign="middle" bgcolor="#FFFFFF">
 
-<b>Dependencies
-(4)</b>
+<b>Dependencies (4)</b>
 
 </td>
 
@@ -408,8 +407,7 @@ yes
 
 <td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
 
-by
-template
+by template
 
 </td>
 
@@ -641,8 +639,7 @@ yes
 
 <td align="center" valign="middle" bgcolor="#FFFFFF">
 
-by
-template
+by template
 
 </td>
 
@@ -700,8 +697,7 @@ active
 
 <td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
 
-by
-template
+by template
 
 </td>
 
@@ -735,8 +731,7 @@ active
 
 <td colspan="9" height="17" align="left" valign="middle" bgcolor="#FFFFFF">
 
-\[1\] After errors, the part or the entire job can be
-resubmitted.
+\[1\] After errors, the part or the entire job can be resubmitted.
 
 </td>
 
@@ -747,8 +742,7 @@ resubmitted.
 <td colspan="9" height="17" align="left" valign="middle" bgcolor="#FFFFFF">
 
 \[2\] Functionality similar to the apply family in base R, e.g. lapply,
-sapply, mapply or
-similar.
+sapply, mapply or similar.
 
 </td>
 

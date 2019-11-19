@@ -13,13 +13,14 @@ expand_array_indexes(x)
 A character vector with the expanded indices.
 }
 \description{
-When submitting array jobs using \code{sbatch}, users can specify ranges in several
-ways. These could be specified as ranges, "\code{1-9}", lists, "\code{1,2,5}", or intervals
-as "\code{1-7:3}", which translates into "\code{1, 4, 7}". This function expands those
-cases.
+When submitting array jobs using \code{sbatch}, users can specify indices in several
+ways. These could be specified as, for example, ranges, "\code{1-9}", lists,
+"\code{1,2,5}", or intervals as "\code{1-7:3}", which translates into "\code{1, 4, 7}". This
+function expands those cases.
 }
 \details{
-\code{x} is assumed to be in the form of \code{[jobid]_[array expression]}. The first
+\code{x} is assumed to be in the form of \code{[jobid](_[array expression])},
+where the expression after the underscore is optional. The first
 The function will return an expanded version of this, e.g. if \code{x = "8123_[1,3-6]"}
 the resulting expression will be the vector  "8123_1", "8123_3", "8123_4",
 "8123_5", and "8123_6".
@@ -28,5 +29,7 @@ This function was developed mainly to be used internally.
 }
 \examples{
 
-expand_array_indexes(c("123_1", "55_[1-5]", "122_[1, 5-6]", "44_[1-3:2]"))
+expand_array_indexes(c("512", "123_1", "55_[1-5]", "122_[1, 5-6]", "44_[1-3:2]"))
+# [1] "512"   "123_1" "55_1"  "55_2"  "55_3"  "55_4"  "55_5"
+# "122_1" "122_5" "122_6" "44_1"  "44_3"
 }

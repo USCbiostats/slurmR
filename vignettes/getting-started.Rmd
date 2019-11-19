@@ -2,7 +2,10 @@
 title: "Getting Started with slurmR"
 author: "George G. Vega Yon"
 date: "June 26, 2019 (last update Oct 31, 2019)"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 1
 vignette: >
   %\VignetteIndexEntry{Getting Started with slurmR}
   %\VignetteEngine{knitr::rmarkdown}
@@ -11,19 +14,138 @@ vignette: >
 
 # Introduction
 
-Nowadays, high-performance-computing (HPC) clusters are commonly available tools for either in or out of cloud settings. [Slurm Work Manager](https://slurm.schedmd.com/) (formerly *Simple Linux Utility for Resource Manager*) is a program written in C that is used to efficiently manage resources in HPC clusters. The slurmR R package provides tools for using R in HPC settings that work with Slurm. It provides wrappers and auxiliary functions that allow the user to seamlessly integrate their analysis pipeline with HPC, putting emphasis on providing the user with a family of functions similar to those that the parallel R package provides.
+Nowadays, high-performance-computing (HPC) clusters are commonly available tools
+for either in or out of cloud settings.
+[Slurm Work Manager](https://slurm.schedmd.com/) (formerly
+*Simple Linux Utility for Resource Manager*) is a program written in C that is
+used to efficiently manage resources in HPC clusters. The slurmR R package
+provides tools for using R in HPC settings that work with Slurm. It provides
+wrappers and auxiliary functions that allow the user to seamlessly integrate
+their analysis pipeline with HPC, putting emphasis on providing the user with a
+family of functions similar to those that the parallel R package provides.
 
-First, some important definitions
+First, some important discussion points within the context of Slurm+R that users
+in general will find useful. Most of the points have to do with options
+available for Slurm, and in particular, with the `sbatch` command with is used
+to submit batch jobs to Slurm. Users who have used Slurm in the past may wish
+to skip this and continue reading the following section.
 
-1.  **Node** A single computer in the HPC.
-2.  **Partition** A group of nodes in HPC (see `--partition`).
-3.  **Account** Accounts associated with partitions. Accounts can have privileges to use a partition or set of nodes. (See `--account`)
-<!-- 4.  **Job** A job submitted to slurm either via `sbatch`, `salloc`, or `srun`. -->
-5.  **Task** A step within a job. A particular job can have multiple tasks.
-6.  **CPU** (see `--cpus-per-task`, `--`)
+*   **Node** A single computer in the HPC: A lot of times jobs will be submitted
+    to a single node. The simplest way of using R+Slurm is submitting a single
+    job and requesting multiple CPUs to use, for example, `parallel::parLapply`
+    or `parallel::mclapply`. Usually users do not need to request an specific
+    number of nodes to be used as Slurm will allocate the resources as needed.
+    
+    A common mistake of R users is to specify the number of nodes and expect
+    that their script will be parallelized. This won't happen unless the user
+    explicitly writes a parallel computing script.
+    
+    The relevant flag for `sbatch` is `--nodes`.
+    
+*   **Partition** A group of nodes in HPC. Generally large nodes may have
+    multiple partitions, meaning that nodes may be grouped in various
+    ways. For example, nodes belonging to a single group of users may
+    be in a single partition, nodes dedicated to work with large data
+    may be in another partition. Usually, partitions are associated with
+    account privileges, so users may need to specify which account are
+    they using when telling Slurm what partition they plan to use.
+    
+    The relevant flag for `sbatch` is `--partition`.
 
-For more information, see https://slurm.schedmd.com/cpu_management.html
+*   **Account** Accounts may be associated with partitions. Accounts can have
+    privileges to use a partition or set of nodes. Often, users need to 
+    specify the account when submitting jobs to a particular partition.
+    
+    The relevant flag for `sbatch` is `--account`.
 
+*   **Task** A step within a job. A particular job can have multiple tasks.
+    tasks may span multiple nodes, so if the user wants to submit a multicore
+    job, this option may not be the right one.
+
+    The relevant flag for `sbatch` is `--ntasks`
+
+*   **CPU** generally this refers to core or thread (which may be different
+    in systems supporting multithreaded cores). Users may want to specify
+    how many CPUs they want to use for a task. And this is the relevant
+    option when using things like OpenMP or functions that allow creating
+    cluster objects in R (e.g. `makePSOCKcluster`, `makeForkCluster`).
+    
+    The relevant option in `sbatch` is `--cpus-per-task`. More information
+    regarding CPUs in Slurm can be found
+    [here](https://slurm.schedmd.com/cpu_management.html).
+    
+*   **Job Array** Slurm supports job arrays. A job array is in simple terms
+    a job that is repeated multiple times by Slurm, this is, replicates a
+    single job as requested per the user. In the case of R, when using 
+    this option, a single R script is spanned in multiple jobs, so the
+    user can take advantage of this and parallelize jobs accross multiple
+    nodes. Besides from the fact that jobs within a Job Array may be spanned
+    accross multiple nodes, each job in that array has a unique ID that
+    is available to the user via environment variables, in particular
+    `SLURM_ARRAY_TASK_ID`.
+    
+    Within R, and hence the Rscript submitted to Slurm, users can access
+    this environment variable with `Sys.getenv("SLURM_ARRAY_TASK_ID")`.
+    Some of the functionalities of `slurmR` rely on Job Arrays.
+    
+    More information on Job Arrays can be found
+    [here](https://slurm.schedmd.com/job_array.html).
+    The relevant option for this in `sbatch` is `--array`.
+    
+More information about Slurm can be found their official website
+[here](https://slurm.schedmd.com/). A tutorial about how to use Slurm with R
+can be found [here](https://uscbiostats.github.io/slurmr-workshop).
+
+# Submitting jobs via sbatch
+
+In general, users will submit jobs to Slurm using the `sbatch` command line
+function. The `sbatch` function's main argument is the name (path) to a bash
+script that holds the instructions (and sometimes options) associated to
+the program. Here is an example of an bash file to be submitted to Slurm
+
+```bash
+#!/bin/bash
+#SBATCH --time=01:00:00
+#SBATCH --job-name="A long job"
+#SBATCH --mem=5GB
+#SBATCH --output=long-job.out
+cd /path/where/to/start/the/job
+
+# This may vary per HPC system. At USC's hpc system
+# we use: source /usr/usc/R/default/setup.sh
+module load R
+
+Rscript --vanilla long-job-rscript.R
+```
+
+This example bash file, wich we name "long-job-rscript.slurm", has the following
+components:
+
+*  `#!/bin/bash` The interpreter directive that is common to bash scripts.
+   For more on this see [this thread on StackExchange](https://askubuntu.com/questions/141928/what-is-the-difference-between-bin-sh-and-bin-bash).
+
+*  The `#SBATCH` lines specify options for scheduling the job. In order, these
+   options are: Set a maximum time of 1 hour, name the job `A long job`, allocate
+   5GB of memory to the job, write all the output (including `Rscript`'s) to
+   `long-job.out`.
+
+*  The `cd` line changes the directory to some other place where the Rscript
+   needs to be executed.
+   
+*  The `module` line loads R. There are various ways to do this, but it is
+   a common requirement for the user to specify that it will be using R.
+   
+*  Finally, `Rscript` executes the R script named `long-job-rscript.R`.
+
+This batch script can be submitted to Slurm using the `sbatch` command line tool:
+
+```bash
+$ sbatch long-job-rscript.slurm
+```
+
+This is what happens under-the-hood in `slurmR` overall. The next section will
+discuss the ways in which `slurmR` enables out-of-the-box parallel computing
+using Slurm.
 
 # Implementation of the `slurmR` package
 
@@ -48,7 +170,7 @@ In general, the function `Slurm_*` is implemented as follows:
     which implies that `Slurm_lapply` will call `sbatch()`. Then return.
     
 5.  Once `sbatch()` is called, a Job Array will be submitted in which each R
-    job will lunch up to `mc.cores` forked processes (2nd layer of parallelization)
+    job will lunch up to `mc.cores` forked processes (2nd layer of palatalization)
     
 Users can collect their results using the function `Slurm_collect`. Furthermore
 The advantage of using this approach instead of using the `makeSlurmCluster`
@@ -89,9 +211,7 @@ ans <- parSapply(1:200, function(x) mean(runif(100)))
 stopCluster(ans)
 ```
 
-# Examples
-
-## Simulating Pi
+# Example simulating Pi
 
 We would like to implement a simulation algorithm to be run in a cluster. In this
 case, we have the very simple function we would like to parallelize:
@@ -157,17 +277,18 @@ following
 
 ```r
 list(
-  `job-name`    = "my-fancy-slurm-job",
-  `mem-per-cpu` = "4G",
-  time          = "12:00:00",
-  ntasks        = 10
+  `job-name`      = "my-fancy-slurm-job",
+  `mem-per-cpu`   = "4G",
+  time            = "12:00:00",
+  `cpus-per-task` = 10
 )
 ```
 
 Advises Slurm to allocate 4G of memory per task, set a maximum time limit of 12
-hours, and specify that you will be running 10 tasks per job.
+hours, and specify that you will be using 10 CPUs.
 
-A comprehensive list of options can be found [here](https://slurm.schedmd.com/sbatch.html).
+A comprehensive list of options can be found
+[here](https://slurm.schedmd.com/sbatch.html).
 
 # Appendix
 

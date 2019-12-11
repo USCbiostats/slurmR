@@ -199,13 +199,11 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
   # Preparing options
   option   <- x$bashfile
   tmp_opts <- list(...)
-  for (i in names(x$opts_job)) {
-    if (!(i %in% names(tmp_opts)))
-      tmp_opts[[i]] <- x$opts_job[[i]]
-  }
 
+  # Adding default options
+  tmp_opts <- coalesce_slurm_options(tmp_opts)
 
-  if (!opts_slurmR$get_debug()) {
+    if (!opts_slurmR$get_debug()) {
     option <- c(parse_flags(tmp_opts), option)
   } else {
     option <- c(option, paste(">", snames("out"), ifelse(wait, "", "&")))
@@ -289,8 +287,12 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
   if (is.na(job_name))
     job_name <- gsub(".+[/](?=[^/]+$)", "", x, perl=TRUE)
 
+  tmp_opts <- list(...)
+  tmp_opts <- coalesce_slurm_options(tmp_opts)
+  tmp_opts[["job-name"]] <- NULL
+
   option <- if (!opts_slurmR$get_debug())
-   c(parse_flags(..., `job-name` = job_name), x)
+   c(parse_flags(tmp_opts, `job-name` = job_name), x)
   else c(x, ifelse(wait, "", "&"))
 
   # Not submitting means that we just want the script

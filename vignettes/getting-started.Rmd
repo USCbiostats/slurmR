@@ -151,28 +151,7 @@ using Slurm.
 
 ## *apply family
 
-Just like `rslurm`, `slurmR` has two levels of job distribution: first, Slurm Jobs (via
-the `Slurm_lapply` and `Slurm_Map` functions), and second, within each job via `parallel::mclapply`
-and `parallel::mcMap` (task forking).
-
-In general, the function `Slurm_*` is implemented as follows:
-
-1.  List whatever R packages are loaded, including the path to the R package.
-
-2.  List all the objects passed via ellipsis (`...`), and, together with `X` and
-    `FUN` or `f`, save them at `[job_path]/[job_name]/` as `[object-name].rds`.
-
-3.  Write out the corresponding R script and Slurm bash file, and save them as
-    `[job_path]/[job_name]/00-rscript.r`, and `[job_path]/[job_name]/01-bash.sh`
-    respectively.
-
-4.  If `submit = TRUE` (the default), the job will be submitted to the queue,
-    which implies that `Slurm_lapply` will call `sbatch()`. Then return.
-    
-5.  Once `sbatch()` is called, a Job Array will be submitted in which each R
-    job will lunch up to `mc.cores` forked processes (2nd layer of palatalization)
-    
-Users can collect their results using the function `Slurm_collect`. Furthermore
+Furthermore
 The advantage of using this approach instead of using the `makeSlurmCluster`
 wrapper (which is discussed later) is that job-arrays can be re-submitted and,
 furthermore, the user can chose to not wait for the job to wait, and thus, quit

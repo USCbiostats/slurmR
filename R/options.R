@@ -174,21 +174,27 @@ opts_slurmR <- (function() {
 
   }
 
+  # Getting Slurm options
   get_opts_job <- function(...) {
 
     dots <- list(...)
-    if (!length(dots))
-      return(as.list(OPTS_SLURM))
+    opts <- as.list(OPTS_SLURM)
+    opts <- opts[!sapply(opts, is.null)]
+
+    if (!length(dots)) {
+      return(opts)
+    }
 
     dots <- unlist(dots)
 
     if (any(!is.character(dots)))
       stop("`...` only receives characters.", call. = FALSE)
 
-    as.list(OPTS_SLURM)[intersect(dots, names(OPTS_SLURM))]
+    opts[intersect(dots, names(opts))]
 
   }
 
+  # Getting R options
   get_opts_r <- function(...) {
 
     dots <- list(...)
@@ -274,6 +280,20 @@ opts_slurmR <- (function() {
   ), class = "opts_slurmR")
 
 })()
+
+#' Fill options for slurm using slurmr's defaults (if any)
+#' @noRd
+#'
+coalesce_slurm_options <- function(x, y = opts_slurmR$get_opts_job()) {
+
+  for (i in names(y)) {
+    if (i %in% names(x))
+      next
+    x[[i]] <- y[[i]]
+  }
+
+  return(x)
+}
 
 #' @export
 print.opts_slurmR <- function(x, ...) {

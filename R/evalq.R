@@ -69,6 +69,9 @@ Slurm_EvalQ <- function(
   if (!length(sbatch_opt) | (length(sbatch_opt) && !length(sbatch_opt$ntasks)))
     sbatch_opt$ntasks <- 1L
 
+  # Filling missing, if any
+  sbatch_opt <- coalesce_slurm_options(sbatch_opt)
+
   bash$add_SBATCH(sbatch_opt)
   # bash$append("export OMP_NUM_THREADS=1") # Otherwise mclapply may crash
   bash$Rscript(flags = rscript_opt)
@@ -81,7 +84,7 @@ Slurm_EvalQ <- function(
     bashfile = snames("sh"),
     robjects = NULL,
     njobs    = njobs,
-    opts_job = opts_slurmR$get_opts_job(),
+    opts_job = sbatch_opt,
     opts_r   = opts_slurmR$get_opts_r(),
     hooks    = hooks
   )

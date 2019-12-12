@@ -1,9 +1,15 @@
 #' Generate a random job name
-#' @return A character scalar that can be used as job
+#'
+#' @return A character scalar that can be used as job. All names will start with
+#' the prefix `slurmr-job-` and then some random string. This is a wrapper of
+#' the function [tempfile()] and uses as `tmpdir` argument
+#' `opts_slurmR$get_tmp_path()`.
+#' @examples
+#' random_job_name()
 #' @export
 random_job_name <- function() {
-  job <- tempfile("slurmR-job-", tmpdir = opts_slurmR$get_tmp_path())
-  gsub(".+(?=slurmR-job-)", "", job, perl = TRUE)
+  job <- tempfile("slurmr-job-", tmpdir = opts_slurmR$get_tmp_path())
+  gsub(".+(?=slurmr-job-)", "", job, perl = TRUE)
 }
 
 #' Utility function
@@ -92,16 +98,27 @@ parse_flags.list <- function(x, ...) {
 #' internal use only.
 #'
 #' @param type can be any of r, sh, out, or rds.
+#' @param tmp_path Character scalar. Path to the temp directory used by the job
+#' to write files.
+#' @param job_name Character scalar. Name of the job.
 #' @param array_id Integer. ID of the array to create the name.
 #' @family utilities
+#' @details
+#' By default, the parameters `tmp_path` and `job_name` are retrieved from
+#' the currect options specified in [opts_slurmR].
 #' @return A character scalar. The normalized path to the corresponding file.
 #' @export
-snames <- function(type, array_id) {
+snames <- function(
+  type,
+  array_id = NULL,
+  tmp_path = opts_slurmR$get_tmp_path(),
+  job_name = opts_slurmR$get_job_name()
+  ) {
 
   # Checks if the folder exists
   check_path()
 
-  if (!missing(array_id) && length(array_id) > 1)
+  if (length(array_id) && length(array_id) > 1)
     return(sapply(array_id, snames, type = type))
 
   type <- switch (
@@ -121,8 +138,8 @@ snames <- function(type, array_id) {
 
   sprintf(
     "%s/%s/%s",
-    opts_slurmR$get_tmp_path(),
-    opts_slurmR$get_job_name(),
+    tmp_path,
+    job_name,
     type
   )
 
@@ -383,10 +400,7 @@ Slurm_clean <- function(x) {
          paste(attr(s, "pending"), collapse=", "), ".", call. = FALSE)
 
   # Path specification
-  path <- sprintf(
-    "%s/%s",
-    opts_slurmR$get_tmp_path(), opts_slurmR$get_job_name()
-  )
+  path <- sprintf("%s/%s", x$opts_r$tmp_path, x$opts_job$`job-name`)
 
   if (dir.exists(path))
     unlink(path, recursive = TRUE, force = TRUE)
@@ -432,4 +446,33 @@ WhoAmI <- function() {
 #' @details `whoami` is just an alias of `WhoAmI`.
 whoami <- WhoAmI
 
+#' Checks options passed in a list.
+#' @noRd
+check_sbatch_opt <- function(x, job_name = NULL, ...) {
 
+  if (!is.list(x))
+    stop(
+      "`sbatch_opt` should be an object of class `list`. Right now, the ",
+      "passed object is of class: ", paste(class(x), collapse = ", "), ".",
+      call. = FALSE
+      )
+
+  if ("job-name" %in% names(x))
+    stop(
+      "`job-name` must be passed directly via `job_name` in the function, ",
+      "not via `sbatch_opt`.", call. = FALSE
+      )
+
+  x$`job-name` <- job_name
+
+  # More options
+  dots <- list(...)
+  for (i in names(dots)) {
+    if (i %in% names(x))
+      next
+    x[[i]] <- dots[[i]]
+  }
+
+  return(x)
+
+}

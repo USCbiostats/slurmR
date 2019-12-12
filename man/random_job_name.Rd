@@ -7,8 +7,14 @@
 random_job_name()
 }
 \value{
-A character scalar that can be used as job
+A character scalar that can be used as job. All names will start with
+the prefix \code{slurmr-job-} and then some random string. This is a wrapper of
+the function \code{\link[=tempfile]{tempfile()}} and uses as \code{tmpdir} argument
+\code{opts_slurmR$get_tmp_path()}.
 }
 \description{
 Generate a random job name
+}
+\examples{
+random_job_name()
 }

@@ -6,9 +6,9 @@
 \usage{
 Slurm_EvalQ(expr, njobs = 2L, job_name = random_job_name(),
   tmp_path = opts_slurmR$get_tmp_path(), plan = "collect",
-  sbatch_opt = list(ntasks = 1L), rscript_opt = list(vanilla = TRUE),
-  seeds = NULL, compress = TRUE, export = NULL, export_env = NULL,
-  libPaths = .libPaths(), hooks = NULL)
+  sbatch_opt = list(), rscript_opt = list(), seeds = NULL,
+  compress = TRUE, export = NULL, export_env = NULL,
+  libPaths = .libPaths(), hooks = NULL, overwrite = TRUE)
 }
 \arguments{
 \item{expr}{An expression to be passed to Slurm.}

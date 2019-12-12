@@ -13,22 +13,26 @@ Slurm_EvalQ <- function(
   job_name    = random_job_name(),
   tmp_path    = opts_slurmR$get_tmp_path(),
   plan        = "collect",
-  sbatch_opt  = list(ntasks=1L),
-  rscript_opt = list(vanilla=TRUE),
+  sbatch_opt  = list(),
+  rscript_opt = list(),
   seeds       = NULL,
   compress    = TRUE,
   export      = NULL,
   export_env  = NULL,
   libPaths    = .libPaths(),
-  hooks       = NULL
+  hooks       = NULL,
+  overwrite   = TRUE
 ) {
 
   # Figuring out what are we doing.
   plan <- the_plan(plan)
 
+  # Checking job name
+  sbatch_opt <- check_sbatch_opt(sbatch_opt, job_name = job_name, ntasks = 1L)
+
   # Setting the job name
-  opts_slurmR$set_tmp_path(tmp_path)
-  opts_slurmR$set_job_name(job_name)
+  opts_slurmR$set_tmp_path(tmp_path, overwrite = overwrite)
+  opts_slurmR$set_job_name(job_name, overwrite = overwrite)
 
   # Parsing expression ---------------------------------------------------------
   sexpr <- deparse(substitute(expr))
@@ -66,14 +70,7 @@ Slurm_EvalQ <- function(
     filename = snames("sh")
     )
 
-  if (!length(sbatch_opt) | (length(sbatch_opt) && !length(sbatch_opt$ntasks)))
-    sbatch_opt$ntasks <- 1L
-
-  # Filling missing, if any
-  sbatch_opt <- coalesce_slurm_options(sbatch_opt)
-
   bash$add_SBATCH(sbatch_opt)
-  # bash$append("export OMP_NUM_THREADS=1") # Otherwise mclapply may crash
   bash$Rscript(flags = rscript_opt)
   bash$write()
 

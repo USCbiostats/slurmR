@@ -85,18 +85,24 @@ opts_slurmR <- (function() {
     # Path normalization
     path <- normalizePath(path)
 
-    if (!length(path))
-      return(get_tmp_path())
+    # Check if we are renewing the filepath.
+    if (length(OPTS_SLURM$`job-name`)) {
 
-    # if (!dir.exists(path)) {
-    #   dir.create(path, recursive = recursive)
-    # }
+      fn <- sprintf("%s/%s", path, get_job_name())
+      if (dir.exists(fn) && !overwrite)
+        stop(
+          "The folder '", fn, "' already exists. In order to overwrite it you ",
+          "must set the option `overwrite = TRUE`.", call. = FALSE
+        )
+
+    }
+
+    # Recursively creating the folder
+    if (!dir.exists(path)) {
+      dir.create(path, recursive = recursive)
+    }
 
     OPTS_R$tmp_path <- path
-
-    # Move location of the files
-    if (length(OPTS_SLURM$`job-name`) && (get_tmp_path() != path))
-      set_job_name(get_job_name(), overwrite = overwrite)
 
     invisible()
   }
@@ -112,25 +118,33 @@ opts_slurmR <- (function() {
   attr(get_tmp_path, "desc") <- "Retrieves tempfile path for I/O"
 
   # JOB NAME -------------------------------------------------------------------
-  set_job_name <- function(path, check = TRUE, overwrite = TRUE) {
+  set_job_name <- function(name, overwrite = TRUE) {
 
-    if (!length(path))
-      stop("`path` cannot be NULL", call.=FALSE)
-    else if (path == "")
-      stop("`path` must be a meaningful name. Cannot be \"\" (empty).", call.=FALSE)
+    if (!length(name))
+      stop("The `name` cannot be NULL", call. = FALSE)
+    else if (name == "")
+      stop(
+        "`name` must be a meaningful name. Cannot be \"\" (empty).",
+        call. = FALSE
+        )
 
-    fn <- sprintf("%s/%s", get_tmp_path(), path)
-
+    fn <- sprintf("%s/%s", get_tmp_path(), name)
     if (overwrite && file.exists(fn)) {
-      warning("The path '", fn, "' already exists and will be overwritten.",
-              call. = FALSE)
+
+      warning(
+        "The folder '", fn, "' already exists and will be overwritten.",
+        call. = FALSE
+        )
+
       status <- file.remove(list.files(fn, full.names = TRUE))
-    }
-    # else if (!file.exists(fn))
-    #   dir.create(fn)
 
-    OPTS_SLURM$`job-name` <- path
+    } else if (!overwrite && file.exists(fn))
+      stop(
+        "The folder '", fn, "' already exists. In order to overwrite it you ",
+        "must set the option `overwrite = TRUE`.", call. = FALSE
+        )
 
+    OPTS_SLURM$`job-name` <- name
     invisible()
 
   }

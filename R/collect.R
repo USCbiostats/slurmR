@@ -35,19 +35,6 @@ Slurm_collect <- function(...) UseMethod("Slurm_collect")
 #' @rdname Slurm_collect
 Slurm_collect.slurm_job <- function(x, any. = FALSE, wait = 10L, ...) {
 
-  # Making sure the previous setup is kept -------------------------------------
-  old_job_name <- opts_slurmR$get_job_name(check = FALSE)
-  old_tmp_path <- opts_slurmR$get_tmp_path()
-
-  on.exit({
-    opts_slurmR$set_job_name(old_job_name, check = FALSE, overwrite = FALSE)
-    opts_slurmR$set_tmp_path(old_tmp_path)
-  })
-
-  # Setting the job_status -----------------------------------------------------
-  opts_slurmR$set_tmp_path(x$opts_r$tmp_path)
-  opts_slurmR$set_job_name(x$opts_job$`job-name`, overwrite = FALSE)
-
   res <- if (!opts_slurmR$get_debug()) {
 
     # Checking the state of the job
@@ -68,6 +55,9 @@ Slurm_collect.slurm_job <- function(x, any. = FALSE, wait = 10L, ...) {
 
     # Getting the filenames
     readRDS_trying <- function(...) tryCatch(readRDS(...), error = function(e) e)
+
+    # Getting coordinates
+    tmp_path <- x$opts_job$tmp_path
 
     if (S == 0L)
       do.call("c", lapply(snames("rds", 1:x$njobs), readRDS))

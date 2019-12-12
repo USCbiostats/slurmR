@@ -4,12 +4,18 @@
 \alias{snames}
 \title{Full path names for Slurm jobs}
 \usage{
-snames(type, array_id)
+snames(type, array_id = NULL, tmp_path = opts_slurmR$get_tmp_path(),
+  job_name = opts_slurmR$get_job_name())
 }
 \arguments{
 \item{type}{can be any of r, sh, out, or rds.}
 
 \item{array_id}{Integer. ID of the array to create the name.}
+
+\item{tmp_path}{Character scalar. Path to the temp directory used by the job
+to write files.}
+
+\item{job_name}{Character scalar. Name of the job.}
 }
 \value{
 A character scalar. The normalized path to the corresponding file.
@@ -18,6 +24,10 @@ A character scalar. The normalized path to the corresponding file.
 Using \link{opts_slurmR}\code{$get_tmp_path} and \link{opts_slurmR}\code{$get_job_name} creates
 file names with full path to the objects. This function is intended for
 internal use only.
+}
+\details{
+By default, the parameters \code{tmp_path} and \code{job_name} are retrieved from
+the currect options specified in \link{opts_slurmR}.
 }
 \seealso{
 Other utilities: \code{\link{Slurm_clean}},

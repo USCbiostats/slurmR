@@ -163,24 +163,20 @@ read_slurm_job <- function(path) {
 #' passed to [saveRDS()].
 #' @return In the case of the function `write_slurm_job`, it returns the full
 #' path to the file.
-write_slurm_job <- function(x, path = NULL) {
+write_slurm_job <- function(
+  x,
+  path = NULL
+  ) {
 
   stopifnot_slurm_job(x)
 
   # Setting the old ones
   if (is.null(path)) {
-    oldpath <- opts_slurmR$get_tmp_path()
-    oldname <- opts_slurmR$get_job_name(check=FALSE)
-    on.exit({
-      opts_slurmR$set_tmp_path(oldpath, overwrite = FALSE)
-      if (!is.null(oldname))
-        opts_slurmR$set_job_name(oldname, overwrite = FALSE)
-      })
-
-    opts_slurmR$set_tmp_path(x$opts_r$tmp_path, overwrite = FALSE)
-    opts_slurmR$set_job_name(x$opts_job$`job-name`, overwrite = FALSE)
-
-    path <- snames("job")
+    path <- snames(
+      "job",
+      tmp_path = x$opts_r$tmp_path,
+      job_name = x$opts_job$`job-name`
+      )
   }
 
   saveRDS(x, path, compress = FALSE)

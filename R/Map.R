@@ -41,18 +41,25 @@ Slurm_Map <- function(
   job_name    = random_job_name(),
   tmp_path    = opts_slurmR$get_tmp_path(),
   plan        = "collect",
-  sbatch_opt  = list(ntasks=1L, `cpus-per-task`=mc.cores),
-  rscript_opt = list(vanilla=TRUE),
+  sbatch_opt  = list(),
+  rscript_opt = list(),
   seeds       = NULL,
   compress    = TRUE,
   export      = NULL,
   export_env  = NULL,
   libPaths    = .libPaths(),
-  hooks       = NULL
+  hooks       = NULL,
+  overwrite   = TRUE
   ) {
 
   # Figuring out the plan
   plan <- the_plan(plan)
+
+  # Checking job name
+  sbatch_opt <- check_sbatch_opt(
+    sbatch_opt, job_name = job_name, `cpus_per_task` = mc.cores,
+    ntasks = 1L
+  )
 
   # Checks
   f <- match.fun(f)
@@ -93,8 +100,8 @@ Slurm_Map <- function(
   }
 
   # Setting the job name
-  opts_slurmR$set_tmp_path(tmp_path)
-  opts_slurmR$set_job_name(job_name)
+  opts_slurmR$set_tmp_path(tmp_path, overwrite = overwrite)
+  opts_slurmR$set_job_name(job_name, overwrite = overwrite)
 
   # Writing the data on the disk -----------------------------------------------
   INDICES   <- parallel::splitIndices(length(dots[[1]]), njobs)
@@ -144,14 +151,6 @@ Slurm_Map <- function(
     output   = snames("out"),
     filename = snames("sh")
     )
-
-  if (!length(sbatch_opt) | (length(sbatch_opt) && !length(sbatch_opt$`cpus-per-task`)))
-    sbatch_opt$`cpus-per-task` <- mc.cores
-  if (!length(sbatch_opt) | (length(sbatch_opt) && !length(sbatch_opt$ntasks)))
-    sbatch_opt$ntasks <- 1L
-
-  # Filling in with defaults
-  sbatch_opt <- coalesce_slurm_options(sbatch_opt)
 
   bash$add_SBATCH(sbatch_opt)
   bash$append("export OMP_NUM_THREADS=1") # Otherwise mclapply may crash

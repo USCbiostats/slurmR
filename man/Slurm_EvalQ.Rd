@@ -4,7 +4,7 @@
 \alias{Slurm_EvalQ}
 \title{Submit an expression to be evaluated to multiple jobs.}
 \usage{
-Slurm_EvalQ(expr, njobs = 2L, job_name = random_job_name(),
+Slurm_EvalQ(expr, njobs = 2L, job_name = opts_slurmR$get_job_name(),
   tmp_path = opts_slurmR$get_tmp_path(), plan = "collect",
   sbatch_opt = list(), rscript_opt = list(), seeds = NULL,
   compress = TRUE, export = NULL, export_env = NULL,
@@ -45,6 +45,10 @@ of R objects on disk.}
 \item{libPaths}{A character vector. See \link{.libPaths}.}
 
 \item{hooks}{A list of functions (passed to \link{new_slurm_job}).}
+
+\item{overwrite}{Logical scalar. When \code{TRUE}, if the path specified by
+\code{tmp_path/job_name} already exists, it will overwrite it, otherwise the
+function returns with an error.}
 }
 \value{
 A list of length \code{njobs}.

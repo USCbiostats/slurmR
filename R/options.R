@@ -80,28 +80,10 @@ opts_slurmR <- (function() {
 
   # JOB PATH -------------------------------------------------------------------
   # Function to set job path
-  set_tmp_path <- function(path, recursive = TRUE, overwrite = FALSE) {
+  set_tmp_path <- function(path) {
 
-    # Path normalization
+    # Path normalization and assignment
     path <- normalizePath(path)
-
-    # Check if we are renewing the filepath.
-    if (length(OPTS_SLURM$`job-name`)) {
-
-      fn <- sprintf("%s/%s", path, get_job_name())
-      if (dir.exists(fn) && !overwrite)
-        stop(
-          "The folder '", fn, "' already exists. In order to overwrite it you ",
-          "must set the option `overwrite = TRUE`.", call. = FALSE
-        )
-
-    }
-
-    # Recursively creating the folder
-    if (!dir.exists(path)) {
-      dir.create(path, recursive = recursive)
-    }
-
     OPTS_R$tmp_path <- path
 
     invisible()
@@ -118,7 +100,7 @@ opts_slurmR <- (function() {
   attr(get_tmp_path, "desc") <- "Retrieves tempfile path for I/O"
 
   # JOB NAME -------------------------------------------------------------------
-  set_job_name <- function(name, overwrite = TRUE) {
+  set_job_name <- function(name) {
 
     if (!length(name))
       stop("The `name` cannot be NULL", call. = FALSE)
@@ -129,29 +111,17 @@ opts_slurmR <- (function() {
         )
 
     fn <- sprintf("%s/%s", get_tmp_path(), name)
-    if (overwrite && file.exists(fn)) {
-
-      warning(
-        "The folder '", fn, "' already exists and will be overwritten.",
-        call. = FALSE
-        )
-
-      status <- file.remove(list.files(fn, full.names = TRUE))
-
-    } else if (!overwrite && file.exists(fn))
-      stop(
-        "The folder '", fn, "' already exists. In order to overwrite it you ",
-        "must set the option `overwrite = TRUE`.", call. = FALSE
-        )
 
     OPTS_SLURM$`job-name` <- name
     invisible()
 
   }
 
-  get_job_name <- function(check=TRUE) {
-    if (check && !length(OPTS_SLURM$`job-name`))
-      stop("Slurm job has not been initialized", call. = FALSE)
+  get_job_name <- function(check = TRUE) {
+
+    if (!length(OPTS_SLURM$`job-name`))
+      OPTS_SLURM$`job-name` <- random_job_name()
+
     OPTS_SLURM$`job-name`
   }
 

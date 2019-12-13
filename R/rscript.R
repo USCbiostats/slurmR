@@ -32,16 +32,15 @@ rscript_header <- function(pkgs, seeds = NULL) {
 
 save_objects <- function(
   objects,
+  tmp_path,
+  job_name,
   compress = TRUE,
   njobs    = NULL,
   ...
 ) {
 
-  # Checks if the folder exists
-  check_path()
-
   # Creating and checking  path
-  path <- sprintf("%s/%s", opts_slurmR$get_tmp_path(), opts_slurmR$get_job_name())
+  path <- sprintf("%s/%s", tmp_path, job_name)
 
   # Saving objects
   for (i in seq_along(objects)) {
@@ -80,11 +79,12 @@ save_objects <- function(
 #'
 #' This function will create an object of class `slurmR_rscript` that can be used
 #' to write the R component in a batch job.
-#' @param njobs Integer scalar. Number of jobs to be submitted.
+#' @template njobs
 #' @param pkgs A named list with packages to be included. Each element of the list
 #' must be a path to the R library, while the names of the list are the names of
 #' the R packages to be loaded.
 #' @param libPaths A character vector. See [.libPaths].
+#' @template job_name-tmp_path
 #'
 #' @return An environment of class `slurmR_rscript`. This has the following accessible
 #' components:
@@ -123,6 +123,8 @@ save_objects <- function(
 #' @export
 new_rscript <- function(
   njobs,
+  tmp_path,
+  job_name,
   pkgs     = list_loaded_pkgs(),
   libPaths = .libPaths()
   ) {
@@ -165,13 +167,6 @@ new_rscript <- function(
   env$append(rscript_header(pkgs))
   env$append(paste0("Slurm_env <- ", paste(deparse(Slurm_env), collapse="\n")))
   env$append(sprintf("%-16s <- as.integer(Slurm_env(\"SLURM_ARRAY_TASK_ID\"))", "ARRAY_ID"))
-  env$append(sprintf(
-    "%-16s <- \"%s/%s/\"",
-    "JOB_PATH",
-    opts_slurmR$get_tmp_path(),
-    opts_slurmR$get_job_name()
-    )
-    )
 
   # Function to finalize the Rscript
   env$finalize <- function(x, compress = TRUE) {
@@ -181,7 +176,10 @@ new_rscript <- function(
       sprintf(
         "saveRDS(%s, %s, compress = %s)",
         if (missing(x)) "NULL" else x,
-        paste0("sprintf(\"", snames("rds"), "\", ARRAY_ID)"),
+        sprintf(
+          "sprintf(\"%s\", ARRAY_ID)",
+          snames("rds", tmp_path = tmp_path, job_name = job_name)
+          ),
         ifelse(compress, "TRUE", "FALSE")
     ))
 
@@ -199,7 +197,9 @@ new_rscript <- function(
     # Saving the objects
     save_objects(
       x,
-      njobs = if (split) njobs else NULL,
+      job_name = job_name,
+      tmp_path = tmp_path,
+      njobs    = if (split) njobs else NULL,
       compress = compress
       )
 
@@ -212,8 +212,8 @@ new_rscript <- function(
           "%-16s <- readRDS(\"%s/%s/%1$s.rds\")"
         },
         names(x)[i],
-        opts_slurmR$get_tmp_path(),
-        opts_slurmR$get_job_name()
+        tmp_path,
+        job_name
       )
 
       # if (split)
@@ -247,7 +247,10 @@ new_rscript <- function(
   }
 
   env$write <- function() {
-    writeLines(env$rscript, snames("r"))
+    writeLines(
+      env$rscript,
+      snames("r", tmp_path = tmp_path, job_name = job_name)
+      )
   }
 
   structure(env, class = "slurmR_rscript")

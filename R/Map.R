@@ -38,7 +38,7 @@ Slurm_Map <- function(
   ...,
   njobs       = 2L,
   mc.cores    = 1L,
-  job_name    = random_job_name(),
+  job_name    = opts_slurmR$get_job_name(),
   tmp_path    = opts_slurmR$get_tmp_path(),
   plan        = "collect",
   sbatch_opt  = list(),
@@ -55,10 +55,17 @@ Slurm_Map <- function(
   # Figuring out the plan
   plan <- the_plan(plan)
 
+  # Checking the path
+  check_full_path(
+    tmp_path = tmp_path, job_name = job_name, overwrite = overwrite
+  )
+
   # Checking job name
   sbatch_opt <- check_sbatch_opt(
-    sbatch_opt, job_name = job_name, `cpus_per_task` = mc.cores,
-    ntasks = 1L
+    sbatch_opt,
+    job_name        = job_name,
+    `cpus_per_task` = mc.cores,
+    ntasks          = 1L
   )
 
   # Checks
@@ -100,8 +107,8 @@ Slurm_Map <- function(
   }
 
   # Setting the job name
-  opts_slurmR$set_tmp_path(tmp_path, overwrite = overwrite)
-  opts_slurmR$set_job_name(job_name, overwrite = overwrite)
+  opts_slurmR$set_tmp_path(tmp_path)
+  opts_slurmR$set_job_name(job_name)
 
   # Writing the data on the disk -----------------------------------------------
   INDICES   <- parallel::splitIndices(length(dots[[1]]), njobs)
@@ -109,7 +116,12 @@ Slurm_Map <- function(
   # R Script -------------------------------------------------------------------
 
   # Initializing the script
-  rscript <- new_rscript(njobs, libPaths = libPaths)
+  rscript <- new_rscript(
+    njobs,
+    libPaths = libPaths,
+    tmp_path = tmp_path,
+    job_name = job_name
+    )
 
   # Adding readRDS
   rscript$add_rds(list(INDICES = INDICES), split = FALSE, compress = FALSE)

@@ -10,7 +10,7 @@
 Slurm_EvalQ <- function(
   expr,
   njobs       = 2L,
-  job_name    = random_job_name(),
+  job_name    = opts_slurmR$get_job_name(),
   tmp_path    = opts_slurmR$get_tmp_path(),
   plan        = "collect",
   sbatch_opt  = list(),
@@ -27,12 +27,17 @@ Slurm_EvalQ <- function(
   # Figuring out what are we doing.
   plan <- the_plan(plan)
 
+  # Checking the path
+  check_full_path(
+    tmp_path = tmp_path, job_name = job_name, overwrite = overwrite
+  )
+
   # Checking job name
   sbatch_opt <- check_sbatch_opt(sbatch_opt, job_name = job_name, ntasks = 1L)
 
   # Setting the job name
-  opts_slurmR$set_tmp_path(tmp_path, overwrite = overwrite)
-  opts_slurmR$set_job_name(job_name, overwrite = overwrite)
+  opts_slurmR$set_tmp_path(tmp_path)
+  opts_slurmR$set_job_name(job_name)
 
   # Parsing expression ---------------------------------------------------------
   sexpr <- deparse(substitute(expr))
@@ -41,7 +46,12 @@ Slurm_EvalQ <- function(
   if (is.null(export_env))
     export_env <- parent.frame()
 
-  rscript <- new_rscript(njobs, libPaths = libPaths)
+  rscript <- new_rscript(
+    njobs,
+    libPaths = libPaths,
+    tmp_path = tmp_path,
+    job_name = job_name
+    )
 
   if (length(export)) {
     rscript$add_rds(

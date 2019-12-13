@@ -13,26 +13,6 @@ random_job_name <- function() {
 }
 
 #' Utility function
-#' If the job folder doesn't exists, this creates it.
-#' @noRd
-check_path <- function() {
-
-  # Path specification
-  path <- sprintf(
-    "%s/%s",
-    opts_slurmR$get_tmp_path(), opts_slurmR$get_job_name()
-    )
-
-  # The thing
-  if (!dir.exists(path))
-    dir.create(path, recursive = TRUE)
-
-  invisible()
-}
-
-
-
-#' Utility function
 #' @param ... Options to be parsed as bash flags.
 #' @examples
 #' cat(parse_flags(a=1, b=TRUE, hola=2, y="I have spaces", ms=2, `cpus-per-task`=4))
@@ -114,9 +94,6 @@ snames <- function(
   tmp_path = opts_slurmR$get_tmp_path(),
   job_name = opts_slurmR$get_job_name()
   ) {
-
-  # Checks if the folder exists
-  check_path()
 
   if (length(array_id) && length(array_id) > 1)
     return(sapply(array_id, snames, type = type))
@@ -474,5 +451,33 @@ check_sbatch_opt <- function(x, job_name = NULL, ...) {
   }
 
   return(x)
+
+}
+
+#' Check whether the file path exists, if not, create
+#' @noRd
+check_full_path <- function(tmp_path, job_name, overwrite = FALSE) {
+  path <- sprintf("%s/%s", tmp_path, job_name)
+  test <- dir.exists(path)
+
+  # Checking if the thing exists
+  what <- if (overwrite) warning else stop
+  if (test) {
+
+    # Either warns or stops
+    what(
+      "The path ", path, " already exists. To overwrite a previously used ",
+      "path (tmp_path/job_name) use the option `overwrite = TRUE`",
+      call. = FALSE
+      )
+
+    unlink(path, recursive = TRUE)
+
+  }
+
+  # Creating the folder
+  dir.create(path, recursive = TRUE)
+
+  invisible(path)
 
 }

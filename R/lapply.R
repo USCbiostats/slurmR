@@ -50,7 +50,7 @@ Slurm_lapply <- function(
   ...,
   njobs       = 2L,
   mc.cores    = 1L,
-  job_name    = random_job_name(),
+  job_name    = opts_slurmR$get_job_name(),
   tmp_path    = opts_slurmR$get_tmp_path(),
   plan        = "collect",
   sbatch_opt  = list(),
@@ -67,10 +67,17 @@ Slurm_lapply <- function(
   # Figuring out what are we doing.
   plan <- the_plan(plan)
 
+  # Checking the path
+  check_full_path(
+    tmp_path = tmp_path, job_name = job_name, overwrite = overwrite
+    )
+
   # Checking job name
   sbatch_opt <- check_sbatch_opt(
-    sbatch_opt, job_name = job_name, `cpus_per_task` = mc.cores,
-    ntasks = 1L
+    sbatch_opt,
+    job_name        = job_name,
+    `cpus_per_task` = mc.cores,
+    ntasks          = 1L
     )
 
   # Checks
@@ -116,8 +123,8 @@ Slurm_lapply <- function(
 
 
   # Setting the job name
-  opts_slurmR$set_job_name(job_name, overwrite = overwrite)
-  opts_slurmR$set_tmp_path(tmp_path, overwrite = overwrite)
+  opts_slurmR$set_job_name(job_name)
+  opts_slurmR$set_tmp_path(tmp_path)
 
   # Splitting the components across the number of jobs. This will be used
   # later during the write of the RScript
@@ -126,7 +133,12 @@ Slurm_lapply <- function(
   # R Script -------------------------------------------------------------------
 
   # Initializing the script
-  rscript <- new_rscript(njobs, libPaths = libPaths)
+  rscript <- new_rscript(
+    njobs,
+    libPaths = libPaths,
+    tmp_path = tmp_path,
+    job_name = job_name
+    )
 
   # Adding readRDS
   if (is.null(export_env))
@@ -166,9 +178,9 @@ Slurm_lapply <- function(
   # Writing the bash script out ------------------------------------------------
   bash <- new_bash(
     njobs    = njobs,
-    job_name = opts_slurmR$get_job_name(),
-    output   = snames("out"),
-    filename = snames("sh")
+    job_name = job_name,
+    output   = snames("out", job_name = job_name, tmp_path = tmp_path),
+    filename = snames("sh", job_name = job_name, tmp_path = tmp_path)
     )
 
   bash$add_SBATCH(sbatch_opt)
@@ -179,8 +191,8 @@ Slurm_lapply <- function(
   # Returning ------------------------------------------------------------------
   ans <- new_slurm_job(
     call     = match.call(),
-    rscript  = snames("r"),
-    bashfile = snames("sh"),
+    rscript  = snames("r", job_name = job_name, tmp_path = tmp_path),
+    bashfile = snames("sh", job_name = job_name, tmp_path = tmp_path),
     robjects = NULL,
     njobs    = njobs,
     opts_job = sbatch_opt,

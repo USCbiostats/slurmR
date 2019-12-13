@@ -4,10 +4,19 @@
 \alias{new_rscript}
 \title{General purpose function to write R scripts}
 \usage{
-new_rscript(njobs, pkgs = list_loaded_pkgs(), libPaths = .libPaths())
+new_rscript(njobs, tmp_path, job_name, pkgs = list_loaded_pkgs(),
+  libPaths = .libPaths())
 }
 \arguments{
-\item{njobs}{Integer scalar. Number of jobs to be submitted.}
+\item{njobs}{Integer. Number of jobs to use in the job-array. This specifies
+the number of R sessions to initialize. This does not specify the number of
+cores to be used.}
+
+\item{tmp_path}{Character. Path to the directory where all the data (including
+scripts) will be stored. Notice that this path must be accessible by all the
+nodes in the network (See \link{opts_slurmR}).}
+
+\item{job_name}{Character. Name of the job to be passed to \code{Slurm}.}
 
 \item{pkgs}{A named list with packages to be included. Each element of the list
 must be a path to the R library, while the names of the list are the names of

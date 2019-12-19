@@ -1,12 +1,12 @@
 ## Test environments
 
-* Local: Ubuntu 18.04.3 LTS ubuntu, R 3.6.1
+* Local: Ubuntu 18.04.3 LTS ubuntu, R 3.6.2 (2019-12-12)
 * Travis: Ubuntu 16.04.6 LTS, R 3.6.1 (2017-01-27)
 * Travis: Mac OS X 10.13.6 LTS, R 3.6.2 (2019-12-12)
 * USC's HPCC: CentOS Linux 7, R 3.5.0 (2018-04-23)
 * AppVeyor: Windows x86_64-w64-mingw32/x64 (64-bit) R 3.6.2 Patched (2019-12-14 r77584)
 * win-builder (CRAN): x86_64-w64-mingw32 (64-bit), R 3.6.1 (2019-07-05)
-* win-builder (CRAN): x86_64-w64-mingw32 (64-bit), R 3.6.1 (2019-07-05)
+* win-builder (CRAN): x86_64-w64-mingw32 (64-bit), R Under development (unstable) (2019-12-18 r77602)
 
 ## R CMD check results
 
@@ -34,6 +34,8 @@ package and use some of its functions.
    they asked me to change the name. Because of this, the R package is now called
    slurmR. Besides of the name, all documentation has been updated to reflect this
    change.
+   
+3. Errors while running tests on windows are now fixed.
 
 Thanks
 

@@ -171,8 +171,7 @@ wrappers of calls to Slurm functions via <a href='https://rdrr.io/r/base/system2
 <span class='fu'>sacct</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>sacct</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>brief</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>parsable</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>allocations</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+<span class='fu'>sacct</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>brief</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>parsable</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>allocations</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for slurm_job</span>
 <span class='fu'>sacct</span>(<span class='no'>x</span>, <span class='no'>...</span>)
@@ -236,7 +235,7 @@ instead.</p>
 script.</p>
 <p>The wrapper of squeue includes the flag <code>-o%all</code> which returns all
 available fields separated by a vertical bar. This cannot be changed since it
-is the easiest way of processing the infor into R.</p>
+is the easiest way of processing the information in R.</p>
 <p>The function <code>slurm.conf</code> is a wrapper of the function <code>scontrol</code> that
 returns configuration info about Slurm, in particular, the underlying command
 that is called is <code>scontrol show conf</code>. This returns a named character vector

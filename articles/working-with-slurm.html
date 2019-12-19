@@ -132,7 +132,7 @@
 <p>The relevant option in <code>sbatch</code> is <code>--cpus-per-task</code>. More information regarding CPUs in Slurm can be found <a href="https://slurm.schedmd.com/cpu_management.html">here</a>. Information regarding how Slurm counts CPUs/cores/threads can be found <a href="https://slurm.schedmd.com/faq.html#cpu_count">here</a>.</p>
 </li>
 <li>
-<p><strong>Job Array</strong> Slurm supports job arrays. A job array is in simple terms a job that is repeated multiple times by Slurm, this is, replicates a single job as requested per the user. In the case of R, when using this option, a single R script is spanned in multiple jobs, so the user can take advantage of this and parallelize jobs accross multiple nodes. Besides from the fact that jobs within a Job Array may be spanned accross multiple nodes, each job in that array has a unique ID that is available to the user via environment variables, in particular <code>SLURM_ARRAY_TASK_ID</code>.</p>
+<p><strong>Job Array</strong> Slurm supports job arrays. A job array is in simple terms a job that is repeated multiple times by Slurm, this is, replicates a single job as requested per the user. In the case of R, when using this option, a single R script is spanned in multiple jobs, so the user can take advantage of this and parallelize jobs across multiple nodes. Besides from the fact that jobs within a Job Array may be spanned across multiple nodes, each job in that array has a unique ID that is available to the user via environment variables, in particular <code>SLURM_ARRAY_TASK_ID</code>.</p>
 <p>Within R, and hence the Rscript submitted to Slurm, users can access this environment variable with <code><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv("SLURM_ARRAY_TASK_ID")</a></code>. Some of the functionalities of <code>slurmR</code> rely on Job Arrays.</p>
 <p>More information on Job Arrays can be found <a href="https://slurm.schedmd.com/job_array.html">here</a>. The relevant option for this in <code>sbatch</code> is <code>--array</code>.</p>
 </li>
@@ -155,7 +155,7 @@
 <a class="sourceLine" id="cb1-10" data-line-number="10"><span class="ex">module</span> load R</a>
 <a class="sourceLine" id="cb1-11" data-line-number="11"></a>
 <a class="sourceLine" id="cb1-12" data-line-number="12"><span class="ex">Rscript</span> --vanilla long-job-rscript.R</a></code></pre></div>
-<p>This example bash file, wich we name “long-job-rscript.slurm”, has the following components:</p>
+<p>This example bash file, which we name “long-job-rscript.slurm”, has the following components:</p>
 <ul>
 <li><p><code>#!/bin/bash</code> The interpreter directive that is common to bash scripts.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p></li>
 <li><p>The <code>#SBATCH</code> lines specify options for scheduling the job. In order, these options are: Set a maximum time of 1 hour, name the job <code>A long job</code>, allocate 5GB of memory to the job, write all the output (including <code>Rscript</code>’s) to <code>long-job.out</code>.</p></li>

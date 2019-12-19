@@ -152,8 +152,16 @@ utility functions to read and write R jobs respectively.</p>
 
 <span class='fu'>last_job</span>()
 
-<span class='fu'>new_slurm_job</span>(<span class='no'>call</span>, <span class='no'>rscript</span>, <span class='no'>bashfile</span>, <span class='no'>robjects</span>, <span class='no'>njobs</span>, <span class='no'>opts_job</span>, <span class='no'>opts_r</span>,
-  <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>new_slurm_job</span>(
+  <span class='no'>call</span>,
+  <span class='no'>rscript</span>,
+  <span class='no'>bashfile</span>,
+  <span class='no'>robjects</span>,
+  <span class='no'>njobs</span>,
+  <span class='no'>opts_job</span>,
+  <span class='no'>opts_r</span>,
+  <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)
 
 <span class='co'># S3 method for slurm_job</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)

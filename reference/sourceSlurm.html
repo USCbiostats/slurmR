@@ -142,11 +142,21 @@ and submitting it via sbatch." />
 and submitting it via <a href='sbatch.html'>sbatch</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sourceSlurm</span>(<span class='no'>file</span>, <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),
-  <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>plan</span> <span class='kw'>=</span> <span class='st'>"submit"</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>sourceSlurm</span>(
+  <span class='no'>file</span>,
+  <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),
+  <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>vanilla</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
+  <span class='kw'>plan</span> <span class='kw'>=</span> <span class='st'>"submit"</span>,
+  <span class='no'>...</span>
+)
 
-<span class='fu'>slurmr_cmd</span>(<span class='no'>cmd_path</span>, <span class='kw'>cmd_name</span> <span class='kw'>=</span> <span class='st'>"slurmr"</span>, <span class='kw'>add_alias</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>bashrc_path</span> <span class='kw'>=</span> <span class='st'>"~/.bashrc"</span>)</pre>
+<span class='fu'>slurmr_cmd</span>(
+  <span class='no'>cmd_path</span>,
+  <span class='kw'>cmd_name</span> <span class='kw'>=</span> <span class='st'>"slurmr"</span>,
+  <span class='kw'>add_alias</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>bashrc_path</span> <span class='kw'>=</span> <span class='st'>"~/.bashrc"</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -179,7 +189,7 @@ nodes in the network (See <a href='opts_slurmR.html'>opts_slurmR</a>).</p></td>
     </tr>
     <tr>
       <th>cmd_path</th>
-      <td><p>Character scalar. Path (directory) where to put the comand function.
+      <td><p>Character scalar. Path (directory) where to put the command function.
 This is usually your home directory.</p></td>
     </tr>
     <tr>

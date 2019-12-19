@@ -140,11 +140,22 @@
     <p>Submit an expression to be evaluated to multiple jobs.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>Slurm_EvalQ</span>(<span class='no'>expr</span>, <span class='kw'>njobs</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='no'>opts_slurmR</span>$<span class='fu'>get_job_name</span>(),
-  <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='no'>opts_slurmR</span>$<span class='fu'>get_tmp_path</span>(), <span class='kw'>plan</span> <span class='kw'>=</span> <span class='st'>"collect"</span>,
-  <span class='kw'>sbatch_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>seeds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>compress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>export</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>export_env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>libPaths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/libPaths.html'>.libPaths</a></span>(), <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>Slurm_EvalQ</span>(
+  <span class='no'>expr</span>,
+  <span class='kw'>njobs</span> <span class='kw'>=</span> <span class='fl'>2L</span>,
+  <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='no'>opts_slurmR</span>$<span class='fu'>get_job_name</span>(),
+  <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='no'>opts_slurmR</span>$<span class='fu'>get_tmp_path</span>(),
+  <span class='kw'>plan</span> <span class='kw'>=</span> <span class='st'>"collect"</span>,
+  <span class='kw'>sbatch_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
+  <span class='kw'>rscript_opt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
+  <span class='kw'>seeds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>compress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>export</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>export_env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>libPaths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/libPaths.html'>.libPaths</a></span>(),
+  <span class='kw'>hooks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

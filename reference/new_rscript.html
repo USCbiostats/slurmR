@@ -142,8 +142,13 @@ to write the R component in a batch job." />
 to write the R component in a batch job.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>new_rscript</span>(<span class='no'>njobs</span>, <span class='no'>tmp_path</span>, <span class='no'>job_name</span>, <span class='kw'>pkgs</span> <span class='kw'>=</span> <span class='fu'>list_loaded_pkgs</span>(),
-  <span class='kw'>libPaths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/libPaths.html'>.libPaths</a></span>())</pre>
+    <pre class="usage"><span class='fu'>new_rscript</span>(
+  <span class='no'>njobs</span>,
+  <span class='no'>tmp_path</span>,
+  <span class='no'>job_name</span>,
+  <span class='kw'>pkgs</span> <span class='kw'>=</span> <span class='fu'>list_loaded_pkgs</span>(),
+  <span class='kw'>libPaths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/libPaths.html'>.libPaths</a></span>()
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

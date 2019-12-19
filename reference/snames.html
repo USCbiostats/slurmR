@@ -144,8 +144,12 @@ file names with full path to the objects. This function is intended for
 internal use only.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>snames</span>(<span class='no'>type</span>, <span class='kw'>array_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='no'>opts_slurmR</span>$<span class='fu'>get_tmp_path</span>(),
-  <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='no'>opts_slurmR</span>$<span class='fu'>get_job_name</span>())</pre>
+    <pre class="usage"><span class='fu'>snames</span>(
+  <span class='no'>type</span>,
+  <span class='kw'>array_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>tmp_path</span> <span class='kw'>=</span> <span class='no'>opts_slurmR</span>$<span class='fu'>get_tmp_path</span>(),
+  <span class='kw'>job_name</span> <span class='kw'>=</span> <span class='no'>opts_slurmR</span>$<span class='fu'>get_job_name</span>()
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -175,13 +179,16 @@ to write files.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>By default, the parameters <code>tmp_path</code> and <code>job_name</code> are retrieved from
-the currect options specified in <a href='opts_slurmR.html'>opts_slurmR</a>.</p>
+the current options specified in <a href='opts_slurmR.html'>opts_slurmR</a>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other utilities: <code><a href='Slurm_clean.html'>Slurm_clean</a></code>,
-  <code><a href='Slurm_env.html'>Slurm_env</a></code>, <code><a href='Slurm_log.html'>Slurm_log</a></code>,
-  <code><a href='WhoAmI.html'>WhoAmI</a></code>, <code><a href='parse_flags.html'>parse_flags</a></code>,
-  <code><a href='status.html'>status</a></code></p></div>
+    <div class='dont-index'><p>Other utilities: 
+<code><a href='Slurm_clean.html'>Slurm_clean</a>()</code>,
+<code><a href='Slurm_env.html'>Slurm_env</a>()</code>,
+<code><a href='Slurm_log.html'>Slurm_log</a>()</code>,
+<code><a href='WhoAmI.html'>WhoAmI</a>()</code>,
+<code><a href='parse_flags.html'>parse_flags</a>()</code>,
+<code><a href='status.html'>status</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

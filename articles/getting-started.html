@@ -138,7 +138,7 @@
 <li><p>List all the objects passed via ellipsis (<code>...</code>), and, together with <code>X</code> and <code>FUN</code> or <code>f</code>, save them at <code>[tmp_path]/[job_name]/</code> as <code>[object-name].rds</code>.</p></li>
 <li><p>Write out the corresponding R script and Slurm bash file, and save them as <code>[tmp_path]/[job_name]/00-rscript.r</code>, and <code>[tmp_path]/[job_name]/01-bash.sh</code> respectively.</p></li>
 <li><p>If <code>plan = "collect"</code> (the default), the job will be submitted to the queue via <code><a href="../reference/sbatch.html">sbatch()</a></code>, and the function will wait until is flagged as completed by Slurm.</p></li>
-<li><p>Once <code><a href="../reference/sbatch.html">sbatch()</a></code> is called, a Job Array will be submitted in which each R job will lunch up to <code>mc.cores</code> forked processes (2nd layer of palatalization)</p></li>
+<li><p>Once <code><a href="../reference/sbatch.html">sbatch()</a></code> is called, a Job Array will be submitted in which each R job will lunch up to <code>mc.cores</code> forked processes (second layer of palatalization)</p></li>
 </ol>
 <p>Once it is done, the the results can be collected using <code>Slurm_collect</code>, which happens automatically if the user set <code>plan = "collect"</code>.</p>
 <p>The next section discusses some advantages of submitting jobs using socket clusters versus job arrays.</p>
@@ -149,7 +149,7 @@
 <p>While socket clusters, created via <code>makePSOCKcluster</code> or, in the case of slurmR, via <code>makeSlurmCluster</code>, may be more efficient in terms of data communication<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, using job arrays has some important benefits over socket cluster:</p>
 <ol style="list-style-type: decimal">
 <li><p>The number of workers can be much higher than clusters with the parallel package.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> Users needing to work with hundreds or thousands of jobs/instances may need to use job arrays instead.</p></li>
-<li><p>If part of the job fails due to a failure of one of the tasks in the array, the job can be easily resubmitted. The same is not necesarily true for socket clusters.</p></li>
+<li><p>If part of the job fails due to a failure of one of the tasks in the array, the job can be easily resubmitted. The same is not necessarily true for socket clusters.</p></li>
 <li><p>Job arrays can run independently from the main session that started the job. This means that, if for some reason the main session crashes or stops, the job arrays will continue working regardless, and what’s more, the results can be collected anyway.</p></li>
 </ol>
 </div>
@@ -236,7 +236,7 @@
 <div id="multi-node-cluster-object" class="section level2">
 <h2 class="hasAnchor">
 <a href="#multi-node-cluster-object" class="anchor"></a>Multi-node cluster object</h2>
-<p>Another way to do this is using <code><a href="https://rdrr.io/r/parallel/clusterApply.html">parallel::parLapply</a></code> with a multi-node socket cluster.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> To do this, we can use the <code>makeSlurmCluster</code> function and procede as follows:</p>
+<p>Another way to do this is using <code><a href="https://rdrr.io/r/parallel/clusterApply.html">parallel::parLapply</a></code> with a multi-node socket cluster.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> To do this, we can use the <code>makeSlurmCluster</code> function and proceed as follows:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">cl &lt;-<span class="st"> </span><span class="kw"><a href="../reference/makeSlurmCluster.html">makeSlurmCluster</a></span>(<span class="dv">50</span>)</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">ans &lt;-<span class="st"> </span>parallel<span class="op">::</span><span class="kw"><a href="https://rdrr.io/r/parallel/clusterApply.html">parLapply</a></span>(cl, <span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">1e6</span>, <span class="dv">100</span>), simpi)</a>
 <a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(ans))</a></code></pre></div>

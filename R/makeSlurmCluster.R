@@ -69,7 +69,7 @@ get_hosts <- function(ntasks=1, tmp_path = getwd(), ...) {
 #' @export
 #' @details Once a job is submitted via Slurm, the user gets access to the nodes
 #' associated with it, which allows users to star new processes within those.
-#' By means of this, we can create Socket, also knwon as "PSOCK", clusters across
+#' By means of this, we can create Socket, also known as "PSOCK", clusters across
 #' nodes in a Slurm environment. The name of the hosts are retrieved and passed
 #' later on to [parallel::makePSOCKcluster].
 #'
@@ -88,7 +88,7 @@ get_hosts <- function(ntasks=1, tmp_path = getwd(), ...) {
 #' is the same as what is returned by [parallel::makePSOCKcluster] with the main
 #' difference that it has two extra attributes:
 #'
-#' - `SLURM_JOBID` Which is the id of the Job that initialized tha cluster.
+#' - `SLURM_JOBID` Which is the id of the Job that initialized that cluster.
 #'
 #' @examples
 #' \dontrun{
@@ -256,7 +256,7 @@ makeSlurmCluster <- function(
 #' @details The method `stopCluster` for `slurm_cluster` stops the cluster doing
 #' the following:
 #'
-#' 1. Closes the conection by calling the `stopCluster` method for `PSOCK` objects.
+#' 1. Closes the connection by calling the `stopCluster` method for `PSOCK` objects.
 #'
 #' 2. Cancel the Slurm job using `scancel`.
 #'

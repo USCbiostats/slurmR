@@ -31,11 +31,11 @@ following goals:
     wrappers without using template files.
 
 4.  Is specialized on Slurm, meaning more flexibility (no need to modify
-    template files), and, in the future, better debuging tools (e.g. job
-    resubmission).
+    template files), and, in the future, better debugging tools
+    (e.g. job resubmission).
 
 5.  Provide a backend for the
-    [parallel](https://cran.r-project.org/web/views/HighPerformanceComputing.html)
+    [parallel](https://CRAN.R-project.org/view=HighPerformanceComputing)
     package, providing an out-of-the-box method for creating Socket
     cluster objects for multi-node operations. (See the examples below
     on how this can be used with other R packages)
@@ -107,7 +107,7 @@ We can use the function `Slurm_lapply` to distribute computations
 ``` r
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=slurmr-job-580f52e1168d /home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/01-bash.sh
+#  sbatch --job-name=slurmr-job-2a4da5f9d4e /home/george/Documents/development/slurmR/slurmr-job-2a4da5f9d4e/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -119,7 +119,7 @@ get more info, we can actually set the verbose mode on
 opts_slurmR$verbose_on()
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  --------------------------------------------------------------------------------
-#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/00-rscript.r and has the following contents:
+#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-2a4da5f9d4e/00-rscript.r and has the following contents:
 #  --------------------------------------------------------------------------------
 #  .libPaths(c("/home/george/R/x86_64-pc-linux-gnu-library/3.6", "/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))
 #  Slurm_env <- function (x) 
@@ -131,35 +131,35 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #      y
 #  }
 #  ARRAY_ID         <- as.integer(Slurm_env("SLURM_ARRAY_TASK_ID"))
-#  INDICES          <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/INDICES.rds")
-#  X                <- readRDS(sprintf("/home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/X_%04d.rds", ARRAY_ID))
-#  FUN              <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/FUN.rds")
-#  mc.cores         <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/mc.cores.rds")
-#  seeds            <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/seeds.rds")
+#  INDICES          <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-2a4da5f9d4e/INDICES.rds")
+#  X                <- readRDS(sprintf("/home/george/Documents/development/slurmR/slurmr-job-2a4da5f9d4e/X_%04d.rds", ARRAY_ID))
+#  FUN              <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-2a4da5f9d4e/FUN.rds")
+#  mc.cores         <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-2a4da5f9d4e/mc.cores.rds")
+#  seeds            <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-2a4da5f9d4e/seeds.rds")
 #  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)
 #  ans <- parallel::mclapply(
 #      X                = X,
 #      FUN              = FUN,
 #      mc.cores         = mc.cores
 #  )
-#  saveRDS(ans, sprintf("/home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
+#  saveRDS(ans, sprintf("/home/george/Documents/development/slurmR/slurmr-job-2a4da5f9d4e/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
 #  --------------------------------------------------------------------------------
-#  The bash file that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/01-bash.sh and has the following contents:
+#  The bash file that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-2a4da5f9d4e/01-bash.sh and has the following contents:
 #  --------------------------------------------------------------------------------
 #  #!/bin/sh
-#  #SBATCH --job-name=slurmr-job-580f52e1168d
-#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/02-output-%A-%a.out
+#  #SBATCH --job-name=slurmr-job-2a4da5f9d4e
+#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-2a4da5f9d4e/02-output-%A-%a.out
 #  #SBATCH --array=1-2
-#  #SBATCH --job-name=slurmr-job-580f52e1168d
+#  #SBATCH --job-name=slurmr-job-2a4da5f9d4e
 #  #SBATCH --cpus_per_task=1
 #  #SBATCH --ntasks=1
 #  export OMP_NUM_THREADS=1
-#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/00-rscript.r
+#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-2a4da5f9d4e/00-rscript.r
 #  --------------------------------------------------------------------------------
 #  EOF
 #  --------------------------------------------------------------------------------
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=slurmr-job-580f52e1168d /home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/01-bash.sh
+#  sbatch --job-name=slurmr-job-2a4da5f9d4e /home/george/Documents/development/slurmR/slurmr-job-2a4da5f9d4e/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -764,7 +764,7 @@ sapply, mapply or similar.
 
 \[4\] Number of directed/recursive dependencies. As reported in
 <a href="https://tinyverse.netlify.com/">https://tinyverse.netlify.com/</a>
-(June 4th, 2019)
+(June 4, 2019)
 
 </td>
 

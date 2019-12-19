@@ -64,13 +64,18 @@ status(x)
 }
 }
 \seealso{
-Other utilities: \code{\link{Slurm_clean}},
-  \code{\link{Slurm_env}}, \code{\link{Slurm_log}},
-  \code{\link{WhoAmI}}, \code{\link{parse_flags}},
-  \code{\link{snames}}
+Other utilities: 
+\code{\link{Slurm_clean}()},
+\code{\link{Slurm_env}()},
+\code{\link{Slurm_log}()},
+\code{\link{WhoAmI}()},
+\code{\link{parse_flags}()},
+\code{\link{snames}()}
 
-Other post submission: \code{\link{Slurm_clean}},
-  \code{\link{Slurm_collect}}, \code{\link{Slurm_log}}
+Other post submission: 
+\code{\link{Slurm_clean}()},
+\code{\link{Slurm_collect}()},
+\code{\link{Slurm_log}()}
 }
 \concept{post submission}
 \concept{utilities}

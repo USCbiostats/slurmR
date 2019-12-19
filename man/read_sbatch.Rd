@@ -11,7 +11,7 @@ read_sbatch(x)
 a character vector.}
 }
 \value{
-A named vector of the options starting with \code{#SBATCH} in the file.
+A named vector of the options starting with \verb{#SBATCH} in the file.
 If no option is found, then returns a character vector length 0.
 }
 \description{

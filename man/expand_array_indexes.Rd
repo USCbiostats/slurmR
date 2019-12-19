@@ -15,11 +15,11 @@ A character vector with the expanded indices.
 \description{
 When submitting array jobs using \code{sbatch}, users can specify indices in several
 ways. These could be specified as, for example, ranges, "\code{1-9}", lists,
-"\code{1,2,5}", or intervals as "\code{1-7:3}", which translates into "\code{1, 4, 7}". This
+"\verb{1,2,5}", or intervals as "\code{1-7:3}", which translates into "\verb{1, 4, 7}". This
 function expands those cases.
 }
 \details{
-\code{x} is assumed to be in the form of \code{[jobid](_[array expression])},
+\code{x} is assumed to be in the form of \verb{[jobid](_[array expression])},
 where the expression after the underscore is optional. The first
 The function will return an expanded version of this, e.g. if \code{x = "8123_[1,3-6]"}
 the resulting expression will be the vector  "8123_1", "8123_3", "8123_4",

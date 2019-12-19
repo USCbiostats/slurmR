@@ -5,9 +5,15 @@
 \alias{stopCluster.slurm_cluster}
 \title{Create a Parallel Socket Cluster using Slurm}
 \usage{
-makeSlurmCluster(n, job_name = random_job_name(),
-  tmp_path = opts_slurmR$get_tmp_path(), cluster_opt = list(),
-  max_wait = 300L, verb = TRUE, ...)
+makeSlurmCluster(
+  n,
+  job_name = random_job_name(),
+  tmp_path = opts_slurmR$get_tmp_path(),
+  cluster_opt = list(),
+  max_wait = 300L,
+  verb = TRUE,
+  ...
+)
 
 \method{stopCluster}{slurm_cluster}(cl)
 }
@@ -37,7 +43,7 @@ A object of class \code{c("slurm_cluster", "SOCKcluster", "cluster")}. It
 is the same as what is returned by \link[parallel:makePSOCKcluster]{parallel::makePSOCKcluster} with the main
 difference that it has two extra attributes:
 \itemize{
-\item \code{SLURM_JOBID} Which is the id of the Job that initialized tha cluster.
+\item \code{SLURM_JOBID} Which is the id of the Job that initialized that cluster.
 }
 }
 \description{
@@ -50,14 +56,14 @@ then it is set to the value \code{01:00:00}, this is, 1 hour.
 
 Once a job is submitted via Slurm, the user gets access to the nodes
 associated with it, which allows users to star new processes within those.
-By means of this, we can create Socket, also knwon as "PSOCK", clusters across
+By means of this, we can create Socket, also known as "PSOCK", clusters across
 nodes in a Slurm environment. The name of the hosts are retrieved and passed
 later on to \link[parallel:makePSOCKcluster]{parallel::makePSOCKcluster}.
 
 The method \code{stopCluster} for \code{slurm_cluster} stops the cluster doing
 the following:
 \enumerate{
-\item Closes the conection by calling the \code{stopCluster} method for \code{PSOCK} objects.
+\item Closes the connection by calling the \code{stopCluster} method for \code{PSOCK} objects.
 \item Cancel the Slurm job using \code{scancel}.
 }
 }

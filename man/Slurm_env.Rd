@@ -21,9 +21,12 @@ creates when running an array. In the case that \code{opts_slurmR$get_debug() ==
 the function will return a 1 (see \link{opts_slurmR}).
 }
 \seealso{
-Other utilities: \code{\link{Slurm_clean}},
-  \code{\link{Slurm_log}}, \code{\link{WhoAmI}},
-  \code{\link{parse_flags}}, \code{\link{snames}},
-  \code{\link{status}}
+Other utilities: 
+\code{\link{Slurm_clean}()},
+\code{\link{Slurm_log}()},
+\code{\link{WhoAmI}()},
+\code{\link{parse_flags}()},
+\code{\link{snames}()},
+\code{\link{status}()}
 }
 \concept{utilities}

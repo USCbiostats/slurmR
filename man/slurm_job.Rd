@@ -14,8 +14,16 @@ last_submitted_job()
 
 last_job()
 
-new_slurm_job(call, rscript, bashfile, robjects, njobs, opts_job, opts_r,
-  hooks = NULL)
+new_slurm_job(
+  call,
+  rscript,
+  bashfile,
+  robjects,
+  njobs,
+  opts_job,
+  opts_r,
+  hooks = NULL
+)
 
 \method{print}{slurm_job}(x, ...)
 
@@ -34,7 +42,7 @@ write_slurm_job(x, path = NULL)
 
 \item{opts_job, opts_r}{List. In the case of \code{opts_job}, a list of parameters
 passed to \link{sbatch}. \code{opts_r} is a list of parameters used within R. Both can
-be retrieved by \link{opts_slurmR}\code{$get_opts_job()} and \link{opts_slurmR}\code{$get_opts_r()}
+be retrieved by \link{opts_slurmR}\verb{$get_opts_job()} and \link{opts_slurmR}\verb{$get_opts_r()}
 respectively.}
 
 \item{hooks}{List of functions. To be called on the collected results after

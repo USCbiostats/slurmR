@@ -5,11 +5,21 @@
 \alias{slurmr_cmd}
 \title{Source an R script as a Slurm job}
 \usage{
-sourceSlurm(file, job_name = NULL, tmp_path = tempdir(),
-  rscript_opt = list(vanilla = TRUE), plan = "submit", ...)
+sourceSlurm(
+  file,
+  job_name = NULL,
+  tmp_path = tempdir(),
+  rscript_opt = list(vanilla = TRUE),
+  plan = "submit",
+  ...
+)
 
-slurmr_cmd(cmd_path, cmd_name = "slurmr", add_alias = TRUE,
-  bashrc_path = "~/.bashrc")
+slurmr_cmd(
+  cmd_path,
+  cmd_name = "slurmr",
+  add_alias = TRUE,
+  bashrc_path = "~/.bashrc"
+)
 }
 \arguments{
 \item{file}{Character. Path to the R script to source using Slurm.}
@@ -26,7 +36,7 @@ nodes in the network (See \link{opts_slurmR}).}
 
 \item{...}{Further options passed to \link{sbatch}.}
 
-\item{cmd_path}{Character scalar. Path (directory) where to put the comand function.
+\item{cmd_path}{Character scalar. Path (directory) where to put the command function.
 This is usually your home directory.}
 
 \item{cmd_name}{Character scalar. Name of the command (of the file).}
@@ -47,7 +57,7 @@ and submitting it via \link{sbatch}.
 }
 \details{
 \code{sourceSlurm} checks for flags that may be included in the Slurm job file. If
-the R script starts with \code{#!/bin/} or similar, then \code{#SBATCH} flags will be
+the R script starts with \verb{#!/bin/} or similar, then \verb{#SBATCH} flags will be
 read from the R script and added to the Slurm job file.
 
 The function \code{slurmr_cmd} writes a simple command that works as a wrapper
@@ -72,7 +82,7 @@ with an alias. For more information on \code{.bashrc} see \href{https://superuse
 # flags. Here are the contents
 file <- system.file("example.R", package="slurmR")
 
-cat(readLines(file), sep="\\n")
+cat(readLines(file), sep="\n")
 # #!/bin/sh
 # #SBATCH --account=lc_ggv
 # #SBATCH --time=01:00:00

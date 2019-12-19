@@ -389,7 +389,7 @@ wait_slurm <- function(pid, freq = 0.1, force = TRUE) {
 #' @rdname sbatch
 #' @details The wrapper of squeue includes the flag `-o%all` which returns all
 #' available fields separated by a vertical bar. This cannot be changed since it
-#' is the easiest way of processing the infor into R.
+#' is the easiest way of processing the information in R.
 squeue <- function(x = NULL, ...) UseMethod("squeue")
 
 #' @export

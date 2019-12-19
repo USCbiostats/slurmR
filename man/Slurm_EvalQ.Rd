@@ -4,11 +4,22 @@
 \alias{Slurm_EvalQ}
 \title{Submit an expression to be evaluated to multiple jobs.}
 \usage{
-Slurm_EvalQ(expr, njobs = 2L, job_name = opts_slurmR$get_job_name(),
-  tmp_path = opts_slurmR$get_tmp_path(), plan = "collect",
-  sbatch_opt = list(), rscript_opt = list(), seeds = NULL,
-  compress = TRUE, export = NULL, export_env = NULL,
-  libPaths = .libPaths(), hooks = NULL, overwrite = TRUE)
+Slurm_EvalQ(
+  expr,
+  njobs = 2L,
+  job_name = opts_slurmR$get_job_name(),
+  tmp_path = opts_slurmR$get_tmp_path(),
+  plan = "collect",
+  sbatch_opt = list(),
+  rscript_opt = list(),
+  seeds = NULL,
+  compress = TRUE,
+  export = NULL,
+  export_env = NULL,
+  libPaths = .libPaths(),
+  hooks = NULL,
+  overwrite = TRUE
+)
 }
 \arguments{
 \item{expr}{An expression to be passed to Slurm.}
@@ -26,7 +37,7 @@ nodes in the network (See \link{opts_slurmR}).}
 \item{plan}{A character scalar. (See \link{the_plan}).}
 
 \item{sbatch_opt}{List of options to be passed to \code{sbatch}. This is usually
-done by adding the flags \code{#SBATCH} to the bash file.}
+done by adding the flags \verb{#SBATCH} to the bash file.}
 
 \item{rscript_opt}{List. Options to be passed to \code{Rscript}.}
 

@@ -6,19 +6,44 @@
 \alias{Slurm_sapply}
 \title{The Slurm version of the \code{\link[=lapply]{*apply}} family of functions.}
 \usage{
-Slurm_Map(f, ..., njobs = 2L, mc.cores = 1L,
+Slurm_Map(
+  f,
+  ...,
+  njobs = 2L,
+  mc.cores = 1L,
   job_name = opts_slurmR$get_job_name(),
-  tmp_path = opts_slurmR$get_tmp_path(), plan = "collect",
-  sbatch_opt = list(), rscript_opt = list(), seeds = NULL,
-  compress = TRUE, export = NULL, export_env = NULL,
-  libPaths = .libPaths(), hooks = NULL, overwrite = TRUE)
+  tmp_path = opts_slurmR$get_tmp_path(),
+  plan = "collect",
+  sbatch_opt = list(),
+  rscript_opt = list(),
+  seeds = NULL,
+  compress = TRUE,
+  export = NULL,
+  export_env = NULL,
+  libPaths = .libPaths(),
+  hooks = NULL,
+  overwrite = TRUE
+)
 
-Slurm_lapply(X, FUN, ..., njobs = 2L, mc.cores = 1L,
+Slurm_lapply(
+  X,
+  FUN,
+  ...,
+  njobs = 2L,
+  mc.cores = 1L,
   job_name = opts_slurmR$get_job_name(),
-  tmp_path = opts_slurmR$get_tmp_path(), plan = "collect",
-  sbatch_opt = list(), rscript_opt = list(), seeds = NULL,
-  compress = TRUE, export = NULL, export_env = NULL,
-  libPaths = .libPaths(), hooks = NULL, overwrite = TRUE)
+  tmp_path = opts_slurmR$get_tmp_path(),
+  plan = "collect",
+  sbatch_opt = list(),
+  rscript_opt = list(),
+  seeds = NULL,
+  compress = TRUE,
+  export = NULL,
+  export_env = NULL,
+  libPaths = .libPaths(),
+  hooks = NULL,
+  overwrite = TRUE
+)
 
 Slurm_sapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE)
 }
@@ -36,7 +61,7 @@ nodes in the network (See \link{opts_slurmR}).}
 \item{plan}{A character scalar. (See \link{the_plan}).}
 
 \item{sbatch_opt}{List of options to be passed to \code{sbatch}. This is usually
-done by adding the flags \code{#SBATCH} to the bash file.}
+done by adding the flags \verb{#SBATCH} to the bash file.}
 
 \item{rscript_opt}{List. Options to be passed to \code{Rscript}.}
 

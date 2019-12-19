@@ -121,8 +121,7 @@ sourceSlurm <- function(
 }
 
 #' @export
-#' @rdname sourceSlurm
-#' @param cmd_path Character scalar. Path (directory) where to put the comand function.
+#' @param cmd_path Character scalar. Path (directory) where to put the command function.
 #' This is usually your home directory.
 #' @param cmd_name Character scalar. Name of the command (of the file).
 #' @param add_alias,bashrc_path Logical scalar and character scalar. When

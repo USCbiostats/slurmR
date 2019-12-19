@@ -4,8 +4,13 @@
 \alias{new_rscript}
 \title{General purpose function to write R scripts}
 \usage{
-new_rscript(njobs, tmp_path, job_name, pkgs = list_loaded_pkgs(),
-  libPaths = .libPaths())
+new_rscript(
+  njobs,
+  tmp_path,
+  job_name,
+  pkgs = list_loaded_pkgs(),
+  libPaths = .libPaths()
+)
 }
 \arguments{
 \item{njobs}{Integer. Number of jobs to use in the job-array. This specifies

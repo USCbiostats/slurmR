@@ -71,7 +71,7 @@ Jobs, and second, within each job via `parallel::mclapply` and `parallel::mcMap`
     by Slurm.
     
 5.  Once `sbatch()` is called, a Job Array will be submitted in which each R
-    job will lunch up to `mc.cores` forked processes (2nd layer of palatalization)
+    job will lunch up to `mc.cores` forked processes (second layer of palatalization)
     
  Once it is done, the the results can be collected using `Slurm_collect`, which
  happens automatically if the user set `plan = "collect"`.
@@ -91,7 +91,7 @@ socket cluster:
    jobs/instances may need to use job arrays instead.
 
 2. If part of the job fails due to a failure of one of the tasks in the array,
-   the job can be easily resubmitted. The same is not necesarily true for 
+   the job can be easily resubmitted. The same is not necessarily true for 
    socket clusters.
    
 3. Job arrays can run independently from the main session that started the 
@@ -232,7 +232,7 @@ This way `Slurm_lapply` will do the `Slurm_collect` call before returning.
 
 Another way to do this is using `parallel::parLapply` with a multi-node socket
 cluster.[^multinodereally] To do this, we can use the `makeSlurmCluster` function
-and procede as follows:
+and proceed as follows:
 
 ```r
 cl <- makeSlurmCluster(50)

@@ -26,36 +26,36 @@ Current supported options are:
 
 Debugging mode
 \itemize{
-\item \code{debug_on : function ()} \Sexpr{attr(slurmR::opts_slurmR$debug_on, "desc")}
-\item \code{debug_off : function ()} \Sexpr{attr(slurmR::opts_slurmR$debug_off, "desc")}
-\item \code{get_debug : function ()} \Sexpr{attr(slurmR::opts_slurmR$get_debug, "desc")}
+\item \verb{debug_on : function ()} \Sexpr{attr(slurmR::opts_slurmR$debug_on, "desc")}
+\item \verb{debug_off : function ()} \Sexpr{attr(slurmR::opts_slurmR$debug_off, "desc")}
+\item \verb{get_debug : function ()} \Sexpr{attr(slurmR::opts_slurmR$get_debug, "desc")}
 }
 
 Verbose mode
 \itemize{
-\item \code{verbose_on : function ()} \Sexpr{attr(slurmR::opts_slurmR$verbose_on, "desc")}
-\item \code{verbose_off : function ()} \Sexpr{attr(slurmR::opts_slurmR$verbose_off, "desc")}
-\item \code{get_verbose : function ()} \Sexpr{attr(slurmR::opts_slurmR$get_verbose, "desc")}
+\item \verb{verbose_on : function ()} \Sexpr{attr(slurmR::opts_slurmR$verbose_on, "desc")}
+\item \verb{verbose_off : function ()} \Sexpr{attr(slurmR::opts_slurmR$verbose_off, "desc")}
+\item \verb{get_verbose : function ()} \Sexpr{attr(slurmR::opts_slurmR$get_verbose, "desc")}
 }
 
 Slurm options
 \itemize{
-\item \code{set_tmp_path : function (path, recursive = TRUE)} \Sexpr{attr(slurmR::opts_slurmR$set_tmp_path, "desc")}
-\item \code{get_tmp_path : function ()} \Sexpr{attr(slurmR::opts_slurmR$get_tmp_path, "desc")}
-\item \code{set_job_name : function (path, check = TRUE, overwrite = TRUE)} \Sexpr{attr(slurmR::opts_slurmR$set_job_name, "desc")}.
-\item \code{get_job_name : function (check = TRUE)} \Sexpr{attr(slurmR::opts_slurmR$get_job_name, "desc")}
+\item \verb{set_tmp_path : function (path, recursive = TRUE)} \Sexpr{attr(slurmR::opts_slurmR$set_tmp_path, "desc")}
+\item \verb{get_tmp_path : function ()} \Sexpr{attr(slurmR::opts_slurmR$get_tmp_path, "desc")}
+\item \verb{set_job_name : function (path, check = TRUE, overwrite = TRUE)} \Sexpr{attr(slurmR::opts_slurmR$set_job_name, "desc")}.
+\item \verb{get_job_name : function (check = TRUE)} \Sexpr{attr(slurmR::opts_slurmR$get_job_name, "desc")}
 }
 
 Other options
 \itemize{
-\item \code{get_cmd : function ()} \Sexpr{attr(slurmR::opts_slurmR$get_cmd, "desc")}
+\item \verb{get_cmd : function ()} \Sexpr{attr(slurmR::opts_slurmR$get_cmd, "desc")}
 }
 
 For general set/retrieve options
 \itemize{
-\item \code{set_opts : function (...)} \Sexpr{attr(slurmR::opts_slurmR$set_opts, "desc")}
-\item \code{get_opts_job : function (...)} \Sexpr{attr(slurmR::opts_slurmR$get_opts_job, "desc")}
-\item \code{get_opts_r : function (...)} \Sexpr{attr(slurmR::opts_slurmR$get_opts_r, "desc")}
+\item \verb{set_opts : function (...)} \Sexpr{attr(slurmR::opts_slurmR$set_opts, "desc")}
+\item \verb{get_opts_job : function (...)} \Sexpr{attr(slurmR::opts_slurmR$get_opts_job, "desc")}
+\item \verb{get_opts_r : function (...)} \Sexpr{attr(slurmR::opts_slurmR$get_opts_r, "desc")}
 }
 }
 \examples{

@@ -84,9 +84,9 @@ to skip this and continue reading the following section.
     a job that is repeated multiple times by Slurm, this is, replicates a
     single job as requested per the user. In the case of R, when using 
     this option, a single R script is spanned in multiple jobs, so the
-    user can take advantage of this and parallelize jobs accross multiple
+    user can take advantage of this and parallelize jobs across multiple
     nodes. Besides from the fact that jobs within a Job Array may be spanned
-    accross multiple nodes, each job in that array has a unique ID that
+    across multiple nodes, each job in that array has a unique ID that
     is available to the user via environment variables, in particular
     `SLURM_ARRAY_TASK_ID`.
     
@@ -124,7 +124,7 @@ module load R
 Rscript --vanilla long-job-rscript.R
 ```
 
-This example bash file, wich we name "long-job-rscript.slurm", has the following
+This example bash file, which we name "long-job-rscript.slurm", has the following
 components:
 
 *  `#!/bin/bash` The interpreter directive that is common to bash scripts.[^shvsbash]

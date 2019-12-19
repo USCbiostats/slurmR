@@ -85,7 +85,7 @@ parse_flags.list <- function(x, ...) {
 #' @family utilities
 #' @details
 #' By default, the parameters `tmp_path` and `job_name` are retrieved from
-#' the currect options specified in [opts_slurmR].
+#' the current options specified in [opts_slurmR].
 #' @return A character scalar. The normalized path to the corresponding file.
 #' @export
 snames <- function(
@@ -346,7 +346,7 @@ Slurm_env <- function(x) {
 #' Clean a session.
 #'
 #' The functions of the family [Slurm_*apply][Slurm_lapply] generate a set of
-#' auxiliar files that are used for the job design, submission and collection.
+#' temporary files that are used for the job design, submission and collection.
 #' This function will remove all the contents of directory created by calling
 #' those functions.
 #'

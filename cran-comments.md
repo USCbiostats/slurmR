@@ -1,14 +1,20 @@
 ## Test environments
 
-* local ubuntu, R 3.6.1
-* ubuntu 14.04 (on travis-ci), R 3.6.1
-* centos within a HPC cluster using Slurm R 3.6.0
+* Local: Ubuntu 18.04.3 LTS ubuntu, R 3.6.1
+* Travis: Ubuntu 16.04.6 LTS, R 3.6.1 (2017-01-27)
+* Travis: Mac OS X 10.13.6 LTS, R 3.6.2 (2019-12-12)
+* USC's HPCC: CentOS Linux 7, R 3.5.0 (2018-04-23)
+* AppVeyor: Windows x86_64-w64-mingw32/x64 (64-bit) R 3.6.2 Patched (2019-12-14 r77584)
+* win-builder (CRAN): x86_64-w64-mingw32 (64-bit), R 3.6.1 (2019-07-05)
+* win-builder (CRAN): x86_64-w64-mingw32 (64-bit), R 3.6.1 (2019-07-05)
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 2 notes
 
 * This is a new release.
+
+* A false positive when checking a URL to a Harvard website.
 
 ## Notes
 
@@ -19,10 +25,10 @@ of the SystemRequirements field since users without Slurm can still install this
 package and use some of its functions.
 
 
+## On previous CRAN comments
 
-## On the latest CRAN comments
-
-1. The "invalid URLs: URL: https://rc.hms.harvard.edu/#cluster" has been corrected.
+1. The "invalid URLs: URL: https://rc.hms.harvard.edu/" still shows a note on R
+   CMD check. A false positive.
    
 2. On the package's name. I've contacted the team behind Slurm and, unfortunately,
    they asked me to change the name. Because of this, the R package is now called

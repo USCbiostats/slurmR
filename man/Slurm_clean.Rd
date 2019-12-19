@@ -11,7 +11,7 @@ Slurm_clean(x)
 }
 \description{
 The functions of the family \link[=Slurm_lapply]{Slurm_*apply} generate a set of
-auxiliar files that are used for the job design, submission and collection.
+temporary files that are used for the job design, submission and collection.
 This function will remove all the contents of directory created by calling
 those functions.
 }
@@ -31,13 +31,18 @@ Slurm_clean(job)
 }
 }
 \seealso{
-Other post submission: \code{\link{Slurm_collect}},
-  \code{\link{Slurm_log}}, \code{\link{status}}
+Other post submission: 
+\code{\link{Slurm_collect}()},
+\code{\link{Slurm_log}()},
+\code{\link{status}()}
 
-Other utilities: \code{\link{Slurm_env}},
-  \code{\link{Slurm_log}}, \code{\link{WhoAmI}},
-  \code{\link{parse_flags}}, \code{\link{snames}},
-  \code{\link{status}}
+Other utilities: 
+\code{\link{Slurm_env}()},
+\code{\link{Slurm_log}()},
+\code{\link{WhoAmI}()},
+\code{\link{parse_flags}()},
+\code{\link{snames}()},
+\code{\link{status}()}
 }
 \concept{post submission}
 \concept{utilities}

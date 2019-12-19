@@ -76,7 +76,7 @@ Slurm_lapply <- function(
   sbatch_opt <- check_sbatch_opt(
     sbatch_opt,
     job_name        = job_name,
-    `cpus_per_task` = mc.cores,
+    `cpus-per-task` = mc.cores,
     ntasks          = 1L
     )
 

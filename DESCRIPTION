@@ -1,6 +1,6 @@
 Package: slurmR
 Title: A Lightweight Wrapper for 'Slurm'
-Version: 0.2-0
+Version: 0.3-0
 Authors@R: c( person("George", "Vega Yon", email = "g.vegayon@gmail.com", role = c("aut",
           "cre"), comment = c(ORCID = "0000-0002-3171-0844")), person("Paul", "Marjoram",
           email = "pmarjora@usc.edu", role = c("ctb", "ths"), comment = c(ORCID =

@@ -38,7 +38,7 @@ While there are other alternatives such as `future.batchtools`, `batchtools`, `c
 4.  Is specialized on Slurm, meaning more flexibility (no need to modify template files), and, in the future, better debuging tools (e.g. job resubmission).
 
 5.  Provide a backend for the
-    [parallel](https://stat.ethz.ch/R-manual/R-devel/library/parallel/doc/parallel.pdf)
+    [parallel](https://cran.r-project.org/web/views/HighPerformanceComputing.html)
     package, providing an out-of-the-box method for creating Socket cluster objects
     for multi-node operations. (See the examples below on how this can be
     used with other R packages)
@@ -183,7 +183,7 @@ specifying options for `sbatch`, and the reminder lines are just R code.
 
 The previous R script is included in the package (type `system.file("example.R", package="slurmR")`).
 
-Imagine that that R script is named `mybigjob.R`, then you use the `sourceSlurm`
+Imagine that that R script is named `example.R`, then you use the `sourceSlurm`
 function to submit it to Slurm as follows:
 
 ```r
@@ -307,7 +307,7 @@ There are several ways to enhance R for HPC. Depending on what are your goals/re
 		<td colspan="9" height="17" align="left" valign="middle" bgcolor="#FFFFFF">[3] Creating a cluster object using either MPI or Socket connection.</td>
 		</tr>
 	<tr>
-		<td colspan="9" height="17" align="left" bgcolor="#FFFFFF">[4] Number of directed/recursive dependencies. As reported in <a href="https://tinyverse.netlify.com/status/">https://tinyverse.netlify.com/status/</a> (June 4th, 2019)</td>
+		<td colspan="9" height="17" align="left" bgcolor="#FFFFFF">[4] Number of directed/recursive dependencies. As reported in <a href="https://tinyverse.netlify.com/">https://tinyverse.netlify.com/</a> (June 4th, 2019)</td>
 		</tr>
 </tbody></table>
 
@@ -323,27 +323,36 @@ project you agree to abide by its terms.
 
 ## Who uses Slurm
 
-Here is a list of educational institutions using Slurm:
+Here is a manually curated list of institutions using Slurm:
 
-- USC [High Performance Computing Center](https://hpcc.usc.edu)
-
-- Princeton [Princeton Research Computing](https://researchcomputing.princeton.edu/education/online-tutorials/getting-started/introducing-slurm)
-
-- Harvard [FAS](https://www.rc.fas.harvard.edu/resources/quickstart-guide/), [HMS research computing](https://rc.hms.harvard.edu/)
-
-- UCSan Diego [WM Keck Lab for Integrated Biology](https://keck2.ucsd.edu/dokuwiki/doku.php/wiki:slurm)
-
-- Stanford [Sherlock](https://www.sherlock.stanford.edu/docs/overview/introduction/), [SCG Informatics Cluster](https://login.scg.stanford.edu/tutorials/job_scripts/) 
-
-- Berkeley [Research IT](http://research-it.berkeley.edu/services/high-performance-computing/running-your-jobs)
-
-- University of Utah [CHPC](https://www.chpc.utah.edu/documentation/software/slurm.php)
-
-- University of Michigan [Biostatistics cluster](https://sph.umich.edu/biostat/computing/cluster/slurm.html)
-
-- The University of Kansas [Center for Research Computing](https://crc.ku.edu/hpc/how-to)
-
-- University of Cambridge [MRC Biostatistics Unit](https://www.mrc-bsu.cam.ac.uk/research-and-development/high-performance-computing-at-the-bsu/)
+|Institution | Country | Link |
+|------------|---------|------|
+| USC High Performance Computing Center | US | [link](https://hpcc.usc.edu) |
+| Princeton Research Computing | US | [link](https://researchcomputing.princeton.edu/education/online-tutorials/getting-started/introducing-slurm) |
+| Harvard FAS | US | [link](https://www.rc.fas.harvard.edu/resources/quickstart-guide/)|
+| Harvard HMS research computing | US | [link](https://rc.hms.harvard.edu/) |
+| UCSan Diego WM Keck Lab for Integrated Biology | US | [link](https://keck2.ucsd.edu/dokuwiki/doku.php/wiki:slurm) |
+| Stanford Sherlock | US | [link](https://www.sherlock.stanford.edu/docs/overview/introduction/) |
+| Stanford SCG Informatics Cluster | US | [link](https://login.scg.stanford.edu/tutorials/job_scripts/) |
+| Berkeley Research IT | US | [link](http://research-it.berkeley.edu/services/high-performance-computing/running-your-jobs) |
+| University of Utah CHPC | US | [link](https://www.chpc.utah.edu/documentation/software/slurm.php) |
+| University of Michigan Biostatistics cluster| US | [link](https://sph.umich.edu/biostat/computing/cluster/slurm.html) |
+| The University of Kansas Center for Research Computing | US | [link](https://crc.ku.edu/hpc/how-to) |
+| University of Cambridge MRC Biostatistics Unit | UK | [link](https://www.mrc-bsu.cam.ac.uk/research-and-development/high-performance-computing-at-the-bsu/) |
+| Indiana University | US | [link](https://kb.iu.edu/d/awrz) |
+| Caltech HPC Center | US | [link](https://www.hpc.caltech.edu/documentation/slurm-commands) |
+| Institute for Advanced Study | US | [link](https://www.sns.ias.edu/computing/slurm) |
+| UTSouthwestern Medical Center BioHPC | US | [link](https://portal.biohpc.swmed.edu/content/guides/slurm/) |
+| Vanderbilt University ACCRE | US | [link](https://www.vanderbilt.edu/accre/documentation/slurm/) |
+| University of Virginia Research Computing | US | [link](https://www.rc.virginia.edu/userinfo/rivanna/slurm/) |
+| Center for Advanced Computing | CA | [link](https://cac.queensu.ca/wiki/index.php/SLURM) |
+| SciNet | CA | [link](https://docs.scinet.utoronto.ca/index.php/Slurm) |
+| NLHPC | CL | [link](http://usuarios.nlhpc.cl/index.php/SLURM) |
+| Kultrun | CL | [link](http://www.astro.udec.cl/kultrun) |
+| Matbio | CL | [link](http://www.matbio.cl/cluster/) |
+| TIG MIT | US | [link](https://tig.csail.mit.edu/shared-computing/slurm/) |
+| MIT Supercloud | US | [link](https://supercloud.mit.edu/submitting-jobs) |
+| Oxford's ARC | UK | [link](https://help.it.ox.ac.uk/arc/job-scheduling) |
 
 ## Funding
 

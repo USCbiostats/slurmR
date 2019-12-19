@@ -35,7 +35,7 @@ following goals:
     resubmission).
 
 5.  Provide a backend for the
-    [parallel](https://stat.ethz.ch/R-manual/R-devel/library/parallel/doc/parallel.pdf)
+    [parallel](https://cran.r-project.org/web/views/HighPerformanceComputing.html)
     package, providing an out-of-the-box method for creating Socket
     cluster objects for multi-node operations. (See the examples below
     on how this can be used with other R packages)
@@ -107,7 +107,7 @@ We can use the function `Slurm_lapply` to distribute computations
 ``` r
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=slurmr-job-39ad226e4952 /home/george/Documents/development/slurmR/slurmr-job-39ad226e4952/01-bash.sh
+#  sbatch --job-name=slurmr-job-580f52e1168d /home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -119,7 +119,7 @@ get more info, we can actually set the verbose mode on
 opts_slurmR$verbose_on()
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  --------------------------------------------------------------------------------
-#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-39ad226e4952/00-rscript.r and has the following contents:
+#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/00-rscript.r and has the following contents:
 #  --------------------------------------------------------------------------------
 #  .libPaths(c("/home/george/R/x86_64-pc-linux-gnu-library/3.6", "/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))
 #  Slurm_env <- function (x) 
@@ -131,35 +131,35 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #      y
 #  }
 #  ARRAY_ID         <- as.integer(Slurm_env("SLURM_ARRAY_TASK_ID"))
-#  INDICES          <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-39ad226e4952/INDICES.rds")
-#  X                <- readRDS(sprintf("/home/george/Documents/development/slurmR/slurmr-job-39ad226e4952/X_%04d.rds", ARRAY_ID))
-#  FUN              <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-39ad226e4952/FUN.rds")
-#  mc.cores         <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-39ad226e4952/mc.cores.rds")
-#  seeds            <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-39ad226e4952/seeds.rds")
+#  INDICES          <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/INDICES.rds")
+#  X                <- readRDS(sprintf("/home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/X_%04d.rds", ARRAY_ID))
+#  FUN              <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/FUN.rds")
+#  mc.cores         <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/mc.cores.rds")
+#  seeds            <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/seeds.rds")
 #  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)
 #  ans <- parallel::mclapply(
 #      X                = X,
 #      FUN              = FUN,
 #      mc.cores         = mc.cores
 #  )
-#  saveRDS(ans, sprintf("/home/george/Documents/development/slurmR/slurmr-job-39ad226e4952/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
+#  saveRDS(ans, sprintf("/home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
 #  --------------------------------------------------------------------------------
-#  The bash file that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-39ad226e4952/01-bash.sh and has the following contents:
+#  The bash file that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/01-bash.sh and has the following contents:
 #  --------------------------------------------------------------------------------
 #  #!/bin/sh
-#  #SBATCH --job-name=slurmr-job-39ad226e4952
-#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-39ad226e4952/02-output-%A-%a.out
+#  #SBATCH --job-name=slurmr-job-580f52e1168d
+#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/02-output-%A-%a.out
 #  #SBATCH --array=1-2
-#  #SBATCH --job-name=slurmr-job-39ad226e4952
+#  #SBATCH --job-name=slurmr-job-580f52e1168d
 #  #SBATCH --cpus_per_task=1
 #  #SBATCH --ntasks=1
 #  export OMP_NUM_THREADS=1
-#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-39ad226e4952/00-rscript.r
+#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/00-rscript.r
 #  --------------------------------------------------------------------------------
 #  EOF
 #  --------------------------------------------------------------------------------
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=slurmr-job-39ad226e4952 /home/george/Documents/development/slurmR/slurmr-job-39ad226e4952/01-bash.sh
+#  sbatch --job-name=slurmr-job-580f52e1168d /home/george/Documents/development/slurmR/slurmr-job-580f52e1168d/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -259,7 +259,7 @@ lines are just R code.
 The previous R script is included in the package (type
 `system.file("example.R", package="slurmR")`).
 
-Imagine that that R script is named `mybigjob.R`, then you use the
+Imagine that that R script is named `example.R`, then you use the
 `sourceSlurm` function to submit it to Slurm as follows:
 
 ``` r
@@ -763,7 +763,7 @@ sapply, mapply or similar.
 <td colspan="9" height="17" align="left" bgcolor="#FFFFFF">
 
 \[4\] Number of directed/recursive dependencies. As reported in
-<a href="https://tinyverse.netlify.com/status/">https://tinyverse.netlify.com/status/</a>
+<a href="https://tinyverse.netlify.com/">https://tinyverse.netlify.com/</a>
 (June 4th, 2019)
 
 </td>
@@ -790,39 +790,36 @@ participating in this project you agree to abide by its terms.
 
 ## Who uses Slurm
 
-Here is a list of educational institutions using Slurm:
+Here is a manually curated list of institutions using Slurm:
 
-  - USC [High Performance Computing Center](https://hpcc.usc.edu)
-
-  - Princeton [Princeton Research
-    Computing](https://researchcomputing.princeton.edu/education/online-tutorials/getting-started/introducing-slurm)
-
-  - Harvard
-    [FAS](https://www.rc.fas.harvard.edu/resources/quickstart-guide/),
-    [HMS research computing](https://rc.hms.harvard.edu/)
-
-  - UCSan Diego [WM Keck Lab for Integrated
-    Biology](https://keck2.ucsd.edu/dokuwiki/doku.php/wiki:slurm)
-
-  - Stanford
-    [Sherlock](https://www.sherlock.stanford.edu/docs/overview/introduction/),
-    [SCG Informatics
-    Cluster](https://login.scg.stanford.edu/tutorials/job_scripts/)
-
-  - Berkeley [Research
-    IT](http://research-it.berkeley.edu/services/high-performance-computing/running-your-jobs)
-
-  - University of Utah
-    [CHPC](https://www.chpc.utah.edu/documentation/software/slurm.php)
-
-  - University of Michigan [Biostatistics
-    cluster](https://sph.umich.edu/biostat/computing/cluster/slurm.html)
-
-  - The University of Kansas [Center for Research
-    Computing](https://crc.ku.edu/hpc/how-to)
-
-  - University of Cambridge [MRC Biostatistics
-    Unit](https://www.mrc-bsu.cam.ac.uk/research-and-development/high-performance-computing-at-the-bsu/)
+| Institution                                            | Country | Link                                                                                                         |
+| ------------------------------------------------------ | ------- | ------------------------------------------------------------------------------------------------------------ |
+| USC High Performance Computing Center                  | US      | [link](https://hpcc.usc.edu)                                                                                 |
+| Princeton Research Computing                           | US      | [link](https://researchcomputing.princeton.edu/education/online-tutorials/getting-started/introducing-slurm) |
+| Harvard FAS                                            | US      | [link](https://www.rc.fas.harvard.edu/resources/quickstart-guide/)                                           |
+| Harvard HMS research computing                         | US      | [link](https://rc.hms.harvard.edu/)                                                                          |
+| UCSan Diego WM Keck Lab for Integrated Biology         | US      | [link](https://keck2.ucsd.edu/dokuwiki/doku.php/wiki:slurm)                                                  |
+| Stanford Sherlock                                      | US      | [link](https://www.sherlock.stanford.edu/docs/overview/introduction/)                                        |
+| Stanford SCG Informatics Cluster                       | US      | [link](https://login.scg.stanford.edu/tutorials/job_scripts/)                                                |
+| Berkeley Research IT                                   | US      | [link](http://research-it.berkeley.edu/services/high-performance-computing/running-your-jobs)                |
+| University of Utah CHPC                                | US      | [link](https://www.chpc.utah.edu/documentation/software/slurm.php)                                           |
+| University of Michigan Biostatistics cluster           | US      | [link](https://sph.umich.edu/biostat/computing/cluster/slurm.html)                                           |
+| The University of Kansas Center for Research Computing | US      | [link](https://crc.ku.edu/hpc/how-to)                                                                        |
+| University of Cambridge MRC Biostatistics Unit         | UK      | [link](https://www.mrc-bsu.cam.ac.uk/research-and-development/high-performance-computing-at-the-bsu/)        |
+| Indiana University                                     | US      | [link](https://kb.iu.edu/d/awrz)                                                                             |
+| Caltech HPC Center                                     | US      | [link](https://www.hpc.caltech.edu/documentation/slurm-commands)                                             |
+| Institute for Advanced Study                           | US      | [link](https://www.sns.ias.edu/computing/slurm)                                                              |
+| UTSouthwestern Medical Center BioHPC                   | US      | [link](https://portal.biohpc.swmed.edu/content/guides/slurm/)                                                |
+| Vanderbilt University ACCRE                            | US      | [link](https://www.vanderbilt.edu/accre/documentation/slurm/)                                                |
+| University of Virginia Research Computing              | US      | [link](https://www.rc.virginia.edu/userinfo/rivanna/slurm/)                                                  |
+| Center for Advanced Computing                          | CA      | [link](https://cac.queensu.ca/wiki/index.php/SLURM)                                                          |
+| SciNet                                                 | CA      | [link](https://docs.scinet.utoronto.ca/index.php/Slurm)                                                      |
+| NLHPC                                                  | CL      | [link](http://usuarios.nlhpc.cl/index.php/SLURM)                                                             |
+| Kultrun                                                | CL      | [link](http://www.astro.udec.cl/kultrun)                                                                     |
+| Matbio                                                 | CL      | [link](http://www.matbio.cl/cluster/)                                                                        |
+| TIG MIT                                                | US      | [link](https://tig.csail.mit.edu/shared-computing/slurm/)                                                    |
+| MIT Supercloud                                         | US      | [link](https://supercloud.mit.edu/submitting-jobs)                                                           |
+| Oxford’s ARC                                           | UK      | [link](https://help.it.ox.ac.uk/arc/job-scheduling)                                                          |
 
 ## Funding
 

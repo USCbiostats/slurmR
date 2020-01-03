@@ -7,6 +7,9 @@
 * AppVeyor: Windows x86_64-w64-mingw32/x64 (64-bit) R 3.6.2 Patched (2019-12-14 r77584)
 * win-builder (CRAN): x86_64-w64-mingw32 (64-bit), R 3.6.1 (2019-07-05)
 * win-builder (CRAN): x86_64-w64-mingw32 (64-bit), R Under development (unstable) (2019-12-18 r77602)
+* R-hub builder: Ubuntu 16.04, R-release
+* R-hub builder: Fedora Linux, R-release
+* Windows Server 2008 R2 SP1, R-devel, 32/64 bit
 
 ## R CMD check results
 
@@ -27,15 +30,12 @@ package and use some of its functions.
 
 ## On previous CRAN comments
 
-1. The "invalid URLs: URL: https://rc.hms.harvard.edu/" still shows a note on R
-   CMD check. A false positive.
+1. Last submission included the note: "Package has help file(s) containing
+   install/render-stage \Sexpr{} expressions but no prebuilt PDF manual."
+   Evaluation of the Sexpr is now done during the building process. I don't
+   see such message now.
    
-2. On the package's name. I've contacted the team behind Slurm and, unfortunately,
-   they asked me to change the name. Because of this, the R package is now called
-   slurmR. Besides of the name, all documentation has been updated to reflect this
-   change.
-   
-3. Errors while running tests on windows are now fixed.
+   I've also added R-hub checks. All is working OK.
 
 Thanks
 

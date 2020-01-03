@@ -17,42 +17,42 @@
 #'
 #' Debugging mode
 #'
-#' - `debug_on : function ()` \Sexpr{attr(slurmR::opts_slurmR$debug_on, "desc")}
+#' - `debug_on : function ()` \Sexpr[stage=build]{attr(slurmR::opts_slurmR$debug_on, "desc")}
 #'
-#' - `debug_off : function ()` \Sexpr{attr(slurmR::opts_slurmR$debug_off, "desc")}
+#' - `debug_off : function ()` \Sexpr[stage=build]{attr(slurmR::opts_slurmR$debug_off, "desc")}
 #'
-#' - `get_debug : function ()` \Sexpr{attr(slurmR::opts_slurmR$get_debug, "desc")}
+#' - `get_debug : function ()` \Sexpr[stage=build]{attr(slurmR::opts_slurmR$get_debug, "desc")}
 #'
 #' Verbose mode
 #'
-#' - `verbose_on : function ()` \Sexpr{attr(slurmR::opts_slurmR$verbose_on, "desc")}
+#' - `verbose_on : function ()` \Sexpr[stage=build]{attr(slurmR::opts_slurmR$verbose_on, "desc")}
 #'
-#' - `verbose_off : function ()` \Sexpr{attr(slurmR::opts_slurmR$verbose_off, "desc")}
+#' - `verbose_off : function ()` \Sexpr[stage=build]{attr(slurmR::opts_slurmR$verbose_off, "desc")}
 #'
-#' - `get_verbose : function ()` \Sexpr{attr(slurmR::opts_slurmR$get_verbose, "desc")}
+#' - `get_verbose : function ()` \Sexpr[stage=build]{attr(slurmR::opts_slurmR$get_verbose, "desc")}
 #'
 #' Slurm options
 #'
-#' - `set_tmp_path : function (path, recursive = TRUE)` \Sexpr{attr(slurmR::opts_slurmR$set_tmp_path, "desc")}
+#' - `set_tmp_path : function (path, recursive = TRUE)` \Sexpr[stage=build]{attr(slurmR::opts_slurmR$set_tmp_path, "desc")}
 #'
-#' - `get_tmp_path : function ()` \Sexpr{attr(slurmR::opts_slurmR$get_tmp_path, "desc")}
+#' - `get_tmp_path : function ()` \Sexpr[stage=build]{attr(slurmR::opts_slurmR$get_tmp_path, "desc")}
 #'
-#' - `set_job_name : function (path, check = TRUE, overwrite = TRUE)` \Sexpr{attr(slurmR::opts_slurmR$set_job_name, "desc")}.
+#' - `set_job_name : function (path, check = TRUE, overwrite = TRUE)` \Sexpr[stage=build]{attr(slurmR::opts_slurmR$set_job_name, "desc")}.
 #'
-#' - `get_job_name : function (check = TRUE)` \Sexpr{attr(slurmR::opts_slurmR$get_job_name, "desc")}
+#' - `get_job_name : function (check = TRUE)` \Sexpr[stage=build]{attr(slurmR::opts_slurmR$get_job_name, "desc")}
 #'
 #' Other options
 #'
-#' - `get_cmd : function ()` \Sexpr{attr(slurmR::opts_slurmR$get_cmd, "desc")}
+#' - `get_cmd : function ()` \Sexpr[stage=build]{attr(slurmR::opts_slurmR$get_cmd, "desc")}
 #'
 #'
 #' For general set/retrieve options
 #'
-#' - `set_opts : function (...)` \Sexpr{attr(slurmR::opts_slurmR$set_opts, "desc")}
+#' - `set_opts : function (...)` \Sexpr[stage=build]{attr(slurmR::opts_slurmR$set_opts, "desc")}
 #'
-#' - `get_opts_job : function (...)` \Sexpr{attr(slurmR::opts_slurmR$get_opts_job, "desc")}
+#' - `get_opts_job : function (...)` \Sexpr[stage=build]{attr(slurmR::opts_slurmR$get_opts_job, "desc")}
 #'
-#' - `get_opts_r : function (...)` \Sexpr{attr(slurmR::opts_slurmR$get_opts_r, "desc")}
+#' - `get_opts_r : function (...)` \Sexpr[stage=build]{attr(slurmR::opts_slurmR$get_opts_r, "desc")}
 #'
 #'
 #' @examples

@@ -160,8 +160,8 @@ Slurm_Map <- function(
   bash <- new_bash(
     njobs    = njobs,
     job_name = opts_slurmR$get_job_name(),
-    output   = snames("out"),
-    filename = snames("sh")
+    output   = snames("out", tmp_path = tmp_path, job_name = job_name),
+    filename = snames("sh", tmp_path = tmp_path, job_name = job_name)
     )
 
   bash$add_SBATCH(sbatch_opt)
@@ -172,8 +172,8 @@ Slurm_Map <- function(
   # Returning ------------------------------------------------------------------
   ans <- new_slurm_job(
     call     = match.call(),
-    rscript  = snames("r"),
-    bashfile = snames("sh"),
+    rscript  = snames("r", tmp_path = tmp_path, job_name = job_name),
+    bashfile = snames("sh", tmp_path = tmp_path, job_name = job_name),
     robjects = NULL,
     njobs    = njobs,
     opts_job = sbatch_opt,

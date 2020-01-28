@@ -17,16 +17,37 @@ list_loaded_pkgs <- function() {
 
 }
 
+tryCatch_and_quit <- function(...) {
+
+  ans <- tryCatch(..., error = function(e) e)
+  if (inherits(ans, "error")) {
+
+    saveRDS(
+      ans,
+      snames(
+        "rds",
+        tmp_path = get("TMP_PATH", envir = .GlobalEnv),
+        job_name = get("JOB_NAME", envir = .GlobalEnv),
+        array_id = get("ARRAY_ID", envir = .GlobalEnv)
+        )
+      )
+
+    q("no")
+  }
+  ans
+
+}
+
 #' Creates an R script
 #' @noRd
 #' @param pkgs A named list of R packages to load.
-rscript_header <- function(pkgs, seeds = NULL) {
+load_packages <- function(pkgs, tmp_path, job_name) {
 
   # For testing purposes, the instalation of the package is somewhere else
   if ("slurmR" %in% names(pkgs))
     pkgs[names(pkgs) == "slurmR"] <- NULL
 
-  sprintf("library(%s, lib.loc = \"%s\")", names(pkgs), unlist(pkgs))
+  sprintf("tryCatch_and_quit(library(%s, lib.loc = \"%s\"))", names(pkgs), unlist(pkgs))
 
 }
 
@@ -164,9 +185,18 @@ new_rscript <- function(
 
   }
 
-  env$append(rscript_header(pkgs))
-  env$append(paste0("Slurm_env <- ", paste(deparse(Slurm_env), collapse="\n")))
+  # Constants
+  env$append(
+    c(
+      sprintf("Slurm_env <- %s", paste(deparse(Slurm_env), collapse="\n")),
+      sprintf("TMP_PATH  <- \"%s\"", tmp_path),
+      sprintf("JOB_NAME  <- \"%s\"", job_name),
+      paste0("tryCatch_and_quit <- ", paste(deparse(tryCatch_and_quit), collapse = "\n"))
+      )
+    )
+
   env$append(sprintf("%-16s <- as.integer(Slurm_env(\"SLURM_ARRAY_TASK_ID\"))", "ARRAY_ID"))
+  env$append(load_packages(pkgs, tmp_path = tmp_path, job_name = job_name))
 
   # Function to finalize the Rscript
   env$finalize <- function(x, compress = TRUE) {
@@ -207,9 +237,9 @@ new_rscript <- function(
       # Writing the line
       line <- sprintf(
         if (split) {
-          "%-16s <- readRDS(sprintf(\"%s/%s/%1$s_%%04d.rds\", ARRAY_ID))"
+          "tryCatch_and_quit(%-16s <- readRDS(sprintf(\"%s/%s/%1$s_%%04d.rds\", ARRAY_ID)))"
         } else {
-          "%-16s <- readRDS(\"%s/%s/%1$s.rds\")"
+          "tryCatch_and_quit(%-16s <- readRDS(\"%s/%s/%1$s.rds\"))"
         },
         names(x)[i],
         tmp_path,

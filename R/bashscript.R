@@ -55,7 +55,7 @@ new_bash <- function(
   }
 
   # Finalizing the script ------------------------------------------------------
-  env$Rscript <- function(file = snames("r"), flags = list(vanilla=TRUE)) {
+  env$Rscript <- function(file = "", flags = "") {
 
     flags <- paste(parse_flags(flags), collapse = " ")
 

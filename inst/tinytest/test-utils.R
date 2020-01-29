@@ -15,13 +15,16 @@ if (slurm_available()) {
       njobs      = 2,
       sbatch_opt = list(partition="scavenge"),
       plan       = "wait",
-      job_name   = "test-whoami"
+      job_name   = "test-utils1"
     )
   })
 
   expect_true(is.character(unlist(Slurm_collect(x))))
   expect_silent(status(x))
+  Sys.sleep(2) # Just in case we need to wait a bit
   expect_true(is.vector(status(x)$done))
+  Slurm_clean(x)
   expect_equal(Slurm_env("SLURM_ARRAY_TASK_ID"), 1)
+
 
 }

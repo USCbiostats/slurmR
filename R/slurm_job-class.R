@@ -76,7 +76,15 @@ new_slurm_job <- function(
   )
 
   # Storing job in folder
-  saveRDS(job, file = snames("job"), compress = FALSE)
+  saveRDS(
+    job,
+    file = snames(
+      "job",
+      tmp_path = opts_r$tmp_path,
+      job_name = opts_job$`job-name`
+    ),
+    compress = FALSE
+  )
 
   return(job)
 

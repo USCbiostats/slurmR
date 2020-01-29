@@ -26,3 +26,7 @@ pkgdown
 ^appveyor\.yml$
 ^doc$
 ^Meta$
+
+slurmR\.tar\.gz
+slurmr-job*/
+

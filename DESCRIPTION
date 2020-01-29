@@ -10,7 +10,7 @@ Authors@R: c( person("George", "Vega Yon", email = "g.vegayon@gmail.com", role =
           "0000-0002-6862-5221")), person("Michel", "Lang", role = "rev", comment =
           c(what = "JOSS reviewer", ORCID = "0000-0001-9754-0393")) )
 Description: 'Slurm', Simple Linux Utility for Resource Management
-          <https://slurm.schedmd.com/>, is a popular 'Linux' based software used to
+          <https://slurm.schedmd.com/>, is a popular 'Linux' based software used to 
           schedule jobs in 'HPC' (High Performance Computing) clusters. This R package
           provides a specialized lightweight wrapper of 'Slurm' with a syntax similar to
           that found in the 'parallel' R package. The package also includes a method for

@@ -75,13 +75,16 @@ Slurm_EvalQ <- function(
   # BASH script ----------------------------------------------------------------
   bash <- new_bash(
     njobs    = njobs,
-    job_name = opts_slurmR$get_job_name(),
+    job_name = job_name,
     output   = snames("out", job_name = job_name, tmp_path = tmp_path),
     filename = snames("sh", job_name = job_name, tmp_path = tmp_path)
     )
 
   bash$add_SBATCH(sbatch_opt)
-  bash$Rscript(flags = rscript_opt)
+  bash$Rscript(
+    file  = snames("r", job_name = job_name, tmp_path = tmp_path),
+    flags = rscript_opt
+  )
   bash$write()
 
   # Returning ------------------------------------------------------------------

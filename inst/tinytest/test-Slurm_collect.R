@@ -11,7 +11,7 @@ if (slurm_available()) {
   removed <- file.remove(
     paste0(x$opts_r$tmp_path, "/", x$opts_job$`job-name`,"/z.rds")
   )
-  sbatch(x)
+  sbatch(x, wait = TRUE)
   ans <- Slurm_collect(x)
   Slurm_clean(x)
   expect_true(grepl("An error has oc", ans[1]$message))
@@ -23,4 +23,7 @@ if (slurm_available()) {
   ans <- Slurm_collect(x)
   expect_equal(sort(unlist(ans)), 1:20)
   Slurm_clean(x)
+
 }
+
+

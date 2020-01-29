@@ -33,7 +33,7 @@ man:
 	rm slurmR.pdf ; R CMD Rd2pdf --no-preview --output=slurmR.pdf . && \
 	  evince slurmR.pdf &
 
-covr: slurmR.tar.gz
+covr: 
 	Rscript -e 'cv <- covr::package_coverage();saveRDS(cv, "slurmR-coverage.rds");covr::codecov(coverage=cv)' \
 		> slurmR-coverage.Rout &
 

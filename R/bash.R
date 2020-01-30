@@ -47,16 +47,6 @@ stopifnot_submitted <- function(x) {
 
 }
 
-check_error <- function(cmd, ans) {
-
-  if (length(attr(ans, "status")) && (attr(ans, "status") != 0)) {
-    stop(
-      "An error has occurred when calling `", cmd,"`:\n",
-      paste(ans, collapse="\n"), call. = FALSE)
-  }
-
-}
-
 silent_system2 <- function(...) {
 
   fun_name <- as.character(sys.call()[[1]])
@@ -65,7 +55,12 @@ silent_system2 <- function(...) {
     tryCatch(system2(...), error = function(e) e)
   })
 
-  check_error(fun_name, ans)
+  # check_error(fun_name, ans)
+  if (length(attr(ans, "status")) && (attr(ans, "status") != 0)) {
+    stop(
+      "An error has occurred when calling `", fun_name,"`:\n",
+      paste(ans, collapse="\n"), call. = FALSE)
+  }
   ans
 
 }

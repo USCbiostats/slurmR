@@ -256,7 +256,10 @@ status.default <- function(x) {
   }
 
   njobs <- length(State)
-  State <- lapply(STATE_CODES, function(jsc) JobID[which(State %in% jsc)])
+  State <- lapply(STATE_CODES, function(jsc) {
+    m <- grepl(paste0(jsc, collapse = "|"), State)
+    JobID[which(m)]
+  })
 
   if (length(State$done) == njobs) {
 
@@ -331,7 +334,7 @@ print.slurm_status <- function(x, ...) {
 #' @param x Character scalar. Environment variable to get.
 #' @family utilities
 #' @export
-Slurm_env <- function(x) {
+Slurm_env <- function(x = "SLURM_ARRAY_TASK_ID") {
 
   y <- Sys.getenv(x)
 

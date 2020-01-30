@@ -26,7 +26,7 @@ tryCatch_and_quit <- function(...) {
     msg <- paste(
       "An error has ocurred while evualting the expression:\n",
       paste(deparse(match.call()[[2]]), collapse = "\n"), "\n in ",
-      "ARRAY_ID # ", ARRAY_ID. 
+      "ARRAY_ID # ", ARRAY_ID.
     )
     warning(msg)
 
@@ -57,7 +57,7 @@ load_packages <- function(pkgs, tmp_path, job_name) {
   if ("slurmR" %in% names(pkgs))
     pkgs[names(pkgs) == "slurmR"] <- NULL
 
-  sprintf("tryCatch_and_quit(library(%s, lib.loc = \"%s\"))", names(pkgs), unlist(pkgs))
+  sprintf("library(%s, lib.loc = \"%s\")", names(pkgs), unlist(pkgs))
 
 }
 
@@ -168,11 +168,13 @@ new_rscript <- function(
   env$njobs   <- njobs
 
   # Function to append a line
-  env$append <- function(x) {
+  env$append <- function(x, wrap = TRUE) {
 
-    # In case of multiple statements
-    if (length(x) > 1)
-      return(invisible(sapply(x, env$append)))
+    x <- paste0(
+      ifelse(wrap, "tryCatch_and_quit({\n  ", ""),
+      paste(x, collapse = ifelse(wrap, "\n  ", "\n")),
+      ifelse(wrap, "\n})", "")
+      )
 
     env$rscript <- c(env$rscript, x)
     invisible()
@@ -185,7 +187,7 @@ new_rscript <- function(
       env$append(sprintf(
         ".libPaths(c(\"%s\"))",
         paste(libPaths, collapse="\", \"")
-        ))
+        ), wrap = FALSE)
     } else {
 
       stop("The argument `libPaths` must be either a vector or a character scalar.",
@@ -206,16 +208,16 @@ new_rscript <- function(
       sprintf("JOB_NAME  <- \"%s\"", job_name),
       paste0("tryCatch_and_quit <- ", paste(deparse(tryCatch_and_quit), collapse = "\n")),
       "message(\"done loading variables and functions.\")"
-      )
+      ),
+    wrap = FALSE
     )
 
-  env$append("message(\"[slurmR info] Loading packages ... \")")
+  env$append("message(\"[slurmR info] Loading packages ... \")", wrap = FALSE)
   env$append(load_packages(pkgs, tmp_path = tmp_path, job_name = job_name))
-  env$append("message(\"[slurmR info] done loading packages.\")")
+  env$append("message(\"[slurmR info] done loading packages.\")", wrap = FALSE)
 
   # Function to finalize the Rscript
   env$finalize <- function(x, compress = TRUE) {
-
 
     env$append(
       sprintf(
@@ -226,7 +228,7 @@ new_rscript <- function(
           snames("rds", tmp_path = tmp_path, job_name = job_name)
           ),
         ifelse(compress, "TRUE", "FALSE")
-    ))
+    ), wrap = FALSE)
 
     invisible()
   }
@@ -252,9 +254,9 @@ new_rscript <- function(
       # Writing the line
       line <- sprintf(
         if (split) {
-          "tryCatch_and_quit(%-16s <- readRDS(sprintf(\"%s/%s/%1$s_%%04d.rds\", ARRAY_ID)))"
+          "%-16s <- readRDS(sprintf(\"%s/%s/%1$s_%%04d.rds\", ARRAY_ID))"
         } else {
-          "tryCatch_and_quit(%-16s <- readRDS(\"%s/%s/%1$s.rds\"))"
+          "%-16s <- readRDS(\"%s/%s/%1$s.rds\")"
         },
         names(x)[i],
         tmp_path,
@@ -264,7 +266,7 @@ new_rscript <- function(
       # if (split)
       #   line <- paste0(line, "[INDICES[[ARRAY_ID]]]")
 
-      env$rscript  <- c(env$rscript, line)
+      env$append(line)
       env$robjects <- c(env$robjects, names(x)[i])
     }
 

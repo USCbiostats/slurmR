@@ -158,7 +158,9 @@ sourceSlurm <- function(
 #' @rdname sourceSlurm
 slurmr_cmd <- function(cmd_path, cmd_name = "slurmr", add_alias = TRUE, bashrc_path = "~/.bashrc") {
 
-  fn   <- suppressWarnings(normalizePath(sprintf("%s/%s", cmd_path, cmd_name), ))
+  # Expanding path
+  cmd_path <- normalizePath(cmd_path)
+  fn   <- suppressWarnings(sprintf("%s/%s", cmd_path, cmd_name))
   bash <- new_bash(fn)
   bash$Rscript("", flags = list(vanilla = TRUE, e = "slurmR::sourceSlurm('$1', plan = 'submit')"))
   bash$write()

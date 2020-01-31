@@ -24,7 +24,7 @@ if (!slurm_available()) {
 
   opts_slurmR$verbose_on()
   expect_message(
-    ans2 <- Slurm_EvalQ(slurmR::WhoAmI(), njobs = 2, plan = "submit",
+    Slurm_EvalQ(slurmR::WhoAmI(), njobs = 2, plan = "submit",
       sbatch_opt=list(partition="scavenge"), job_name = "test-Slurm_EvalQ2")
   )
   expect_true(inherits(sacct(ans1), "data.frame"))
@@ -38,7 +38,6 @@ if (!slurm_available()) {
   expect_message(Slurm_log(ans1))
  
   Slurm_clean(ans1)
-  Slurm_clean(ans2) 
 
 }
 

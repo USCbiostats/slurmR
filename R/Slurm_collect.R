@@ -58,7 +58,12 @@ Slurm_collect.slurm_job <- function(x, any. = FALSE, wait = 10L, ...) {
     }
 
     # Getting the filenames
-    readRDS_trying <- function(...) tryCatch(readRDS(...), error = function(e) e)
+    readRDS_trying <- function(...) {
+      tryCatch(
+        suppressWarnings(readRDS(...)),
+        error = function(e) e
+      )
+    }
 
     if (S == 0L)
       do.call(
@@ -72,21 +77,28 @@ Slurm_collect.slurm_job <- function(x, any. = FALSE, wait = 10L, ...) {
             ),
           readRDS)
         )
-    else if (any.)
+    else if (any.) {
+        
       do.call(
         "c",
         lapply(
           snames(
             "rds",
-            array_id = attr(S, "done"),
+            array_id = 1:x$njobs,
             tmp_path = tmp_path,
             job_name = job_name
             ),
           readRDS_trying
           )
-        )
-    else
-      stop("Nothing to retrieve. (see ?status).", call. = FALSE)
+       ) 
+      
+    } else
+      stop(
+        "Nothing to retrieve (see ?status). ",
+        "If this is a rerun, you can try using 'any. = TRUE' ",
+        "to read-in any output file available in the folder.",
+        call. = FALSE
+      )
 
   } else {
 

@@ -63,3 +63,15 @@ suppressMessages({
   opts_slurmR$set_opts(partition=NULL)
 })
 
+if (slurm_available()) {
+
+  set.seed(1231512)
+  x <- runif(100)
+  ans0 <- Slurm_lapply(
+    x, mean, njobs = 4, job_name = "test-Slurm_lapply5",
+    sbatch_opt = list(partition = "scavenge")
+  )
+  ans1 <- lapply(x, mean)
+
+  expect_equal(ans0, ans1)
+}

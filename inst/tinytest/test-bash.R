@@ -21,10 +21,10 @@ if (!slurm_available()) {
   ans1_cpy <- last_job()
 
   opts_slurmR$verbose_on()
-  expect_warning(
+  #expect_warning(
     Slurm_EvalQ(slurmR::WhoAmI(), njobs = 2, plan = "submit",
       job_name = "test-Slurm_EvalQ2")
-  )
+  #)
   expect_true(inherits(sacct(ans1), "data.frame"))
   opts_slurmR$verbose_off()
 

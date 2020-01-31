@@ -5,7 +5,6 @@ suppressMessages({
   opts_slurmR$set_tmp_path(x)
   opts_slurmR$debug_on()
   opts_slurmR$verbose_off()
-  opts_slurmR$set_opts(partition="scavenge")
 })
 
 b <- list(1:5, 1:10)
@@ -37,6 +36,5 @@ expect_error(Slurm_Map(function(x) mean(x), x = list(1), 4, njobs = 2, plan = "n
 
 suppressMessages({
   opts_slurmR$debug_off()
-  opts_slurmR$set_opts(partition=NULL)
  
 })

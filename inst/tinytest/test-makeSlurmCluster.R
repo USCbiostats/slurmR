@@ -1,7 +1,7 @@
 if (slurm_available()) {
 
-  cl1 <- makeSlurmCluster(2, partition="scavenge", time = "01:00:00",
-    tmp_path = "/staging/ggv/", job_name = "test-makeSlurmCluster")
+  cl1 <- makeSlurmCluster(2, time = "01:00:00",
+    job_name = "test-makeSlurmCluster")
   cl2 <- makePSOCKcluster(2)
 
   set.seed(123155)

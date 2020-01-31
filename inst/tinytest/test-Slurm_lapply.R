@@ -5,7 +5,6 @@ suppressMessages({
   opts_slurmR$set_tmp_path(x)
   opts_slurmR$debug_on()
   opts_slurmR$verbose_off()
-  opts_slurmR$set_opts(partition="scavenge")
 })
 
 b <- list(1:5, 1:10)
@@ -60,6 +59,16 @@ expect_error(Slurm_lapply(list(1), mean, njobs = 1, 4, plan = "none", job_name =
 # Default debug option
 suppressMessages({
   opts_slurmR$debug_off()
-  opts_slurmR$set_opts(partition=NULL)
 })
 
+if (slurm_available()) {
+
+  set.seed(1231512)
+  x <- runif(100)
+  ans0 <- Slurm_lapply(
+    x, mean, njobs = 4, job_name = "test-Slurm_lapply5"
+  )
+  ans1 <- lapply(x, mean)
+
+  expect_equal(ans0, ans1)
+}

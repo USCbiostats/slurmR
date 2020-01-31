@@ -13,7 +13,6 @@ if (slurm_available()) {
     Slurm_EvalQ(
       slurmR::whoami(),
       njobs      = 2,
-      sbatch_opt = list(partition="scavenge"),
       plan       = "wait",
       job_name   = "test-utils1"
     )

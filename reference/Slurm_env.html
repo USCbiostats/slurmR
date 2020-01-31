@@ -63,6 +63,16 @@ the function will return a 1 (see opts_slurmR)." />
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-108627422-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-108627422-2');
+</script>
+
 
   </head>
 
@@ -80,7 +90,7 @@ the function will return a 1 (see opts_slurmR)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">slurmR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.999</span>
       </span>
     </div>
 
@@ -146,7 +156,7 @@ creates when running an array. In the case that <code>opts_slurmR$get_debug() ==
 the function will return a 1 (see <a href='opts_slurmR.html'>opts_slurmR</a>).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>Slurm_env</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>Slurm_env</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"SLURM_ARRAY_TASK_ID"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

@@ -18,7 +18,7 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="A Lightweight Wrapper for Slurm">
 <meta property="og:description" content="Slurm, Simple Linux Utility for Resource Management
-          &lt;https://slurm.schedmd.com/&gt;, is a popular Linux based software used to
+          &lt;https://slurm.schedmd.com/&gt;, is a popular Linux based software used to 
           schedule jobs in HPC (High Performance Computing) clusters. This R package
           provides a specialized lightweight wrapper of Slurm with a syntax similar to
           that found in the parallel R package. The package also includes a method for
@@ -29,7 +29,13 @@
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<![endif]--><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-108627422-2"></script><script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-108627422-2');
+</script>
 </head>
 <body>
     <div class="container template-home">
@@ -44,7 +50,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">slurmR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.999</span>
       </span>
     </div>
 
@@ -163,54 +169,104 @@ A BibTeX entry for LaTeX users is
 <p>We can use the function <code>Slurm_lapply</code> to distribute computations</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">ans &lt;-<span class="st"> </span><span class="kw"><a href="reference/Slurm_lapply.html">Slurm_lapply</a></span>(x, mean, <span class="dt">plan =</span> <span class="st">"none"</span>)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#  sbatch --job-name=slurmr-job-7f48389d5588 /home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/01-bash.sh</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#  sbatch --job-name=slurmr-job-39c5a7a35e2 /home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/01-bash.sh</span></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="kw"><a href="reference/Slurm_clean.html">Slurm_clean</a></span>(ans) <span class="co"># Cleaning after you</span></a></code></pre></div>
 <p>Notice the <code>plan = "none"</code> option, this tells <code>Slurm_lapply</code> to only create the job object, but do nothing with it, i.e., skip submission. To get more info, we can actually set the verbose mode on</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">opts_slurmR<span class="op">$</span><span class="kw">verbose_on</span>()</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">ans &lt;-<span class="st"> </span><span class="kw"><a href="reference/Slurm_lapply.html">Slurm_lapply</a></span>(x, mean, <span class="dt">plan =</span> <span class="st">"none"</span>)</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#  --------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/00-rscript.r and has the following contents:</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/00-rscript.r and has the following contents:</span></a>
 <a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#  --------------------------------------------------------------------------------</span></a>
 <a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#  .libPaths(c("/home/george/R/x86_64-pc-linux-gnu-library/3.6", "/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#  Slurm_env &lt;- function (x) </span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#  {</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#      y &lt;- Sys.getenv(x)</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#      if ((x == "SLURM_ARRAY_TASK_ID") &amp;&amp; y == "") {</span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#          return(1)</span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#      }</span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#      y</span></a>
-<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#  }</span></a>
-<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#  ARRAY_ID         &lt;- as.integer(Slurm_env("SLURM_ARRAY_TASK_ID"))</span></a>
-<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#  INDICES          &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/INDICES.rds")</span></a>
-<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#  X                &lt;- readRDS(sprintf("/home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/X_%04d.rds", ARRAY_ID))</span></a>
-<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#  FUN              &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/FUN.rds")</span></a>
-<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#  mc.cores         &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/mc.cores.rds")</span></a>
-<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#  seeds            &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/seeds.rds")</span></a>
-<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)</span></a>
-<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#  ans &lt;- parallel::mclapply(</span></a>
-<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#      X                = X,</span></a>
-<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#      FUN              = FUN,</span></a>
-<a class="sourceLine" id="cb6-25" data-line-number="25"><span class="co">#      mc.cores         = mc.cores</span></a>
-<a class="sourceLine" id="cb6-26" data-line-number="26"><span class="co">#  )</span></a>
-<a class="sourceLine" id="cb6-27" data-line-number="27"><span class="co">#  saveRDS(ans, sprintf("/home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)</span></a>
-<a class="sourceLine" id="cb6-28" data-line-number="28"><span class="co">#  --------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb6-29" data-line-number="29"><span class="co">#  The bash file that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/01-bash.sh and has the following contents:</span></a>
-<a class="sourceLine" id="cb6-30" data-line-number="30"><span class="co">#  --------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb6-31" data-line-number="31"><span class="co">#  #!/bin/sh</span></a>
-<a class="sourceLine" id="cb6-32" data-line-number="32"><span class="co">#  #SBATCH --job-name=slurmr-job-7f48389d5588</span></a>
-<a class="sourceLine" id="cb6-33" data-line-number="33"><span class="co">#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/02-output-%A-%a.out</span></a>
-<a class="sourceLine" id="cb6-34" data-line-number="34"><span class="co">#  #SBATCH --array=1-2</span></a>
-<a class="sourceLine" id="cb6-35" data-line-number="35"><span class="co">#  #SBATCH --job-name=slurmr-job-7f48389d5588</span></a>
-<a class="sourceLine" id="cb6-36" data-line-number="36"><span class="co">#  #SBATCH --cpus-per-task=1</span></a>
-<a class="sourceLine" id="cb6-37" data-line-number="37"><span class="co">#  #SBATCH --ntasks=1</span></a>
-<a class="sourceLine" id="cb6-38" data-line-number="38"><span class="co">#  export OMP_NUM_THREADS=1</span></a>
-<a class="sourceLine" id="cb6-39" data-line-number="39"><span class="co">#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/00-rscript.r</span></a>
-<a class="sourceLine" id="cb6-40" data-line-number="40"><span class="co">#  --------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb6-41" data-line-number="41"><span class="co">#  EOF</span></a>
-<a class="sourceLine" id="cb6-42" data-line-number="42"><span class="co">#  --------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb6-43" data-line-number="43"><span class="co">#  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:</span></a>
-<a class="sourceLine" id="cb6-44" data-line-number="44"><span class="co">#  sbatch --job-name=slurmr-job-7f48389d5588 /home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/01-bash.sh</span></a>
-<a class="sourceLine" id="cb6-45" data-line-number="45"><span class="kw"><a href="reference/Slurm_clean.html">Slurm_clean</a></span>(ans) <span class="co"># Cleaning after you</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#  message("[slurmR info] Loading variables and functions... ", appendLF = FALSE)</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#  Slurm_env &lt;- function (x = "SLURM_ARRAY_TASK_ID") </span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#  {</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#      y &lt;- Sys.getenv(x)</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#      if ((x == "SLURM_ARRAY_TASK_ID") &amp;&amp; y == "") {</span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#          return(1)</span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#      }</span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#      y</span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#  }</span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#  ARRAY_ID  &lt;- as.integer(Slurm_env("SLURM_ARRAY_TASK_ID"))</span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#  </span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#  # The -snames- function creates the write names for I/O of files as a </span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#  # function of the ARRAY_ID</span></a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#  snames    &lt;- function (type, array_id = NULL, tmp_path = NULL, job_name = NULL) </span></a>
+<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#  {</span></a>
+<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#      if (length(array_id) &amp;&amp; length(array_id) &gt; 1) </span></a>
+<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#          return(sapply(array_id, snames, type = type, tmp_path = tmp_path, </span></a>
+<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#              job_name = job_name))</span></a>
+<a class="sourceLine" id="cb6-25" data-line-number="25"><span class="co">#      type &lt;- switch(type, r = "00-rscript.r", sh = "01-bash.sh", </span></a>
+<a class="sourceLine" id="cb6-26" data-line-number="26"><span class="co">#          out = "02-output-%A-%a.out", rds = if (missing(array_id)) "03-answer-%03i.rds" else sprintf("03-answer-%03i.rds", </span></a>
+<a class="sourceLine" id="cb6-27" data-line-number="27"><span class="co">#              array_id), job = "job.rds", stop("Invalid type, the only valid types are `r`, `sh`, `out`, and `rds`.", </span></a>
+<a class="sourceLine" id="cb6-28" data-line-number="28"><span class="co">#              call. = FALSE))</span></a>
+<a class="sourceLine" id="cb6-29" data-line-number="29"><span class="co">#      sprintf("%s/%s/%s", tmp_path, job_name, type)</span></a>
+<a class="sourceLine" id="cb6-30" data-line-number="30"><span class="co">#  }</span></a>
+<a class="sourceLine" id="cb6-31" data-line-number="31"><span class="co">#  TMP_PATH  &lt;- "/home/george/Documents/development/slurmR"</span></a>
+<a class="sourceLine" id="cb6-32" data-line-number="32"><span class="co">#  JOB_NAME  &lt;- "slurmr-job-39c5a7a35e2"</span></a>
+<a class="sourceLine" id="cb6-33" data-line-number="33"><span class="co">#  </span></a>
+<a class="sourceLine" id="cb6-34" data-line-number="34"><span class="co">#  # The -tcq- function is a wrapper of tryCatch that on error tries to recover</span></a>
+<a class="sourceLine" id="cb6-35" data-line-number="35"><span class="co">#  # the message and saves the outcome so that slurmR can return OK.</span></a>
+<a class="sourceLine" id="cb6-36" data-line-number="36"><span class="co">#  tcq &lt;- function (...) </span></a>
+<a class="sourceLine" id="cb6-37" data-line-number="37"><span class="co">#  {</span></a>
+<a class="sourceLine" id="cb6-38" data-line-number="38"><span class="co">#      ans &lt;- tryCatch(..., error = function(e) e)</span></a>
+<a class="sourceLine" id="cb6-39" data-line-number="39"><span class="co">#      if (inherits(ans, "error")) {</span></a>
+<a class="sourceLine" id="cb6-40" data-line-number="40"><span class="co">#          ARRAY_ID. &lt;- get("ARRAY_ID", envir = .GlobalEnv)</span></a>
+<a class="sourceLine" id="cb6-41" data-line-number="41"><span class="co">#          msg &lt;- paste("An error has ocurred while evualting the expression:\n", </span></a>
+<a class="sourceLine" id="cb6-42" data-line-number="42"><span class="co">#              paste(deparse(match.call()[[2]]), collapse = "\n"), </span></a>
+<a class="sourceLine" id="cb6-43" data-line-number="43"><span class="co">#              "\n in ", "ARRAY_ID # ", ARRAY_ID.)</span></a>
+<a class="sourceLine" id="cb6-44" data-line-number="44"><span class="co">#          warning(msg, immediate. = TRUE, call. = FALSE)</span></a>
+<a class="sourceLine" id="cb6-45" data-line-number="45"><span class="co">#          ans$message &lt;- paste(ans$message, msg)</span></a>
+<a class="sourceLine" id="cb6-46" data-line-number="46"><span class="co">#          saveRDS(ans, snames("rds", tmp_path = get("TMP_PATH", </span></a>
+<a class="sourceLine" id="cb6-47" data-line-number="47"><span class="co">#              envir = .GlobalEnv), job_name = get("JOB_NAME", envir = .GlobalEnv), </span></a>
+<a class="sourceLine" id="cb6-48" data-line-number="48"><span class="co">#              array_id = ARRAY_ID.))</span></a>
+<a class="sourceLine" id="cb6-49" data-line-number="49"><span class="co">#          q("no")</span></a>
+<a class="sourceLine" id="cb6-50" data-line-number="50"><span class="co">#      }</span></a>
+<a class="sourceLine" id="cb6-51" data-line-number="51"><span class="co">#      invisible(ans)</span></a>
+<a class="sourceLine" id="cb6-52" data-line-number="52"><span class="co">#  }</span></a>
+<a class="sourceLine" id="cb6-53" data-line-number="53"><span class="co">#  message("done loading variables and functions.")</span></a>
+<a class="sourceLine" id="cb6-54" data-line-number="54"><span class="co">#  tcq({</span></a>
+<a class="sourceLine" id="cb6-55" data-line-number="55"><span class="co">#    INDICES &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/INDICES.rds")</span></a>
+<a class="sourceLine" id="cb6-56" data-line-number="56"><span class="co">#  })</span></a>
+<a class="sourceLine" id="cb6-57" data-line-number="57"><span class="co">#  tcq({</span></a>
+<a class="sourceLine" id="cb6-58" data-line-number="58"><span class="co">#    X &lt;- readRDS(sprintf("/home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/X_%04d.rds", ARRAY_ID))</span></a>
+<a class="sourceLine" id="cb6-59" data-line-number="59"><span class="co">#  })</span></a>
+<a class="sourceLine" id="cb6-60" data-line-number="60"><span class="co">#  tcq({</span></a>
+<a class="sourceLine" id="cb6-61" data-line-number="61"><span class="co">#    FUN &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/FUN.rds")</span></a>
+<a class="sourceLine" id="cb6-62" data-line-number="62"><span class="co">#  })</span></a>
+<a class="sourceLine" id="cb6-63" data-line-number="63"><span class="co">#  tcq({</span></a>
+<a class="sourceLine" id="cb6-64" data-line-number="64"><span class="co">#    mc.cores &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/mc.cores.rds")</span></a>
+<a class="sourceLine" id="cb6-65" data-line-number="65"><span class="co">#  })</span></a>
+<a class="sourceLine" id="cb6-66" data-line-number="66"><span class="co">#  tcq({</span></a>
+<a class="sourceLine" id="cb6-67" data-line-number="67"><span class="co">#    seeds &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/seeds.rds")</span></a>
+<a class="sourceLine" id="cb6-68" data-line-number="68"><span class="co">#  })</span></a>
+<a class="sourceLine" id="cb6-69" data-line-number="69"><span class="co">#  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)</span></a>
+<a class="sourceLine" id="cb6-70" data-line-number="70"><span class="co">#  tcq({</span></a>
+<a class="sourceLine" id="cb6-71" data-line-number="71"><span class="co">#    ans &lt;- parallel::mclapply(</span></a>
+<a class="sourceLine" id="cb6-72" data-line-number="72"><span class="co">#      X                = X,</span></a>
+<a class="sourceLine" id="cb6-73" data-line-number="73"><span class="co">#      FUN              = FUN,</span></a>
+<a class="sourceLine" id="cb6-74" data-line-number="74"><span class="co">#      mc.cores         = mc.cores</span></a>
+<a class="sourceLine" id="cb6-75" data-line-number="75"><span class="co">#  )</span></a>
+<a class="sourceLine" id="cb6-76" data-line-number="76"><span class="co">#  })</span></a>
+<a class="sourceLine" id="cb6-77" data-line-number="77"><span class="co">#  saveRDS(ans, sprintf("/home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)</span></a>
+<a class="sourceLine" id="cb6-78" data-line-number="78"><span class="co">#  --------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb6-79" data-line-number="79"><span class="co">#  The bash file that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/01-bash.sh and has the following contents:</span></a>
+<a class="sourceLine" id="cb6-80" data-line-number="80"><span class="co">#  --------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb6-81" data-line-number="81"><span class="co">#  #!/bin/sh</span></a>
+<a class="sourceLine" id="cb6-82" data-line-number="82"><span class="co">#  #SBATCH --job-name=slurmr-job-39c5a7a35e2</span></a>
+<a class="sourceLine" id="cb6-83" data-line-number="83"><span class="co">#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/02-output-%A-%a.out</span></a>
+<a class="sourceLine" id="cb6-84" data-line-number="84"><span class="co">#  #SBATCH --array=1-2</span></a>
+<a class="sourceLine" id="cb6-85" data-line-number="85"><span class="co">#  #SBATCH --job-name=slurmr-job-39c5a7a35e2</span></a>
+<a class="sourceLine" id="cb6-86" data-line-number="86"><span class="co">#  #SBATCH --cpus-per-task=1</span></a>
+<a class="sourceLine" id="cb6-87" data-line-number="87"><span class="co">#  #SBATCH --ntasks=1</span></a>
+<a class="sourceLine" id="cb6-88" data-line-number="88"><span class="co">#  export OMP_NUM_THREADS=1</span></a>
+<a class="sourceLine" id="cb6-89" data-line-number="89"><span class="co">#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/00-rscript.r</span></a>
+<a class="sourceLine" id="cb6-90" data-line-number="90"><span class="co">#  --------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb6-91" data-line-number="91"><span class="co">#  EOF</span></a>
+<a class="sourceLine" id="cb6-92" data-line-number="92"><span class="co">#  --------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb6-93" data-line-number="93"><span class="co">#  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:</span></a>
+<a class="sourceLine" id="cb6-94" data-line-number="94"><span class="co">#  sbatch --job-name=slurmr-job-39c5a7a35e2 /home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/01-bash.sh</span></a>
+<a class="sourceLine" id="cb6-95" data-line-number="95"><span class="kw"><a href="reference/Slurm_clean.html">Slurm_clean</a></span>(ans) <span class="co"># Cleaning after you</span></a></code></pre></div>
 </div>
 <div id="example-2-job-resubmission" class="section level2">
 <h2 class="hasAnchor">
@@ -943,6 +999,7 @@ sapply, mapply or similar.
 <li><a href="https://CRAN.R-project.org/package=slurmR"><img src="https://www.r-pkg.org/badges/version/slurmR" alt="CRAN status"></a></li>
 <li><a href="https://cran.r-project.org/package=slurmR"><img src="https://www.r-pkg.org/badges/version/slurmR" alt="CRAN status"></a></li>
 <li><a href="https://cran.r-project.org/package=slurmR"><img src="http://cranlogs.r-pkg.org/badges/grand-total/slurmR" alt="CRAN downloads"></a></li>
+<li><a href="https://CRAN.R-project.org/package=slurmR"><img src="https://tinyverse.netlify.com/badge/slurmR" alt="status"></a></li>
 </ul>
 </div>
 </div>

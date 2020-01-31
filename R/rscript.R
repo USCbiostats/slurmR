@@ -1,23 +1,26 @@
 #' List loaded packages together with `lib.loc`
 #' @noRd
-list_loaded_pkgs <- function() {
+list_loaded_pkgs <- function(exclude_slurmR = TRUE) {
 
   # Getting the name spaces
   pkgs <- rev(sessionInfo()$otherPkgs)
 
   # Session
-
-  structure(
+  ans <- structure(
     lapply(pkgs, function(p) {
       gsub(sprintf("/%s/.+", p$Package), "", attr(p, "file"))
     }),
-    names = names(pkgs),
-    class = "slurmR_loaded_packages"
+    names = names(pkgs)
   )
+
+  if (exclude_slurmR)
+    return(ans[setdiff(names(ans), "slurmR")])
+
+  ans
 
 }
 
-tryCatch_and_quit <- function(...) {
+tcq <- function(...) {
 
   ans <- tryCatch(..., error = function(e) e)
   if (inherits(ans, "error")) {
@@ -28,7 +31,7 @@ tryCatch_and_quit <- function(...) {
       paste(deparse(match.call()[[2]]), collapse = "\n"), "\n in ",
       "ARRAY_ID # ", ARRAY_ID.
     )
-    warning(msg)
+    warning(msg, immediate. = TRUE, call. = FALSE)
 
     ans$message <- paste(ans$message, msg)
 
@@ -54,9 +57,6 @@ tryCatch_and_quit <- function(...) {
 load_packages <- function(pkgs, tmp_path, job_name) {
 
   # For testing purposes, the instalation of the package is somewhere else
-  if ("slurmR" %in% names(pkgs))
-    pkgs[names(pkgs) == "slurmR"] <- NULL
-
   sprintf("library(%s, lib.loc = \"%s\")", names(pkgs), unlist(pkgs))
 
 }
@@ -171,7 +171,7 @@ new_rscript <- function(
   env$append <- function(x, wrap = TRUE) {
 
     x <- paste0(
-      ifelse(wrap, "tryCatch_and_quit({\n  ", ""),
+      ifelse(wrap, "tcq({\n  ", ""),
       paste(x, collapse = ifelse(wrap, "\n  ", "\n")),
       ifelse(wrap, "\n})", "")
       )
@@ -202,19 +202,27 @@ new_rscript <- function(
     c(
       "message(\"[slurmR info] Loading variables and functions... \", appendLF = FALSE)",
       sprintf("Slurm_env <- %s", paste(deparse(Slurm_env), collapse = "\n")),
-              "ARRAY_ID  <- as.integer(Slurm_env(\"SLURM_ARRAY_TASK_ID\"))",
+      "ARRAY_ID  <- as.integer(Slurm_env(\"SLURM_ARRAY_TASK_ID\"))",
+      "\n# The -snames- function creates the write names for I/O of files as a ",
+      "# function of the ARRAY_ID",
       sprintf("snames    <- %s", paste(deparse(snames), collapse = "\n")),
       sprintf("TMP_PATH  <- \"%s\"", tmp_path),
       sprintf("JOB_NAME  <- \"%s\"", job_name),
-      paste0("tryCatch_and_quit <- ", paste(deparse(tryCatch_and_quit), collapse = "\n")),
+      "\n# The -tcq- function is a wrapper of tryCatch that on error tries to recover",
+      "# the message and saves the outcome so that slurmR can return OK.",
+      paste0("tcq <- ", paste(deparse(tcq), collapse = "\n")),
       "message(\"done loading variables and functions.\")"
       ),
     wrap = FALSE
     )
 
-  env$append("message(\"[slurmR info] Loading packages ... \")", wrap = FALSE)
-  env$append(load_packages(pkgs, tmp_path = tmp_path, job_name = job_name))
-  env$append("message(\"[slurmR info] done loading packages.\")", wrap = FALSE)
+  # We only load packages if loaded...
+  pkgs <- load_packages(pkgs, tmp_path = tmp_path, job_name = job_name)
+  if (length(pkgs)) {
+    env$append("message(\"[slurmR info] Loading packages ... \")", wrap = FALSE)
+    env$append(pkgs)
+    env$append("message(\"[slurmR info] done loading packages.\")", wrap = FALSE)
+  }
 
   # Function to finalize the Rscript
   env$finalize <- function(x, compress = TRUE) {
@@ -254,17 +262,14 @@ new_rscript <- function(
       # Writing the line
       line <- sprintf(
         if (split) {
-          "%-16s <- readRDS(sprintf(\"%s/%s/%1$s_%%04d.rds\", ARRAY_ID))"
+          "%s <- readRDS(sprintf(\"%s/%s/%1$s_%%04d.rds\", ARRAY_ID))"
         } else {
-          "%-16s <- readRDS(\"%s/%s/%1$s.rds\")"
+          "%s <- readRDS(\"%s/%s/%1$s.rds\")"
         },
         names(x)[i],
         tmp_path,
         job_name
       )
-
-      # if (split)
-      #   line <- paste0(line, "[INDICES[[ARRAY_ID]]]")
 
       env$append(line)
       env$robjects <- c(env$robjects, names(x)[i])

@@ -10,8 +10,6 @@ if (!slurm_available()) {
 
 } else {
 
-  opts_slurmR$set_tmp_path("/staging/ggv/")
-
   expect_true(is.list(SchedulerParameters()))
   expect_true(length(slurm.conf()) > 0)
 

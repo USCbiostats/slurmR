@@ -1,8 +1,5 @@
 if (slurm_available()) {
 
-  # Making some space for the test
-  opts_slurmR$set_tmp_path("/staging/ggv")
-
   tmpf <- tempfile()
 
   job1  <- Slurm_EvalQ(

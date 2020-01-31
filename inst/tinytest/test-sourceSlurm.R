@@ -30,7 +30,7 @@ expect_equal(name, unname(read_sbatch(path)["job-name"]))
 
 expect_warning(sourceSlurm(tmp, plan = "collect"), "not possible")
 
-expect_message(slurmr_cmd(opts_slurmR$get_tmp_path(), add_alias = FALSE), "Remember that this")
+expect_message(slurmr_cmd(opts_slurmR$get_tmp_path(), bashrc_path = tempdir()), "Remember that this")
 
 if (!slurm_available())
   opts_slurmR$debug_off()

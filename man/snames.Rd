@@ -4,12 +4,7 @@
 \alias{snames}
 \title{Full path names for Slurm jobs}
 \usage{
-snames(
-  type,
-  array_id = NULL,
-  tmp_path = opts_slurmR$get_tmp_path(),
-  job_name = opts_slurmR$get_job_name()
-)
+snames(type, array_id = NULL, tmp_path = NULL, job_name = NULL)
 }
 \arguments{
 \item{type}{can be any of r, sh, out, or rds.}

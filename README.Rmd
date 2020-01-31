@@ -10,6 +10,8 @@ output:
 [![CRAN status](https://www.r-pkg.org/badges/version/slurmR)](https://CRAN.R-project.org/package=slurmR)
 [![CRAN status](https://www.r-pkg.org/badges/version/slurmR)](https://cran.r-project.org/package=slurmR)
 [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/slurmR)](https://cran.r-project.org/package=slurmR)
+[![status](https://tinyverse.netlify.com/badge/slurmR)](https://CRAN.R-project.org/package=slurmR)
+
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 

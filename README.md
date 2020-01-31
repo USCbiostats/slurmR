@@ -9,6 +9,7 @@ status](https://www.r-pkg.org/badges/version/slurmR)](https://CRAN.R-project.org
 status](https://www.r-pkg.org/badges/version/slurmR)](https://cran.r-project.org/package=slurmR)
 [![CRAN
 downloads](http://cranlogs.r-pkg.org/badges/grand-total/slurmR)](https://cran.r-project.org/package=slurmR)
+[![status](https://tinyverse.netlify.com/badge/slurmR)](https://CRAN.R-project.org/package=slurmR)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -110,7 +111,7 @@ We can use the function `Slurm_lapply` to distribute computations
 ``` r
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=slurmr-job-7f48389d5588 /home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/01-bash.sh
+#  sbatch --job-name=slurmr-job-39c5a7a35e2 /home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -122,10 +123,11 @@ get more info, we can actually set the verbose mode on
 opts_slurmR$verbose_on()
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  --------------------------------------------------------------------------------
-#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/00-rscript.r and has the following contents:
+#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/00-rscript.r and has the following contents:
 #  --------------------------------------------------------------------------------
 #  .libPaths(c("/home/george/R/x86_64-pc-linux-gnu-library/3.6", "/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))
-#  Slurm_env <- function (x) 
+#  message("[slurmR info] Loading variables and functions... ", appendLF = FALSE)
+#  Slurm_env <- function (x = "SLURM_ARRAY_TASK_ID") 
 #  {
 #      y <- Sys.getenv(x)
 #      if ((x == "SLURM_ARRAY_TASK_ID") && y == "") {
@@ -133,36 +135,85 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #      }
 #      y
 #  }
-#  ARRAY_ID         <- as.integer(Slurm_env("SLURM_ARRAY_TASK_ID"))
-#  INDICES          <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/INDICES.rds")
-#  X                <- readRDS(sprintf("/home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/X_%04d.rds", ARRAY_ID))
-#  FUN              <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/FUN.rds")
-#  mc.cores         <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/mc.cores.rds")
-#  seeds            <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/seeds.rds")
+#  ARRAY_ID  <- as.integer(Slurm_env("SLURM_ARRAY_TASK_ID"))
+#  
+#  # The -snames- function creates the write names for I/O of files as a 
+#  # function of the ARRAY_ID
+#  snames    <- function (type, array_id = NULL, tmp_path = NULL, job_name = NULL) 
+#  {
+#      if (length(array_id) && length(array_id) > 1) 
+#          return(sapply(array_id, snames, type = type, tmp_path = tmp_path, 
+#              job_name = job_name))
+#      type <- switch(type, r = "00-rscript.r", sh = "01-bash.sh", 
+#          out = "02-output-%A-%a.out", rds = if (missing(array_id)) "03-answer-%03i.rds" else sprintf("03-answer-%03i.rds", 
+#              array_id), job = "job.rds", stop("Invalid type, the only valid types are `r`, `sh`, `out`, and `rds`.", 
+#              call. = FALSE))
+#      sprintf("%s/%s/%s", tmp_path, job_name, type)
+#  }
+#  TMP_PATH  <- "/home/george/Documents/development/slurmR"
+#  JOB_NAME  <- "slurmr-job-39c5a7a35e2"
+#  
+#  # The -tcq- function is a wrapper of tryCatch that on error tries to recover
+#  # the message and saves the outcome so that slurmR can return OK.
+#  tcq <- function (...) 
+#  {
+#      ans <- tryCatch(..., error = function(e) e)
+#      if (inherits(ans, "error")) {
+#          ARRAY_ID. <- get("ARRAY_ID", envir = .GlobalEnv)
+#          msg <- paste("An error has ocurred while evualting the expression:\n", 
+#              paste(deparse(match.call()[[2]]), collapse = "\n"), 
+#              "\n in ", "ARRAY_ID # ", ARRAY_ID.)
+#          warning(msg, immediate. = TRUE, call. = FALSE)
+#          ans$message <- paste(ans$message, msg)
+#          saveRDS(ans, snames("rds", tmp_path = get("TMP_PATH", 
+#              envir = .GlobalEnv), job_name = get("JOB_NAME", envir = .GlobalEnv), 
+#              array_id = ARRAY_ID.))
+#          q("no")
+#      }
+#      invisible(ans)
+#  }
+#  message("done loading variables and functions.")
+#  tcq({
+#    INDICES <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/INDICES.rds")
+#  })
+#  tcq({
+#    X <- readRDS(sprintf("/home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/X_%04d.rds", ARRAY_ID))
+#  })
+#  tcq({
+#    FUN <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/FUN.rds")
+#  })
+#  tcq({
+#    mc.cores <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/mc.cores.rds")
+#  })
+#  tcq({
+#    seeds <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/seeds.rds")
+#  })
 #  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)
-#  ans <- parallel::mclapply(
+#  tcq({
+#    ans <- parallel::mclapply(
 #      X                = X,
 #      FUN              = FUN,
 #      mc.cores         = mc.cores
 #  )
-#  saveRDS(ans, sprintf("/home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
+#  })
+#  saveRDS(ans, sprintf("/home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
 #  --------------------------------------------------------------------------------
-#  The bash file that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/01-bash.sh and has the following contents:
+#  The bash file that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/01-bash.sh and has the following contents:
 #  --------------------------------------------------------------------------------
 #  #!/bin/sh
-#  #SBATCH --job-name=slurmr-job-7f48389d5588
-#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/02-output-%A-%a.out
+#  #SBATCH --job-name=slurmr-job-39c5a7a35e2
+#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/02-output-%A-%a.out
 #  #SBATCH --array=1-2
-#  #SBATCH --job-name=slurmr-job-7f48389d5588
+#  #SBATCH --job-name=slurmr-job-39c5a7a35e2
 #  #SBATCH --cpus-per-task=1
 #  #SBATCH --ntasks=1
 #  export OMP_NUM_THREADS=1
-#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/00-rscript.r
+#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/00-rscript.r
 #  --------------------------------------------------------------------------------
 #  EOF
 #  --------------------------------------------------------------------------------
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=slurmr-job-7f48389d5588 /home/george/Documents/development/slurmR/slurmr-job-7f48389d5588/01-bash.sh
+#  sbatch --job-name=slurmr-job-39c5a7a35e2 /home/george/Documents/development/slurmR/slurmr-job-39c5a7a35e2/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 

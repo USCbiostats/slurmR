@@ -4,7 +4,7 @@
 \alias{Slurm_env}
 \title{A wrapper of \link{Sys.getenv}}
 \usage{
-Slurm_env(x)
+Slurm_env(x = "SLURM_ARRAY_TASK_ID")
 }
 \arguments{
 \item{x}{Character scalar. Environment variable to get.}

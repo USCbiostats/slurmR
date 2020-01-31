@@ -47,16 +47,6 @@ stopifnot_submitted <- function(x) {
 
 }
 
-check_error <- function(cmd, ans) {
-
-  if (length(attr(ans, "status")) && (attr(ans, "status") != 0)) {
-    stop(
-      "An error has occurred when calling `", cmd,"`:\n",
-      paste(ans, collapse="\n"), call. = FALSE)
-  }
-
-}
-
 silent_system2 <- function(...) {
 
   fun_name <- as.character(sys.call()[[1]])
@@ -65,7 +55,12 @@ silent_system2 <- function(...) {
     tryCatch(system2(...), error = function(e) e)
   })
 
-  check_error(fun_name, ans)
+  # check_error(fun_name, ans)
+  if (length(attr(ans, "status")) && (attr(ans, "status") != 0)) {
+    stop(
+      "An error has occurred when calling `", fun_name,"`:\n",
+      paste(ans, collapse="\n"), call. = FALSE)
+  }
   ans
 
 }
@@ -203,10 +198,21 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
   # Adding default options
   tmp_opts <- coalesce_slurm_options(tmp_opts)
 
-    if (!opts_slurmR$get_debug()) {
+  # Getting the tmp path and job name
+  tmp_path <- x$opts_r$tmp_path
+  job_name <- x$opts_job$`job-name`
+
+  if (!opts_slurmR$get_debug()) {
     option <- c(parse_flags(tmp_opts), option)
   } else {
-    option <- c(option, paste(">", snames("out"), ifelse(wait, "", "&")))
+    option <- c(
+      option,
+      paste(
+        ">",
+        snames("out", tmp_path = tmp_path, job_name = job_name),
+        ifelse(wait, "", "&")
+        )
+      )
   }
 
   if (opts_slurmR$get_verbose()) {
@@ -255,7 +261,7 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
 
     # We need to update the job file and the latest submitted job
     LAST_SUBMITTED_JOB$set(x)
-    write_slurm_job(x, snames("job"))
+    write_slurm_job(x, snames("job", tmp_path = tmp_path, job_name = job_name))
 
   } else
     x$jobid <- NA

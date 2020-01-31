@@ -1,4 +1,5 @@
 #' The Slurm version of the [`*apply`][lapply] family of functions.
+#' 
 #' @param X,FUN,f,mc.cores,... Arguments passed to either [parallel::mclapply] or
 #' [parallel::mcMap].
 #' @template slurm
@@ -185,7 +186,10 @@ Slurm_lapply <- function(
 
   bash$add_SBATCH(sbatch_opt)
   bash$append("export OMP_NUM_THREADS=1") # Otherwise mclapply may crash
-  bash$Rscript(flags = rscript_opt)
+  bash$Rscript(
+    file  = snames("r", job_name = job_name, tmp_path = tmp_path),
+    flags = rscript_opt
+  )
   bash$write()
 
   # Returning ------------------------------------------------------------------

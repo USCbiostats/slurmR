@@ -91,12 +91,12 @@ parse_flags.list <- function(x, ...) {
 snames <- function(
   type,
   array_id = NULL,
-  tmp_path = opts_slurmR$get_tmp_path(),
-  job_name = opts_slurmR$get_job_name()
+  tmp_path = NULL,
+  job_name = NULL
   ) {
 
   if (length(array_id) && length(array_id) > 1)
-    return(sapply(array_id, snames, type = type))
+    return(sapply(array_id, snames, type = type, tmp_path = tmp_path, job_name = job_name))
 
   type <- switch (
     type,
@@ -256,7 +256,10 @@ status.default <- function(x) {
   }
 
   njobs <- length(State)
-  State <- lapply(STATE_CODES, function(jsc) JobID[which(State %in% jsc)])
+  State <- lapply(STATE_CODES, function(jsc) {
+    m <- grepl(paste0(jsc, collapse = "|"), State)
+    JobID[which(m)]
+  })
 
   if (length(State$done) == njobs) {
 
@@ -331,7 +334,7 @@ print.slurm_status <- function(x, ...) {
 #' @param x Character scalar. Environment variable to get.
 #' @family utilities
 #' @export
-Slurm_env <- function(x) {
+Slurm_env <- function(x = "SLURM_ARRAY_TASK_ID") {
 
   y <- Sys.getenv(x)
 

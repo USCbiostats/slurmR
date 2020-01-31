@@ -160,20 +160,23 @@ Slurm_Map <- function(
   bash <- new_bash(
     njobs    = njobs,
     job_name = opts_slurmR$get_job_name(),
-    output   = snames("out"),
-    filename = snames("sh")
+    output   = snames("out", tmp_path = tmp_path, job_name = job_name),
+    filename = snames("sh", tmp_path = tmp_path, job_name = job_name)
     )
 
   bash$add_SBATCH(sbatch_opt)
   bash$append("export OMP_NUM_THREADS=1") # Otherwise mclapply may crash
-  bash$Rscript(flags = rscript_opt)
+  bash$Rscript(
+    file  = snames("r", job_name = job_name, tmp_path = tmp_path),
+    flags = rscript_opt
+  )
   bash$write()
 
   # Returning ------------------------------------------------------------------
   ans <- new_slurm_job(
     call     = match.call(),
-    rscript  = snames("r"),
-    bashfile = snames("sh"),
+    rscript  = snames("r", tmp_path = tmp_path, job_name = job_name),
+    bashfile = snames("sh", tmp_path = tmp_path, job_name = job_name),
     robjects = NULL,
     njobs    = njobs,
     opts_job = sbatch_opt,

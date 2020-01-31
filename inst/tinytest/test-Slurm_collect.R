@@ -1,8 +1,6 @@
 if (slurm_available()) {
 
   # Checking if we get the right error message
-  opts_slurmR$set_opts(partition = "scavenge")
-  opts_slurmR$set_tmp_path("/staging/ggv/")
 
   set.seed(12315)
   z <- runif(20)

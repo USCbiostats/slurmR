@@ -18,14 +18,14 @@ if (!slurm_available()) {
   expect_error(sbatch("unexisting.slurm"))
 
   ans1 <- Slurm_EvalQ(slurmR::WhoAmI(), njobs = 2, plan = "wait",
-    sbatch_opt=list(partition="scavenge"), job_name = "test-Slurm_EvalQ1"
+    job_name = "test-Slurm_EvalQ1"
   )
   ans1_cpy <- last_job()
 
   opts_slurmR$verbose_on()
-  expect_message(
+  expect_warning(
     Slurm_EvalQ(slurmR::WhoAmI(), njobs = 2, plan = "submit",
-      sbatch_opt=list(partition="scavenge"), job_name = "test-Slurm_EvalQ2")
+      job_name = "test-Slurm_EvalQ2")
   )
   expect_true(inherits(sacct(ans1), "data.frame"))
   opts_slurmR$verbose_off()

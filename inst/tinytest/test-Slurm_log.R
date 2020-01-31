@@ -2,7 +2,6 @@
 if (slurm_available()) {
 
   # Setting up the options
-  opts_slurmR$set_opts(partition="scavenge")
   opts_slurmR$debug_off()
 
   x <- Slurm_EvalQ(1+1, njobs = 2, job_name = "test-Slurm_log1", plan = "none")

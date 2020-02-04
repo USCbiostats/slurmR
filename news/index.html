@@ -144,6 +144,28 @@
       <small>Source: <a href='https://github.com/USCbiostats/slurmR/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="slurmr-0-3-1" class="section level1">
+<h1 class="page-header">
+<a href="#slurmr-0-3-1" class="anchor"></a>slurmR 0.3-1<small> Unreleased </small>
+</h1>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<ul>
+<li><p>Fixed bug when collecting failed jobs. slurmR would fail to correctly list failed jobs and thus to collect outputs. This would also would affect when trying to collect partially resubmitted jobs.</p></li>
+<li><p>Slurm options passed via <code>opts_slurmR</code> are now passed to <code>Slurm_*apply</code> as documented. Thanks to Gregory Penn (gregorypenn) who reported the bug.</p></li>
+<li><p><code>slurmr_cmd</code> now expands the <code>cmd_path</code>.</p></li>
+</ul>
+</div>
+<div id="misc" class="section level2">
+<h2 class="hasAnchor">
+<a href="#misc" class="anchor"></a>Misc</h2>
+<ul>
+<li><p>Increased code coverage.</p></li>
+<li><p>Each line in the written R script is now wrapped with a custom <code>tryCatch</code> function (<code>tcq</code>). On error, this new function will collect both the expression called, the error message, and will quit the R session, so now the user has a better description of possible errors, e.g. missing packages.</p></li>
+</ul>
+</div>
+</div>
     <div id="slurmr-0-3-0" class="section level1">
 <h1 class="page-header">
 <a href="#slurmr-0-3-0" class="anchor"></a>slurmR 0.3-0<small> 2019-12-31 </small>
@@ -174,6 +196,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#slurmr-0-3-1">0.3-1</a></li>
         <li><a href="#slurmr-0-3-0">0.3-0</a></li>
         <li><a href="#slurmr-0-2-0">0.2-0</a></li>
         <li><a href="#slurmr-0-1-0">0.1-0</a></li>

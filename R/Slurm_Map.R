@@ -159,7 +159,7 @@ Slurm_Map <- function(
   # Writing the bash script out ------------------------------------------------
   bash <- new_bash(
     njobs    = njobs,
-    job_name = opts_slurmR$get_job_name(),
+    job_name = job_name,
     output   = snames("out", tmp_path = tmp_path, job_name = job_name),
     filename = snames("sh", tmp_path = tmp_path, job_name = job_name)
     )

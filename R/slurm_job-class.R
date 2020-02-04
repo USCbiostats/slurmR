@@ -90,6 +90,17 @@ new_slurm_job <- function(
 
 }
 
+# Extraction methods
+get_job_name <- function(x) UseMethod("get_job_name")
+get_job_name.slurm_job <- function(x) {
+  x$opts_job$`job-name`
+}
+
+get_tmp_path <- function(x) UseMethod("get_tmp_path")
+get_tmp_path.slurm_job <- function(x) {
+  x$opts_r$tmp_path
+}
+
 stopifnot_slurm_job <- function(x) {
   if (!inherits(x, "slurm_job"))
     stop("The passed object is not of class `slurm_job`.", call. = FALSE)
@@ -103,8 +114,8 @@ print.slurm_job <- function(x, ...) {
 
   cat("Call:\n", paste(deparse(x$call), collapse="\n"), "\n")
   cat(
-    sprintf("job_name : %s\n", x$job_name),
-    sprintf("tmp_path : %s/%s\n", x$opts_r$tmp_path, x$opts_job$`job-name`),
+    sprintf("job_name : %s\n", get_job_name(x)),
+    sprintf("tmp_path : %s/%s\n", get_tmp_path(x), get_job_name(x)),
     sprintf("job ID   : %s\n",
             ifelse(
               is.na(x$jobid),
@@ -182,8 +193,8 @@ write_slurm_job <- function(
   if (is.null(path)) {
     path <- snames(
       "job",
-      tmp_path = x$opts_r$tmp_path,
-      job_name = x$opts_job$`job-name`
+      tmp_path = get_tmp_path(x),
+      job_name = get_job_name(x)
       )
   }
 

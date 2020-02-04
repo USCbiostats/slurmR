@@ -36,8 +36,8 @@ Slurm_collect <- function(...) UseMethod("Slurm_collect")
 Slurm_collect.slurm_job <- function(x, any. = FALSE, wait = 10L, ...) {
 
   # Getting coordinates
-  tmp_path <- x$opts_r$tmp_path
-  job_name <- x$opts_job$`job-name`
+  tmp_path <- get_tmp_path(x)
+  job_name <- get_job_name(x)
 
   res <- if (!opts_slurmR$get_debug()) {
 
@@ -78,7 +78,7 @@ Slurm_collect.slurm_job <- function(x, any. = FALSE, wait = 10L, ...) {
           readRDS)
         )
     else if (any.) {
-        
+
       do.call(
         "c",
         lapply(
@@ -90,8 +90,8 @@ Slurm_collect.slurm_job <- function(x, any. = FALSE, wait = 10L, ...) {
             ),
           readRDS_trying
           )
-       ) 
-      
+       )
+
     } else
       stop(
         "Nothing to retrieve (see ?status). ",

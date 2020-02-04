@@ -199,8 +199,8 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
   tmp_opts <- coalesce_slurm_options(tmp_opts)
 
   # Getting the tmp path and job name
-  tmp_path <- x$opts_r$tmp_path
-  job_name <- x$opts_job$`job-name`
+  tmp_path <- get_tmp_path(x)
+  job_name <- get_job_name(x)
 
   if (!opts_slurmR$get_debug()) {
     option <- c(parse_flags(tmp_opts), option)

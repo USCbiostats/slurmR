@@ -7,6 +7,7 @@
 #' @examples
 #' random_job_name()
 #' @export
+#'
 random_job_name <- function() {
   job <- tempfile("slurmr-job-", tmpdir = opts_slurmR$get_tmp_path())
   gsub(".+(?=slurmr-job-)", "", job, perl = TRUE)
@@ -380,7 +381,7 @@ Slurm_clean <- function(x) {
          paste(attr(s, "pending"), collapse=", "), ".", call. = FALSE)
 
   # Path specification
-  path <- sprintf("%s/%s", x$opts_r$tmp_path, x$opts_job$`job-name`)
+  path <- sprintf("%s/%s", get_tmp_path(x), get_job_name(x))
 
   if (dir.exists(path))
     unlink(path, recursive = TRUE, force = TRUE)

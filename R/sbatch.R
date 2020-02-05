@@ -140,10 +140,10 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
     write_slurm_job(x, snames("job", tmp_path = tmp_path, job_name = job_name))
 
   } else
-    get_job_id(x) <- NA
+    get_job_id(x) <- NA_integer_
 
   if (wait)
-    wait_slurm(get_job_id(x))
+    wait_slurm(x)
 
   # Not necesary
   invisible(x)

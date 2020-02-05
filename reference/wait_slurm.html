@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Check the status of a Slurm JOB — status • slurmR</title>
+<title>Wait for a Slurm job to be completed — wait_slurm • slurmR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,10 +42,8 @@
 
 
 
-<meta property="og:title" content="Check the status of a Slurm JOB — status" />
-<meta property="og:description" content="Using the sacct function, it checks the status of a particular job and
-returns information about its current state, with details regarding the
-jobs (if an array) that are done, running, pending, or failed." />
+<meta property="og:title" content="Wait for a Slurm job to be completed — wait_slurm" />
+<meta property="og:description" content="Wait for a Slurm job to be completed" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -143,88 +141,61 @@ jobs (if an array) that are done, running, pending, or failed." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Check the status of a Slurm JOB</h1>
-    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/slurmR/blob/master/R/status.R'><code>R/status.R</code></a></small>
-    <div class="hidden name"><code>status.Rd</code></div>
+    <h1>Wait for a Slurm job to be completed</h1>
+    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/slurmR/blob/master/R/wait.R'><code>R/wait.R</code></a></small>
+    <div class="hidden name"><code>wait_slurm.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Using the <a href='sbatch.html'>sacct</a> function, it checks the status of a particular job and
-returns information about its current state, with details regarding the
-jobs (if an array) that are done, running, pending, or failed.</p>
+    <p>Wait for a Slurm job to be completed</p>
     </div>
 
-    <pre class="usage">status(x)
+    <pre class="usage"><span class='fu'>wait_slurm</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
-# S3 method for slurm_job
-status(x)
+<span class='co'># S3 method for slurm_job</span>
+<span class='fu'>wait_slurm</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
-# S3 method for default
-status(x)
-
-# S3 method for slurm_status
-$(x, name)</pre>
+<span class='co'># S3 method for integer</span>
+<span class='fu'>wait_slurm</span>(<span class='no'>x</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='kw'>freq</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>force</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>Either a Job id, an object of class <code>slurm_job</code>, or an object of
-class <code>slurm_status</code>.</p></td>
+      <td><p>Either a job id number, or an object of class <a href='slurm_job.html'>slurm_job</a>.</p></td>
     </tr>
     <tr>
-      <th>name</th>
-      <td><p>Character scalar. List of status to retrieve. This can be any of
-<code>"done"</code>, <code>"failed"</code>, <code>"running"</code>, or <code>"pending"</code>.</p></td>
+      <th>...</th>
+      <td><p>Further arguments passed to the method</p></td>
+    </tr>
+    <tr>
+      <th>timeout</th>
+      <td><p>Integer. Maximum wait time in seconds. If <code>timeout &lt; 0</code>
+then the command will only return when the job finishes.</p></td>
+    </tr>
+    <tr>
+      <th>freq</th>
+      <td><p>Frequency in seconds to query for the state of the job.</p></td>
+    </tr>
+    <tr>
+      <th>force</th>
+      <td><p>Logical scalar. When <code>TRUE</code>, if the job is not found
+after checking for its status, the function will continue to wait
+still.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An integer with attributes of class <code>slurm_status</code>. The attributes
-are integer vectors indicating which jobs fail in the categories of <code>done</code>,
-<code>failed</code>, <code>pending</code>, and <code>running</code> (see <a href='JOB_STATE_CODES.html'>JOB_STATE_CODES</a>). Possible return
-values are:</p><ul>
-<li><p><code>-1</code>: No job found. This may be a false negative as the job may still be
-on it's way to be submitted.</p></li>
-<li><p><code>0</code>: Job completed.</p></li>
-<li><p><code>1</code>: All jobs are pending resource allocation or are on it's way to start.</p></li>
-<li><p><code>2</code>: All jobs are currently running.</p></li>
-<li><p><code>3</code>: One or more jobs are still running.</p></li>
-<li><p><code>99</code>: One or more jobs failed.</p></li>
-</ul>
-
-<p>If the job is not an array, then function will return the corresponding code
-but the attributes will only have a single number, 1, according to the state
-of the job (completed, failed, pending).</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other utilities: 
-<code><a href='Slurm_clean.html'>Slurm_clean</a>()</code>,
-<code><a href='Slurm_env.html'>Slurm_env</a>()</code>,
-<code><a href='Slurm_log.html'>Slurm_log</a>()</code>,
-<code><a href='WhoAmI.html'>WhoAmI</a>()</code>,
-<code><a href='parse_flags.html'>parse_flags</a>()</code>,
-<code><a href='snames.html'>snames</a>()</code></p>
-<p>Other post submission: 
-<code><a href='Slurm_clean.html'>Slurm_clean</a>()</code>,
-<code><a href='Slurm_collect.html'>Slurm_collect</a>()</code>,
-<code><a href='Slurm_log.html'>Slurm_log</a>()</code></p></div>
+    <p>Invisible <code>NULL</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Slurm_EvalQ.html'>Slurm_EvalQ</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span>(<span class='fl'>100</span>), <span class='kw'>njobs</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-
-<span class='fu'>status</span>(<span class='no'>x</span>) <span class='co'># A possible result: An integer with attributes</span>
-<span class='co'># Status: All jobs are pending resource allocation or are on it's way to start. (Code 1)</span>
-<span class='co'># This is a job array. The status of each job, by array id, is the following:</span>
-<span class='co'># done      :  -</span>
-<span class='co'># failed    :  -</span>
-<span class='co'># pending   : 1, 2.</span>
-<span class='co'># running   :  -</span>
-
+    <pre class="examples"><div class='input'><span class='co'># Waiting is only available if there are Slurm clusters</span>
+<span class='kw'>if</span> (<span class='fu'><a href='sbatch.html'>slurm_available</a></span>()) {
+  <span class='no'>job</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Slurm_EvalQ.html'>Slurm_EvalQ</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span>(<span class='fl'>1000</span>), <span class='kw'>plan</span> <span class='kw'>=</span> <span class='st'>"submit"</span>, <span class='kw'>njobs</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+  <span class='fu'>wait_slurm</span>(<span class='no'>job</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='co'># This will return a warning</span>
+  <span class='fu'><a href='Slurm_clean.html'>Slurm_clean</a></span>(<span class='no'>job</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -232,7 +203,6 @@ of the job (completed, failed, pending).</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

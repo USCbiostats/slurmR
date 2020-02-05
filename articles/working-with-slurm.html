@@ -101,7 +101,7 @@
       <h1>Working with Slurm</h1>
                         <h4 class="author">George G Vega Yon</h4>
             
-            <h4 class="date">2020-02-04</h4>
+            <h4 class="date">2020-02-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/USCbiostats/slurmR/blob/master/vignettes/working-with-slurm.Rmd"><code>vignettes/working-with-slurm.Rmd</code></a></small>
       <div class="hidden name"><code>working-with-slurm.Rmd</code></div>
@@ -113,7 +113,11 @@
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
-<p>Nowadays, high-performance-computing (HPC) clusters are commonly available tools for either in or out of cloud settings. <a href="https://slurm.schedmd.com/">Slurm Work Manager</a> (formerly <em>Simple Linux Utility for Resource Manager</em>) is a program written in C that is used to efficiently manage resources in HPC clusters. The slurmR R package provides tools for using R in HPC settings that work with Slurm. It provides wrappers and auxiliary functions that allow the user to seamlessly integrate their analysis pipeline with HPC, putting emphasis on providing the user with a family of functions similar to those that the parallel R package provides.</p>
+<p>Nowadays, high-performance-computing (HPC) clusters are commonly available tools for either in or out of cloud settings. <a href="https://slurm.schedmd.com/">Slurm Work Manager</a> (formerly <em>Simple Linux Utility for Resource Manager</em>) is a program written in C that is used to efficiently manage resources in HPC clusters. The slurmR R package provides tools for using R in HPC settings that work with Slurm. It provides wrappers and functions that allow the user to seamlessly integrate their analysis pipeline with HPC clusters, putting emphasis on providing the user with a family of functions similar to those that the parallel R package provides.</p>
+</div>
+<div id="definitions" class="section level1">
+<h1 class="hasAnchor">
+<a href="#definitions" class="anchor"></a>Definitions</h1>
 <p>First, some important discussion points within the context of Slurm+R that users in general will find useful. Most of the points have to do with options available for Slurm, and in particular, with the <code>sbatch</code> command with is used to submit batch jobs to Slurm. Users who have used Slurm in the past may wish to skip this and continue reading the following section.</p>
 <ul>
 <li>
@@ -188,6 +192,7 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#definitions">Definitions</a></li>
       <li><a href="#submitting-jobs-via-sbatch">Submitting jobs via sbatch</a></li>
       </ul>
 </div>

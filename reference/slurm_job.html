@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Creating Slurm jobs — last_submitted_job • slurmR</title>
+<title>Creating Slurm jobs — slurm_job • slurmR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,7 +42,7 @@
 
 
 
-<meta property="og:title" content="Creating Slurm jobs — last_submitted_job" />
+<meta property="og:title" content="Creating Slurm jobs — slurm_job" />
 <meta property="og:description" content="Utilities to deal with objects of class slurm_job. The function new_slurm_job,
 which is mostly intended to be for internal used, creates an object of class
 slurm_job. The function last_submitted_job returns the last submitted
@@ -146,7 +146,7 @@ utility functions to read and write R jobs respectively." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Creating Slurm jobs</h1>
-    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/slurmR/blob/master/R/bash.R'><code>R/bash.R</code></a>, <a href='https://github.com/USCbiostats/slurmR/blob/master/R/slurm_job-class.R'><code>R/slurm_job-class.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/slurmR/blob/master/R/slurm_job.R'><code>R/slurm_job.R</code></a></small>
     <div class="hidden name"><code>slurm_job.Rd</code></div>
     </div>
 
@@ -158,11 +158,7 @@ job in the current R session, and the functions <code>read/write_slurm_job</code
 utility functions to read and write R jobs respectively.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>last_submitted_job</span>()
-
-<span class='fu'>last_job</span>()
-
-<span class='fu'>new_slurm_job</span>(
+    <pre class="usage"><span class='fu'>new_slurm_job</span>(
   <span class='no'>call</span>,
   <span class='no'>rscript</span>,
   <span class='no'>bashfile</span>,
@@ -178,7 +174,11 @@ utility functions to read and write R jobs respectively.</p>
 
 <span class='fu'>read_slurm_job</span>(<span class='no'>path</span>)
 
-<span class='fu'>write_slurm_job</span>(<span class='no'>x</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+<span class='fu'>write_slurm_job</span>(<span class='no'>x</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>last_submitted_job</span>()
+
+<span class='fu'>last_job</span>()</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -244,11 +244,7 @@ by <a href='Slurm_collect.html'>Slurm_collect</a>.</p></li>
 path to the file.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The <code>las_submitted_job</code> function will return the latest <code>slurm_job</code>
-object that was submitted via <a href='sbatch.html'>sbatch</a> in the current session. The <code>last_job</code>
-function is just an alias of the later. If no job has been submitted, then
-the resulting value will be <code>NULL</code>.</p>
-<p>In the case of the function <code>new_slurm_job</code>, besides of creating the
+    <p>In the case of the function <code>new_slurm_job</code>, besides of creating the
 object of class <code>slurm_job</code>, the function calls <code>write_slurm_job</code> and stores
 the job object in an <code><a href='https://rdrr.io/r/base/readRDS.html'>rds</a></code> class file. The name and location of
 the saved rds file is generated using the function <code><a href='snames.html'>snames("job")</a></code>.</p>
@@ -261,6 +257,10 @@ it will check that the read object is an object of class <code>slurm_job</code>.
 and saves it in, if <code>path</code> is not specified, whatever the <code>job$options$chdir</code>
 folder is under the name <code>job.rds</code>. If a path is specified, the it is directly
 passed to <code><a href='https://rdrr.io/r/base/readRDS.html'>saveRDS()</a></code>.</p>
+<p>The <code>las_submitted_job</code> function will return the latest <code>slurm_job</code>
+object that was submitted via <a href='sbatch.html'>sbatch</a> in the current session. The <code>last_job</code>
+function is just an alias of the later. If no job has been submitted, then
+the resulting value will be <code>NULL</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {

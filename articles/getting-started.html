@@ -101,7 +101,7 @@
       <h1>Getting Started with slurmR</h1>
                         <h4 class="author">George G. Vega Yon</h4>
             
-            <h4 class="date">June 26, 2019 (last update Dec 17, 2019)</h4>
+            <h4 class="date">June 26, 2019 (last update Feb 4, 2020)</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/USCbiostats/slurmR/blob/master/vignettes/getting-started.Rmd"><code>vignettes/getting-started.Rmd</code></a></small>
       <div class="hidden name"><code>getting-started.Rmd</code></div>
@@ -110,9 +110,10 @@
 
     
     
-<div id="implementation-of-the-slurmr-package" class="section level1">
+<div id="the-slurmr-r-package" class="section level1">
 <h1 class="hasAnchor">
-<a href="#implementation-of-the-slurmr-package" class="anchor"></a>Implementation of the <code>slurmR</code> package</h1>
+<a href="#the-slurmr-r-package" class="anchor"></a>The slurmR R package</h1>
+<p>The <code>slurmR</code> package provides wrappers and tools for integrating R with the HPC workload manager <a href="https://slurm.schedmd.com/">Slurm</a>. Overall, there are two different approaches to do so, either using Socket clusters, in essence, following the workflow of CRAN’s <code>parallel</code> package, or using Job arrays, which are a different implementation of the same idea behind the <code>par*apply</code> functions in the <code>parallel</code> package, which, at times, can be more powerful.</p>
 <div id="socket-clusters" class="section level2">
 <h2 class="hasAnchor">
 <a href="#socket-clusters" class="anchor"></a>Socket clusters</h2>
@@ -268,7 +269,7 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li>
-<a href="#implementation-of-the-slurmr-package">Implementation of the <code>slurmR</code> package</a><ul class="nav nav-pills nav-stacked">
+<a href="#the-slurmr-r-package">The slurmR R package</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#socket-clusters">Socket clusters</a></li>
       <li><a href="#job-arrays-using-the-apply-family">Job arrays using the *apply family</a></li>
       <li><a href="#sockets-vs-arrays">Sockets vs Arrays</a></li>

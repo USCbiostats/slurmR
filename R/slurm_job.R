@@ -90,17 +90,25 @@ new_slurm_job <- function(
 
 }
 
-# Extraction methods
+# Job name
 get_job_name <- function(x) UseMethod("get_job_name")
-get_job_name.slurm_job <- function(x) {
-  x$opts_job$`job-name`
-}
+get_job_name.slurm_job <- function(x) x$opts_job$`job-name`
 
 get_tmp_path <- function(x) UseMethod("get_tmp_path")
-get_tmp_path.slurm_job <- function(x) {
-  x$opts_r$tmp_path
+get_tmp_path.slurm_job <- function(x) x$opts_r$tmp_path
+
+# Getting the job id (Slurm)
+get_job_id <- function(x) UseMethod("get_job_id")
+get_job_id.slurm_job <- function(x) x$jobid
+
+`get_job_id<-.slurm_job` <- function(x, value) {
+  x$jobid <- value
+  x
 }
 
+get_job_id.slurm_cluster <- function(x) attr(x, "SLURM_JOBID")
+
+# Personalized errors
 stopifnot_slurm_job <- function(x) {
   if (!inherits(x, "slurm_job"))
     stop("The passed object is not of class `slurm_job`.", call. = FALSE)
@@ -118,14 +126,14 @@ print.slurm_job <- function(x, ...) {
     sprintf("tmp_path : %s/%s\n", get_tmp_path(x), get_job_name(x)),
     sprintf("job ID   : %s\n",
             ifelse(
-              is.na(x$jobid),
+              is.na(get_job_id(x)),
               "Not submitted",
-              as.character(x$jobid)
+              as.character(get_job_id(x))
             )
     ), sep=""
   )
 
-  if (!is.na(x$jobid)) {
+  if (!is.na(get_job_id(x))) {
     print(status(x))
   }
 
@@ -205,3 +213,55 @@ write_slurm_job <- function(
 }
 
 
+
+#' This environment sets and gets the latest submitted job. The function
+#' [last_submitted_job] is a wrapper of it visible to the user.
+#' @noRd
+LAST_SUBMITTED_JOB <- (function() {
+
+  record <- new.env(parent = emptyenv())
+
+  record$job <- NULL
+  record$set <- function(job) {
+
+    if (!inherits(job, "slurm_job"))
+      stop("The `job` argument must be an object of class `slurm_job`.",
+           call. = FALSE)
+
+    record$job <- job
+
+    invisible()
+  }
+  record$get <- function() {
+    record$job
+  }
+
+  return(record)
+
+})()
+
+#' @rdname slurm_job
+#' @export
+#' @details The `las_submitted_job` function will return the latest `slurm_job`
+#' object that was submitted via [sbatch] in the current session. The `last_job`
+#' function is just an alias of the later. If no job has been submitted, then
+#' the resulting value will be `NULL`.
+#' @examples
+#' \dontrun{
+#' # The last_job function can be handy when `plan = "collect"` in a called,
+#' # for example
+#' job <- Slurm_lapply(1:1000, function(i) runif(100), njobs = 2, plan = "collect")
+#'
+#' # Post collection analysis
+#' status(last_job())
+#' }
+last_submitted_job <- function() {
+
+  LAST_SUBMITTED_JOB$get()
+
+}
+
+
+#' @export
+#' @rdname slurm_job
+last_job <- last_submitted_job

@@ -15,7 +15,9 @@
 
 ## Misc
   
-*  Increased code coverage.
+* Increased code coverage.
+
+* The function `wait_slurm()` is now exported and documented.
 
 * Each line in the written R script is now wrapped with a custom
   `tryCatch` function (`tcq`). On error, this new function will collect both

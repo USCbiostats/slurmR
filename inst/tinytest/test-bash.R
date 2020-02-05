@@ -1,7 +1,6 @@
 if (!slurm_available()) {
 
-  tmp <- tempdir()
-  x <- suppressWarnings(Slurm_EvalQ(1+1, plan = "none", tmp_path = tmp))
+  x <- suppressWarnings(Slurm_EvalQ(1+1, plan = "none"))
 
   expect_error(scancel(1), "not available")
   expect_error(squeue(1), "not available")

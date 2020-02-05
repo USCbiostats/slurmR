@@ -68,7 +68,7 @@ new_slurm_job <- function(
       njobs    = njobs,
       opts_job = opts_job,
       opts_r   = opts_r,
-      jobid    = NA,
+      jobid    = NA_integer_,
       hooks    = hooks
     ),
     envir = new.env(parent = emptyenv())

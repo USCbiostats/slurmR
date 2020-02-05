@@ -10,7 +10,7 @@ wait_slurm(x, ...)
 
 \method{wait_slurm}{slurm_job}(x, ...)
 
-\method{wait_slurm}{integer}(x, timeout = -1, freq = 0.1, force = TRUE)
+\method{wait_slurm}{integer}(x, timeout = -1, freq = 0.1, force = TRUE, ...)
 }
 \arguments{
 \item{x}{Either a job id number, or an object of class \link{slurm_job}.}

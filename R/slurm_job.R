@@ -101,6 +101,8 @@ get_tmp_path.slurm_job <- function(x) x$opts_r$tmp_path
 get_job_id <- function(x) UseMethod("get_job_id")
 get_job_id.slurm_job <- function(x) x$jobid
 
+`get_job_id<-` <- function(x, value) UseMethod("get_job_id")
+
 `get_job_id<-.slurm_job` <- function(x, value) {
   x$jobid <- value
   x

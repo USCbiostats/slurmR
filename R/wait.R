@@ -26,7 +26,7 @@ wait_slurm.slurm_job <- function(x, ...) {
 
 #' @export
 #' @rdname wait_slurm
-wait_slurm.integer <- function(x, timeout = -1, freq = 0.1, force = TRUE) {
+wait_slurm.integer <- function(x, timeout = -1, freq = 0.1, force = TRUE, ...) {
 
   # Checking if Slurm and debug mode
   if (opts_slurmR$get_debug()) {

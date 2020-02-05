@@ -1,18 +1,26 @@
 ---
 title: "Getting Started with slurmR"
 author: "George G. Vega Yon"
-date: "June 26, 2019 (last update Dec 17, 2019)"
+date: "June 26, 2019 (last update Feb 4, 2020)"
 output:
   rmarkdown::html_vignette:
     toc: true
     toc_depth: 2
+    numbered_sections: true
 vignette: >
   %\VignetteIndexEntry{Getting Started with slurmR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-# Implementation of the `slurmR` package
+# The slurmR R package
+
+The `slurmR` package provides wrappers and tools for integrating R with the
+HPC workload manager [Slurm](https://slurm.schedmd.com/). Overall, there are
+two different approaches to do so, either using Socket clusters, in essence,
+following the workflow of CRAN's `parallel` package, or using Job arrays, which
+are a different implementation of the same idea behind the `par*apply` functions
+in the `parallel` package, which, at times, can be more powerful.
 
 ## Socket clusters
 

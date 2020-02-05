@@ -24,15 +24,18 @@ for either in or out of cloud settings.
 *Simple Linux Utility for Resource Manager*) is a program written in C that is
 used to efficiently manage resources in HPC clusters. The slurmR R package
 provides tools for using R in HPC settings that work with Slurm. It provides
-wrappers and auxiliary functions that allow the user to seamlessly integrate
-their analysis pipeline with HPC, putting emphasis on providing the user with a
+wrappers and functions that allow the user to seamlessly integrate
+their analysis pipeline with HPC clusters, putting emphasis on providing the user with a
 family of functions similar to those that the parallel R package provides.
+
+# Definitions
 
 First, some important discussion points within the context of Slurm+R that users
 in general will find useful. Most of the points have to do with options
 available for Slurm, and in particular, with the `sbatch` command with is used
 to submit batch jobs to Slurm. Users who have used Slurm in the past may wish
 to skip this and continue reading the following section.
+
 
 *   **Node** A single computer in the HPC: A lot of times jobs will be submitted
     to a single node. The simplest way of using R+Slurm is submitting a single
@@ -150,4 +153,6 @@ $ sbatch long-job-rscript.slurm
 
 This is what happens under-the-hood in `slurmR` overall.
 
-[^shvsbash]: For more on this see [this thread on StackExchange](https://askubuntu.com/questions/141928/what-is-the-difference-between-bin-sh-and-bin-bash).
+[^shvsbash]: For more on this see
+[this thread on StackExchange](https://askubuntu.com/questions/141928/what-is-the-difference-between-bin-sh-and-bin-bash).
+

@@ -116,7 +116,12 @@ sourceSlurm <- function(
     warning("When using Slurm via sourceSlurm, collection is not possible.", call. = FALSE)
 
   # Submitting the job
-  sbatch(script_path, submit = plan$submit, wait = plan$wait, ...)
+  args <- c(
+    list(...), x = script_path, submit = plan$submit, wait = plan$wait
+    )
+  if (!("output" %in% names(args)))
+    args$output <- paste0(job_name, ".out")
+  do.call(sbatch, args)
 
 }
 

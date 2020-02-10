@@ -195,6 +195,7 @@ still.</p></td>
 <span class='kw'>if</span> (<span class='fu'><a href='sbatch.html'>slurm_available</a></span>()) {
   <span class='no'>job</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Slurm_EvalQ.html'>Slurm_EvalQ</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span>(<span class='fl'>1000</span>), <span class='kw'>plan</span> <span class='kw'>=</span> <span class='st'>"submit"</span>, <span class='kw'>njobs</span> <span class='kw'>=</span> <span class='fl'>2</span>)
   <span class='fu'>wait_slurm</span>(<span class='no'>job</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='co'># This will return a warning</span>
+  <span class='fu'><a href='sbatch.html'>scancel</a></span>(<span class='no'>job</span>)
   <span class='fu'><a href='Slurm_clean.html'>Slurm_clean</a></span>(<span class='no'>job</span>)
 }</div></pre>
   </div>

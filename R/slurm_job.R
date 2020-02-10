@@ -110,6 +110,9 @@ get_job_id.slurm_job <- function(x) x$jobid
 
 get_job_id.slurm_cluster <- function(x) attr(x, "SLURM_JOBID")
 
+get_job_id.slurm_hosts <- function(x) x$jobid
+
+
 # Personalized errors
 stopifnot_slurm_job <- function(x) {
   if (!inherits(x, "slurm_job"))

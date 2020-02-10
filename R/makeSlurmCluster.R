@@ -41,12 +41,15 @@ get_hosts <- function(ntasks=1, tmp_path = getwd(), ...) {
 
   clean <- function() suppressWarnings(file.remove(out))
 
-  list(
-    hosts  = hosts,
-    jobid  = jobid,
-    output = out,
-    script = fn,
-    clean  = clean
+  structure(
+    list(
+      hosts  = hosts,
+      jobid  = jobid,
+      output = out,
+      script = fn,
+      clean  = clean
+    ),
+    class = "slurm_hosts"
   )
 
 }

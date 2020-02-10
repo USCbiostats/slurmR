@@ -305,12 +305,12 @@ new_rscript <- function(
       )
   }
 
-  structure(env, class = "slurmR_rscript")
+  structure(env, class = "slurm_rscript")
 
 }
 
 
-print.slurmR_rscript <- function(x, ...) {
+print.slurm_rscript <- function(x, ...) {
 
   cat(x$rscript, sep = "\n")
 

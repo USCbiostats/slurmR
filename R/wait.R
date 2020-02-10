@@ -14,6 +14,7 @@
 #' if (slurm_available()) {
 #'   job <- Slurm_EvalQ(Sys.sleep(1000), plan = "submit", njobs = 2)
 #'   wait_slurm(job, timeout = 1) # This will return a warning
+#'   scancel(job)   
 #'   Slurm_clean(job)
 #' }
 wait_slurm <- function(x, ...) UseMethod("wait_slurm")

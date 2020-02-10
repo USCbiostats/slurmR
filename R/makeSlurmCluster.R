@@ -275,11 +275,14 @@ stopCluster.slurm_cluster <- function(cl) {
   # First, we need to stop the original processes, this will kill the cluster
   # right away!
   # Removing the first class, and calling stop cluster Again!
+  if (!opts_slurmR$get_debug())
+    jobid <- get_job_id(cl)
+
   class(cl) <- setdiff(class(cl), "slurm_cluster")
   parallel::stopCluster(cl)
 
   if (!opts_slurmR$get_debug())
-    scancel(get_job_id(cl))
+    scancel(jobid)
 
   invisible()
 

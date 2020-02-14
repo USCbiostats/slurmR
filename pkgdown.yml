@@ -2,6 +2,7 @@ pandoc: '2.2'
 pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
+  debugging-re-submission: debugging-re-submission.html
   getting-started: getting-started.html
   working-with-slurm: working-with-slurm.html
 

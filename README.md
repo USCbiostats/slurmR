@@ -109,7 +109,7 @@ We can use the function `Slurm_lapply` to distribute computations
 ``` r
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=slurmr-job-676158f1e10a /home/george/Documents/development/slurmR/slurmr-job-676158f1e10a/01-bash.sh
+#  sbatch --job-name=slurmr-job-184455b882f6 /home/george/Documents/development/slurmR/slurmr-job-184455b882f6/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -121,7 +121,7 @@ get more info, we can actually set the verbose mode on
 opts_slurmR$verbose_on()
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  --------------------------------------------------------------------------------
-#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-676158f1e10a/00-rscript.r and has the following contents:
+#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-184455b882f6/00-rscript.r and has the following contents:
 #  --------------------------------------------------------------------------------
 #  .libPaths(c("/home/george/R/x86_64-pc-linux-gnu-library/3.6", "/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))
 #  message("[slurmR info] Loading variables and functions... ", appendLF = FALSE)
@@ -149,7 +149,7 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #      sprintf("%s/%s/%s", tmp_path, job_name, type)
 #  }
 #  TMP_PATH  <- "/home/george/Documents/development/slurmR"
-#  JOB_NAME  <- "slurmr-job-676158f1e10a"
+#  JOB_NAME  <- "slurmr-job-184455b882f6"
 #  
 #  # The -tcq- function is a wrapper of tryCatch that on error tries to recover
 #  # the message and saves the outcome so that slurmR can return OK.
@@ -172,19 +172,19 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #  }
 #  message("done loading variables and functions.")
 #  tcq({
-#    INDICES <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-676158f1e10a/INDICES.rds")
+#    INDICES <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-184455b882f6/INDICES.rds")
 #  })
 #  tcq({
-#    X <- readRDS(sprintf("/home/george/Documents/development/slurmR/slurmr-job-676158f1e10a/X_%04d.rds", ARRAY_ID))
+#    X <- readRDS(sprintf("/home/george/Documents/development/slurmR/slurmr-job-184455b882f6/X_%04d.rds", ARRAY_ID))
 #  })
 #  tcq({
-#    FUN <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-676158f1e10a/FUN.rds")
+#    FUN <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-184455b882f6/FUN.rds")
 #  })
 #  tcq({
-#    mc.cores <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-676158f1e10a/mc.cores.rds")
+#    mc.cores <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-184455b882f6/mc.cores.rds")
 #  })
 #  tcq({
-#    seeds <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-676158f1e10a/seeds.rds")
+#    seeds <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-184455b882f6/seeds.rds")
 #  })
 #  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)
 #  tcq({
@@ -194,24 +194,24 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #      mc.cores         = mc.cores
 #  )
 #  })
-#  saveRDS(ans, sprintf("/home/george/Documents/development/slurmR/slurmr-job-676158f1e10a/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
+#  saveRDS(ans, sprintf("/home/george/Documents/development/slurmR/slurmr-job-184455b882f6/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
 #  --------------------------------------------------------------------------------
-#  The bash file that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-676158f1e10a/01-bash.sh and has the following contents:
+#  The bash file that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-184455b882f6/01-bash.sh and has the following contents:
 #  --------------------------------------------------------------------------------
 #  #!/bin/sh
-#  #SBATCH --job-name=slurmr-job-676158f1e10a
-#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-676158f1e10a/02-output-%A-%a.out
+#  #SBATCH --job-name=slurmr-job-184455b882f6
+#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-184455b882f6/02-output-%A-%a.out
 #  #SBATCH --array=1-2
-#  #SBATCH --job-name=slurmr-job-676158f1e10a
+#  #SBATCH --job-name=slurmr-job-184455b882f6
 #  #SBATCH --cpus-per-task=1
 #  #SBATCH --ntasks=1
 #  export OMP_NUM_THREADS=1
-#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-676158f1e10a/00-rscript.r
+#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-184455b882f6/00-rscript.r
 #  --------------------------------------------------------------------------------
 #  EOF
 #  --------------------------------------------------------------------------------
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=slurmr-job-676158f1e10a /home/george/Documents/development/slurmR/slurmr-job-676158f1e10a/01-bash.sh
+#  sbatch --job-name=slurmr-job-184455b882f6 /home/george/Documents/development/slurmR/slurmr-job-184455b882f6/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -345,488 +345,24 @@ There are several ways to enhance R for HPC. Depending on what are your
 goals/restrictions/preferences, you can use any of the following from
 this **manually curated** list:
 
-<table cellspacing="0" border="0">
-
-<colgroup width="125">
-
-</colgroup>
-
-<colgroup width="85">
-
-</colgroup>
-
-<colgroup width="73">
-
-</colgroup>
-
-<colgroup span="4" width="85">
-
-</colgroup>
-
-<colgroup width="125">
-
-</colgroup>
-
-<colgroup width="104">
-
-</colgroup>
-
-<tbody>
-
-<tr>
-
-<td height="36" align="center" valign="middle" bgcolor="#FFFFFF">
-
-<b>Package</b>
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-<b>Rerun (1)</b>
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-<b>apply family (2)</b>
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-<b>Multinode cluster (3)</b>
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-<b>Slurm options</b>
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-<b>Focus on \[blank\]</b>
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-<b>System \[blank\]</b>
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-<b>Dependencies (4)</b>
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-<b>Status</b>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="border-top: 1px solid #000000" height="36" align="left" valign="middle" bgcolor="#FFFFFF">
-
-<b>drake</b>
-
-</td>
-
-<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
-
-yes
-
-</td>
-
-<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
-
-\-
-
-</td>
-
-<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
-
-\-
-
-</td>
-
-<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
-
-by template
-
-</td>
-
-<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
-
-workflows
-
-</td>
-
-<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
-
-agnostic
-
-</td>
-
-<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF" sdnum="1033;0;@">
-
-5/9
-
-</td>
-
-<td style="border-top: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
-
-active
-
-</td>
-
-</tr>
-
-<tr>
-
-<td height="36" align="left" valign="middle" bgcolor="#CCCCCC">
-
-<b>slurmR</b>
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#CCCCCC">
-
-yes
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#CCCCCC">
-
-yes
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#CCCCCC">
-
-yes
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#CCCCCC">
-
-on the fly
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#CCCCCC">
-
-calls
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#CCCCCC">
-
-specific
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#CCCCCC" sdnum="1033;0;@">
-
-0/0
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#CCCCCC">
-
-active
-
-</td>
-
-</tr>
-
-<tr>
-
-<td height="36" align="left" valign="middle" bgcolor="#FFFFFF">
-
-<b>rslurm</b>
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-\-
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-\-
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-\-
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-on the fly
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-calls
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-specific
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF" sdnum="1033;0;@">
-
-1/1
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-active
-
-</td>
-
-</tr>
-
-<tr>
-
-<td height="36" align="left" valign="middle" bgcolor="#FFFFFF">
-
-<b>future.batchtools</b>
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-\-
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-yes
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-yes
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-by template
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-calls
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-agnostic
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF" sdnum="1033;0;@">
-
-2/24
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-active
-
-</td>
-
-</tr>
-
-<tr>
-
-<td height="36" align="left" valign="middle" bgcolor="#FFFFFF">
-
-<b>batchtools</b>
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-yes
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-yes
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-\-
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-by template
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-calls
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-agnostic
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF" sdnum="1033;0;@">
-
-12/20
-
-</td>
-
-<td align="center" valign="middle" bgcolor="#FFFFFF">
-
-active
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="border-bottom: 1px solid #000000" height="36" align="left" valign="middle" bgcolor="#FFFFFF">
-
-<b>clustermq</b>
-
-</td>
-
-<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
-
-\-
-
-</td>
-
-<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
-
-\-
-
-</td>
-
-<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
-
-\-
-
-</td>
-
-<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
-
-by template
-
-</td>
-
-<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
-
-calls
-
-</td>
-
-<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
-
-agnostic
-
-</td>
-
-<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF" sdnum="1033;0;@">
-
-6/16
-
-</td>
-
-<td style="border-bottom: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF">
-
-active
-
-</td>
-
-</tr>
-
-<tr>
-
-<td colspan="9" height="17" align="left" valign="middle" bgcolor="#FFFFFF">
-
-\[1\] After errors, the part or the entire job can be resubmitted.
-
-</td>
-
-</tr>
-
-<tr>
-
-<td colspan="9" height="17" align="left" valign="middle" bgcolor="#FFFFFF">
-
-\[2\] Functionality similar to the apply family in base R, e.g. lapply,
-sapply, mapply or similar.
-
-</td>
-
-</tr>
-
-<tr>
-
-<td colspan="9" height="17" align="left" valign="middle" bgcolor="#FFFFFF">
-
-\[3\] Creating a cluster object using either MPI or Socket connection.
-
-</td>
-
-</tr>
-
-<tr>
-
-<td colspan="9" height="17" align="left" bgcolor="#FFFFFF">
-
-\[4\] Number of directed/recursive dependencies. As reported in
-<a href="https://tinyverse.netlify.com/">https://tinyverse.netlify.com/</a>
-(June 4, 2019)
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-Please submit an issue or a PR if you find anything off.
+| Package                                                                       | Rerun (1) | \*apply (2) | makeCluster (3) | Slurm options | Dependencies                                                                                                             | Activity                                                                                                                                         |
+| :---------------------------------------------------------------------------- | :-------- | :---------- | :-------------- | :------------ | :----------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------- |
+| [**slurmR**](https://cran.r-project.org/package=slurmR)                       | yes       | yes         | yes             | on the fly    | [![status](https://tinyverse.netlify.com/badge/slurmR)](https://CRAN.R-project.org/package=slurmR)                       | [![Activity](https://img.shields.io/github/last-commit/USCbiostats/slurmR)](https://github.com/USCbiostats/slurmR)                               |
+| [**drake**](https://cran.r-project.org/package=drake)                         | yes       | \-          | \-              | by template   | [![status](https://tinyverse.netlify.com/badge/drake)](https://CRAN.R-project.org/package=drake)                         | [![Activity](https://img.shields.io/github/last-commit/ropensci/drake)](https://github.com/ropensci/drake)                                       |
+| [**rslurm**](https://cran.r-project.org/package=rslurm)                       | \-        | yes         | \-              | on the fly    | [![status](https://tinyverse.netlify.com/badge/rslurm)](https://CRAN.R-project.org/package=rslurm)                       | [![Activity](https://img.shields.io/github/last-commit/SESYNC-ci/rslurm)](https://github.com/SESYNC-ci/rslurm)                                   |
+| [**future.batchtools**](https://cran.r-project.org/package=future.batchtools) | \-        | yes         | yes             | by template   | [![status](https://tinyverse.netlify.com/badge/future.batchtools)](https://CRAN.R-project.org/package=future.batchtools) | [![Activity](https://img.shields.io/github/last-commit/HenrikBengtsson/future.batchtools)](https://github.com/HenrikBengtsson/future.batchtools) |
+| [**batchtools**](https://cran.r-project.org/package=batchtools)               | yes       | yes         | \-              | by template   | [![status](https://tinyverse.netlify.com/badge/batchtools)](https://CRAN.R-project.org/package=batchtools)               | [![Activity](https://img.shields.io/github/last-commit/mllg/batchtools)](https://github.com/mllg/batchtools)                                     |
+| [**clustermq**](https://cran.r-project.org/package=clustermq)                 | \-        | \-          | \-              | by template   | [![status](https://tinyverse.netlify.com/badge/clustermq)](https://CRAN.R-project.org/package=clustermq)                 | [![Activity](https://img.shields.io/github/last-commit/mschubert/clustermq)](https://github.com/mschubert/clustermq)                             |
+
+1)  After errors, the part or the entire job can be resubmitted.
+2)  Functionality similar to the apply family in base R, e.g. lapply,
+    sapply, mapply or similar.
+3)  Creating a cluster object using either MPI or Socket connection.
+
+The packages [**slurmR**](https://cran.r-project.org/package=slurmR),
+[**rslurm**](https://cran.r-project.org/package=rslurm) work only on
+Slurm. The [**drake**](https://cran.r-project.org/package=drake) package
+is focused on workflows.
 
 ## Contributing
 

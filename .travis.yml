@@ -1,12 +1,22 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: R
-sudo: false
 cache: packages
 
-os:
-  - linux
-  - osx
+jobs:
+  include:
+    - os: linux
+      r: devel
+    - os: linux
+      r: oldrel
+    - os: linux
+      r: release
+      env:
+        - BUILD_WWW_HERE=true
+    - os: osx
+      r: oldrel
+    - os: osx
+      r: release
 
 # For automatic deploy of the website
 before_deploy: Rscript -e 'remotes::install_cran("pkgdown")'
@@ -16,5 +26,5 @@ deploy:
   skip_cleanup: true
   on:
     branch: master
-    condition: $TRAVIS_OS_NAME = linux
+    condition: $BUILD_WWW_HERE = linux
 

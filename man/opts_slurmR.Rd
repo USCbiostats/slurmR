@@ -16,7 +16,7 @@ defaults that are set and retrieved using \code{opts_slurmR}.
 \details{
 Whatever the path specified on \code{tmp_path}, all nodes should have access to it.
 Moreover, it is recommended to use a path located in a high-performing drive.
-See for example \url{https://hpcc.usc.edu/support/infrastructure/temporary-disk-space/}.
+See for example \href{https://en.wikipedia.org/w/index.php?title=Disk_staging&oldid=908353920}{disk staging}.
 
 The \code{tmp_path} directory is only created at the time that one of the functions
 needs to I/O files. Job creation calls like \link{Slurm_EvalQ} and \link{Slurm_lapply}

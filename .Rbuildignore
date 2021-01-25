@@ -27,7 +27,7 @@ pkgdown
 ^doc$
 ^Meta$
 
-slurmR\.tar\.gz
+.*\.tar\.gz
 slurmr-job*/
 comparing-projects.+
 

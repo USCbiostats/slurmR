@@ -13,14 +13,9 @@ slurm_available <- function() {
   if (.Platform$OS.type != "unix")
     return(FALSE)
 
-  x <- tryCatch(
-    system2("sbatch", "--version", stderr = TRUE, stdout = TRUE),
-    error = function(e) e)
-
-  if (inherits(x, "error"))
-    FALSE
-  else
-    TRUE
+  # It is available if R can find it!
+  x <- Sys.which("sbatch")
+  return(nchar(x) > 0L)
 }
 
 #' @export

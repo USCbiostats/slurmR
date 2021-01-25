@@ -7,7 +7,7 @@
 #'
 #' Whatever the path specified on `tmp_path`, all nodes should have access to it.
 #' Moreover, it is recommended to use a path located in a high-performing drive.
-#' See for example \url{https://hpcc.usc.edu/support/infrastructure/temporary-disk-space/}.
+#' See for example [disk staging](https://en.wikipedia.org/w/index.php?title=Disk_staging&oldid=908353920).
 #'
 #' The `tmp_path` directory is only created at the time that one of the functions
 #' needs to I/O files. Job creation calls like [Slurm_EvalQ] and [Slurm_lapply]

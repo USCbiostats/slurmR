@@ -1,6 +1,6 @@
 ## Test environments
 
-* Local: Ubuntu 18.04.3 LTS ubuntu, R 3.6.2 (2019-12-12)
+* Local: Ubuntu 18.04.3 LTS ubuntu, R 3.6.3 (2020-02-29)
 * Travis: Ubuntu 16.04.6 LTS, R 3.6.1 (2017-01-27)
 * Travis: Mac OS X 10.13.6 LTS, R 3.6.2 (2019-12-12)
 * USC's HPCC: CentOS Linux 7, R 3.5.0 (2018-04-23)
@@ -13,11 +13,9 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 2 notes
+0 errors | 0 warnings | 0 notes
 
-* This is a new release.
-
-* A false positive when checking a URL to a Harvard website.
+* This is an update.
 
 ## Notes
 
@@ -26,16 +24,3 @@ working with Slurm. It was tested on USC's HPCC center and others during a revie
 process of the Journal of Open Source Software. We don't include Slurm as part
 of the SystemRequirements field since users without Slurm can still install this
 package and use some of its functions.
-
-
-## On previous CRAN comments
-
-1. Last submission included the note: "Package has help file(s) containing
-   install/render-stage \Sexpr{} expressions but no prebuilt PDF manual."
-   Evaluation of the Sexpr is now done during the building process. I don't
-   see such message now.
-   
-   I've also added R-hub checks. All is working OK.
-
-Thanks
-

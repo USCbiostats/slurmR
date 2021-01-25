@@ -1,4 +1,13 @@
-# slurmR 0.3-1
+# slurmR 0.4-2
+
+Minor release.
+
+## Bug fixes
+
+* Fixes an user-message issue (not crucial) observed in Fedora and Solaris.
+
+
+# slurmR 0.4-1
 
 ## Bug fixes
 

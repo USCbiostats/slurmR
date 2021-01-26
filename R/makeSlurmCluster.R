@@ -7,8 +7,8 @@ get_hosts <- function(ntasks=1, tmp_path = getwd(), ...) {
   })
 
   # Creating job name and file
-  fn   <- tempfile("slurmr-job-")
-  jn   <- gsub(".+(?=slurmr-job-)", "", fn, perl = TRUE)
+  fn   <- tempfile("slurmr-job-", tmpdir = dirname(tempdir()))
+  jn   <- basename(fn) 
   out  <- sprintf("%s/%s.out", tmp_path, jn)
 
   # Writing the script

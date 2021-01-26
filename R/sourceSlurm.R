@@ -48,7 +48,7 @@
 sourceSlurm <- function(
   file,
   job_name    = NULL,
-  tmp_path    = file.path(tempdir(), ".."),
+  tmp_path    = dirname(tempdir()),
   rscript_opt = list(vanilla = TRUE),
   plan        = "submit",
   ...

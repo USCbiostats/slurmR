@@ -4,14 +4,18 @@
 \name{opts_slurmR}
 \alias{opts_slurmR}
 \title{Get and set default options for \code{sbatch} and \code{slurmR} internals}
-\format{An object of class \code{opts_slurmR} of length 14.}
+\format{
+An object of class \code{opts_slurmR} of length 16.
+}
 \usage{
 opts_slurmR
 }
 \description{
 Most of the functions in the \code{slurmR} package use \code{tmp_path} and \code{job-name}
 options to write and submit jobs to \strong{Slurm}. These options have global
-defaults that are set and retrieved using \code{opts_slurmR}.
+defaults that are set and retrieved using \code{opts_slurmR}. These options
+also include SBATCH options and things to do before calling RScript,
+e.g., loading modules on an HPC cluster.
 }
 \details{
 Whatever the path specified on \code{tmp_path}, all nodes should have access to it.
@@ -21,6 +25,9 @@ See for example \href{https://en.wikipedia.org/w/index.php?title=Disk_staging&ol
 The \code{tmp_path} directory is only created at the time that one of the functions
 needs to I/O files. Job creation calls like \link{Slurm_EvalQ} and \link{Slurm_lapply}
 do such.
+
+The "preamble" options can be specified if, for example, the current cluster
+needs to load R, a compiler, or other programs via a \code{module} command.
 
 Current supported options are:
 
@@ -49,6 +56,8 @@ Slurm options
 Other options
 \itemize{
 \item \verb{get_cmd : function ()} \Sexpr[stage=build]{attr(slurmR::opts_slurmR$get_cmd, "desc")}
+\item \verb{set_preamble : function (...)} \Sexpr[stage=build]{attr(slurmR::opts_slurmR$set_preamble, "desc")}
+\item \verb{get_preamble : function ()} \Sexpr[stage=build]{attr(slurmR::opts_slurmR$get_preamble, "desc")}
 }
 
 For general set/retrieve options
@@ -65,6 +74,7 @@ For general set/retrieve options
 opts_slurmR$set_tmp_path("/staging/pdt/vegayon")
 opts_slurmR$set_job_name("simulations-1")
 opts_slurm$set_opts(partition="thomas", account="lc_pdt")
+opts_slurm$set_preamble("module load gcc")# if needed
 }
 
 }

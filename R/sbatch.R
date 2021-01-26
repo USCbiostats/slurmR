@@ -132,7 +132,7 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
   # Warning that the call has been made and storing the id
   if (!opts_slurmR$get_debug()) {
 
-    get_job_id(x) <- as.integer(gsub(pattern = ".+ (?=[0-9]+$)", "", ans, perl=TRUE))
+    get_job_id(x) <- as.integer(gsub(pattern = ".+ (?=[[:digit:]]+$)", "", ans, perl=TRUE))
     message(" jobid:", get_job_id(x), ".")
 
     # We need to update the job file and the latest submitted job
@@ -167,7 +167,7 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
   SBATCH   <- read_sbatch(x)
   job_name <- SBATCH["job-name"]
   if (is.na(job_name))
-    job_name <- gsub(".+[/](?=[^/]+$)", "", x, perl=TRUE)
+    job_name <- basename(x)
 
   tmp_opts <- list(...)
   tmp_opts <- coalesce_slurm_options(tmp_opts)
@@ -211,7 +211,7 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
   message("Submitting job...", appendLF = FALSE)
   ans <- silent_system2(opts_slurmR$get_cmd(), option, stdout = TRUE, wait=TRUE)
 
-  jobid <- as.integer(gsub(pattern = ".+ (?=[0-9]+$)", "", ans, perl=TRUE))
+  jobid <- as.integer(gsub(pattern = ".+ (?=[[:digit:]]+$)", "", ans, perl=TRUE))
   message(" jobid:", jobid, ".")
 
   if (wait)

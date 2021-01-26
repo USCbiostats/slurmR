@@ -3,7 +3,9 @@
 #'
 #' Most of the functions in the `slurmR` package use `tmp_path` and `job-name`
 #' options to write and submit jobs to **Slurm**. These options have global
-#' defaults that are set and retrieved using `opts_slurmR`.
+#' defaults that are set and retrieved using `opts_slurmR`. These options
+#' also include SBATCH options and things to do before calling RScript,
+#' e.g., loading modules on an HPC cluster.
 #'
 #' Whatever the path specified on `tmp_path`, all nodes should have access to it.
 #' Moreover, it is recommended to use a path located in a high-performing drive.
@@ -12,6 +14,9 @@
 #' The `tmp_path` directory is only created at the time that one of the functions
 #' needs to I/O files. Job creation calls like [Slurm_EvalQ] and [Slurm_lapply]
 #' do such.
+#'
+#' The "preamble" options can be specified if, for example, the current cluster
+#' needs to load R, a compiler, or other programs via a `module` command.
 #'
 #' @details Current supported options are:
 #'
@@ -45,6 +50,9 @@
 #'
 #' - `get_cmd : function ()` \Sexpr[stage=build]{attr(slurmR::opts_slurmR$get_cmd, "desc")}
 #'
+#' - `set_preamble : function (...)` \Sexpr[stage=build]{attr(slurmR::opts_slurmR$set_preamble, "desc")}
+#'
+#' - `get_preamble : function ()` \Sexpr[stage=build]{attr(slurmR::opts_slurmR$get_preamble, "desc")}
 #'
 #' For general set/retrieve options
 #'
@@ -62,6 +70,7 @@
 #' opts_slurmR$set_tmp_path("/staging/pdt/vegayon")
 #' opts_slurmR$set_job_name("simulations-1")
 #' opts_slurm$set_opts(partition="thomas", account="lc_pdt")
+#' opts_slurm$set_preamble("module load gcc")# if needed
 #' }
 #'
 #' @export
@@ -77,6 +86,9 @@ opts_slurmR <- (function() {
   OPTS_R$cmd      <- "sbatch"
   OPTS_R$verbose  <- FALSE
 
+  # Preamble
+  OPTS_PREAMBLE     <- new.env(parent = emptyenv())
+  OPTS_PREAMBLE$dat <- NULL
 
   # JOB PATH -------------------------------------------------------------------
   # Function to set job path
@@ -132,6 +144,8 @@ opts_slurmR <- (function() {
     "`overwrite = TRUE``, else it will return with an Error).")
 
   attr(get_job_name, "desc") <- "Returns the current value of `job-name`."
+
+
 
   # Generalized set/get function -----------------------------------------------
   set_opts <- function(...) {
@@ -198,6 +212,25 @@ opts_slurmR <- (function() {
   attr(get_opts_r, "desc")   <- "A generic function to retrieve options in R."
   attr(get_opts_job, "desc") <- "A generic function to retrieve options for the job (Slurm)."
 
+  get_preamble <- function() {
+    return(OPTS_PREAMBLE$dat)
+  }
+
+  set_preamble <- function(...) {
+    OPTS_PREAMBLE$dat <- c(OPTS_PREAMBLE$dat, unlist(list(...)))
+    invisible()
+  }
+
+  attr(set_preamble, "desc") <- paste(
+    "Sets \"preamble\" to the RScript call. For example, it could be used for loading",
+    "modules, setting env variables, etc., needed during the R session. Options are",
+    "passed as characters."
+  )
+  attr(get_preamble, "desc") <- paste(
+    "Returns the preamble, e.g., module loads, environment variable definitions, etc.,",
+    "that will be included in sbatch submissions."
+  )
+
   # Debugging and Verbose ------------------------------------------------------
 
   debug_on <- function() {
@@ -241,13 +274,15 @@ opts_slurmR <- (function() {
   # Final structure ------------------------------------------------------------
   structure(list2env(
     list(
-      set_tmp_path    = set_tmp_path,
-      get_tmp_path    = get_tmp_path,
+      set_tmp_path = set_tmp_path,
+      get_tmp_path = get_tmp_path,
       set_job_name = set_job_name,
       get_job_name = get_job_name,
       set_opts     = set_opts,
       get_opts_job = get_opts_job,
       get_opts_r   = get_opts_r,
+      set_preamble = set_preamble,
+      get_preamble = get_preamble,
       debug_on     = debug_on,
       debug_off    = debug_off,
       get_debug    = structure(
@@ -288,6 +323,7 @@ print.opts_slurmR <- function(x, ...) {
 
   cat("\nOptions for sbatch (Slurm workflow):\n")
   options_printer(x$get_opts_job())
+  options_printer(list(preamble = x$get_preamble()))
   cat("\nOther options (R workflow):\n")
   options_printer(x$get_opts_r())
   cat("\nTo get and set options for Slurm jobs creation use (see ?opts_slurmR):\n\n")

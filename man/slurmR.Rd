@@ -5,7 +5,13 @@
 \alias{slurmR}
 \title{A Lightweight Wrapper for 'Slurm'}
 \description{
-A Lightweight Wrapper for 'Slurm'
+'Slurm', Simple Linux Utility for Resource Management
+\url{https://slurm.schedmd.com/}, is a popular 'Linux' based software used to
+schedule jobs in 'HPC' (High Performance Computing) clusters. This R package
+provides a specialized lightweight wrapper of 'Slurm' with a syntax similar to
+that found in the 'parallel' R package. The package also includes a method for
+creating socket cluster objects spanning multiple nodes that can be used with
+the 'parallel' package.
 }
 \details{
 To cite slurmR in publications use:

@@ -48,7 +48,7 @@
 sourceSlurm <- function(
   file,
   job_name    = NULL,
-  tmp_path    = tempdir(),
+  tmp_path    = file.path(tempdir(), ".."),
   rscript_opt = list(vanilla = TRUE),
   plan        = "submit",
   ...
@@ -70,14 +70,14 @@ sourceSlurm <- function(
   if (!is.null(job_name))
     SBATCH$`job-name` <- job_name
   if (is.null(SBATCH$`job-name`) & is.null(job_name)) {
-    job_name          <- gsub(".+[/](?=[^/]+$)", "", file, perl=TRUE)
+    job_name          <- basename(file)
     SBATCH$`job-name` <- job_name
   }
   if (!is.null(SBATCH$`job-name`) & is.null(job_name))
     job_name <- SBATCH$`job-name`
 
   file        <- normalizePath(file)
-  script_path <- sprintf("%s/%s.slurm", tmp_path, job_name)
+  script_path <- sprintf("%s/%s.slurm", tmp_path, basename(file))
 
   x <- new_bash(
     filename = script_path,
@@ -87,6 +87,9 @@ sourceSlurm <- function(
   # Adding options
   SBATCH$`job-name` <- NULL # Already added
   x$add_SBATCH(SBATCH)
+
+  # Adding modules
+  x$append(opts_slurmR$get_preamble())
 
   # Finalizing by setting the R call
   x$Rscript(file = file, flags = rscript_opt)
@@ -167,6 +170,7 @@ slurmr_cmd <- function(cmd_path, cmd_name = "slurmr", add_alias = TRUE, bashrc_p
   cmd_path <- normalizePath(cmd_path)
   fn   <- suppressWarnings(sprintf("%s/%s", cmd_path, cmd_name))
   bash <- new_bash(fn)
+  bash$append(opts_slurmR$get_preamble())
   bash$Rscript("", flags = list(vanilla = TRUE, e = "slurmR::sourceSlurm('$1', plan = 'submit')"))
   bash$write()
 

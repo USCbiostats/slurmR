@@ -86,7 +86,7 @@ of R objects on disk.}
 function returns with an error.}
 
 \item{X, FUN, f, mc.cores, ...}{Arguments passed to either \link[parallel:mclapply]{parallel::mclapply} or
-\link[parallel:mcMap]{parallel::mcMap}.}
+\link[parallel:mclapply]{parallel::mcMap}.}
 
 \item{simplify, USE.NAMES}{Logical scalar. See \link{sapply}.}
 }

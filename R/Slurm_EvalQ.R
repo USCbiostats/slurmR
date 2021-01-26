@@ -81,6 +81,7 @@ Slurm_EvalQ <- function(
     )
 
   bash$add_SBATCH(sbatch_opt)
+  bash$append(opts_slurmR$get_preamble())
   bash$Rscript(
     file  = snames("r", job_name = job_name, tmp_path = tmp_path),
     flags = rscript_opt

@@ -8,7 +8,7 @@
 sourceSlurm(
   file,
   job_name = NULL,
-  tmp_path = tempdir(),
+  tmp_path = file.path(tempdir(), ".."),
   rscript_opt = list(vanilla = TRUE),
   plan = "submit",
   ...

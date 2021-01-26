@@ -4,8 +4,8 @@ if ( requireNamespace("tinytest", quietly=TRUE) & (.Platform$OS.type == "unix") 
 
   library(slurmR)
   if (slurm_available()) {
-    opts_slurmR$set_tmp_path("/staging/ggv/slurmR-tinytest/")
-    opts_slurmR$set_opts(partition = "thomas", account = "lc_pdt")
+    opts_slurmR$set_tmp_path("/scratch/vegayon/ggv/slurmR-rcmdcheck/")
+    opts_slurmR$set_opts(account = "pdthomas_136")
   } else {
     opts_slurmR$set_tmp_path(tempdir())
   }

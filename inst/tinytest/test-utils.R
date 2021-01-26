@@ -1,4 +1,4 @@
-tmp <- ifelse(slurm_available(), "/staging/ggv/", tempdir())
+# tmp <- ifelse(slurm_available(), "/staging/ggv/", tempdir())
 x   <- suppressWarnings(
   Slurm_EvalQ(print("Hello"), plan = "none", tmp_path = tmp)
   )
@@ -24,6 +24,5 @@ if (slurm_available()) {
   expect_true(is.vector(status(x)$done))
   Slurm_clean(x)
   expect_equal(Slurm_env("SLURM_ARRAY_TASK_ID"), 1)
-
 
 }

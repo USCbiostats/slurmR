@@ -3,7 +3,7 @@ if (slurm_available()) {
   cl1 <- tryCatch(makeSlurmCluster(2, time = "01:00:00",
     job_name = "test-makeSlurmCluster"), error = function(e) e)
 
-  if (expect_false(inherits(cl1, "error"))) {
+  if (!inherits(cl1, "error")) {
 
 
   cl2 <- makePSOCKcluster(2)
@@ -19,7 +19,7 @@ if (slurm_available()) {
   stopCluster(cl1)
   stopCluster(cl2)
   } else {
-    print(e)
+    print(cl1)
   }
 
 }

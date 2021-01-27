@@ -8,7 +8,7 @@
 makeSlurmCluster(
   n,
   job_name = random_job_name(),
-  tmp_path = opts_slurmR$get_tmp_path(),
+  tmp_path = dirname(tempdir()),
   cluster_opt = list(),
   max_wait = 300L,
   verb = TRUE,
@@ -59,6 +59,17 @@ associated with it, which allows users to star new processes within those.
 By means of this, we can create Socket, also known as "PSOCK", clusters across
 nodes in a Slurm environment. The name of the hosts are retrieved and passed
 later on to \link[parallel:makeCluster]{parallel::makePSOCKcluster}.
+
+It has been the case that R fails to create the cluster with the following
+message in the Slurm log file:\preformatted{srun: fatal: SLURM_MEM_PER_CPU, SLURM_MEM_PER_GPU, and SLURM_MEM_PER_NODE are mutually exclusive
+}
+
+In such cases, setting the memory, for example, upfront can solve the problem.
+For example:\preformatted{cl <- makeSlurmCluster(20, mem = 20)
+}
+
+If the problem persists, i.e., the cluster cannot be created, make sure that
+your Slurm cluster allows Socket connections between nodes.
 
 The method \code{stopCluster} for \code{slurm_cluster} stops the cluster doing
 the following:

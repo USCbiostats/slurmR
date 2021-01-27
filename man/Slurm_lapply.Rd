@@ -22,7 +22,8 @@ Slurm_Map(
   export_env = NULL,
   libPaths = .libPaths(),
   hooks = NULL,
-  overwrite = TRUE
+  overwrite = TRUE,
+  preamble = NULL
 )
 
 Slurm_lapply(
@@ -42,7 +43,8 @@ Slurm_lapply(
   export_env = NULL,
   libPaths = .libPaths(),
   hooks = NULL,
-  overwrite = TRUE
+  overwrite = TRUE,
+  preamble = NULL
 )
 
 Slurm_sapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE)
@@ -84,6 +86,10 @@ of R objects on disk.}
 \item{overwrite}{Logical scalar. When \code{TRUE}, if the path specified by
 \code{tmp_path/job_name} already exists, it will overwrite it, otherwise the
 function returns with an error.}
+
+\item{preamble}{Character vector. Each element is then added to the Slurm
+batch file between the \verb{#SBATCH} options and the script's main call. A
+common example is adding required modules, e.g. \code{c("module load gcc/6.1.1")}.}
 
 \item{X, FUN, f, mc.cores, ...}{Arguments passed to either \link[parallel:mclapply]{parallel::mclapply} or
 \link[parallel:mclapply]{parallel::mcMap}.}

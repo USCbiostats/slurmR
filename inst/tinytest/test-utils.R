@@ -1,7 +1,7 @@
-tmp <- ifelse(slurm_available(), "/staging/ggv/", tempdir())
+tmp <- file.path(opts_slurmR$get_tmp_path(), "test-utils")
 x   <- suppressWarnings(
   Slurm_EvalQ(print("Hello"), plan = "none", tmp_path = tmp)
-  )
+)
 expect_true(is.character(whoami()))
 expect_true(dir.exists(paste0(tmp, "/", x$opts_job$`job-name`)))
 Slurm_clean(x)
@@ -24,6 +24,5 @@ if (slurm_available()) {
   expect_true(is.vector(status(x)$done))
   Slurm_clean(x)
   expect_equal(Slurm_env("SLURM_ARRAY_TASK_ID"), 1)
-
 
 }

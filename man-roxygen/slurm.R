@@ -12,5 +12,8 @@
 #' @param overwrite Logical scalar. When `TRUE`, if the path specified by
 #' `tmp_path/job_name` already exists, it will overwrite it, otherwise the
 #' function returns with an error.
+#' @param preamble Character vector. Each element is then added to the Slurm
+#' batch file between the `#SBATCH` options and the script's main call. A
+#' common example is adding required modules, e.g. `c("module load gcc/6.1.1")`.
 #'
 NULL

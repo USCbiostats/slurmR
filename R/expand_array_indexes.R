@@ -32,7 +32,7 @@ expand_array_indexes <- function(x) {
     )
 
   # is it simply a number?
-  if (grepl("^[0-9]+$", x))
+  if (grepl("^[[:digit:]]+$", x))
     return(as.integer(x))
 
   # Capturing main job name
@@ -40,10 +40,10 @@ expand_array_indexes <- function(x) {
   x     <- gsub(".+_", "", x)
 
   # Removing possible values of "simulatenous jobs"
-  x <- gsub("%[0-9]+", "", x)
+  x <- gsub("%[[:digit:]]+", "", x)
 
   # Simplest case
-  if (grepl("^[0-9]+$", x))
+  if (grepl("^[[:digit:]]+$", x))
     return(sprintf("%d_%d", jobid, as.integer(x)))
 
   # Removing the brackets
@@ -61,16 +61,16 @@ expand_array_indexes <- function(x) {
 
       step. <- as.integer(gsub(".+[:]", "", i))
       start <- as.integer(gsub("[-].+", "", i))
-      end   <- as.integer(gsub("^[0-9]+[-]|[:].+", "", i))
+      end   <- as.integer(gsub("^[[:digit:]]+[-]|[:].+", "", i))
       ans <- c(ans, seq(start, end, by = step.))
 
-    } else if (grepl("^[0-9]+[-][0-9]+$", i)) { # Case 1: A range
+    } else if (grepl("^[[:digit:]]+[-][[:digit:]]+$", i)) { # Case 1: A range
 
       start <- as.integer(gsub("[-].+", "", i))
       end   <- as.integer(gsub(".+[-]", "", i))
       ans <- c(ans, start:end)
 
-    } else if (grepl("^[0-9]+$", i)) { #A simple number!
+    } else if (grepl("^[[:digit:]]+$", i)) { #A simple number!
       ans <- c(ans, as.integer(i))
     } else
       stop("Unknown expression for a Job Array", call. = FALSE)

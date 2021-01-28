@@ -16,7 +16,7 @@ cat("#!/bin/sh", "#SBATCH --n-tasks=1", "print(\"Ok\")", file = tmp, sep="\n")
 suppressWarnings(sourceSlurm(tmp, plan = "none"))
 
 # The last job should be in the form of
-name <- gsub(".+[/](?=[^/]+$)", "", tmp, perl = TRUE)
+name <- basename(tmp)
 path <- paste0(
   opts_slurmR$get_tmp_path(), "/",
   name,

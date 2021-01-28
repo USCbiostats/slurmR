@@ -4,7 +4,9 @@
 \name{JOB_STATE_CODES}
 \alias{JOB_STATE_CODES}
 \title{Slurm Job state codes}
-\format{A data frame with 24 rows and 4 columns.}
+\format{
+A data frame with 24 rows and 4 columns.
+}
 \usage{
 JOB_STATE_CODES
 }

@@ -1,4 +1,8 @@
-get_hosts <- function(ntasks=1, tmp_path = getwd(), ...) {
+get_hosts <- function(
+  ntasks = 1,
+  tmp_path = getwd(),
+  ...
+  ) {
 
   # In case that the host retrival fails, this should be the exit mechanism
   on.exit({
@@ -7,8 +11,8 @@ get_hosts <- function(ntasks=1, tmp_path = getwd(), ...) {
   })
 
   # Creating job name and file
-  fn   <- tempfile("slurmr-job-")
-  jn   <- gsub(".+(?=slurmr-job-)", "", fn, perl = TRUE)
+  fn   <- tempfile("slurmr-job-", tmpdir = dirname(tempdir()))
+  jn   <- basename(fn)
   out  <- sprintf("%s/%s.out", tmp_path, jn)
 
   # Writing the script
@@ -16,6 +20,7 @@ get_hosts <- function(ntasks=1, tmp_path = getwd(), ...) {
   dat  <- paste(
     "#!/bin/sh",
     paste0("#SBATCH ", parse_flags(dots), collapse = "\n"),
+    paste(opts_slurmR$get_preamble(), collapse = "\n"),
     "echo ==start-hostnames==",
     "srun hostname",
     "sleep infinity",
@@ -77,6 +82,23 @@ get_hosts <- function(ntasks=1, tmp_path = getwd(), ...) {
 #' nodes in a Slurm environment. The name of the hosts are retrieved and passed
 #' later on to [parallel::makePSOCKcluster].
 #'
+#' It has been the case that R fails to create the cluster with the following
+#' message in the Slurm log file:
+#'
+#' ```
+#' srun: fatal: SLURM_MEM_PER_CPU, SLURM_MEM_PER_GPU, and SLURM_MEM_PER_NODE are mutually exclusive
+#' ```
+#'
+#' In such cases, setting the memory, for example, upfront can solve the problem.
+#' For example:
+#'
+#' ```
+#' cl <- makeSlurmCluster(20, mem = 20)
+#' ```
+#'
+#' If the problem persists, i.e., the cluster cannot be created, make sure that
+#' your Slurm cluster allows Socket connections between nodes.
+#'
 #' @section Maximum number of connections:
 #'
 #' By default, R limits the number of simultaneous connections (see this thread
@@ -117,7 +139,7 @@ get_hosts <- function(ntasks=1, tmp_path = getwd(), ...) {
 makeSlurmCluster <- function(
   n,
   job_name       = random_job_name(),
-  tmp_path       = opts_slurmR$get_tmp_path(),
+  tmp_path       = dirname(tempdir()),
   cluster_opt    = list(),
   max_wait       = 300L,
   verb           = TRUE,
@@ -145,11 +167,19 @@ makeSlurmCluster <- function(
   # an error happens after the creating of the job object.
   on.exit({
     if (exists("job") && ( !exists("cl") || !(inherits(cl, "slurm_cluster")))) {
-      warning(
+      message(
         "An error was detected before returning the cluster object. ",
         "If submitted, we will try to cancel the job and stop the cluster ",
-        "object.", call. = FALSE, immediate. = TRUE
+        "object. Make sure that your cluster supports Socket connections between nodes."
         )
+
+      if (file.exists(job$output)) {
+        message("The logfile of the job follows:")
+        message(cat(readLines(job$output), sep = "\n"))
+      } else {
+        message("No logfile found.")
+      }
+
       e <- tryCatch(parallel::stopCluster(cl), error = function(e) e)
       e <- tryCatch(scancel(get_job_id(job)), error = function(e) e)
       if (inherits(e, "error") && !is.na(get_job_id(job))) {

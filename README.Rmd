@@ -210,6 +210,28 @@ shown previously) as follows:
 $ slurmr example.R
 ```
 
+## Example 5: Using the preamble
+
+Since version 0.4-3, `slurmR` includes the option `preamble`. This provides a way
+for the user to specify commands/modules that need to be executed before running
+the Rscript. Here is an example using `module load`:
+
+```{r preamble, warning=FALSE}
+# Turning the verbose mode off
+opts_slurmR$verbose_off()
+
+# Setting the preamble can be done globally
+opts_slurmR$set_preamble("module load gcc/6.0")
+
+# Or on the fly
+ans <- Slurm_lapply(1:10, mean, plan = "none", preamble = "module load pandoc")
+
+# Printing out the bashfile
+cat(readLines(ans$bashfile), sep = "\n")
+
+Slurm_clean(ans) # Cleaning after you
+```
+
 ## VS 
 
 There are several ways to enhance R for HPC. Depending on what are your goals/restrictions/preferences, you can use any of the following from this **manually curated** list:

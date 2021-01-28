@@ -21,7 +21,8 @@ Slurm_EvalQ <- function(
   export_env  = NULL,
   libPaths    = .libPaths(),
   hooks       = NULL,
-  overwrite   = TRUE
+  overwrite   = TRUE,
+  preamble    = NULL
 ) {
 
   # Figuring out what are we doing.
@@ -81,6 +82,7 @@ Slurm_EvalQ <- function(
     )
 
   bash$add_SBATCH(sbatch_opt)
+  bash$append(c(opts_slurmR$get_preamble(), preamble))
   bash$Rscript(
     file  = snames("r", job_name = job_name, tmp_path = tmp_path),
     flags = rscript_opt

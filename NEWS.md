@@ -1,3 +1,24 @@
+# slurmR 0.4-3 (CRAN)
+
+Minor release.
+
+## New features
+
+* Added a `preamble` option for Slurm batch scripts. This allows the user to
+  specify commands that need to be added to script, e.g., `module load`.
+  
+* `preamble` can be specified via `opts_slurmR$set_preamble()` or directly
+  when calling `Slurm_*apply`.
+  
+* Added the function `opts_slurmR$reset()`.
+  
+## Bug fixes
+
+* `sourceSlurm()` was using a file created at `tempdir()` which was deleted,
+  and thus, unavailable to be used by `sbatch`. Tempfiles like those are now
+  created at `dirname(tempdir())`.
+
+
 # slurmR 0.4-2
 
 Minor release.
@@ -7,7 +28,7 @@ Minor release.
 * Fixes an user-message issue (not crucial) observed in Fedora and Solaris.
 
 
-# slurmR 0.4-1
+# slurmR 0.4-1 (CRAN)
 
 ## Bug fixes
 

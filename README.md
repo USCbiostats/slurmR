@@ -109,7 +109,7 @@ We can use the function `Slurm_lapply` to distribute computations
 ``` r
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=slurmr-job-2bf23ae1b6d3 /home/george/Documents/development/slurmR/slurmr-job-2bf23ae1b6d3/01-bash.sh
+#  sbatch --job-name=slurmr-job-680648c64bfe /home/george/Documents/development/slurmR/slurmr-job-680648c64bfe/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -121,9 +121,9 @@ get more info, we can actually set the verbose mode on
 opts_slurmR$verbose_on()
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  --------------------------------------------------------------------------------
-#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-2bf23ae1b6d3/00-rscript.r and has the following contents:
+#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-680648c64bfe/00-rscript.r and has the following contents:
 #  --------------------------------------------------------------------------------
-#  .libPaths(c("/home/george/R/x86_64-pc-linux-gnu-library/3.6", "/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))
+#  .libPaths(c("/home/george/R/x86_64-pc-linux-gnu-library/4.0", "/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))
 #  message("[slurmR info] Loading variables and functions... ", appendLF = FALSE)
 #  Slurm_env <- function (x = "SLURM_ARRAY_TASK_ID") 
 #  {
@@ -149,7 +149,7 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #      sprintf("%s/%s/%s", tmp_path, job_name, type)
 #  }
 #  TMP_PATH  <- "/home/george/Documents/development/slurmR"
-#  JOB_NAME  <- "slurmr-job-2bf23ae1b6d3"
+#  JOB_NAME  <- "slurmr-job-680648c64bfe"
 #  
 #  # The -tcq- function is a wrapper of tryCatch that on error tries to recover
 #  # the message and saves the outcome so that slurmR can return OK.
@@ -172,19 +172,19 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #  }
 #  message("done loading variables and functions.")
 #  tcq({
-#    INDICES <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-2bf23ae1b6d3/INDICES.rds")
+#    INDICES <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-680648c64bfe/INDICES.rds")
 #  })
 #  tcq({
-#    X <- readRDS(sprintf("/home/george/Documents/development/slurmR/slurmr-job-2bf23ae1b6d3/X_%04d.rds", ARRAY_ID))
+#    X <- readRDS(sprintf("/home/george/Documents/development/slurmR/slurmr-job-680648c64bfe/X_%04d.rds", ARRAY_ID))
 #  })
 #  tcq({
-#    FUN <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-2bf23ae1b6d3/FUN.rds")
+#    FUN <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-680648c64bfe/FUN.rds")
 #  })
 #  tcq({
-#    mc.cores <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-2bf23ae1b6d3/mc.cores.rds")
+#    mc.cores <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-680648c64bfe/mc.cores.rds")
 #  })
 #  tcq({
-#    seeds <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-2bf23ae1b6d3/seeds.rds")
+#    seeds <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-680648c64bfe/seeds.rds")
 #  })
 #  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)
 #  tcq({
@@ -194,24 +194,23 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #      mc.cores         = mc.cores
 #  )
 #  })
-#  saveRDS(ans, sprintf("/home/george/Documents/development/slurmR/slurmr-job-2bf23ae1b6d3/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
+#  saveRDS(ans, sprintf("/home/george/Documents/development/slurmR/slurmr-job-680648c64bfe/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
 #  --------------------------------------------------------------------------------
-#  The bash file that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-2bf23ae1b6d3/01-bash.sh and has the following contents:
+#  The bash file that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-680648c64bfe/01-bash.sh and has the following contents:
 #  --------------------------------------------------------------------------------
 #  #!/bin/sh
-#  #SBATCH --job-name=slurmr-job-2bf23ae1b6d3
-#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-2bf23ae1b6d3/02-output-%A-%a.out
+#  #SBATCH --job-name=slurmr-job-680648c64bfe
+#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-680648c64bfe/02-output-%A-%a.out
 #  #SBATCH --array=1-2
-#  #SBATCH --job-name=slurmr-job-2bf23ae1b6d3
+#  #SBATCH --job-name=slurmr-job-680648c64bfe
 #  #SBATCH --cpus-per-task=1
 #  #SBATCH --ntasks=1
-#  export OMP_NUM_THREADS=1
-#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-2bf23ae1b6d3/00-rscript.r
+#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-680648c64bfe/00-rscript.r
 #  --------------------------------------------------------------------------------
 #  EOF
 #  --------------------------------------------------------------------------------
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=slurmr-job-2bf23ae1b6d3 /home/george/Documents/development/slurmR/slurmr-job-2bf23ae1b6d3/01-bash.sh
+#  sbatch --job-name=slurmr-job-680648c64bfe /home/george/Documents/development/slurmR/slurmr-job-680648c64bfe/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -337,6 +336,39 @@ headers” (as shown previously) as follows:
 
 ``` bash
 $ slurmr example.R
+```
+
+## Example 5: Using the preamble
+
+Since version 0.4-2, `slurmR` includes the option `preamble`. This
+provides a way for the user to specify commands/modules that need to be
+executed before running the Rscript. Here is an example using `module
+load`:
+
+``` r
+# Turning the verbose mode off
+opts_slurmR$verbose_off()
+
+# Setting the preamble can be done globally
+opts_slurmR$set_preamble("module load gcc/6.0")
+
+# Or on the fly
+ans <- Slurm_lapply(1:10, mean, plan = "none", preamble = "module load pandoc")
+
+# Printing out the bashfile
+cat(readLines(ans$bashfile), sep = "\n")
+#  #!/bin/sh
+#  #SBATCH --job-name=slurmr-job-680648c64bfe
+#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-680648c64bfe/02-output-%A-%a.out
+#  #SBATCH --array=1-2
+#  #SBATCH --job-name=slurmr-job-680648c64bfe
+#  #SBATCH --cpus-per-task=1
+#  #SBATCH --ntasks=1
+#  module load gcc/6.0
+#  module load pandoc
+#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-680648c64bfe/00-rscript.r
+
+Slurm_clean(ans) # Cleaning after you
 ```
 
 ## VS

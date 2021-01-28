@@ -5,7 +5,7 @@
 \alias{opts_slurmR}
 \title{Get and set default options for \code{sbatch} and \code{slurmR} internals}
 \format{
-An object of class \code{opts_slurmR} of length 16.
+An object of class \code{opts_slurmR} of length 17.
 }
 \usage{
 opts_slurmR
@@ -51,13 +51,13 @@ Slurm options
 \item \verb{get_tmp_path : function ()} \Sexpr[stage=build]{attr(slurmR::opts_slurmR$get_tmp_path, "desc")}
 \item \verb{set_job_name : function (path, check = TRUE, overwrite = TRUE)} \Sexpr[stage=build]{attr(slurmR::opts_slurmR$set_job_name, "desc")}.
 \item \verb{get_job_name : function (check = TRUE)} \Sexpr[stage=build]{attr(slurmR::opts_slurmR$get_job_name, "desc")}
+\item \verb{set_preamble : function (...)} \Sexpr[stage=build]{attr(slurmR::opts_slurmR$set_preamble, "desc")}
+\item \verb{get_preamble : function ()} \Sexpr[stage=build]{attr(slurmR::opts_slurmR$get_preamble, "desc")}
 }
 
 Other options
 \itemize{
 \item \verb{get_cmd : function ()} \Sexpr[stage=build]{attr(slurmR::opts_slurmR$get_cmd, "desc")}
-\item \verb{set_preamble : function (...)} \Sexpr[stage=build]{attr(slurmR::opts_slurmR$set_preamble, "desc")}
-\item \verb{get_preamble : function ()} \Sexpr[stage=build]{attr(slurmR::opts_slurmR$get_preamble, "desc")}
 }
 
 For general set/retrieve options
@@ -65,6 +65,12 @@ For general set/retrieve options
 \item \verb{set_opts : function (...)} \Sexpr[stage=build]{attr(slurmR::opts_slurmR$set_opts, "desc")}
 \item \verb{get_opts_job : function (...)} \Sexpr[stage=build]{attr(slurmR::opts_slurmR$get_opts_job, "desc")}
 \item \verb{get_opts_r : function (...)} \Sexpr[stage=build]{attr(slurmR::opts_slurmR$get_opts_r, "desc")}
+}
+
+Nuke
+\itemize{
+\item While reloading the package should reset all the options, if needed, the user
+can also use the function \code{opts_slurmR$reset()}.
 }
 }
 \examples{

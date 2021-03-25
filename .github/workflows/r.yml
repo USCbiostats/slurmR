@@ -37,5 +37,6 @@ jobs:
 #         shell: Rscript {0}
         run: |
           cd .. 
+          sudo apt install -y r-cran-knitr
           R CMD build slurmR
           R CMD check --no-manual --no-build-vignettes --no-stop-on-test-error slurmR_*

@@ -27,6 +27,8 @@ jobs:
         uses: r-lib/actions/setup-r@38236f0b8b512ff5386932ae400548ce3a6ef27f
         with:
           r-version: ${{ matrix.r-version }}
+      - name: Installing curl
+        run: sudo apt install -y libcurl4-openssl-dev
       - name: Install dependencies
         run: |
           install.packages(c("remotes", "rcmdcheck"))

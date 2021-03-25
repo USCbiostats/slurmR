@@ -217,7 +217,7 @@ Since version 0.4-3, `slurmR` includes the option `preamble`. This provides a wa
 for the user to specify commands/modules that need to be executed before running
 the Rscript. Here is an example using `module load`:
 
-```{r preamble, warning=FALSE, eval = FALSE}
+```{r preamble, warning=FALSE, eval = TRUE}
 # Turning the verbose mode off
 opts_slurmR$verbose_off()
 

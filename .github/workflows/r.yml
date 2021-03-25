@@ -38,4 +38,4 @@ jobs:
         run: |
           cd .. 
           R CMD build slurmR
-          R CMD check --no-manual slurmR_*
+          R CMD check --no-manual --no-build-vignettes --no-stop-on-test-error slurmR_*

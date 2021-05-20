@@ -314,18 +314,30 @@ stopifnot_submitted <- function(x) {
 
 silent_system2 <- function(...) {
 
-  fun_name <- as.character(sys.call()[[1]])
+  # Getting the call
+  call_str       <- sys.call()
+  call_str[[1L]] <- bquote(system2)
+  call_str       <- deparse(call_str)
 
+  # Making the call
   ans <- suppressWarnings({
     tryCatch(system2(...), error = function(e) e)
   })
 
-  # check_error(fun_name, ans)
   if (length(attr(ans, "status")) && (attr(ans, "status") != 0)) {
+
     stop(
-      "An error has occurred when calling `", fun_name,"`:\n",
-      paste(ans, collapse="\n"), call. = FALSE)
+      "An error has occurred when calling\n", call_str,"\n",
+      paste(ans, collapse="\n"),
+      call. = FALSE
+      )
+
+  } else if (inherits(ans, "error")) {
+
+
+
   }
+
   ans
 
 }

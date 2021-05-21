@@ -90,6 +90,12 @@ Slurm_EvalQ <- function(
   bash$write()
 
   # Returning ------------------------------------------------------------------
+  
+  # Processing hooks
+  hooks <- c(hooks, list(function(res, job, ...) {
+    setNames(res, paste0(job$jobid, "_", 1:job$njobs))
+  }))
+
   ans <- new_slurm_job(
     call     = match.call(),
     rscript  = snames("r", job_name = job_name, tmp_path = tmp_path),

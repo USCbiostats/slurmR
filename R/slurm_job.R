@@ -21,6 +21,29 @@
 #' @name slurm_job
 NULL
 
+check_hooks <- function(x) {
+
+  if (length(x) == 0)
+    return(invisible())
+  
+  if (!inherits(x, "list"))
+    stop(
+      "The -hooks- parameter should be of class \"list\". It is of class:\n\"",
+      paste(class(x), collapse = "\", \""),
+      call. = FALSE
+    )
+
+  test <- !sapply(x, is.function)
+  if (any(test))
+    stop(
+      "The hook(s): ", paste0(which(test), collapse = ", "), " are not ",
+      "functions. All hooks (if any) should be functions.", call. = FALSE
+    )
+
+  return(invisible())
+
+}
+
 #' @export
 #' @details In the case of the function `new_slurm_job`, besides of creating the
 #' object of class `slurm_job`, the function calls `write_slurm_job` and stores
@@ -51,13 +74,7 @@ new_slurm_job <- function(
 ) {
 
   # Checking hooks
-  if (!is.null(hooks)) {
-    test <- !sapply(hooks, is.function)
-    if (any(test))
-      stop("The hook(s): ", paste0(which(test), collapse = ", "), " are not ",
-           "functions. All hooks (if any) should be functions.", call. = FALSE
-      )
-  }
+  check_hooks(hooks)
 
   job <- structure(list2env(
     list(

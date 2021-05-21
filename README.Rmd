@@ -1,7 +1,8 @@
 ---
 output:
   github_document:
-     md_extensions: -auto_identifiers+header_attributes
+    md_extensions: -auto_identifiers+header_attributes
+    html_preview: false
 ---
 
 [![DOI](http://joss.theoj.org/papers/10.21105/joss.01493/status.svg)](https://doi.org/10.21105/joss.01493)

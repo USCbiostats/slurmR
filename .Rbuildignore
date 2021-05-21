@@ -9,8 +9,8 @@
 ^docs$
 ^man-roxygen$
 ^CODE_OF_CONDUCT\.md$
-^sluRm$
-^sluRm-job.*$
+^slurmR$
+^slurmR-job.*$
 ^\..*
 \.ods$
 Makefile

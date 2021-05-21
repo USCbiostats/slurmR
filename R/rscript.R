@@ -20,13 +20,19 @@ list_loaded_pkgs <- function(exclude_slurmR = TRUE) {
 
 }
 
+#' @export
+print.slurm_info <- function(x, ...) {
+  cat(x, sep = "\n")
+  invisible(x)
+}
+
 tcq <- function(...) {
 
   ans <- tryCatch(..., error = function(e) e)
   if (inherits(ans, "error")) {
 
     ARRAY_ID. <- get("ARRAY_ID", envir = .GlobalEnv)
-    msg <- paste(
+    msg <- paste0(
       "[slurmR info] An error has ocurred while evualting the expression:\n[slurmR info]   ",
       paste(deparse(match.call()[[2]]), collapse = "\n[slurmR info]   "), "\n[slurmR info] in ",
       "ARRAY_ID # ", ARRAY_ID.,
@@ -34,7 +40,12 @@ tcq <- function(...) {
     )
     message(msg, immediate. = TRUE, call. = FALSE)
 
-    ans$message <- paste(ans$message, msg)
+    ans <- list(
+      res        = ans,
+      array_id   = ARRAY_ID,
+      job_name   = get("JOB_NAME", envir = .GlobalEnv),
+      slurmr_msg = structure(msg, class = "slurm_info")
+    )
 
     saveRDS(
       ans,
@@ -45,8 +56,10 @@ tcq <- function(...) {
         array_id = ARRAY_ID.
         )
       )
+    message("[slurmR info] job-status: failed.\n")
 
-    q("no")
+    # Status  < 11 are reserved by R
+    q(save = "no", status = 11)
   }
   invisible(ans)
 
@@ -239,6 +252,7 @@ new_rscript <- function(
         ifelse(compress, "TRUE", "FALSE")
     ), wrap = FALSE)
 
+    env$append("message(\"[slurmR info] job-status: OK.\\n\")", wrap = FALSE)
     invisible()
   }
 

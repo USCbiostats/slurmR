@@ -63,9 +63,9 @@ Slurm_EvalQ <- function(
   rscript$set_seed(seeds)
   rscript$append(
     paste0(
-      "ans <- {\n",
+      "ans <- {list(\n",
       paste0(gsub("^", "   ", sexpr), collapse = "\n"),
-      "\n}"
+      "\n)}"
       )
     )
 
@@ -107,3 +107,5 @@ Slurm_EvalQ <- function(
     return(sbatch(ans, wait = plan$wait, submit = plan$submit))
 
 }
+
+

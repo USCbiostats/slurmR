@@ -263,18 +263,21 @@ check_sbatch_opt <- function(x, job_name = NULL, ...) {
 #' Check whether the file path exists, if not, create
 #' @noRd
 check_full_path <- function(tmp_path, job_name, overwrite = FALSE) {
+
   path <- sprintf("%s/%s", tmp_path, job_name)
   test <- dir.exists(path)
 
   # Checking if the thing exists
-  what <- if (overwrite) warning else stop
   if (test) {
 
-    # Either warns or stops
-    what(
-      "The path ", path, " already exists. To overwrite a previously used ",
-      "path (tmp_path/job_name) use the option `overwrite = TRUE`",
-      call. = FALSE
+    if (overwrite)
+      message("The path ", path, " already exists. Since `overwrite = TRUE`,",
+        "slurmR will remove the previous data.")
+    else
+      stop(
+        "The path ", path, " already exists. To overwrite a previously used ",
+        "path (tmp_path/job_name) use the option `overwrite = TRUE`",
+        call. = FALSE
       )
 
     unlink(path, recursive = TRUE)

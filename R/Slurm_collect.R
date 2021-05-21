@@ -65,32 +65,37 @@ Slurm_collect.slurm_job <- function(x, any. = FALSE, wait = 10L, ...) {
       )
     }
 
+    # Generating element-names
+    e_names <- paste0(x$jobid, "_", 1:x$njobs)
+
     if (S == 0L)
       do.call(
         "c",
-        lapply(
+        setNames(lapply(
           snames(
             "rds",
             array_id = 1:x$njobs,
             tmp_path = tmp_path,
             job_name = job_name
             ),
-          readRDS)
-        )
+          readRDS),
+        e_names)
+      )
     else if (any.) {
 
       do.call(
         "c",
-        lapply(
+        setNames(lapply(
           snames(
             "rds",
             array_id = 1:x$njobs,
             tmp_path = tmp_path,
             job_name = job_name
             ),
-          readRDS_trying
-          )
-       )
+          readRDS_trying),
+        e_names
+        )
+      )
 
     } else
       stop(

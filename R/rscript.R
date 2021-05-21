@@ -27,11 +27,12 @@ tcq <- function(...) {
 
     ARRAY_ID. <- get("ARRAY_ID", envir = .GlobalEnv)
     msg <- paste(
-      "An error has ocurred while evualting the expression:\n",
-      paste(deparse(match.call()[[2]]), collapse = "\n"), "\n in ",
-      "ARRAY_ID # ", ARRAY_ID.
+      "[slurmR info] An error has ocurred while evualting the expression:\n[slurmR info]   ",
+      paste(deparse(match.call()[[2]]), collapse = "\n[slurmR info]   "), "\n[slurmR info] in ",
+      "ARRAY_ID # ", ARRAY_ID.,
+      "\n[slurmR info] The error will be saved and quit R.\n"
     )
-    warning(msg, immediate. = TRUE, call. = FALSE)
+    message(msg, immediate. = TRUE, call. = FALSE)
 
     ans$message <- paste(ans$message, msg)
 

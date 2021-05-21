@@ -63,9 +63,9 @@ Slurm_EvalQ <- function(
   rscript$set_seed(seeds)
   rscript$append(
     paste0(
-      "ans <- list(tryCatch({\n",
+      "ans <- {\n",
       paste0(gsub("^", "   ", sexpr), collapse = "\n"),
-      "\n}, error = function(e) e))"
+      "\n}"
       )
     )
 

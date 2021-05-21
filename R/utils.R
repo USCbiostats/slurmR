@@ -326,15 +326,17 @@ silent_system2 <- function(...) {
 
   if (length(attr(ans, "status")) && (attr(ans, "status") != 0)) {
 
+    # If either is null, then these will be character(0)
+    status. <- as.character(attr(ans, "status"))
+    errmsg. <- as.character(attr(ans, "errmgs"))
+
     stop(
       "An error has occurred when calling\n", call_str,"\n",
       paste(ans, collapse="\n"),
+      sprintf("\nReturn code (status): %s\n", status.),
+      sprintf("\nError msg   (errmsg): %s\n", errmsg.),
       call. = FALSE
       )
-
-  } else if (inherits(ans, "error")) {
-
-
 
   }
 

@@ -123,6 +123,7 @@ status.default <- function(x) {
 
   STATE_CODES <- split(JOB_STATE_CODES$name, JOB_STATE_CODES$type)
 
+
   # If it is an array (multiple rows)
   if (nrow(dat) > 1L) {
     # Getting the array id

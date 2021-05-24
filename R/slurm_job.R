@@ -25,7 +25,7 @@ check_hooks <- function(x) {
 
   if (length(x) == 0)
     return(invisible())
-  
+
   if (!inherits(x, "list"))
     stop(
       "The -hooks- parameter should be of class \"list\". It is of class:\n\"",
@@ -144,9 +144,12 @@ print.slurm_job <- function(x, ...) {
 
   cat("Call:\n", paste(deparse(x$call), collapse="\n"), "\n")
   cat(
-    sprintf("job_name : %s\n", get_job_name(x)),
-    sprintf("tmp_path : %s/%s\n", get_tmp_path(x), get_job_name(x)),
-    sprintf("job ID   : %s\n",
+    sprintf("njobs (size) : %i\n", x$njobs),
+    sprintf("job_name     : %s\n", get_job_name(x)),
+    sprintf("tmp_path     : %s\n", get_tmp_path(x)),
+    "All auxiliray files are located at:\n",
+    sprintf("\t%s/%s\n", get_tmp_path(x), get_job_name(x)),
+    sprintf("job ID       : %s\n",
             ifelse(
               is.na(get_job_id(x)),
               "Not submitted",

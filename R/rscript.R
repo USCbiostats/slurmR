@@ -42,7 +42,7 @@ tcq <- function(...) {
 
     ans <- list(
       res        = ans,
-      array_id   = ARRAY_ID,
+      array_id   = ARRAY_ID.,
       job_name   = get("JOB_NAME", envir = .GlobalEnv),
       slurmr_msg = structure(msg, class = "slurm_info")
     )
@@ -59,7 +59,8 @@ tcq <- function(...) {
     message("[slurmR info] job-status: failed.\n")
 
     # Status  < 11 are reserved by R
-    q(save = "no", status = 11)
+    # q(save = "no", status = 11)
+    q(save="no")
   }
   invisible(ans)
 

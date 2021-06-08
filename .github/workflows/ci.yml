@@ -1,0 +1,42 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+#
+# See https://github.com/r-lib/actions/tree/master/examples#readme for
+# additional example workflows available for the R community.
+
+name: R CI release
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: Ubuntu-latest
+    strategy:
+      matrix:
+        include:
+        - name: latest
+          cntr: uscbiostats/slurmr-dev:latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setting up the environment
+        run: |
+          docker pull ${{ matrix.cntr }}
+          docker run --detach --publish 10022:22 -v$(pwd):/home/xenon/slurmR ${{ matrix.cntr }}
+
+      - name: SessionInfo
+        run: ssh -p 10022 -i docker/id_rsa xenon@localhost R -q -e 'sessionInfo()'
+
+      - name: Build
+        run: ssh -p 10022 -i docker/id_rsa xenon@localhost R CMD build --no-build-vignettes --no-manual slurmR
+
+      - name: Check
+        run: ssh -p 10022 -i docker/id_rsa xenon@localhost R CMD check --no-vignettes --no-manual slurmR*.tar.gz
+

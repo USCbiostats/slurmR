@@ -7,6 +7,7 @@
 #' @template njobs
 #' @return A list of length `njobs`.
 #' @export
+#' @importFrom stats setNames
 Slurm_EvalQ <- function(
   expr,
   njobs       = 2L,
@@ -90,10 +91,10 @@ Slurm_EvalQ <- function(
   bash$write()
 
   # Returning ------------------------------------------------------------------
-  
+
   # Processing hooks
   hooks <- c(hooks, list(function(res, job, ...) {
-    setNames(res, paste0(job$jobid, "_", 1:job$njobs))
+    stats::setNames(res, paste0(job$jobid, "_", 1:job$njobs))
   }))
 
   ans <- new_slurm_job(

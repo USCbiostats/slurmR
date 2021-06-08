@@ -7,7 +7,7 @@ sacct_ <- function(x = NULL, ..., no_sacct = FALSE) {
 
   if (!no_sacct) {
 
-    ans <- tryCatch(sacct(...), error = function(e) e)
+    ans <- tryCatch(sacct(x = x, ...), error = function(e) e)
 
     if (!inherits(ans, "error"))
       return(ans)

@@ -28,11 +28,11 @@ jobs:
           docker run --detach --tty --publish 10022:22 -v$(pwd):/home/xenon/slurmR ${{ matrix.cntr }}
 
       - name: SessionInfo
-        run: ssh -p 10022 -i docker/id_rsa xenon@localhost R -q -e 'sessionInfo()'
+        run: ssh -p 10022 -i docker/id_rsa xenon@localhost "R -q -e 'sessionInfo()'"
 
       - name: Build
-        run: ssh -p 10022 -i docker/id_rsa xenon@localhost R CMD build --no-build-vignettes --no-manual slurmR
+        run: ssh -p 10022 -i docker/id_rsa xenon@localhost "R CMD build --no-build-vignettes --no-manual slurmR"
 
       - name: Check
-        run: ssh -p 10022 -i docker/id_rsa xenon@localhost R CMD check --no-vignettes --no-manual slurmR*.tar.gz
+        run: ssh -p 10022 -i docker/id_rsa xenon@localhost "R CMD check --no-vignettes --no-manual slurmR*.tar.gz"
 

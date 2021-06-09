@@ -23,9 +23,10 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Setting up the environment
-        run: |
-          docker pull ${{ matrix.cntr }}
-          docker run --detach --tty --publish 10022:22 -v$(pwd):/home/xenon/slurmR ${{ matrix.cntr }}
+        run: docker pull ${{ matrix.cntr }}
+          
+      - name: mounting
+        run: docker run --detach --tty --publish 10022:22 -v$(pwd):/home/xenon/slurmR ${{ matrix.cntr }}
 
       - name: SessionInfo
         run: ssh -v -p 10022 -i docker/id_rsa xenon@localhost "R -q -e 'sessionInfo()'"

@@ -24,3 +24,10 @@ RUN R CMD INSTALL /rpkg/slurmR.tar.gz
 COPY id_rsa.pub .
 RUN cat id_rsa.pub >> .ssh/authorized_keys
 
+# ARG TARFILE
+COPY start-services-alt.sh .
+CMD chmod +x start-services-alt.sh && ./start-services-alt.sh && \
+	echo 'root:root' | chpasswd && \
+	echo "=== Starting R CMD check ====" && \
+	R CMD check ${TARFILE}
+

@@ -1,6 +1,6 @@
 if (slurm_available()) {
 
-  cl1 <- tryCatch(makeSlurmCluster(2, time = "01:00:00",
+  cl1 <- tryCatch(makeSlurmCluster(2, time = "00:05:00",
     job_name = "test-makeSlurmCluster"), error = function(e) e)
 
   if (!inherits(cl1, "error")) {

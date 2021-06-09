@@ -29,7 +29,7 @@ jobs:
         run: docker run --detach --publish 10022:22 -v$(pwd):/home/xenon/slurmR ${{ matrix.cntr }}
 
       - name: SessionInfo
-        run: ssh -o StrictHostKeyChecking=no -vvv -p 10022 -i docker/id_rsa xenon@localhost "R -q -e 'sessionInfo()'"
+        run: ssh -o -vvv -p 10022 -i docker/id_rsa xenon@localhost "R -q -e 'sessionInfo()'"
 
       - name: Build
         run: ssh -p 10022 -i docker/id_rsa xenon@localhost "R CMD build --no-build-vignettes --no-manual slurmR"

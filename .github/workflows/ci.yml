@@ -29,9 +29,13 @@ jobs:
         run: docker run --detach --publish 10022:22 -v$(pwd):/home/xenon/slurmR ${{ matrix.cntr }}
 
       - name: SessionInfo
-        run: |
-          docker ps
-          ssh -vvv -p 10022 -i docker/id_rsa xenon@localhost "R -q -e 'sessionInfo()'"
+        uses: appleboy/ssh-action@master
+        with:
+          host: localhost
+          username: xenon
+          password: javagat
+          port: 10022
+          script: "R -q -e 'sessionInfo()'"
 
       - name: Build
         run: ssh -p 10022 -i docker/id_rsa xenon@localhost "R CMD build --no-build-vignettes --no-manual slurmR"

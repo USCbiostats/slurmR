@@ -14,7 +14,9 @@ if (slurm_available()) {
   ans  <- Slurm_collect(job1)
 
   # Checking the basics
-  expect_equal(ans, list(2, 2))
+  expect_equal(unname(ans), list(2, 2))
+  print(ls.str(job1))
+  print(ls.str(job2))
   expect_equal(job1, job2)
   expect_equal(job1, job3)
 
@@ -32,8 +34,8 @@ if (slurm_available()) {
 
   # Cleanup
 
-  Slurm_clean(job1)
-  Slurm_clean(job2)
+  # Slurm_clean(job1)
+  # Slurm_clean(job2)
 
 
 

@@ -1,7 +1,6 @@
 if (slurm_available()) {
 
   # Checking if we get the right error message
-
   set.seed(12315)
   z <- runif(20)
 
@@ -20,7 +19,7 @@ if (slurm_available()) {
   sbatch(x, wait = TRUE)
   ans <- Slurm_collect(x)
   Slurm_clean(x)
-  expect_true(grepl("An error has oc", ans[1]$message))
+  expect_true(grepl("An error has oc", ans[[1]]$message))
 
   # Collecting jobs with different runs
   x <- Slurm_lapply(
@@ -34,7 +33,7 @@ if (slurm_available()) {
   sbatch(x, array = 2, wait = TRUE)
   ans <- Slurm_collect(x)
   expect_equal(sort(unlist(ans)), 1:20)
-  Slurm_clean(x)
+  # Slurm_clean(x)
 
   # Collecting any
   x <- Slurm_lapply(
@@ -56,7 +55,7 @@ if (slurm_available()) {
   Sys.sleep(5)
   scancel(x)
   ans <- Slurm_collect(x, any. = TRUE)
-  Slurm_clean(x)
+  # Slurm_clean(x)
 
 
 }

@@ -121,6 +121,16 @@ get_job_id.slurm_job <- function(x) x$jobid
 `get_job_id<-` <- function(x, value) UseMethod("get_job_id<-")
 
 `get_job_id<-.slurm_job` <- function(x, value) {
+
+  if (length(value) != 1L)
+    stop("Incorrect length for job ID.", call. = FALSE)
+
+  value <- as.integer(value)
+
+  if (!opts_slurmR$get_debug() && !is.finite(value))
+    stop("job IDs must be finite. This is the current value trying to assign: ",
+	 value, ".", call. = FALSE)
+
   x$jobid <- value
   x
 }

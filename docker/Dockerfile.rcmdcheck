@@ -13,21 +13,28 @@ RUN add-apt-repository ppa:c2d4u.team/c2d4u4.0+ && \
 	r-cran-rmarkdown \
 	r-cran-knitr \
 	r-cran-covr \
-	r-cran-tinytest
+	r-cran-tinytest \
+	sudo
 
 RUN mkdir /home/slurmr-test
 ENV SLURMR_TEST_DIR=/home/slurmr-test
 
-COPY slurmR*.tar.gz /rpkg/slurmR.tar.gz
-RUN R CMD INSTALL /rpkg/slurmR.tar.gz
+# COPY slurmR*.tar.gz /rpkg/slurmR.tar.gz
+# RUN R CMD INSTALL /rpkg/slurmR.tar.gz
 
 COPY id_rsa.pub .
 RUN cat id_rsa.pub >> .ssh/authorized_keys
 
-# ARG TARFILE
+# ARG PKG
 COPY start-services-alt.sh .
+COPY rcheck.sh /home/xenon/.
 CMD chmod +x start-services-alt.sh && ./start-services-alt.sh && \
+	chmod +x /home/xenon/rcheck.sh && \
 	echo 'root:root' | chpasswd && \
-	echo "=== Starting R CMD check ====" && \
-	R CMD check ${TARFILE}
-
+	echo "=== Building the package ===" && \
+	ls -all && \
+	R CMD build --no-build-vignettes --no-manual slurmR && \
+	echo "=== Starting R CMD check ===" && \
+	sudo su xenon ./rcheck.sh ; \
+	chmod -R 777 slurmR.Rcheck ; \
+	mv -f slurmR.Rcheck slurmR/slurmR-docker.Rcheck

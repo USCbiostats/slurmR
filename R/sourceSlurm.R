@@ -115,8 +115,10 @@ sourceSlurm <- function(
 
   # Figuring out the plan
   plan <- the_plan(plan)
-  if (plan$collect)
+  if (plan$collect) {
     warning("When using Slurm via sourceSlurm, collection is not possible.", call. = FALSE)
+    plan <- the_plan("wait") # This is the closest
+  }
 
   # Submitting the job
   args <- c(

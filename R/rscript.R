@@ -48,7 +48,7 @@ tcq <- function(...) {
     )
 
     saveRDS(
-      ans,
+      list(ans),
       snames(
         "rds",
         tmp_path = get("TMP_PATH", envir = .GlobalEnv),

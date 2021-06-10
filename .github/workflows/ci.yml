@@ -17,7 +17,7 @@ jobs:
       matrix:
         include:
         - name: latest
-          cntr: uscbiostats/slurmr-dev:latest
+          cntr: uscbiostats/slurmr:rcmdcheck
 
     steps:
       - uses: actions/checkout@v2
@@ -25,21 +25,8 @@ jobs:
       - name: Setting up the environment
         run: docker pull ${{ matrix.cntr }}
           
-      - name: mounting
-        run: docker run --detach --publish 10022:22 -v$(pwd):/home/xenon/slurmR ${{ matrix.cntr }}
-
-      - name: SessionInfo
-        uses: appleboy/ssh-action@master
-        with:
-          host: localhost
-          username: xenon
-          password: javagat
-          port: 10022
-          script: "R -q -e 'sessionInfo()'"
-
-      - name: Build
-        run: ssh -p 10022 -i docker/id_rsa xenon@localhost "R CMD build --no-build-vignettes --no-manual slurmR"
-
-      - name: Check
-        run: ssh -p 10022 -i docker/id_rsa xenon@localhost "R CMD check --no-vignettes --no-manual slurmR*.tar.gz"
+      - name: Running the check
+        run: |
+          cd docker
+          make check
 

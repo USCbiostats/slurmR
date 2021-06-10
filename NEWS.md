@@ -1,3 +1,9 @@
+# slurmR 0.5-0
+
+*  `sourceSlurm(plan = "collect")` won't wait forever.
+
+*  More verbose error messages when `Slurm_collect` returns with errors.
+
 # slurmR 0.4-3 (CRAN)
 
 Minor release.

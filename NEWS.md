@@ -4,6 +4,11 @@
 
 *  More verbose error messages when `Slurm_collect` returns with errors.
 
+*  The function `sacct()` now doesn't fail when accounting is not available.
+
+*  slurmR now has a Docker image that can be used to test with a Slurm cluster.
+
+
 # slurmR 0.4-3 (CRAN)
 
 Minor release.

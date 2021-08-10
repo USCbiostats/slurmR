@@ -38,4 +38,9 @@ covr:
 	Rscript -e 'cv <- covr::package_coverage();saveRDS(cv, "slurmR-coverage.rds");covr::codecov(coverage=cv)' \
 		> slurmR-coverage.Rout &
 
+inst/NEWS: NEWS.md
+	Rscript -e "rmarkdown::pandoc_convert('NEWS.md', 'plain', output='inst/NEWS')" && \
+		head -n 80 inst/NEWS
+
+
 

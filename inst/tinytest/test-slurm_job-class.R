@@ -15,8 +15,11 @@ if (slurm_available()) {
 
   # Checking the basics
   expect_equal(unname(ans), list(2, 2))
-  print(ls.str(job1))
-  print(ls.str(job2))
+
+  job1 <- mget(sort(ls(envir = job1)), envir = job1)
+  job2 <- mget(sort(ls(envir = job2)), envir = job2)
+  job3 <- mget(sort(ls(envir = job3)), envir = job3)
+
   expect_equal(job1, job2)
   expect_equal(job1, job3)
 

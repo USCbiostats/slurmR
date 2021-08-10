@@ -1,7 +1,6 @@
 
 [![DOI](http://joss.theoj.org/papers/10.21105/joss.01493/status.svg)](https://doi.org/10.21105/joss.01493)
 [![R](https://github.com/USCbiostats/slurmR/actions/workflows/r.yml/badge.svg)](https://github.com/USCbiostats/slurmR/actions/workflows/r.yml)
-<!-- [![Travis build status](https://travis-ci.org/USCbiostats/slurmR.svg?branch=master)](https://travis-ci.org/USCbiostats/slurmR) -->
 [![codecov](https://codecov.io/gh/USCbiostats/slurmR/branch/master/graph/badge.svg)](https://codecov.io/gh/USCbiostats/slurmR)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/slurmR)](https://CRAN.R-project.org/package=slurmR)
@@ -16,39 +15,38 @@ Epidemiology](https://raw.githubusercontent.com/USCbiostats/badges/master/tommy-
 # slurmR: A Lightweight Wrapper for Slurm <img src="man/figures/logo.png" height="180px" align="right"/>
 
 Slurm Workload Manager is a popular HPC cluster job scheduler found in
-many of the top 500 super computers. The `slurmR` R package provides an
-R wrapper to it that matches the parallel package’s syntax, this is,
-just like `parallel` provides the `parLapply`, `clusterMap`,
-`parSapply`, etc., `slurmR` provides `Slurm_lapply`, `Slurm_Map`,
-`Slurm_sapply`, etc.
+many of the top 500 supercomputers. The `slurmR` R package provides an R
+wrapper to it that matches the parallel package’s syntax, this is, just
+like `parallel` provides the `parLapply`, `clusterMap`, `parSapply`,
+etc., `slurmR` provides `Slurm_lapply`, `Slurm_Map`, `Slurm_sapply`,
+etc.
 
 While there are other alternatives such as `future.batchtools`,
 `batchtools`, `clustermq`, and `rslurm`, this R package has the
 following goals:
 
-1.  It is dependency free, which means that it works out-of-the-box
+1.  It is dependency-free, which means that it works out-of-the-box
 
-2.  Puts an emphasis on been similar to the workflow in the R package
-    `parallel`
+2.  Emphasizes been similar to the workflow in the R package `parallel`
 
-3.  It provides a general framework for the user to create its own
+3.  It provides a general framework for creating personalized own
     wrappers without using template files.
 
 4.  Is specialized on Slurm, meaning more flexibility (no need to modify
-    template files), and, in the future, better debugging tools
-    (e.g. job resubmission).
+    template files), and, in the future, better debugging tools (e.g.,
+    job resubmission).
 
 5.  Provide a backend for the
     [parallel](https://CRAN.R-project.org/view=HighPerformanceComputing)
     package, providing an out-of-the-box method for creating Socket
     cluster objects for multi-node operations. (See the examples below
-    on how this can be used with other R packages)
+    on how to use it with other R packages)
 
 Checkout the [VS section](#vs) section for comparing `slurmR` with other
-R packages. Wondering who is using Slurm? Checkout the [list at the end
+R packages. Wondering who is using Slurm? Check out the [list at the end
 of this document](#who-uses-slurm).
 
-## Installation
+# Installation
 
 From your HPC command line, you can install the development version from
 [GitHub](https://github.com/) with:
@@ -67,28 +65,47 @@ from within R:
 devtools::install_github("USCbiostats/slurmR")
 ```
 
-## Citation
+# Citation
 
+``` 
 
-    To cite slurmR in publications use:
+To cite slurmR in publications use:
 
-      Vega Yon et al., (2019). slurmR: A lightweight wrapper for HPC with
-      Slurm. Journal of Open Source Software, 4(39), 1493,
-      https://doi.org/10.21105/joss.01493
+  Vega Yon et al., (2019). slurmR: A lightweight wrapper for HPC with
+  Slurm. Journal of Open Source Software, 4(39), 1493,
+  https://doi.org/10.21105/joss.01493
 
-    A BibTeX entry for LaTeX users is
+A BibTeX entry for LaTeX users is
 
-      @Article{,
-        title = {slurmR: A lightweight wrapper for HPC with Slurm},
-        author = {George {Vega Yon} and Paul Marjoram},
-        journal = {The Journal of Open Source Software},
-        year = {2019},
-        month = {jul},
-        volume = {4},
-        number = {39},
-        doi = {10.21105/joss.01493},
-        url = {https://doi.org/10.21105/joss.01493},
-      }
+  @Article{,
+    title = {slurmR: A lightweight wrapper for HPC with Slurm},
+    author = {George {Vega Yon} and Paul Marjoram},
+    journal = {The Journal of Open Source Software},
+    year = {2019},
+    month = {jul},
+    volume = {4},
+    number = {39},
+    doi = {10.21105/joss.01493},
+    url = {https://doi.org/10.21105/joss.01493},
+  }
+```
+
+# Running slurmR with Docker
+
+For testing purposes, slurmR is available in
+[Dockerhub](https://hub.docker.com/repository/docker/uscbiostats/slurmr).
+The `rcmdcheck` and `interactive` images are built on top of
+[`xenonmiddleware/slurm`](https://hub.docker.com/r/xenonmiddleware/slurm).
+
+Once you download the files contained in the [`slurmR`
+repository](https://github.com/USCbiostats/slurmR), you can go to the
+`docker` folder and use the `Makefile` included there to start a Unix
+session with slurmR and Slurm included.
+
+To test `slurmR` using docker, check the README.md file located at
+<https://github.com/USCbiostats/slurmR/tree/master/docker>.
+
+# Examples
 
 ## Example 1: Computing means (and looking under the hood)
 
@@ -109,21 +126,21 @@ We can use the function `Slurm_lapply` to distribute computations
 ``` r
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=slurmr-job-720337a7a0f2 /home/george/Documents/development/slurmR/slurmr-job-720337a7a0f2/01-bash.sh
+#  sbatch --job-name=slurmr-job-1a727aa0c811 /home/george/Documents/development/slurmR/slurmr-job-1a727aa0c811/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
-Notice the `plan = "none"` option, this tells `Slurm_lapply` to only
-create the job object, but do nothing with it, i.e., skip submission. To
-get more info, we can actually set the verbose mode on
+Notice the `plan = "none"` option; this tells `Slurm_lapply` to only
+create the job object but do nothing with it, i.e., skip submission. To
+get more info, we can set the verbose mode on
 
 ``` r
 opts_slurmR$verbose_on()
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  --------------------------------------------------------------------------------
-#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-720337a7a0f2/00-rscript.r and has the following contents:
+#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-1a727aa0c811/00-rscript.r and has the following contents:
 #  --------------------------------------------------------------------------------
-#  .libPaths(c("/home/george/R/x86_64-pc-linux-gnu-library/4.0", "/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))
+#  .libPaths(c("/home/george/R/x86_64-pc-linux-gnu-library/4.1", "/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))
 #  message("[slurmR info] Loading variables and functions... ", appendLF = FALSE)
 #  Slurm_env <- function (x = "SLURM_ARRAY_TASK_ID") 
 #  {
@@ -149,7 +166,7 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #      sprintf("%s/%s/%s", tmp_path, job_name, type)
 #  }
 #  TMP_PATH  <- "/home/george/Documents/development/slurmR"
-#  JOB_NAME  <- "slurmr-job-720337a7a0f2"
+#  JOB_NAME  <- "slurmr-job-1a727aa0c811"
 #  
 #  # The -tcq- function is a wrapper of tryCatch that on error tries to recover
 #  # the message and saves the outcome so that slurmR can return OK.
@@ -158,33 +175,37 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #      ans <- tryCatch(..., error = function(e) e)
 #      if (inherits(ans, "error")) {
 #          ARRAY_ID. <- get("ARRAY_ID", envir = .GlobalEnv)
-#          msg <- paste("An error has ocurred while evualting the expression:\n", 
-#              paste(deparse(match.call()[[2]]), collapse = "\n"), 
-#              "\n in ", "ARRAY_ID # ", ARRAY_ID.)
-#          warning(msg, immediate. = TRUE, call. = FALSE)
-#          ans$message <- paste(ans$message, msg)
+#          msg <- paste0("[slurmR info] An error has ocurred while evualting the expression:\n[slurmR info]   ", 
+#              paste(deparse(match.call()[[2]]), collapse = "\n[slurmR info]   "), 
+#              "\n[slurmR info] in ", "ARRAY_ID # ", ARRAY_ID., 
+#              "\n[slurmR info] The error will be saved and quit R.\n")
+#          message(msg, immediate. = TRUE, call. = FALSE)
+#          ans <- list(res = ans, array_id = ARRAY_ID, job_name = get("JOB_NAME", 
+#              envir = .GlobalEnv), slurmr_msg = structure(msg, 
+#              class = "slurm_info"))
 #          saveRDS(ans, snames("rds", tmp_path = get("TMP_PATH", 
 #              envir = .GlobalEnv), job_name = get("JOB_NAME", envir = .GlobalEnv), 
 #              array_id = ARRAY_ID.))
-#          q("no")
+#          message("[slurmR info] job-status: failed.\n")
+#          q(save = "no", status = 11)
 #      }
 #      invisible(ans)
 #  }
 #  message("done loading variables and functions.")
 #  tcq({
-#    INDICES <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-720337a7a0f2/INDICES.rds")
+#    INDICES <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-1a727aa0c811/INDICES.rds")
 #  })
 #  tcq({
-#    X <- readRDS(sprintf("/home/george/Documents/development/slurmR/slurmr-job-720337a7a0f2/X_%04d.rds", ARRAY_ID))
+#    X <- readRDS(sprintf("/home/george/Documents/development/slurmR/slurmr-job-1a727aa0c811/X_%04d.rds", ARRAY_ID))
 #  })
 #  tcq({
-#    FUN <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-720337a7a0f2/FUN.rds")
+#    FUN <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-1a727aa0c811/FUN.rds")
 #  })
 #  tcq({
-#    mc.cores <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-720337a7a0f2/mc.cores.rds")
+#    mc.cores <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-1a727aa0c811/mc.cores.rds")
 #  })
 #  tcq({
-#    seeds <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-720337a7a0f2/seeds.rds")
+#    seeds <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-1a727aa0c811/seeds.rds")
 #  })
 #  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)
 #  tcq({
@@ -194,30 +215,30 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #      mc.cores         = mc.cores
 #  )
 #  })
-#  saveRDS(ans, sprintf("/home/george/Documents/development/slurmR/slurmr-job-720337a7a0f2/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
+#  saveRDS(ans, sprintf("/home/george/Documents/development/slurmR/slurmr-job-1a727aa0c811/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
+#  message("[slurmR info] job-status: OK.\n")
 #  --------------------------------------------------------------------------------
-#  The bash file that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-720337a7a0f2/01-bash.sh and has the following contents:
+#  The bash file that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-1a727aa0c811/01-bash.sh and has the following contents:
 #  --------------------------------------------------------------------------------
 #  #!/bin/sh
-#  #SBATCH --job-name=slurmr-job-720337a7a0f2
-#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-720337a7a0f2/02-output-%A-%a.out
+#  #SBATCH --job-name=slurmr-job-1a727aa0c811
+#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-1a727aa0c811/02-output-%A-%a.out
 #  #SBATCH --array=1-2
-#  #SBATCH --job-name=slurmr-job-720337a7a0f2
+#  #SBATCH --job-name=slurmr-job-1a727aa0c811
 #  #SBATCH --cpus-per-task=1
 #  #SBATCH --ntasks=1
-#  export OMP_NUM_THREADS=1
-#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-720337a7a0f2/00-rscript.r
+#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-1a727aa0c811/00-rscript.r
 #  --------------------------------------------------------------------------------
 #  EOF
 #  --------------------------------------------------------------------------------
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=slurmr-job-720337a7a0f2 /home/george/Documents/development/slurmR/slurmr-job-720337a7a0f2/01-bash.sh
+#  sbatch --job-name=slurmr-job-1a727aa0c811 /home/george/Documents/development/slurmR/slurmr-job-1a727aa0c811/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
 ## Example 2: Job resubmission
 
-The following example from the package’s manual.
+The following example was extracted from the package’s manual.
 
 ``` r
 # Submitting a simple job
@@ -322,18 +343,18 @@ This will create the corresponding bash file required to be used with
 `sbatch`, and submit it to Slurm.
 
 Another nice tool is the `slurmr_cmd()`. This function will create a
-simple bash script that can be used as a command line tool to submit
-this type of R scripts. Moreover, this command will can add the command
-to your session’s
-[**alias**](https://en.wikipedia.org/wiki/Alias_(command)) as follows:
+simple bash-script that we can use as a command-line tool to submit this
+type of R-scripts. Moreover, this command will can add the command to
+your session’s
+[**alias**](https://en.wikipedia.org/wiki/Alias_\(command\)) as follows:
 
 ``` r
 library(slurmR)
 slurmr_cmd("~", add_alias = TRUE)
 ```
 
-Once that’s done, you can simply submit R scripts with “Slurm-like
-headers” (as shown previously) as follows:
+Once that’s done, you can submit R scripts with “Slurm-like headers” (as
+shown previously) as follows:
 
 ``` bash
 $ slurmr example.R
@@ -343,8 +364,8 @@ $ slurmr example.R
 
 Since version 0.4-3, `slurmR` includes the option `preamble`. This
 provides a way for the user to specify commands/modules that need to be
-executed before running the Rscript. Here is an example using
-`module load`:
+executed before running the Rscript. Here is an example using `module
+load`:
 
 ``` r
 # Turning the verbose mode off
@@ -369,7 +390,7 @@ goals/restrictions/preferences, you can use any of the following from
 this **manually curated** list:
 
 | Package                                                                       | Rerun (1) | \*apply (2) | makeCluster (3) | Slurm options | Dependencies                                                                                                             | Activity                                                                                                                                         |
-|:------------------------------------------------------------------------------|:----------|:------------|:----------------|:--------------|:-------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------|
+| :---------------------------------------------------------------------------- | :-------- | :---------- | :-------------- | :------------ | :----------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------- |
 | [**slurmR**](https://cran.r-project.org/package=slurmR)                       | yes       | yes         | yes             | on the fly    | [![status](https://tinyverse.netlify.com/badge/slurmR)](https://CRAN.R-project.org/package=slurmR)                       | [![Activity](https://img.shields.io/github/last-commit/USCbiostats/slurmR)](https://github.com/USCbiostats/slurmR)                               |
 | [**drake**](https://cran.r-project.org/package=drake)                         | yes       | \-          | \-              | by template   | [![status](https://tinyverse.netlify.com/badge/drake)](https://CRAN.R-project.org/package=drake)                         | [![Activity](https://img.shields.io/github/last-commit/ropensci/drake)](https://github.com/ropensci/drake)                                       |
 | [**rslurm**](https://cran.r-project.org/package=rslurm)                       | \-        | yes         | \-              | on the fly    | [![status](https://tinyverse.netlify.com/badge/rslurm)](https://CRAN.R-project.org/package=rslurm)                       | [![Activity](https://img.shields.io/github/last-commit/SESYNC-ci/rslurm)](https://github.com/SESYNC-ci/rslurm)                                   |
@@ -377,10 +398,10 @@ this **manually curated** list:
 | [**batchtools**](https://cran.r-project.org/package=batchtools)               | yes       | yes         | \-              | by template   | [![status](https://tinyverse.netlify.com/badge/batchtools)](https://CRAN.R-project.org/package=batchtools)               | [![Activity](https://img.shields.io/github/last-commit/mllg/batchtools)](https://github.com/mllg/batchtools)                                     |
 | [**clustermq**](https://cran.r-project.org/package=clustermq)                 | \-        | \-          | \-              | by template   | [![status](https://tinyverse.netlify.com/badge/clustermq)](https://CRAN.R-project.org/package=clustermq)                 | [![Activity](https://img.shields.io/github/last-commit/mschubert/clustermq)](https://github.com/mschubert/clustermq)                             |
 
-1.  After errors, the part or the entire job can be resubmitted.
-2.  Functionality similar to the apply family in base R, e.g. lapply,
+1)  After errors, the part or the entire job can be resubmitted.
+2)  Functionality similar to the apply family in base R, e.g., lapply,
     sapply, mapply or similar.
-3.  Creating a cluster object using either MPI or Socket connection.
+3)  Creating a cluster object using either MPI or Socket connection.
 
 The packages [**slurmR**](https://cran.r-project.org/package=slurmR),
 [**rslurm**](https://cran.r-project.org/package=rslurm) work only on
@@ -397,14 +418,14 @@ about it.
 
 Please note that this project is released with a Contributor Code of
 Conduct (see the CODE\_OF\_CONDUCT.md file included in this project). By
-participating in this project you agree to abide by its terms.
+participating in this project, you agree to abide by its terms.
 
 ## Who uses Slurm
 
 Here is a manually curated list of institutions using Slurm:
 
 | Institution                                            | Country | Link                                                                                                         |
-|--------------------------------------------------------|---------|--------------------------------------------------------------------------------------------------------------|
+| ------------------------------------------------------ | ------- | ------------------------------------------------------------------------------------------------------------ |
 | USC High Performance Computing Center                  | US      | [link](https://hpcc.usc.edu)                                                                                 |
 | Princeton Research Computing                           | US      | [link](https://researchcomputing.princeton.edu/education/online-tutorials/getting-started/introducing-slurm) |
 | Harvard FAS                                            | US      | [link](https://www.rc.fas.harvard.edu/resources/quickstart-guide/)                                           |
@@ -434,7 +455,8 @@ Here is a manually curated list of institutions using Slurm:
 
 ## Funding
 
-Supported by National Cancer Institute Grant \#1P01CA196596.
+With project is supported by the National Cancer Institute, Grant
+\#1P01CA196596.
 
 Computation for the work described in this paper was supported by the
 University of Southern California’s Center for High-Performance

@@ -1,26 +1,19 @@
-To build the image:
+# slurmR docker images
 
-```bash
-docker build -t uscbiostats/slurmr-dev:latest .
-```
+This repository features two different Docker images. The first, labeled
+`interactive`, was designed to provide a sandbox for users to test the
+`slurmR` package. The second image, `rcmdcheck`, was created for testing
+only, and it is part of the Continuous Integration process of the project.
 
-To start the thing:
+Both images are available at [DockerHub](https://hub.docker.com/r/uscbiostats/slurmr)
+and were built on top of
+[`xenonmiddleware/slurm`](https://hub.docker.com/r/xenonmiddleware/slurm).
 
-```bash
-docker run --detach --publish 10022:22 uscbiostats/slurmr-dev
-```
+For ease of use, you can run these images with the help of the `Makefile`
+included here.
 
-To login
+## Interactive mode
 
-```bash
-ssh -p 10022 xenon@localhost
-```
-
-The password is `javagat`
-
-To stop
-
-```bash
-docker stop xenodochial_kirch
-```
-
+For interactive mode, type `make interactive` and follow the instructions.
+The interactive mode requires using the `id_rsa.pub` file distributed here;
+otherwise, you can personalize your images by tailoring the Dockerfiles included in the repository.

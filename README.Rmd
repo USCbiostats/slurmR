@@ -28,28 +28,26 @@ knitr::opts_chunk$set(
 
 # slurmR: A Lightweight Wrapper for Slurm <img src="man/figures/logo.png" height="180px" align="right"/>
 
-Slurm Workload Manager is a popular HPC cluster job scheduler found in many of the top 500 super computers. The `slurmR` R package provides an R wrapper to it that matches the parallel package's syntax, this is, just like `parallel` provides the `parLapply`, `clusterMap`, `parSapply`, etc., `slurmR` provides `Slurm_lapply`, `Slurm_Map`, `Slurm_sapply`, etc.
+Slurm Workload Manager is a popular HPC cluster job scheduler found in many of the top 500 supercomputers. The `slurmR` R package provides an R wrapper to it that matches the parallel package's syntax, this is, just like `parallel` provides the `parLapply`, `clusterMap`, `parSapply`, etc., `slurmR` provides `Slurm_lapply`, `Slurm_Map`, `Slurm_sapply`, etc.
 
 While there are other alternatives such as `future.batchtools`, `batchtools`, `clustermq`, and `rslurm`, this R package has the following goals:
 
-1.  It is dependency free, which means that it works out-of-the-box
+1.  It is dependency-free, which means that it works out-of-the-box
 
-2.  Puts an emphasis on been similar to the workflow in the R package `parallel`
+2.  Emphasizes been similar to the workflow in the R package `parallel`
 
-3.  It provides a general framework for the user to create its own wrappers without using template files.
+3.  It provides a general framework for creating personalized own wrappers without using template files.
 
-4.  Is specialized on Slurm, meaning more flexibility (no need to modify template files), and, in the future, better debugging tools (e.g. job resubmission).
+4.  Is specialized on Slurm, meaning more flexibility (no need to modify template files), and, in the future, better debugging tools (e.g., job resubmission).
 
 5.  Provide a backend for the
     [parallel](https://CRAN.R-project.org/view=HighPerformanceComputing)
-    package, providing an out-of-the-box method for creating Socket cluster objects
-    for multi-node operations. (See the examples below on how this can be
-    used with other R packages)
+    package, providing an out-of-the-box method for creating Socket cluster objects for multi-node operations. (See the examples below on how to use it with other R packages)
 
 Checkout the [VS section](#vs) section for comparing `slurmR` with other R packages.
-Wondering who is using Slurm? Checkout the [list at the end of this document](#who-uses-slurm).
+Wondering who is using Slurm? Check out the [list at the end of this document](#who-uses-slurm).
 
-## Installation
+# Installation
 
 From your HPC command line, you can install the development version from [GitHub](https://github.com/) with:
 
@@ -66,12 +64,27 @@ The second line assumes you have R available in your system (usually loaded via
 devtools::install_github("USCbiostats/slurmR")
 ```
 
-## Citation
+# Citation
 
 ```{r cite, echo=FALSE, comment=""}
 citation("slurmR")
 ```
 
+# Running slurmR with Docker
+
+For testing purposes, slurmR is available in [Dockerhub](https://hub.docker.com/repository/docker/uscbiostats/slurmr).
+The `rcmdcheck` and `interactive` images are built on top of
+[`xenonmiddleware/slurm`](https://hub.docker.com/r/xenonmiddleware/slurm).
+
+Once you download the files contained in the [`slurmR` repository](https://github.com/USCbiostats/slurmR),
+you can go to the `docker` folder and use the `Makefile` included
+there to start a Unix session with slurmR and Slurm included.
+
+To test `slurmR` using docker, check the README.md file located at
+https://github.com/USCbiostats/slurmR/tree/master/docker.
+
+
+# Examples
 
 ## Example 1: Computing means (and looking under the hood)
 
@@ -90,7 +103,7 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 Slurm_clean(ans) # Cleaning after you
 ```
 
-Notice the `plan = "none"` option, this tells `Slurm_lapply` to only create the job object, but do nothing with it, i.e., skip submission. To get more info, we can actually set the verbose mode on
+Notice the `plan = "none"` option; this tells `Slurm_lapply` to only create the job object but do nothing with it, i.e., skip submission. To get more info, we can set the verbose mode on
 
 ```{r example1-with-verb}
 opts_slurmR$verbose_on()
@@ -100,7 +113,7 @@ Slurm_clean(ans) # Cleaning after you
 
 ## Example 2: Job resubmission 
 
-The following example from the package's manual.
+The following example was extracted from the package's manual.
 
 ```r
 # Submitting a simple job
@@ -132,8 +145,7 @@ Take a look at the vignette [here](vignettes/getting-started.Rmd).
 The function `makeSlurmCluster` creates a PSOCK cluster within a Slurm HPC network,
 meaning that users can go beyond a single node cluster object and take advantage
 of Slurm to create a multi-node cluster object. This feature allows then using
-`slurmR` with other R packages that support working with `SOCKcluster` class 
-objects. Here are some examples
+`slurmR` with other R packages that support working with `SOCKcluster` class objects. Here are some examples
 
 With the [`future`](https://cran.r-project.org/package=future) package
 
@@ -196,16 +208,17 @@ slurmR::sourceSlurm("example.R")
 This will create the corresponding bash file required to be used with `sbatch`,
 and submit it to Slurm.
 
-Another nice tool is the `slurmr_cmd()`. This function will create a simple bash
-script that can be used as a command line tool to submit this type of R scripts.
-Moreover, this command will can add the command to your session's [**alias**](https://en.wikipedia.org/wiki/Alias_(command)) as follows:
+Another nice tool is the `slurmr_cmd()`. This function will create a simple bash-script
+that we can use as a command-line tool to submit this type of R-scripts.
+Moreover, this command will can add the command to your session's
+[**alias**](https://en.wikipedia.org/wiki/Alias_(command)) as follows:
 
 ```r
 library(slurmR)
 slurmr_cmd("~", add_alias = TRUE)
 ```
 
-Once that's done, you can simply submit R scripts with "Slurm-like headers" (as
+Once that's done, you can submit R scripts with "Slurm-like headers" (as
 shown previously) as follows:
 
 ```bash
@@ -257,7 +270,7 @@ knitr::kable(dat)
 ```
 
 (1) After errors, the part or the entire job can be resubmitted.
-(2) Functionality similar to the apply family in base R, e.g. lapply, sapply, mapply or similar.
+(2) Functionality similar to the apply family in base R, e.g., lapply, sapply, mapply or similar.
 (3) Creating a cluster object using either MPI or Socket connection.
 
 
@@ -270,7 +283,7 @@ We welcome contributions to `slurmR`. Whether it is reporting a bug, starting a 
 
 Please note that this project is released with a Contributor Code of Conduct (see
 the CODE_OF_CONDUCT.md file included in this project). By participating in this
-project you agree to abide by its terms.
+project, you agree to abide by its terms.
 
 ## Who uses Slurm
 
@@ -307,6 +320,6 @@ Here is a manually curated list of institutions using Slurm:
 
 ## Funding
 
-Supported by National Cancer Institute Grant #1P01CA196596.
+With project is supported by the National Cancer Institute, Grant #1P01CA196596.
 
-Computation for the work described in this paper was supported by the University of Southern California’s Center for High-Performance Computing (hpcc.usc.edu).
+Computation for the work described in this paper was supported by the University of Southern California's Center for High-Performance Computing (hpcc.usc.edu).

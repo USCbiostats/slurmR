@@ -1,0 +1,32 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+#
+# See https://github.com/r-lib/actions/tree/master/examples#readme for
+# additional example workflows available for the R community.
+
+name: R CI release
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: Ubuntu-latest
+    strategy:
+      matrix:
+        include:
+        - name: latest
+          cntr: uscbiostats/slurmr:rcmdcheck
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setting up the environment
+        run: docker pull ${{ matrix.cntr }}
+          
+      - name: Running the check
+        run: |
+          cd docker
+          make check
+

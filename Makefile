@@ -1,19 +1,20 @@
+VERSION:=$(shell Rscript -e 'x<-readLines("DESCRIPTION");cat(gsub(".+[:]\\s*", "", x[grepl("^Vers", x)]))')
 .PHONY: install build check clean docs man checkalloc
 
-slurmR.tar.gz: R/* DESCRIPTION inst/tinytest/* tests/* 
-	R CMD build . ; rm slurmR.tar.gz ; mv slurmR*.tar.gz slurmR.tar.gz
+slurmR_$(VERSION).tar.gz: R/* DESCRIPTION inst/tinytest/* tests/* man/slurmR.Rd
+	R CMD build . 
 
-install: clean slurmR.tar.gz
-	R CMD REMOVE slurmR ; R CMD INSTALL --preclean slurmR.tar.gz
+install: slurmR_$(VERSION).tar.gz
+	R CMD REMOVE slurmR ; R CMD INSTALL --preclean slurmR_$(VERSION).tar.gz
 
-checkalloc:
+checkalloc: install clean
 	salloc --partition=scavenge --time=01:00:00 --cpus-per-task=4 --job-name=slurmR-pkg-check --mem-per-cpu=1G srun -n1 $(MAKE) check
 
-check: clean install
-	R CMD check --as-cran slurmR.tar.gz ; $(MAKE) clean
+check: slurmR_$(VERSION).tar.gz clean
+	R CMD check --as-cran slurmR_$(VERSION).tar.gz
 
-checknotest:
-	$(MAKE) build && cd .. && R CMD check --as-cran --no-tests slurmR_*.tar.gz
+checknotest: clean slurmR_$(VERSION).tar.gz
+	R CMD check --as-cran --no-tests slurmR_$(VERSION).tar.gz
 
 clean:
 	rm -rf slurmr-job*; rm -rf slurm*.out

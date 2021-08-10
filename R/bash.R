@@ -36,7 +36,7 @@ squeue.default <- function(x = NULL, ...) {
   option <- c(sprintf("-j%i", x), "-o%all", parse_flags(...))
 
   # message("Submitting job...")
-  ans <- silent_system2("squeue", option, stdout = TRUE, stderr = TRUE, wait = TRUE)
+  ans <- silent_system2("squeue", option, stdout = TRUE, stderr = TRUE)
 
   # Parsing the data
   ans <- lapply(ans, strsplit, split="|", fixed=TRUE)
@@ -113,7 +113,7 @@ sacct.default <- function(
       )
     )
 
-  ans <- silent_system2("sacct", flags, stdout = TRUE)
+  ans <- silent_system2("sacct", flags, stdout = TRUE, stderr = TRUE)
 
   ans <- lapply(ans, strsplit, split="|", fixed=TRUE)
   ans <- do.call(rbind, lapply(ans, unlist))

@@ -65,6 +65,9 @@ Slurm_collect.slurm_job <- function(x, any. = FALSE, wait = 10L, ...) {
       )
     }
 
+    # Generating element-names
+    e_names <- paste0(x$jobid, "_", 1:x$njobs)
+
     if (S == 0L)
       do.call(
         "c",
@@ -75,8 +78,10 @@ Slurm_collect.slurm_job <- function(x, any. = FALSE, wait = 10L, ...) {
             tmp_path = tmp_path,
             job_name = job_name
             ),
-          readRDS)
+          readRDS
         )
+      )
+      
     else if (any.) {
 
       do.call(
@@ -89,8 +94,8 @@ Slurm_collect.slurm_job <- function(x, any. = FALSE, wait = 10L, ...) {
             job_name = job_name
             ),
           readRDS_trying
-          )
-       )
+        )
+      )
 
     } else
       stop(
@@ -127,8 +132,14 @@ Slurm_collect.slurm_job <- function(x, any. = FALSE, wait = 10L, ...) {
 
   # Applying hooks
   if (length(x$hooks)) {
-    for (h in x$hooks)
-      res <- h(res)
+    for (h in x$hooks) {
+      res <- tryCatch(h(res, x), error = function(e) e)
+      if (inherits(res, "error"))
+        stop("An error ocurred while calling a hook after collection:\n",
+          res,
+          "\nCheck the hook the slurm_job -x-.", call. = FALSE
+        )
+    }
   }
 
   return(res)

@@ -113,9 +113,11 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
       stopifnot_slurm()
 
     message("Submitting job...", appendLF = FALSE)
-    ans <- silent_system2(opts_slurmR$get_cmd(), option, stdout = TRUE, wait=TRUE)
+    ans <- silent_system2(opts_slurmR$get_cmd(), option, stdout = TRUE, stderr = TRUE)
+    cat(ans, sep = "\n")
 
   } else {
+
     warning(
       "[submit = FALSE] The job hasn't been submitted yet.",
       " Use sbatch() to submit the job, or you can submit it via command line",
@@ -126,14 +128,18 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
       immediate. = TRUE,
       call.      = FALSE
     )
+
     return(x)
+
   }
 
   # Warning that the call has been made and storing the id
   if (!opts_slurmR$get_debug()) {
 
+    # Sometines it comes with infomration
+    ans <- ans[grepl("^Submitted batch", ans)]
+
     get_job_id(x) <- as.integer(gsub(pattern = ".+ (?=[[:digit:]]+$)", "", ans, perl=TRUE))
-    message(" jobid:", get_job_id(x), ".")
 
     # We need to update the job file and the latest submitted job
     LAST_SUBMITTED_JOB$set(x)
@@ -209,10 +215,13 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
 
   # Submitting the job
   message("Submitting job...", appendLF = FALSE)
-  ans <- silent_system2(opts_slurmR$get_cmd(), option, stdout = TRUE, wait=TRUE)
+  ans <- silent_system2(opts_slurmR$get_cmd(), option, stdout = TRUE, stderr = TRUE)
+  cat(ans, sep = "\n")
+
+  # Sometines it comes with infomration
+  ans <- ans[grepl("^Submitted batch", ans)]
 
   jobid <- as.integer(gsub(pattern = ".+ (?=[[:digit:]]+$)", "", ans, perl=TRUE))
-  message(" jobid:", jobid, ".")
 
   if (wait)
     wait_slurm(jobid)

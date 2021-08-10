@@ -21,6 +21,29 @@
 #' @name slurm_job
 NULL
 
+check_hooks <- function(x) {
+
+  if (length(x) == 0)
+    return(invisible())
+
+  if (!inherits(x, "list"))
+    stop(
+      "The -hooks- parameter should be of class \"list\". It is of class:\n\"",
+      paste(class(x), collapse = "\", \""),
+      call. = FALSE
+    )
+
+  test <- !sapply(x, is.function)
+  if (any(test))
+    stop(
+      "The hook(s): ", paste0(which(test), collapse = ", "), " are not ",
+      "functions. All hooks (if any) should be functions.", call. = FALSE
+    )
+
+  return(invisible())
+
+}
+
 #' @export
 #' @details In the case of the function `new_slurm_job`, besides of creating the
 #' object of class `slurm_job`, the function calls `write_slurm_job` and stores
@@ -51,13 +74,7 @@ new_slurm_job <- function(
 ) {
 
   # Checking hooks
-  if (!is.null(hooks)) {
-    test <- !sapply(hooks, is.function)
-    if (any(test))
-      stop("The hook(s): ", paste0(which(test), collapse = ", "), " are not ",
-           "functions. All hooks (if any) should be functions.", call. = FALSE
-      )
-  }
+  check_hooks(hooks)
 
   job <- structure(list2env(
     list(
@@ -104,6 +121,16 @@ get_job_id.slurm_job <- function(x) x$jobid
 `get_job_id<-` <- function(x, value) UseMethod("get_job_id<-")
 
 `get_job_id<-.slurm_job` <- function(x, value) {
+
+  if (length(value) != 1L)
+    stop("Incorrect length for job ID.", call. = FALSE)
+
+  value <- as.integer(value)
+
+  if (!opts_slurmR$get_debug() && !is.finite(value))
+    stop("job IDs must be finite. This is the current value trying to assign: ",
+	 value, ".", call. = FALSE)
+
   x$jobid <- value
   x
 }
@@ -127,9 +154,12 @@ print.slurm_job <- function(x, ...) {
 
   cat("Call:\n", paste(deparse(x$call), collapse="\n"), "\n")
   cat(
-    sprintf("job_name : %s\n", get_job_name(x)),
-    sprintf("tmp_path : %s/%s\n", get_tmp_path(x), get_job_name(x)),
-    sprintf("job ID   : %s\n",
+    sprintf("njobs (size) : %i\n", x$njobs),
+    sprintf("job_name     : %s\n", get_job_name(x)),
+    sprintf("tmp_path     : %s\n", get_tmp_path(x)),
+    "All auxiliray files are located at:\n",
+    sprintf("\t%s/%s\n", get_tmp_path(x), get_job_name(x)),
+    sprintf("job ID       : %s\n",
             ifelse(
               is.na(get_job_id(x)),
               "Not submitted",

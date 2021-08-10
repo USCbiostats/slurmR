@@ -36,6 +36,10 @@ wait_slurm.integer <- function(x, timeout = -1, freq = 0.1, force = TRUE, ...) {
   } else if (!slurm_available())
     stopifnot_slurm()
 
+  # The integer must be finite
+  if (!is.finite(x))
+    stop("The job ID is not an integer: ", x, ". Can't wait for non-integer job ids.", call. = FALSE)
+
   time0 <- Sys.time()
   while(TRUE) {
 

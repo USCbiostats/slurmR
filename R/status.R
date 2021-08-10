@@ -85,7 +85,7 @@ status.default <- function(x) {
   if (is.na(x))
     return(wrap(-1L, NULL))
 
-  dat <- sacct(x, brief = TRUE, parsable = TRUE, allocations = TRUE)
+  dat <- sacct_(x, brief = TRUE, parsable = TRUE, allocations = TRUE)
 
   # We only need to keep the main line of the account
   if (!nrow(dat))
@@ -122,6 +122,7 @@ status.default <- function(x) {
   State <- dat$State
 
   STATE_CODES <- split(JOB_STATE_CODES$name, JOB_STATE_CODES$type)
+
 
   # If it is an array (multiple rows)
   if (nrow(dat) > 1L) {

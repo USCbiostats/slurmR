@@ -263,18 +263,21 @@ check_sbatch_opt <- function(x, job_name = NULL, ...) {
 #' Check whether the file path exists, if not, create
 #' @noRd
 check_full_path <- function(tmp_path, job_name, overwrite = FALSE) {
+
   path <- sprintf("%s/%s", tmp_path, job_name)
   test <- dir.exists(path)
 
   # Checking if the thing exists
-  what <- if (overwrite) warning else stop
   if (test) {
 
-    # Either warns or stops
-    what(
-      "The path ", path, " already exists. To overwrite a previously used ",
-      "path (tmp_path/job_name) use the option `overwrite = TRUE`",
-      call. = FALSE
+    if (overwrite)
+      message("The path ", path, " already exists. Since `overwrite = TRUE`,",
+        "slurmR will remove the previous data.")
+    else
+      stop(
+        "The path ", path, " already exists. To overwrite a previously used ",
+        "path (tmp_path/job_name) use the option `overwrite = TRUE`",
+        call. = FALSE
       )
 
     unlink(path, recursive = TRUE)
@@ -314,18 +317,32 @@ stopifnot_submitted <- function(x) {
 
 silent_system2 <- function(...) {
 
-  fun_name <- as.character(sys.call()[[1]])
+  # Getting the call
+  call_str       <- sys.call()
+  call_str[[1L]] <- bquote(system2)
+  call_str       <- deparse(call_str)
 
+  # Making the call
   ans <- suppressWarnings({
     tryCatch(system2(...), error = function(e) e)
   })
 
-  # check_error(fun_name, ans)
   if (length(attr(ans, "status")) && (attr(ans, "status") != 0)) {
+
+    # If either is null, then these will be character(0)
+    status. <- as.character(attr(ans, "status"))
+    errmsg. <- as.character(attr(ans, "errmgs"))
+
     stop(
-      "An error has occurred when calling `", fun_name,"`:\n",
-      paste(ans, collapse="\n"), call. = FALSE)
+      "An error has occurred when calling\n", call_str,"\n",
+      paste(ans, collapse="\n"),
+      sprintf("\nReturn code (status): %s\n", status.),
+      sprintf("\nError msg   (errmsg): %s\n", errmsg.),
+      call. = FALSE
+      )
+
   }
+
   ans
 
 }

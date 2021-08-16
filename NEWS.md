@@ -8,6 +8,8 @@
 
 *  slurmR now has a Docker image that can be used to test with a Slurm cluster.
 
+*  `makeSlurmCluster()`s default tmp_path is now `opts_slurmR$get_tmp_path()`.
+
 
 # slurmR 0.4-3 (CRAN)
 

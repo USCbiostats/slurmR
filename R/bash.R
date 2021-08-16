@@ -73,6 +73,7 @@ scancel.default <- function(x = NULL, ...) {
   option <- c(parse_flags(...), x)
 
   ans <- silent_system2("scancel", option, stdout = TRUE, stderr = TRUE)
+  wait_slurm(x)
 
   invisible()
 

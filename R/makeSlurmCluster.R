@@ -1,5 +1,5 @@
 get_hosts <- function(
-  ntasks = 1,
+  ntasks   = 1,
   tmp_path = getwd(),
   ...
   ) {
@@ -139,7 +139,7 @@ get_hosts <- function(
 makeSlurmCluster <- function(
   n,
   job_name       = random_job_name(),
-  tmp_path       = dirname(tempdir()),
+  tmp_path       = opts_slurmR$get_tmp_path(),
   cluster_opt    = list(),
   max_wait       = 300L,
   verb           = TRUE,
@@ -177,7 +177,7 @@ makeSlurmCluster <- function(
         message("The logfile of the job follows:")
         message(cat(readLines(job$output), sep = "\n"))
       } else {
-        message("No logfile found.")
+        message("No logfile found. Make sure that -tmp_path- can be accessed by R.")
       }
 
       e <- tryCatch(parallel::stopCluster(cl), error = function(e) e)

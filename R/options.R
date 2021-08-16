@@ -30,7 +30,7 @@ OPTS_PREAMBLE <- new.env(parent = emptyenv())
   # Function to get the path
   get_tmp_path <- function() {
     if (!length(OPTS_R$tmp_path))
-      OPTS_R$tmp_path <- getwd()
+      OPTS_R$tmp_path <- "" # getwd()
     OPTS_R$tmp_path
   }
 

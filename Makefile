@@ -1,7 +1,7 @@
 VERSION:=$(shell Rscript -e 'x<-readLines("DESCRIPTION");cat(gsub(".+[:]\\s*", "", x[grepl("^Vers", x)]))')
 .PHONY: install build check clean docs man checkalloc
 
-slurmR_$(VERSION).tar.gz: R/* DESCRIPTION inst/tinytest/* tests/* man/slurmR.Rd
+slurmR_$(VERSION).tar.gz: R/* DESCRIPTION inst/tinytest/* tests/* NAMESPACE
 	R CMD build . 
 
 install: slurmR_$(VERSION).tar.gz
@@ -19,15 +19,15 @@ checknotest: clean slurmR_$(VERSION).tar.gz
 clean:
 	rm -rf slurmr-job*; rm -rf slurm*.out
 
-docs: man/slurmR.Rd README.md docs/index.html
+docs: NAMESPACE README.md
 
-man/slurmR.Rd: R/*.R
+NAMESPACE: R/*.R
 	R -e "roxygen2::roxygenize()"
 
 README.md: README.Rmd
 	R -e "rmarkdown::render('README.Rmd')"
 
-docs/index.html: man/slurmR.Rd README.md
+docs/index.html: NAMESPACE README.md
 	R -e "pkgdown::build_site()"
 
 man:

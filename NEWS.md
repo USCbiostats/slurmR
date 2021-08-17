@@ -7,6 +7,7 @@
 *  The function `sacct()` now doesn't fail when accounting is not available.
 
 *  slurmR now has a Docker image that can be used to test with a Slurm cluster.
+   The docker image can be started from within R (if Docker is available).
 
 *  `makeSlurmCluster()`s default tmp_path is now `opts_slurmR$get_tmp_path()`.
 

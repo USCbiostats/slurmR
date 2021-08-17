@@ -30,4 +30,4 @@ pkgdown
 .*\.tar\.gz
 slurmr-job*/
 comparing-projects.+
-docker
+^docker/$

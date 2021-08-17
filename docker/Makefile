@@ -7,7 +7,8 @@ push:
 	docker push uscbiostats/slurmr:interactive && \
 		docker push uscbiostats/slurmr:rcmdcheck
 interactive:
-	docker run --detach --publish 10022:22 uscbiostats/slurmr:interactive && \
+	docker run --name="slurmR-docker" --detach --publish 10022:22 \
+		uscbiostats/slurmr:interactive && \
 		echo "To login type\n\tssh -i id_rsa xenon@localhost -p 10022"
 check:
 	rm -rf ../slurmR-docker.Rcheck && \

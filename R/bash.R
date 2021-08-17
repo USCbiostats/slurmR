@@ -16,6 +16,7 @@ slurm_available <- function() {
   # It is available if R can find it!
   x <- Sys.which("sbatch")
   return(nchar(x) > 0L)
+
 }
 
 #' @export

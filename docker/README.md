@@ -15,5 +15,7 @@ included here.
 ## Interactive mode
 
 For interactive mode, type `make interactive` and follow the instructions.
-The interactive mode requires using the `id_rsa.pub` file distributed here;
-otherwise, you can personalize your images by tailoring the Dockerfiles included in the repository.
+The interactive session requires using the `id_rsa.pub` file distributed here;
+otherwise, you can personalize your images by tailoring the Dockerfiles
+included in the repository. Ensure that the file id_rsa is readable/writable
+only for you, i.e., `chmod 600 id_rsa`.

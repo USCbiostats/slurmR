@@ -8,7 +8,7 @@
 makeSlurmCluster(
   n,
   job_name = random_job_name(),
-  tmp_path = dirname(tempdir()),
+  tmp_path = opts_slurmR$get_tmp_path(),
   cluster_opt = list(),
   max_wait = 300L,
   verb = TRUE,

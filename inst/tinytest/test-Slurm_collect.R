@@ -19,7 +19,7 @@ if (slurm_available()) {
   sbatch(x, wait = TRUE)
   ans <- Slurm_collect(x)
   Slurm_clean(x)
-  expect_true(grepl("An error has oc", ans[[1]]$message))
+  expect_true(grepl("An error has oc", ans[[1]]$slurmr_msg))
 
   # Collecting jobs with different runs
   x <- Slurm_lapply(

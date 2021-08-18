@@ -1,0 +1,27 @@
+name: slurmR website
+
+on: [push, pull_request]
+
+env:
+  cntr: rocker/tidyverse:latest
+
+jobs:
+  build:
+    runs-on: Ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Container
+        run: docker pull ${cntr}
+
+      - name: Building website
+        run: |
+          docker run --rm -i -v ${PWD}:/home/mnt -w /home/mnt ${cntr} \
+            Rscript -e 'install.packages(c("pkgdown"));system("R CMD INSTALL .");pkgdown::build_site(install=FALSE)'
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs

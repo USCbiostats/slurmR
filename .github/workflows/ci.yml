@@ -18,6 +18,8 @@ jobs:
         run: docker pull ${{ matrix.cntr }}
 
       - name: Running the check
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: |
           cd docker
           make check

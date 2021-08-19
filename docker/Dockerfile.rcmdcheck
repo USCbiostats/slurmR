@@ -25,16 +25,22 @@ ENV SLURMR_TEST_DIR=/home/slurmr-test
 COPY id_rsa.pub .
 RUN cat id_rsa.pub >> .ssh/authorized_keys
 
+RUN apt-get update && \
+	apt-get install -y --no-install-recommends make
+
 # ARG PKG
 COPY start-services-alt.sh .
 COPY rcheck.sh /home/xenon/.
 CMD chmod +x start-services-alt.sh && ./start-services-alt.sh && \
 	chmod +x /home/xenon/rcheck.sh && \
 	echo 'root:root' | chpasswd && \
+	chmod 777 -R /home/slurmr-test && \
 	echo "=== Building the package ===" && \
 	ls -all && \
 	R CMD build --no-build-vignettes --no-manual slurmR && \
 	echo "=== Starting R CMD check ===" && \
 	sudo su xenon ./rcheck.sh ; \
 	chmod -R 777 slurmR.Rcheck ; \
+	chmod -R 777 /home/slurmr-test ;\
+	mv -f /home/slurmr-test/covr.rds slurmR/covr.rds; \
 	mv -f slurmR.Rcheck slurmR/slurmR-docker.Rcheck

@@ -12,7 +12,9 @@ interactive:
 		echo "To login type\n\tssh -i id_rsa xenon@localhost -p 10022"
 check:
 	rm -rf ../slurmR-docker.Rcheck && \
-		docker run -i --rm --publish 10022:22 -v$(PWD)/..:/home/xenon/slurmR \
+		docker run -i --rm --publish 10022:22 \
+		-v$(PWD)/..:/home/xenon/slurmR \
+		-e CODECOV_TOKEN=$CODECOV_TOKEN \
 		-w/home/xenon uscbiostats/slurmr:rcmdcheck
 login:
 	ssh -p 10022 -i id_rsa xenon@localhost

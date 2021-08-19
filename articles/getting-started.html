@@ -241,7 +241,7 @@
 ## set_job_name : function (name)  
 ## set_opts : function (...)  
 ## set_preamble : function (...)  
-## set_tmp_path : function (path)  
+## set_tmp_path : function (path = Sys.getenv("SLURMR_TMP_PATH", getwd()))  
 ## verbose_off : function ()  
 ## verbose_on : function ()</code></pre>
 <p>Once we have specified all the needed options, we can do our <code>Slurm_lapply</code> call and submit the job to the queue as follows:</p>

@@ -28,17 +28,15 @@ jobs:
         run: |
           cd docker
           docker run \
-	    -e GITHUB_ACTION=$GITHUB_ACTION \
-	    -e GITHUB_REPOSITORY=$GITHUB_REPOSITORY \
-	    -e GITHUB_REF=$GITHUB_REF \
-            -e GITHUB_HEAD_REF=$GITHUB_HEAD_REF \
-            -e GITHUB_RUN_ID=$GITHUB_RUN_ID \
-            -e GITHUB_SHA=$GITHUB_SHA \
-            -e CODECOV_TOKEN=$CODECOV_TOKEN \
-	    --detach --publish 10022:22 \
-	    -v$(PWD)/..:/home/xenon/slurmR -w/home/xenon \
-	    uscbiostats/slurmr:interactive
-	  echo "Waiting a few seconds..." & sleep 5 && \
-	    ssh -p 10022 -i id_rsa xenon@localhost \
-	    'cd /home/slurmr-test/ && Rscript -e "covr::codecov(\"/home/xenon/slurmR\", quiet = FALSE)"'
+            -e GITHUB_ACTION=$GITHUB_ACTION \
+            -e GITHUB_REPOSITORY=$GITHUB_REPOSITORY \
+            -e GITHUB_REF=$GITHUB_REF
+            -e GITHUB_HEAD_REF=$GITHUB_HEAD_REF
+            -e GITHUB_RUN_ID=$GITHUB_RUN_ID
+            -e GITHUB_SHA=$GITHUB_SHA
+            -e CODECOV_TOKEN=$CODECOV_TOKEN --detach --publish 10022:22
+            -v$(PWD)/..:/home/xenon/slurmR -w/home/xenon uscbiostats/slurmr:interactive
+          echo "Waiting a few seconds..." & sleep 5 && \
+            ssh -p 10022 -i id_rsa xenon@localhost 'cd /home/slurmr-test/ && \
+            Rscript -e "covr::codecov(\"/home/xenon/slurmR\", quiet = FALSE)"'
 

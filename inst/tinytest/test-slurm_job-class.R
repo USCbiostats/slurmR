@@ -20,6 +20,11 @@ if (slurm_available()) {
   job2 <- mget(sort(ls(envir = job2)), envir = job2)
   job3 <- mget(sort(ls(envir = job3)), envir = job3)
 
+  # Removing hooks
+  job1 <- job1[names(job1) != "hooks"]
+  job2 <- job2[names(job2) != "hooks"] 
+  job3 <- job3[names(job3) != "hooks"]
+
   expect_equal(job1, job2)
   expect_equal(job1, job3)
 

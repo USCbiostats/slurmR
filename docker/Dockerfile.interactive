@@ -15,6 +15,10 @@ RUN add-apt-repository ppa:c2d4u.team/c2d4u4.0+ && \
 	r-cran-covr \
 	r-cran-tinytest
 
+RUN apt-get update && \
+	apt-get install -y --no-install-recommends \
+	make
+
 RUN mkdir /home/slurmr-test
 ENV SLURMR_TEST_DIR=/home/slurmr-test
 

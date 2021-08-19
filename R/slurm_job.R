@@ -189,7 +189,7 @@ read_slurm_job <- function(path) {
 
   if (dir.exists(path)) {
 
-    path <- sprintf("%s/job.rds", normalizePath(path))
+    path <- normalizePath(file.path(path, "job.rds"))
     if (!file.exists(path))
       stop(
         "The file `job.rds` does not exists in the specified `path`. ",

@@ -7,7 +7,7 @@ if ( requireNamespace("tinytest", quietly=TRUE) & (.Platform$OS.type == "unix") 
   # Figuringout the directory
   SLURMR_TEST_DIR <- Sys.getenv("SLURMR_TEST_DIR")
   if (SLURMR_TEST_DIR == "")
-	  SLURMR_TEST_DIR <- getwd()
+    SLURMR_TEST_DIR <- NULL
   
 
   if (slurm_available()) {

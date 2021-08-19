@@ -35,8 +35,9 @@ man:
 	  evince slurmR.pdf &
 
 covr: 
-	Rscript -e 'cv <- covr::package_coverage();saveRDS(cv, "slurmR-coverage.rds");covr::codecov(coverage=cv)' \
-		> slurmR-coverage.Rout &
+	rm -rf covr || mkdir covr && \
+		Rscript -e 'pth <- normalizePath("~/slurmR/covr");Sys.setenv(SLURMR_TMP_PATH=pth);saveRDS(covr::package_coverage(quiet = FALSE, clean = FALSE, install_path = pth), "covr/dat.rds")' && \
+		echo "Now you can go ahead and upload the coverage"
 
 inst/NEWS: NEWS.md
 	Rscript -e "rmarkdown::pandoc_convert('NEWS.md', 'plain', output='inst/NEWS')" && \

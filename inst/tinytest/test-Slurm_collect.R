@@ -1,5 +1,8 @@
 if (slurm_available()) {
 
+  print(opts_slurmR)
+  print(opts_slurmR$get_tmp_path())
+
   # Checking if we get the right error message
   set.seed(12315)
   z <- runif(20)

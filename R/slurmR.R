@@ -38,7 +38,8 @@ NULL
 
 .onLoad <- function(libname, pkgname) {
 
-  opts_slurmR$set_tmp_path(getwd())
+  # It will set either the envir var SLURMR_TMP_PATH or getwd()
+  opts_slurmR$set_tmp_path()
 
 }
 
@@ -46,9 +47,10 @@ NULL
 .onAttach <- function(libname, pkgname) {
 
   packageStartupMessage(
-    "slurmR default option for `tmp_path` (used to store auxiliar files) set to:\n  ", getwd(),
+    "slurmR default option for `tmp_path` (used to store auxiliar files) set to:\n  ", opts_slurmR$get_tmp_path(),
     "\nYou can change this and checkout other slurmR options using: ",
     "?opts_slurmR, or you could just type \"opts_slurmR\" on the terminal."
   )
 
 }
+

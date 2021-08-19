@@ -8,7 +8,7 @@
 sourceSlurm(
   file,
   job_name = NULL,
-  tmp_path = dirname(tempdir()),
+  tmp_path = opts_slurmR$get_tmp_path(),
   rscript_opt = list(vanilla = TRUE),
   plan = "submit",
   ...

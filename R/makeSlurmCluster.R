@@ -11,7 +11,7 @@ get_hosts <- function(
   })
 
   # Creating job name and file
-  fn   <- tempfile("slurmr-job-", tmpdir = dirname(tempdir()))
+  fn   <- tempfile("slurmr-job-", tmpdir = opts_slurmR$get_tmp_path())
   jn   <- basename(fn)
   out  <- sprintf("%s/%s.out", tmp_path, jn)
 

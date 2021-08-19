@@ -18,7 +18,10 @@ OPTS_PREAMBLE <- new.env(parent = emptyenv())
 
   # JOB PATH -------------------------------------------------------------------
   # Function to set job path
-  set_tmp_path <- function(path) {
+  set_tmp_path <- function(path = Sys.getenv("SLURMR_TMP_PATH", getwd())) {
+
+    if (is.null(path))
+      path <- Sys.getenv("SLURMR_TMP_PATH", getwd())
 
     # Path normalization and assignment
     path <- normalizePath(path)
@@ -224,7 +227,7 @@ OPTS_PREAMBLE <- new.env(parent = emptyenv())
       reset        = structure(
         function() {
           .opts_slurmR()
-          opts_slurmR$set_tmp_path(getwd())
+         opts_slurmR$set_tmp_path()
           invisible()
           },
         desc = "Resets the options to the original state."

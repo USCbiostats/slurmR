@@ -264,7 +264,7 @@ check_sbatch_opt <- function(x, job_name = NULL, ...) {
 #' @noRd
 check_full_path <- function(tmp_path, job_name, overwrite = FALSE) {
 
-  path <- sprintf("%s/%s", tmp_path, job_name)
+  path <- normalizePath(file.path(tmp_path, job_name))
   test <- dir.exists(path)
 
   # Checking if the thing exists

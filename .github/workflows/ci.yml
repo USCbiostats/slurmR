@@ -26,8 +26,8 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: |
-          cd docker \
-          chmod 600 id_rsa \
+          cd docker 
+          chmod 600 id_rsa 
           docker run \
             -e GITHUB_ACTION=$GITHUB_ACTION \
             -e GITHUB_REPOSITORY=$GITHUB_REPOSITORY \

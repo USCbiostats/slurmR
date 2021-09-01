@@ -89,7 +89,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">slurmR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4-2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5-0</span>
       </span>
     </div>
 
@@ -158,8 +158,9 @@
 <li><p><code><a href="../reference/sourceSlurm.html">sourceSlurm(plan = "collect")</a></code> won’t wait forever.</p></li>
 <li><p>More verbose error messages when <code>Slurm_collect</code> returns with errors.</p></li>
 <li><p>The function <code><a href="../reference/slurm_available.html">sacct()</a></code> now doesn’t fail when accounting is not available.</p></li>
-<li><p>slurmR now has a Docker image that can be used to test with a Slurm cluster. The docker image can be started from within R (if Docker is available).</p></li>
+<li><p>slurmR now has a Dockerimage that can be used to test with a Slurm cluster. The docker image can be started from within R (if Docker is available).</p></li>
 <li><p><code><a href="../reference/makeSlurmCluster.html">makeSlurmCluster()</a></code>s default tmp_path is now <code>opts_slurmR$get_tmp_path()</code>.</p></li>
+<li><p>New functions <code>slurmr_docker_*</code> provide a wrapper to interact with the Dockerimage of slurmR.</p></li>
 </ul>
 </div>
     <div id="slurmr-04-3-cran" class="section level1">

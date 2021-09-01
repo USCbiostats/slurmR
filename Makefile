@@ -8,7 +8,7 @@ install: slurmR_$(VERSION).tar.gz
 	R CMD REMOVE slurmR ; R CMD INSTALL --preclean slurmR_$(VERSION).tar.gz
 
 checkalloc: install clean
-	salloc --partition=scavenge --time=01:00:00 --cpus-per-task=4 --job-name=slurmR-pkg-check --mem-per-cpu=1G srun -n1 $(MAKE) check
+	salloc --time=01:00:00 --cpus-per-task=4 --job-name=slurmR-pkg-check --mem-per-cpu=1G srun -n1 $(MAKE) check
 
 check: slurmR_$(VERSION).tar.gz clean
 	R CMD check --as-cran slurmR_$(VERSION).tar.gz

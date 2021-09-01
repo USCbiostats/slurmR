@@ -210,7 +210,7 @@ slurmr_docker_run <- function(path = "", pull = TRUE, timeout = 60) {
     if (res == 0)
       break
 
-    tdiff <- as.numeric(difftime(Sys.time(), t0, unit = "secs"))
+    tdiff <- as.numeric(difftime(Sys.time(), t0, units = "secs"))
     message("Trying to connect again (timeout in ~", floor(timeout - tdiff), " seconds).")
     Sys.sleep(1)
 

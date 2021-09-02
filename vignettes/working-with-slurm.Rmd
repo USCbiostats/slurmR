@@ -103,7 +103,7 @@ to skip this and continue reading the following section.
     
 More information about Slurm can be found their official website
 [here](https://slurm.schedmd.com/). A tutorial about how to use Slurm with R
-can be found [here](https://uscbiostats.github.io/slurmr-workshop).
+can be found [here](https://uscbiostats.github.io/slurmr-workshop/).
 
 # Submitting jobs via sbatch
 

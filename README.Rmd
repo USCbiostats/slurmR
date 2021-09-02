@@ -291,32 +291,32 @@ Here is a manually curated list of institutions using Slurm:
 
 |Institution | Country | Link |
 |------------|---------|------|
-| USC High Performance Computing Center | US | [link](https://hpcc.usc.edu) |
-| Princeton Research Computing | US | [link](https://researchcomputing.princeton.edu/education/online-tutorials/getting-started/introducing-slurm) |
-| Harvard FAS | US | [link](https://www.rc.fas.harvard.edu/resources/quickstart-guide/)|
+| USC Center for Advance Research Computing | US | [link](https://carc.usc.edu/) |
+| Princeton Research Computing | US | [link](https://researchcomputing.princeton.edu/support/knowledge-base/slurm) |
+| Harvard FAS | US | [link](https://docs.rc.fas.harvard.edu/kb/quickstart-guide/)|
 | Harvard HMS research computing | US | [link](https://rc.hms.harvard.edu/) |
 | UCSan Diego WM Keck Lab for Integrated Biology | US | [link](https://keck2.ucsd.edu/dokuwiki/doku.php/wiki:slurm) |
 | Stanford Sherlock | US | [link](https://www.sherlock.stanford.edu/docs/overview/introduction/) |
 | Stanford SCG Informatics Cluster | US | [link](https://login.scg.stanford.edu/tutorials/job_scripts/) |
-| Berkeley Research IT | US | [link](http://research-it.berkeley.edu/services/high-performance-computing/running-your-jobs) |
+| Berkeley Research IT | US | [link](https://research-it.berkeley.edu/services/high-performance-computing/running-your-jobs) |
 | University of Utah CHPC | US | [link](https://www.chpc.utah.edu/documentation/software/slurm.php) |
 | University of Michigan Biostatistics cluster| US | [link](https://sph.umich.edu/biostat/computing/cluster/slurm.html) |
 | The University of Kansas Center for Research Computing | US | [link](https://crc.ku.edu/hpc/how-to) |
-| University of Cambridge MRC Biostatistics Unit | UK | [link](https://www.mrc-bsu.cam.ac.uk/research-and-development/high-performance-computing-at-the-bsu/) |
+| University of Cambridge | UK | [link](https://www.ch.cam.ac.uk/computing/slurm-usage) |
 | Indiana University | US | [link](https://kb.iu.edu/d/awrz) |
 | Caltech HPC Center | US | [link](https://www.hpc.caltech.edu/documentation/slurm-commands) |
-| Institute for Advanced Study | US | [link](https://www.sns.ias.edu/computing/slurm) |
+| Institute for Advanced Study | US | [link](https://www.ias.edu/sns/computing/slurm) |
 | UTSouthwestern Medical Center BioHPC | US | [link](https://portal.biohpc.swmed.edu/content/guides/slurm/) |
 | Vanderbilt University ACCRE | US | [link](https://www.vanderbilt.edu/accre/documentation/slurm/) |
 | University of Virginia Research Computing | US | [link](https://www.rc.virginia.edu/userinfo/rivanna/slurm/) |
 | Center for Advanced Computing | CA | [link](https://cac.queensu.ca/wiki/index.php/SLURM) |
 | SciNet | CA | [link](https://docs.scinet.utoronto.ca/index.php/Slurm) |
-| NLHPC | CL | [link](http://usuarios.nlhpc.cl/index.php/SLURM) |
-| Kultrun | CL | [link](http://www.astro.udec.cl/kultrun) |
+| NLHPC | CL | [link](https://wiki.nlhpc.cl/P%C3%A1gina_principal) |
+| Kultrun | CL | [link](http://www.astro.udec.cl/kultrun/) |
 | Matbio | CL | [link](http://www.matbio.cl/cluster/) |
 | TIG MIT | US | [link](https://tig.csail.mit.edu/shared-computing/slurm/) |
 | MIT Supercloud | US | [link](https://supercloud.mit.edu/submitting-jobs) |
-| Oxford's ARC | UK | [link](https://help.it.ox.ac.uk/arc/job-scheduling) |
+| Oxford's ARC | UK | [link](https://www.arc.ox.ac.uk/job-scheduler-user-guide) |
 
 ## Funding
 

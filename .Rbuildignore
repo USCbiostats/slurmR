@@ -31,4 +31,4 @@ pkgdown
 slurmr-job*/
 comparing-projects.+
 ^docker$
-^covr$
+^covr.*$

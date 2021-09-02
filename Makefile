@@ -17,7 +17,8 @@ checknotest: clean slurmR_$(VERSION).tar.gz
 	R CMD check --as-cran --no-tests slurmR_$(VERSION).tar.gz
 
 clean:
-	rm -rf slurmr-job*; rm -rf slurm*.out
+	rm -rf slurmr-job*; rm -rf slurm*.out; rm -rf docker/slurmR.Rcheck slurm*.Rcheck ; \
+		rm -f vignettes/*.R vignettes/*.html
 
 docs: NAMESPACE README.md
 

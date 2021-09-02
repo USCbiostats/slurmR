@@ -182,17 +182,17 @@
 <p>We can use the function <code>Slurm_lapply</code> to distribute computations</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> <span class="fu">Slurm_lapply</span>(x, mean, <span class="at">plan =</span> <span class="st">"none"</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  Warning in normalizePath(file.path(tmp_path, job_name)): path[1]="/home1/</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  vegayon/slurmR/slurmr-job-4bf44d1be1c5": No such file or directory</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  vegayon/slurmR/slurmr-job-60c5243c96f": No such file or directory</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  sbatch --job-name=slurmr-job-4bf44d1be1c5 /home1/vegayon/slurmR/slurmr-job-4bf44d1be1c5/01-bash.sh</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  sbatch --job-name=slurmr-job-60c5243c96f /home1/vegayon/slurmR/slurmr-job-60c5243c96f/01-bash.sh</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">Slurm_clean</span>(ans) <span class="co"># Cleaning after you</span></span></code></pre></div>
 <p>Notice the <code>plan = "none"</code> option; this tells <code>Slurm_lapply</code> to only create the job object but do nothing with it, i.e., skip submission. To get more info, we can set the verbose mode on</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>opts_slurmR<span class="sc">$</span><span class="fu">verbose_on</span>()</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> <span class="fu">Slurm_lapply</span>(x, mean, <span class="at">plan =</span> <span class="st">"none"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  Warning in normalizePath(file.path(tmp_path, job_name)): path[1]="/home1/</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#  vegayon/slurmR/slurmr-job-4bf44d1be1c5": No such file or directory</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#  vegayon/slurmR/slurmr-job-60c5243c96f": No such file or directory</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  --------------------------------------------------------------------------------</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#  [VERBOSE MODE ON] The R script that will be used is located at: /home1/vegayon/slurmR/slurmr-job-4bf44d1be1c5/00-rscript.r and has the following contents:</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#  [VERBOSE MODE ON] The R script that will be used is located at: /home1/vegayon/slurmR/slurmr-job-60c5243c96f/00-rscript.r and has the following contents:</span></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#  --------------------------------------------------------------------------------</span></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#  .libPaths(c("/project/vegayon_134/R/x86_64-pc-linux-gnu-library/4.0", "/spack/apps/linux-centos7-x86_64/gcc-8.3.0/r-4.0.0-jfy3icn4kexk7kyabcoxuio2iyyww3o7/rlib/R/library"))</span></span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#  message("[slurmR info] Loading variables and functions... ", appendLF = FALSE)</span></span>
@@ -220,7 +220,7 @@
 <span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co">#      sprintf("%s/%s/%s", tmp_path, job_name, type)</span></span>
 <span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="co">#  }</span></span>
 <span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="co">#  TMP_PATH  &lt;- "/home1/vegayon/slurmR"</span></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="co">#  JOB_NAME  &lt;- "slurmr-job-4bf44d1be1c5"</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="co">#  JOB_NAME  &lt;- "slurmr-job-60c5243c96f"</span></span>
 <span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="co">#  </span></span>
 <span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="co">#  # The -tcq- function is a wrapper of tryCatch that on error tries to recover</span></span>
 <span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="co">#  # the message and saves the outcome so that slurmR can return OK.</span></span>
@@ -247,19 +247,19 @@
 <span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a><span class="co">#  }</span></span>
 <span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a><span class="co">#  message("done loading variables and functions.")</span></span>
 <span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a><span class="co">#  tcq({</span></span>
-<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a><span class="co">#    INDICES &lt;- readRDS("/home1/vegayon/slurmR/slurmr-job-4bf44d1be1c5/INDICES.rds")</span></span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a><span class="co">#    INDICES &lt;- readRDS("/home1/vegayon/slurmR/slurmr-job-60c5243c96f/INDICES.rds")</span></span>
 <span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a><span class="co">#  })</span></span>
 <span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a><span class="co">#  tcq({</span></span>
-<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a><span class="co">#    X &lt;- readRDS(sprintf("/home1/vegayon/slurmR/slurmr-job-4bf44d1be1c5/X_%04d.rds", ARRAY_ID))</span></span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a><span class="co">#    X &lt;- readRDS(sprintf("/home1/vegayon/slurmR/slurmr-job-60c5243c96f/X_%04d.rds", ARRAY_ID))</span></span>
 <span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a><span class="co">#  })</span></span>
 <span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a><span class="co">#  tcq({</span></span>
-<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a><span class="co">#    FUN &lt;- readRDS("/home1/vegayon/slurmR/slurmr-job-4bf44d1be1c5/FUN.rds")</span></span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a><span class="co">#    FUN &lt;- readRDS("/home1/vegayon/slurmR/slurmr-job-60c5243c96f/FUN.rds")</span></span>
 <span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a><span class="co">#  })</span></span>
 <span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a><span class="co">#  tcq({</span></span>
-<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a><span class="co">#    mc.cores &lt;- readRDS("/home1/vegayon/slurmR/slurmr-job-4bf44d1be1c5/mc.cores.rds")</span></span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a><span class="co">#    mc.cores &lt;- readRDS("/home1/vegayon/slurmR/slurmr-job-60c5243c96f/mc.cores.rds")</span></span>
 <span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a><span class="co">#  })</span></span>
 <span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a><span class="co">#  tcq({</span></span>
-<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a><span class="co">#    seeds &lt;- readRDS("/home1/vegayon/slurmR/slurmr-job-4bf44d1be1c5/seeds.rds")</span></span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a><span class="co">#    seeds &lt;- readRDS("/home1/vegayon/slurmR/slurmr-job-60c5243c96f/seeds.rds")</span></span>
 <span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a><span class="co">#  })</span></span>
 <span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a><span class="co">#  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)</span></span>
 <span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a><span class="co">#  tcq({</span></span>
@@ -269,24 +269,24 @@
 <span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a><span class="co">#      mc.cores         = mc.cores</span></span>
 <span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a><span class="co">#  )</span></span>
 <span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a><span class="co">#  })</span></span>
-<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a><span class="co">#  saveRDS(ans, sprintf("/home1/vegayon/slurmR/slurmr-job-4bf44d1be1c5/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)</span></span>
+<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a><span class="co">#  saveRDS(ans, sprintf("/home1/vegayon/slurmR/slurmr-job-60c5243c96f/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)</span></span>
 <span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a><span class="co">#  message("[slurmR info] job-status: OK.\n")</span></span>
 <span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a><span class="co">#  --------------------------------------------------------------------------------</span></span>
-<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a><span class="co">#  The bash file that will be used is located at: /home1/vegayon/slurmR/slurmr-job-4bf44d1be1c5/01-bash.sh and has the following contents:</span></span>
+<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a><span class="co">#  The bash file that will be used is located at: /home1/vegayon/slurmR/slurmr-job-60c5243c96f/01-bash.sh and has the following contents:</span></span>
 <span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a><span class="co">#  --------------------------------------------------------------------------------</span></span>
 <span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a><span class="co">#  #!/bin/sh</span></span>
-<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a><span class="co">#  #SBATCH --job-name=slurmr-job-4bf44d1be1c5</span></span>
-<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a><span class="co">#  #SBATCH --output=/home1/vegayon/slurmR/slurmr-job-4bf44d1be1c5/02-output-%A-%a.out</span></span>
+<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a><span class="co">#  #SBATCH --job-name=slurmr-job-60c5243c96f</span></span>
+<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a><span class="co">#  #SBATCH --output=/home1/vegayon/slurmR/slurmr-job-60c5243c96f/02-output-%A-%a.out</span></span>
 <span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a><span class="co">#  #SBATCH --array=1-2</span></span>
-<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a><span class="co">#  #SBATCH --job-name=slurmr-job-4bf44d1be1c5</span></span>
+<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a><span class="co">#  #SBATCH --job-name=slurmr-job-60c5243c96f</span></span>
 <span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a><span class="co">#  #SBATCH --cpus-per-task=1</span></span>
 <span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a><span class="co">#  #SBATCH --ntasks=1</span></span>
-<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a><span class="co">#  /spack/apps/linux-centos7-x86_64/gcc-8.3.0/r-4.0.0-jfy3icn4kexk7kyabcoxuio2iyyww3o7/rlib/R/bin/Rscript  /home1/vegayon/slurmR/slurmr-job-4bf44d1be1c5/00-rscript.r</span></span>
+<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a><span class="co">#  /spack/apps/linux-centos7-x86_64/gcc-8.3.0/r-4.0.0-jfy3icn4kexk7kyabcoxuio2iyyww3o7/rlib/R/bin/Rscript  /home1/vegayon/slurmR/slurmr-job-60c5243c96f/00-rscript.r</span></span>
 <span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a><span class="co">#  --------------------------------------------------------------------------------</span></span>
 <span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a><span class="co">#  EOF</span></span>
 <span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a><span class="co">#  --------------------------------------------------------------------------------</span></span>
 <span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a><span class="co">#  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:</span></span>
-<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a><span class="co">#  sbatch --job-name=slurmr-job-4bf44d1be1c5 /home1/vegayon/slurmR/slurmr-job-4bf44d1be1c5/01-bash.sh</span></span>
+<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a><span class="co">#  sbatch --job-name=slurmr-job-60c5243c96f /home1/vegayon/slurmR/slurmr-job-60c5243c96f/01-bash.sh</span></span>
 <span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a><span class="fu">Slurm_clean</span>(ans) <span class="co"># Cleaning after you</span></span></code></pre></div>
 </div>
 <div id="example-2-job-resubmission" class="section level2">
@@ -383,15 +383,15 @@
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Printing out the bashfile</span></span>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">readLines</span>(ans<span class="sc">$</span>bashfile), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#  #!/bin/sh</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">#  #SBATCH --job-name=slurmr-job-4bf44d1be1c5</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co">#  #SBATCH --output=/home1/vegayon/slurmR/slurmr-job-4bf44d1be1c5/02-output-%A-%a.out</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">#  #SBATCH --job-name=slurmr-job-60c5243c96f</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co">#  #SBATCH --output=/home1/vegayon/slurmR/slurmr-job-60c5243c96f/02-output-%A-%a.out</span></span>
 <span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">#  #SBATCH --array=1-2</span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#  #SBATCH --job-name=slurmr-job-4bf44d1be1c5</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#  #SBATCH --job-name=slurmr-job-60c5243c96f</span></span>
 <span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#  #SBATCH --cpus-per-task=1</span></span>
 <span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">#  #SBATCH --ntasks=1</span></span>
 <span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#  module load gcc/6.0</span></span>
 <span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">#  module load pandoc</span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co">#  /spack/apps/linux-centos7-x86_64/gcc-8.3.0/r-4.0.0-jfy3icn4kexk7kyabcoxuio2iyyww3o7/rlib/R/bin/Rscript  /home1/vegayon/slurmR/slurmr-job-4bf44d1be1c5/00-rscript.r</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co">#  /spack/apps/linux-centos7-x86_64/gcc-8.3.0/r-4.0.0-jfy3icn4kexk7kyabcoxuio2iyyww3o7/rlib/R/bin/Rscript  /home1/vegayon/slurmR/slurmr-job-60c5243c96f/00-rscript.r</span></span>
 <span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="fu">Slurm_clean</span>(ans) <span class="co"># Cleaning after you</span></span></code></pre></div>
 </div>
@@ -500,19 +500,19 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>USC High Performance Computing Center</td>
+<td>USC Center for Advance Research Computing</td>
 <td>US</td>
-<td><a href="https://hpcc.usc.edu">link</a></td>
+<td><a href="https://carc.usc.edu/">link</a></td>
 </tr>
 <tr class="even">
 <td>Princeton Research Computing</td>
 <td>US</td>
-<td><a href="https://researchcomputing.princeton.edu/education/online-tutorials/getting-started/introducing-slurm">link</a></td>
+<td><a href="https://researchcomputing.princeton.edu/support/knowledge-base/slurm">link</a></td>
 </tr>
 <tr class="odd">
 <td>Harvard FAS</td>
 <td>US</td>
-<td><a href="https://www.rc.fas.harvard.edu/resources/quickstart-guide/">link</a></td>
+<td><a href="https://docs.rc.fas.harvard.edu/kb/quickstart-guide/">link</a></td>
 </tr>
 <tr class="even">
 <td>Harvard HMS research computing</td>
@@ -537,7 +537,7 @@
 <tr class="even">
 <td>Berkeley Research IT</td>
 <td>US</td>
-<td><a href="http://research-it.berkeley.edu/services/high-performance-computing/running-your-jobs">link</a></td>
+<td><a href="https://research-it.berkeley.edu/services/high-performance-computing/running-your-jobs">link</a></td>
 </tr>
 <tr class="odd">
 <td>University of Utah CHPC</td>
@@ -555,9 +555,9 @@
 <td><a href="https://crc.ku.edu/hpc/how-to">link</a></td>
 </tr>
 <tr class="even">
-<td>University of Cambridge MRC Biostatistics Unit</td>
+<td>University of Cambridge</td>
 <td>UK</td>
-<td><a href="https://www.mrc-bsu.cam.ac.uk/research-and-development/high-performance-computing-at-the-bsu/">link</a></td>
+<td><a href="https://www.ch.cam.ac.uk/computing/slurm-usage">link</a></td>
 </tr>
 <tr class="odd">
 <td>Indiana University</td>
@@ -572,7 +572,7 @@
 <tr class="odd">
 <td>Institute for Advanced Study</td>
 <td>US</td>
-<td><a href="https://www.sns.ias.edu/computing/slurm">link</a></td>
+<td><a href="https://www.ias.edu/sns/computing/slurm">link</a></td>
 </tr>
 <tr class="even">
 <td>UTSouthwestern Medical Center BioHPC</td>
@@ -602,12 +602,12 @@
 <tr class="odd">
 <td>NLHPC</td>
 <td>CL</td>
-<td><a href="http://usuarios.nlhpc.cl/index.php/SLURM">link</a></td>
+<td><a href="https://wiki.nlhpc.cl/P%C3%A1gina_principal">link</a></td>
 </tr>
 <tr class="even">
 <td>Kultrun</td>
 <td>CL</td>
-<td><a href="http://www.astro.udec.cl/kultrun">link</a></td>
+<td><a href="http://www.astro.udec.cl/kultrun/">link</a></td>
 </tr>
 <tr class="odd">
 <td>Matbio</td>
@@ -627,7 +627,7 @@
 <tr class="even">
 <td>Oxford’s ARC</td>
 <td>UK</td>
-<td><a href="https://help.it.ox.ac.uk/arc/job-scheduling">link</a></td>
+<td><a href="https://www.arc.ox.ac.uk/job-scheduler-user-guide">link</a></td>
 </tr>
 </tbody>
 </table>

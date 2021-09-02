@@ -1,4 +1,4 @@
-# slurmR 0.5-0
+# slurmR 0.5-1 (CRAN)
 
 *  `sourceSlurm(plan = "collect")` won't wait forever.
 

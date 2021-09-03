@@ -298,7 +298,7 @@ Here is a manually curated list of institutions using Slurm:
 | UCSan Diego WM Keck Lab for Integrated Biology | US | [link](https://keck2.ucsd.edu/dokuwiki/doku.php/wiki:slurm) |
 | Stanford Sherlock | US | [link](https://www.sherlock.stanford.edu/docs/overview/introduction/) |
 | Stanford SCG Informatics Cluster | US | [link](https://login.scg.stanford.edu/tutorials/job_scripts/) |
-| Berkeley Research IT | US | [link](https://research-it.berkeley.edu/services/high-performance-computing/running-your-jobs) |
+| UC Berkeley Open Computing Facility | US | [link](https://www.ocf.berkeley.edu/docs/services/hpc/slurm/) |
 | University of Utah CHPC | US | [link](https://www.chpc.utah.edu/documentation/software/slurm.php) |
 | University of Michigan Biostatistics cluster| US | [link](https://sph.umich.edu/biostat/computing/cluster/slurm.html) |
 | The University of Kansas Center for Research Computing | US | [link](https://crc.ku.edu/hpc/how-to) |

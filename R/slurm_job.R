@@ -107,14 +107,57 @@ new_slurm_job <- function(
 
 }
 
-# Job name
+# Job name ---------------------------------------------------------------------
 get_job_name <- function(x) UseMethod("get_job_name")
+
 get_job_name.slurm_job <- function(x) x$opts_job$`job-name`
 
+get_job_name.integer <- function(x) {
+
+  if (is.na(last_job()$jobid))
+    stop(
+      "Cannot get the path for job -", x, "-. You can only call this function ",
+      "right after submitting a job, or when -x- is of class \'slurm_job\'. ",
+      "-x- is of class ", class(x),
+    )
+
+  if (last_job()$jobid == x) {
+    return(get_job_name(last_job()))
+  }
+
+  stop(
+    "The jobid ", x, " cannot be matched to the last job submitted (id: ",
+    last_job()$jobid, ".)"
+  )
+
+}
+
+# Job path ---------------------------------------------------------------------
 get_tmp_path <- function(x) UseMethod("get_tmp_path")
+
 get_tmp_path.slurm_job <- function(x) x$opts_r$tmp_path
 
-# Getting the job id (Slurm)
+get_tmp_path.integer <- function(x) {
+
+  if (is.na(last_job()$jobid))
+    stop(
+      "Cannot get the path for job -", x, "-. You can only call this function ",
+      "right after submitting a job, or when -x- is of class \'slurm_job\'. ",
+      "-x- is of class ", class(x),
+      )
+
+  if (last_job()$jobid == x) {
+    return(get_tmp_path(last_job()))
+  }
+
+  stop(
+    "The jobid ", x, " cannot be matched to the last job submitted (id: ",
+       last_job()$jobid, ".)"
+    )
+
+}
+
+# Getting the job id (Slurm) ---------------------------------------------------
 get_job_id <- function(x) UseMethod("get_job_id")
 get_job_id.slurm_job <- function(x) x$jobid
 
@@ -138,6 +181,26 @@ get_job_id.slurm_job <- function(x) x$jobid
 get_job_id.slurm_cluster <- function(x) attr(x, "SLURM_JOBID")
 
 get_job_id.slurm_hosts <- function(x) x$jobid
+
+get_job_id.integer <- function(x) {
+
+  if (is.na(last_job()$jobid))
+    stop(
+      "Cannot get the path for job -", x, "-. You can only call this function ",
+      "right after submitting a job, or when -x- is of class \'slurm_job\'. ",
+      "-x- is of class ", class(x),
+    )
+
+  if (last_job()$jobid == x) {
+    return(x)
+  }
+
+  stop(
+    "The jobid ", x, " cannot be matched to the last job submitted (id: ",
+    last_job()$jobid, ".)"
+  )
+
+}
 
 
 # Personalized errors

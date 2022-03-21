@@ -38,6 +38,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -50,23 +52,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">slurmR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5-2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -89,7 +85,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/USCbiostats/slurmR/">
+  <a href="https://github.com/USCbiostats/slurmR/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -109,34 +105,57 @@
 
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<div id="slurmr-a-lightweight-wrapper-for-slurm-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#slurmr-a-lightweight-wrapper-for-slurm-" class="anchor"></a>slurmR: A Lightweight Wrapper for Slurm <img src="reference/figures/logo.png" height="180px" align="right">
+<div class="section level1">
+<div class="page-header"><h1 id="slurmr-a-lightweight-wrapper-for-slurm-">slurmR: A Lightweight Wrapper for Slurm
+<img src="reference/figures/logo.png" height="180px" align="right"><a class="anchor" aria-label="anchor" href="#slurmr-a-lightweight-wrapper-for-slurm-"></a>
 </h1></div>
-<p>Slurm Workload Manager is a popular HPC cluster job scheduler found in many of the top 500 supercomputers. The <code>slurmR</code> R package provides an R wrapper to it that matches the parallel package’s syntax, this is, just like <code>parallel</code> provides the <code>parLapply</code>, <code>clusterMap</code>, <code>parSapply</code>, etc., <code>slurmR</code> provides <code>Slurm_lapply</code>, <code>Slurm_Map</code>, <code>Slurm_sapply</code>, etc.</p>
-<p>While there are other alternatives such as <code>future.batchtools</code>, <code>batchtools</code>, <code>clustermq</code>, and <code>rslurm</code>, this R package has the following goals:</p>
-<ol>
-<li><p>It is dependency-free, which means that it works out-of-the-box</p></li>
-<li><p>Emphasizes been similar to the workflow in the R package <code>parallel</code></p></li>
-<li><p>It provides a general framework for creating personalized own wrappers without using template files.</p></li>
-<li><p>Is specialized on Slurm, meaning more flexibility (no need to modify template files), and, in the future, better debugging tools (e.g., job resubmission).</p></li>
-<li><p>Provide a backend for the <a href="https://CRAN.R-project.org/view=HighPerformanceComputing">parallel</a> package, providing an out-of-the-box method for creating Socket cluster objects for multi-node operations. (See the examples below on how to use it with other R packages)</p></li>
+<p>Slurm Workload Manager is a popular HPC cluster job scheduler found
+in many of the top 500 supercomputers. The <code>slurmR</code> R package
+provides an R wrapper to it that matches the parallel package’s syntax,
+this is, just like <code>parallel</code> provides the
+<code>parLapply</code>, <code>clusterMap</code>, <code>parSapply</code>,
+etc., <code>slurmR</code> provides <code>Slurm_lapply</code>,
+<code>Slurm_Map</code>, <code>Slurm_sapply</code>, etc.</p>
+<p>While there are other alternatives such as
+<code>future.batchtools</code>, <code>batchtools</code>,
+<code>clustermq</code>, and <code>rslurm</code>, this R package has the
+following goals:</p>
+<ol style="list-style-type: decimal">
+<li><p>It is dependency-free, which means that it works
+out-of-the-box</p></li>
+<li><p>Emphasizes been similar to the workflow in the R package
+<code>parallel</code></p></li>
+<li><p>It provides a general framework for creating personalized own
+wrappers without using template files.</p></li>
+<li><p>Is specialized on Slurm, meaning more flexibility (no need to
+modify template files), and, in the future, better debugging tools
+(e.g., job resubmission).</p></li>
+<li><p>Provide a backend for the <a href="https://CRAN.R-project.org/view=HighPerformanceComputing" class="external-link">parallel</a>
+package, providing an out-of-the-box method for creating Socket cluster
+objects for multi-node operations. (See the examples below on how to use
+it with other R packages)</p></li>
 </ol>
-<p>Checkout the <a href="#vs">VS section</a> section for comparing <code>slurmR</code> with other R packages. Wondering who is using Slurm? Check out the <a href="#who-uses-slurm">list at the end of this document</a>.</p>
+<p>Checkout the <a href="#vs">VS section</a> section for comparing
+<code>slurmR</code> with other R packages. Wondering who is using Slurm?
+Check out the <a href="#who-uses-slurm">list at the end of this
+document</a>.</p>
 </div>
-<div id="installation" class="section level1">
-<h1 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h1>
-<p>From your HPC command line, you can install the development version from <a href="https://github.com/">GitHub</a> with:</p>
+<div class="section level1">
+<h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h1>
+<p>From your HPC command line, you can install the development version
+from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span> git clone https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>USCbiostats<span class="sc">/</span>slurmR.git</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span> R CMD INSTALL slurmR<span class="sc">/</span> </span></code></pre></div>
-<p>The second line assumes you have R available in your system (usually loaded via <code>module R</code> or some other command). Or using the <code>devtools</code> from within R:</p>
+<p>The second line assumes you have R available in your system (usually
+loaded via <code>module R</code> or some other command). Or using the
+<code>devtools</code> from within R:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("devtools")</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"USCbiostats/slurmR"</span>)</span></code></pre></div>
 </div>
-<div id="citation" class="section level1">
-<h1 class="hasAnchor">
-<a href="#citation" class="anchor"></a>Citation</h1>
+<div class="section level1">
+<h1 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h1>
 <div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>To cite slurmR <span class="cf">in</span> publications use<span class="sc">:</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  Vega Yon et al., (<span class="dv">2019</span>). slurmR<span class="sc">:</span> A lightweight wrapper <span class="cf">for</span> HPC with</span>
@@ -157,19 +176,26 @@
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>doi.org<span class="sc">/</span><span class="fl">10.21105</span><span class="sc">/</span>joss<span class="fl">.01493</span>},</span>
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
 </div>
-<div id="running-slurmr-with-docker" class="section level1">
-<h1 class="hasAnchor">
-<a href="#running-slurmr-with-docker" class="anchor"></a>Running slurmR with Docker</h1>
-<p>For testing purposes, slurmR is available in <a href="https://hub.docker.com/repository/docker/uscbiostats/slurmr">Dockerhub</a>. The <code>rcmdcheck</code> and <code>interactive</code> images are built on top of <a href="https://hub.docker.com/r/xenonmiddleware/slurm"><code>xenonmiddleware/slurm</code></a>.</p>
-<p>Once you download the files contained in the <a href="https://github.com/USCbiostats/slurmR"><code>slurmR</code> repository</a>, you can go to the <code>docker</code> folder and use the <code>Makefile</code> included there to start a Unix session with slurmR and Slurm included.</p>
-<p>To test <code>slurmR</code> using docker, check the README.md file located at <a href="https://github.com/USCbiostats/slurmR/tree/master/docker" class="uri">https://github.com/USCbiostats/slurmR/tree/master/docker</a>.</p>
+<div class="section level1">
+<h1 id="running-slurmr-with-docker">Running slurmR with Docker<a class="anchor" aria-label="anchor" href="#running-slurmr-with-docker"></a>
+</h1>
+<p>For testing purposes, slurmR is available in <a href="https://hub.docker.com/repository/docker/uscbiostats/slurmr" class="external-link">Dockerhub</a>.
+The <code>rcmdcheck</code> and <code>interactive</code> images are built
+on top of <a href="https://hub.docker.com/r/xenonmiddleware/slurm" class="external-link"><code>xenonmiddleware/slurm</code></a>.</p>
+<p>Once you download the files contained in the <a href="https://github.com/USCbiostats/slurmR" class="external-link"><code>slurmR</code>
+repository</a>, you can go to the <code>docker</code> folder and use the
+<code>Makefile</code> included there to start a Unix session with slurmR
+and Slurm included.</p>
+<p>To test <code>slurmR</code> using docker, check the README.md file
+located at
+<a href="https://github.com/USCbiostats/slurmR/tree/master/docker" class="external-link uri">https://github.com/USCbiostats/slurmR/tree/master/docker</a>.</p>
 </div>
-<div id="examples" class="section level1">
-<h1 class="hasAnchor">
-<a href="#examples" class="anchor"></a>Examples</h1>
-<div id="example-1-computing-means-and-looking-under-the-hood" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example-1-computing-means-and-looking-under-the-hood" class="anchor"></a>Example 1: Computing means (and looking under the hood)</h2>
+<div class="section level1">
+<h1 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+</h1>
+<div class="section level2">
+<h2 id="example-1-computing-means-and-looking-under-the-hood">Example 1: Computing means (and looking under the hood)<a class="anchor" aria-label="anchor" href="#example-1-computing-means-and-looking-under-the-hood"></a>
+</h2>
 <div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(slurmR)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  Loading required package: parallel</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  slurmR default option for `tmp_path` (used to store auxiliar files) set to:</span></span>
@@ -179,14 +205,18 @@
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Suppose that we have 100 vectors of length 50 ~ Unif(0,1)</span></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">881</span>)</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">runif</span>(<span class="dv">50</span>), <span class="at">simplify =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<p>We can use the function <code>Slurm_lapply</code> to distribute computations</p>
+<p>We can use the function <code>Slurm_lapply</code> to distribute
+computations</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> <span class="fu">Slurm_lapply</span>(x, mean, <span class="at">plan =</span> <span class="st">"none"</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  Warning in normalizePath(file.path(tmp_path, job_name)): path[1]="/home1/</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  vegayon/slurmR/slurmr-job-60c5243c96f": No such file or directory</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  sbatch --job-name=slurmr-job-60c5243c96f /home1/vegayon/slurmR/slurmr-job-60c5243c96f/01-bash.sh</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">Slurm_clean</span>(ans) <span class="co"># Cleaning after you</span></span></code></pre></div>
-<p>Notice the <code>plan = "none"</code> option; this tells <code>Slurm_lapply</code> to only create the job object but do nothing with it, i.e., skip submission. To get more info, we can set the verbose mode on</p>
+<p>Notice the <code>plan = "none"</code> option; this tells
+<code>Slurm_lapply</code> to only create the job object but do nothing
+with it, i.e., skip submission. To get more info, we can set the verbose
+mode on</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>opts_slurmR<span class="sc">$</span><span class="fu">verbose_on</span>()</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> <span class="fu">Slurm_lapply</span>(x, mean, <span class="at">plan =</span> <span class="st">"none"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  Warning in normalizePath(file.path(tmp_path, job_name)): path[1]="/home1/</span></span>
@@ -289,9 +319,9 @@
 <span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a><span class="co">#  sbatch --job-name=slurmr-job-60c5243c96f /home1/vegayon/slurmR/slurmr-job-60c5243c96f/01-bash.sh</span></span>
 <span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a><span class="fu">Slurm_clean</span>(ans) <span class="co"># Cleaning after you</span></span></code></pre></div>
 </div>
-<div id="example-2-job-resubmission" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example-2-job-resubmission" class="anchor"></a>Example 2: Job resubmission</h2>
+<div class="section level2">
+<h2 id="example-2-job-resubmission">Example 2: Job resubmission<a class="anchor" aria-label="anchor" href="#example-2-job-resubmission"></a>
+</h2>
 <p>The following example was extracted from the package’s manual.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Submitting a simple job</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>job <span class="ot">&lt;-</span> <span class="fu">Slurm_EvalQ</span>(slurmR<span class="sc">::</span><span class="fu">WhoAmI</span>(), <span class="at">njobs =</span> <span class="dv">20</span>, <span class="at">plan =</span> <span class="st">"submit"</span>)</span>
@@ -315,11 +345,17 @@
 <span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="fu">Slurm_clean</span>(res)</span></code></pre></div>
 <p>Take a look at the vignette <a href="vignettes/getting-started.Rmd">here</a>.</p>
 </div>
-<div id="example-3-using-slurmr-and-futuredoparallelboot" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example-3-using-slurmr-and-futuredoparallelboot" class="anchor"></a>Example 3: Using slurmR and future/doParallel/boot/…</h2>
-<p>The function <code>makeSlurmCluster</code> creates a PSOCK cluster within a Slurm HPC network, meaning that users can go beyond a single node cluster object and take advantage of Slurm to create a multi-node cluster object. This feature allows then using <code>slurmR</code> with other R packages that support working with <code>SOCKcluster</code> class objects. Here are some examples</p>
-<p>With the <a href="https://cran.r-project.org/package=future"><code>future</code></a> package</p>
+<div class="section level2">
+<h2 id="example-3-using-slurmr-and-futuredoparallelboot">Example 3: Using slurmR and future/doParallel/boot/…<a class="anchor" aria-label="anchor" href="#example-3-using-slurmr-and-futuredoparallelboot"></a>
+</h2>
+<p>The function <code>makeSlurmCluster</code> creates a PSOCK cluster
+within a Slurm HPC network, meaning that users can go beyond a single
+node cluster object and take advantage of Slurm to create a multi-node
+cluster object. This feature allows then using <code>slurmR</code> with
+other R packages that support working with <code>SOCKcluster</code>
+class objects. Here are some examples</p>
+<p>With the <a href="https://cran.r-project.org/package=future" class="external-link"><code>future</code></a>
+package</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(slurmR)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -332,7 +368,8 @@
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Slurm Clusters are stopped in the same way any cluster object is</span></span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cl)</span></code></pre></div>
-<p>With the <a href="https://cran.r-project.org/package=doParallel"><code>doParallel</code></a> package</p>
+<p>With the <a href="https://cran.r-project.org/package=doParallel" class="external-link"><code>doParallel</code></a>
+package</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(slurmR)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -344,10 +381,15 @@
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cl)</span></code></pre></div>
 </div>
-<div id="example-4-using-slurmr-directly-from-the-command-line" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example-4-using-slurmr-directly-from-the-command-line" class="anchor"></a>Example 4: Using slurmR directly from the command line</h2>
-<p>The <code>slurmR</code> package has a couple of convenient functions designed for the user to save time. First, the function <code><a href="reference/sourceSlurm.html">sourceSlurm()</a></code> allows skipping the explicit creating of a bash script file to be used together with <code>sbatch</code> by putting all the required config files on the first lines of an R scripts, for example:</p>
+<div class="section level2">
+<h2 id="example-4-using-slurmr-directly-from-the-command-line">Example 4: Using slurmR directly from the command line<a class="anchor" aria-label="anchor" href="#example-4-using-slurmr-directly-from-the-command-line"></a>
+</h2>
+<p>The <code>slurmR</code> package has a couple of convenient functions
+designed for the user to save time. First, the function
+<code><a href="reference/sourceSlurm.html">sourceSlurm()</a></code> allows skipping the explicit creating of a
+bash script file to be used together with <code>sbatch</code> by putting
+all the required config files on the first lines of an R scripts, for
+example:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/sh</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --account=lc_ggv</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=scavenge</span></span>
@@ -356,21 +398,36 @@
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=Waiting</span></span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.sleep</span>(<span class="dv">10</span>)</span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"done."</span>)</span></code></pre></div>
-<p>Is an R script that on the first line coincides with that of a bash script for Slurm: <code>#!/bin/bash</code>. The following lines start with <code>#SBATCH</code> explicitly specifying options for <code>sbatch</code>, and the reminder lines are just R code.</p>
-<p>The previous R script is included in the package (type <code><a href="https://rdrr.io/r/base/system.file.html">system.file("example.R", package="slurmR")</a></code>).</p>
-<p>Imagine that that R script is named <code>example.R</code>, then you use the <code>sourceSlurm</code> function to submit it to Slurm as follows:</p>
+<p>Is an R script that on the first line coincides with that of a bash
+script for Slurm: <code>#!/bin/bash</code>. The following lines start
+with <code>#SBATCH</code> explicitly specifying options for
+<code>sbatch</code>, and the reminder lines are just R code.</p>
+<p>The previous R script is included in the package (type
+<code>system.file("example.R", package="slurmR")</code>).</p>
+<p>Imagine that that R script is named <code>example.R</code>, then you
+use the <code>sourceSlurm</code> function to submit it to Slurm as
+follows:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>slurmR<span class="sc">::</span><span class="fu">sourceSlurm</span>(<span class="st">"example.R"</span>)</span></code></pre></div>
-<p>This will create the corresponding bash file required to be used with <code>sbatch</code>, and submit it to Slurm.</p>
-<p>Another nice tool is the <code><a href="reference/sourceSlurm.html">slurmr_cmd()</a></code>. This function will create a simple bash-script that we can use as a command-line tool to submit this type of R-scripts. Moreover, this command will can add the command to your session’s <a href="https://en.wikipedia.org/wiki/Alias_(command)"><strong>alias</strong></a> as follows:</p>
+<p>This will create the corresponding bash file required to be used with
+<code>sbatch</code>, and submit it to Slurm.</p>
+<p>Another nice tool is the <code><a href="reference/sourceSlurm.html">slurmr_cmd()</a></code>. This function
+will create a simple bash-script that we can use as a command-line tool
+to submit this type of R-scripts. Moreover, this command will can add
+the command to your session’s <a href="https://en.wikipedia.org/wiki/Alias_(command)" class="external-link"><strong>alias</strong></a>
+as follows:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(slurmR)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slurmr_cmd</span>(<span class="st">"~"</span>, <span class="at">add_alias =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p>Once that’s done, you can submit R scripts with “Slurm-like headers” (as shown previously) as follows:</p>
+<p>Once that’s done, you can submit R scripts with “Slurm-like headers”
+(as shown previously) as follows:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span> slurmr example.R</span></code></pre></div>
 </div>
-<div id="example-5-using-the-preamble" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example-5-using-the-preamble" class="anchor"></a>Example 5: Using the preamble</h2>
-<p>Since version 0.4-3, <code>slurmR</code> includes the option <code>preamble</code>. This provides a way for the user to specify commands/modules that need to be executed before running the Rscript. Here is an example using <code>module load</code>:</p>
+<div class="section level2">
+<h2 id="example-5-using-the-preamble">Example 5: Using the preamble<a class="anchor" aria-label="anchor" href="#example-5-using-the-preamble"></a>
+</h2>
+<p>Since version 0.4-3, <code>slurmR</code> includes the option
+<code>preamble</code>. This provides a way for the user to specify
+commands/modules that need to be executed before running the Rscript.
+Here is an example using <code>module load</code>:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Turning the verbose mode off</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>opts_slurmR<span class="sc">$</span><span class="fu">verbose_off</span>()</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -395,10 +452,12 @@
 <span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="fu">Slurm_clean</span>(ans) <span class="co"># Cleaning after you</span></span></code></pre></div>
 </div>
-<div id="vs" class="section level2">
-<h2 class="hasAnchor">
-<a href="#vs" class="anchor"></a>VS</h2>
-<p>There are several ways to enhance R for HPC. Depending on what are your goals/restrictions/preferences, you can use any of the following from this <strong>manually curated</strong> list:</p>
+<div class="section level2">
+<h2 id="vs">VS<a class="anchor" aria-label="anchor" href="#vs"></a>
+</h2>
+<p>There are several ways to enhance R for HPC. Depending on what are
+your goals/restrictions/preferences, you can use any of the following
+from this <strong>manually curated</strong> list:</p>
 <table class="table">
 <colgroup>
 <col width="19%">
@@ -420,79 +479,94 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left"><a href="https://cran.r-project.org/package=slurmR"><strong>slurmR</strong></a></td>
+<td align="left"><a href="https://cran.r-project.org/package=slurmR" class="external-link"><strong>slurmR</strong></a></td>
 <td align="left">yes</td>
 <td align="left">yes</td>
 <td align="left">yes</td>
 <td align="left">on the fly</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=slurmR"><img src="https://tinyverse.netlify.com/badge/slurmR" alt="status"></a></td>
-<td align="left"><a href="https://github.com/USCbiostats/slurmR"><img src="https://img.shields.io/github/last-commit/USCbiostats/slurmR" alt="Activity"></a></td>
+<td align="left"><a href="https://CRAN.R-project.org/package=slurmR" class="external-link"><img src="https://tinyverse.netlify.com/badge/slurmR" alt="status"></a></td>
+<td align="left"><a href="https://github.com/USCbiostats/slurmR" class="external-link"><img src="https://img.shields.io/github/last-commit/USCbiostats/slurmR" alt="Activity"></a></td>
 </tr>
 <tr class="even">
-<td align="left"><a href="https://cran.r-project.org/package=drake"><strong>drake</strong></a></td>
+<td align="left"><a href="https://cran.r-project.org/package=drake" class="external-link"><strong>drake</strong></a></td>
 <td align="left">yes</td>
 <td align="left">-</td>
 <td align="left">-</td>
 <td align="left">by template</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=drake"><img src="https://tinyverse.netlify.com/badge/drake" alt="status"></a></td>
-<td align="left"><a href="https://github.com/ropensci/drake"><img src="https://img.shields.io/github/last-commit/ropensci/drake" alt="Activity"></a></td>
+<td align="left"><a href="https://CRAN.R-project.org/package=drake" class="external-link"><img src="https://tinyverse.netlify.com/badge/drake" alt="status"></a></td>
+<td align="left"><a href="https://github.com/ropensci/drake" class="external-link"><img src="https://img.shields.io/github/last-commit/ropensci/drake" alt="Activity"></a></td>
 </tr>
 <tr class="odd">
-<td align="left"><a href="https://cran.r-project.org/package=rslurm"><strong>rslurm</strong></a></td>
+<td align="left"><a href="https://cran.r-project.org/package=rslurm" class="external-link"><strong>rslurm</strong></a></td>
 <td align="left">-</td>
 <td align="left">yes</td>
 <td align="left">-</td>
 <td align="left">on the fly</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=rslurm"><img src="https://tinyverse.netlify.com/badge/rslurm" alt="status"></a></td>
-<td align="left"><a href="https://github.com/SESYNC-ci/rslurm"><img src="https://img.shields.io/github/last-commit/SESYNC-ci/rslurm" alt="Activity"></a></td>
+<td align="left"><a href="https://CRAN.R-project.org/package=rslurm" class="external-link"><img src="https://tinyverse.netlify.com/badge/rslurm" alt="status"></a></td>
+<td align="left"><a href="https://github.com/SESYNC-ci/rslurm" class="external-link"><img src="https://img.shields.io/github/last-commit/SESYNC-ci/rslurm" alt="Activity"></a></td>
 </tr>
 <tr class="even">
-<td align="left"><a href="https://cran.r-project.org/package=future.batchtools"><strong>future.batchtools</strong></a></td>
+<td align="left"><a href="https://cran.r-project.org/package=future.batchtools" class="external-link"><strong>future.batchtools</strong></a></td>
 <td align="left">-</td>
 <td align="left">yes</td>
 <td align="left">yes</td>
 <td align="left">by template</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=future.batchtools"><img src="https://tinyverse.netlify.com/badge/future.batchtools" alt="status"></a></td>
-<td align="left"><a href="https://github.com/HenrikBengtsson/future.batchtools"><img src="https://img.shields.io/github/last-commit/HenrikBengtsson/future.batchtools" alt="Activity"></a></td>
+<td align="left"><a href="https://CRAN.R-project.org/package=future.batchtools" class="external-link"><img src="https://tinyverse.netlify.com/badge/future.batchtools" alt="status"></a></td>
+<td align="left"><a href="https://github.com/HenrikBengtsson/future.batchtools" class="external-link"><img src="https://img.shields.io/github/last-commit/HenrikBengtsson/future.batchtools" alt="Activity"></a></td>
 </tr>
 <tr class="odd">
-<td align="left"><a href="https://cran.r-project.org/package=batchtools"><strong>batchtools</strong></a></td>
+<td align="left"><a href="https://cran.r-project.org/package=batchtools" class="external-link"><strong>batchtools</strong></a></td>
 <td align="left">yes</td>
 <td align="left">yes</td>
 <td align="left">-</td>
 <td align="left">by template</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=batchtools"><img src="https://tinyverse.netlify.com/badge/batchtools" alt="status"></a></td>
-<td align="left"><a href="https://github.com/mllg/batchtools"><img src="https://img.shields.io/github/last-commit/mllg/batchtools" alt="Activity"></a></td>
+<td align="left"><a href="https://CRAN.R-project.org/package=batchtools" class="external-link"><img src="https://tinyverse.netlify.com/badge/batchtools" alt="status"></a></td>
+<td align="left"><a href="https://github.com/mllg/batchtools" class="external-link"><img src="https://img.shields.io/github/last-commit/mllg/batchtools" alt="Activity"></a></td>
 </tr>
 <tr class="even">
-<td align="left"><a href="https://cran.r-project.org/package=clustermq"><strong>clustermq</strong></a></td>
+<td align="left"><a href="https://cran.r-project.org/package=clustermq" class="external-link"><strong>clustermq</strong></a></td>
 <td align="left">-</td>
 <td align="left">-</td>
 <td align="left">-</td>
 <td align="left">by template</td>
-<td align="left"><a href="https://CRAN.R-project.org/package=clustermq"><img src="https://tinyverse.netlify.com/badge/clustermq" alt="status"></a></td>
-<td align="left"><a href="https://github.com/mschubert/clustermq"><img src="https://img.shields.io/github/last-commit/mschubert/clustermq" alt="Activity"></a></td>
+<td align="left"><a href="https://CRAN.R-project.org/package=clustermq" class="external-link"><img src="https://tinyverse.netlify.com/badge/clustermq" alt="status"></a></td>
+<td align="left"><a href="https://github.com/mschubert/clustermq" class="external-link"><img src="https://img.shields.io/github/last-commit/mschubert/clustermq" alt="Activity"></a></td>
 </tr>
 </tbody>
 </table>
-<ol>
+<ol style="list-style-type: decimal">
 <li>After errors, the part or the entire job can be resubmitted.</li>
-<li>Functionality similar to the apply family in base R, e.g., lapply, sapply, mapply or similar.</li>
-<li>Creating a cluster object using either MPI or Socket connection.</li>
+<li>Functionality similar to the apply family in base R, e.g., lapply,
+sapply, mapply or similar.</li>
+<li>Creating a cluster object using either MPI or Socket
+connection.</li>
 </ol>
-<p>The packages <a href="https://cran.r-project.org/package=slurmR"><strong>slurmR</strong></a>, <a href="https://cran.r-project.org/package=rslurm"><strong>rslurm</strong></a> work only on Slurm. The <a href="https://cran.r-project.org/package=drake"><strong>drake</strong></a> package is focused on workflows.</p>
+<p>The packages <a href="https://cran.r-project.org/package=slurmR" class="external-link"><strong>slurmR</strong></a>,
+<a href="https://cran.r-project.org/package=rslurm" class="external-link"><strong>rslurm</strong></a>
+work only on Slurm. The <a href="https://cran.r-project.org/package=drake" class="external-link"><strong>drake</strong></a>
+package is focused on workflows.</p>
 </div>
-<div id="contributing" class="section level2">
-<h2 class="hasAnchor">
-<a href="#contributing" class="anchor"></a>Contributing</h2>
-<p>We welcome contributions to <code>slurmR</code>. Whether it is reporting a bug, starting a discussion by asking a question, or proposing/requesting a new feature, please go by creating a new issue <a href="https://github.com/USCbiostats/slurmR/issues">here</a> so that we can talk about it.</p>
-<p>Please note that this project is released with a Contributor Code of Conduct (see the CODE_OF_CONDUCT.md file included in this project). By participating in this project, you agree to abide by its terms.</p>
+<div class="section level2">
+<h2 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
+</h2>
+<p>We welcome contributions to <code>slurmR</code>. Whether it is
+reporting a bug, starting a discussion by asking a question, or
+proposing/requesting a new feature, please go by creating a new issue <a href="https://github.com/USCbiostats/slurmR/issues" class="external-link">here</a> so that we
+can talk about it.</p>
+<p>Please note that this project is released with a Contributor Code of
+Conduct (see the CODE_OF_CONDUCT.md file included in this project). By
+participating in this project, you agree to abide by its terms.</p>
 </div>
-<div id="who-uses-slurm" class="section level2">
-<h2 class="hasAnchor">
-<a href="#who-uses-slurm" class="anchor"></a>Who uses Slurm</h2>
+<div class="section level2">
+<h2 id="who-uses-slurm">Who uses Slurm<a class="anchor" aria-label="anchor" href="#who-uses-slurm"></a>
+</h2>
 <p>Here is a manually curated list of institutions using Slurm:</p>
 <table class="table">
+<colgroup>
+<col width="34%">
+<col width="5%">
+<col width="59%">
+</colgroup>
 <thead><tr class="header">
 <th>Institution</th>
 <th>Country</th>
@@ -502,141 +576,144 @@
 <tr class="odd">
 <td>USC Center for Advance Research Computing</td>
 <td>US</td>
-<td><a href="https://carc.usc.edu/">link</a></td>
+<td><a href="https://carc.usc.edu/" class="external-link">link</a></td>
 </tr>
 <tr class="even">
 <td>Princeton Research Computing</td>
 <td>US</td>
-<td><a href="https://researchcomputing.princeton.edu/support/knowledge-base/slurm">link</a></td>
+<td><a href="https://researchcomputing.princeton.edu/support/knowledge-base/slurm" class="external-link">link</a></td>
 </tr>
 <tr class="odd">
 <td>Harvard FAS</td>
 <td>US</td>
-<td><a href="https://docs.rc.fas.harvard.edu/kb/quickstart-guide/">link</a></td>
+<td><a href="https://docs.rc.fas.harvard.edu/kb/quickstart-guide/" class="external-link">link</a></td>
 </tr>
 <tr class="even">
 <td>Harvard HMS research computing</td>
 <td>US</td>
-<td><a href="https://rc.hms.harvard.edu/">link</a></td>
+<td><a href="https://rc.hms.harvard.edu/" class="external-link">link</a></td>
 </tr>
 <tr class="odd">
 <td>UCSan Diego WM Keck Lab for Integrated Biology</td>
 <td>US</td>
-<td><a href="https://keck2.ucsd.edu/dokuwiki/doku.php/wiki:slurm">link</a></td>
+<td><a href="https://keck2.ucsd.edu/dokuwiki/doku.php/wiki:slurm" class="external-link">link</a></td>
 </tr>
 <tr class="even">
 <td>Stanford Sherlock</td>
 <td>US</td>
-<td><a href="https://www.sherlock.stanford.edu/docs/overview/introduction/">link</a></td>
+<td><a href="https://www.sherlock.stanford.edu/docs/overview/introduction/" class="external-link">link</a></td>
 </tr>
 <tr class="odd">
 <td>Stanford SCG Informatics Cluster</td>
 <td>US</td>
-<td><a href="https://login.scg.stanford.edu/tutorials/job_scripts/">link</a></td>
+<td><a href="https://login.scg.stanford.edu/tutorials/job_scripts/" class="external-link">link</a></td>
 </tr>
 <tr class="even">
 <td>Berkeley Research IT</td>
 <td>US</td>
-<td><a href="https://www.ocf.berkeley.edu/docs/services/hpc/slurm/">link</a></td>
+<td><a href="https://www.ocf.berkeley.edu/docs/services/hpc/slurm/" class="external-link">link</a></td>
 </tr>
 <tr class="odd">
 <td>University of Utah CHPC</td>
 <td>US</td>
-<td><a href="https://www.chpc.utah.edu/documentation/software/slurm.php">link</a></td>
+<td><a href="https://www.chpc.utah.edu/documentation/software/slurm.php" class="external-link">link</a></td>
 </tr>
 <tr class="even">
 <td>University of Michigan Biostatistics cluster</td>
 <td>US</td>
-<td><a href="https://sph.umich.edu/biostat/computing/cluster/slurm.html">link</a></td>
+<td><a href="https://sph.umich.edu/biostat/computing/cluster/slurm.html" class="external-link">link</a></td>
 </tr>
 <tr class="odd">
 <td>The University of Kansas Center for Research Computing</td>
 <td>US</td>
-<td><a href="https://crc.ku.edu/hpc/how-to">link</a></td>
+<td><a href="https://crc.ku.edu/hpc/how-to" class="external-link">link</a></td>
 </tr>
 <tr class="even">
 <td>University of Cambridge</td>
 <td>UK</td>
-<td><a href="https://www.ch.cam.ac.uk/computing/slurm-usage">link</a></td>
+<td><a href="https://www.ch.cam.ac.uk/computing/slurm-usage" class="external-link">link</a></td>
 </tr>
 <tr class="odd">
 <td>Indiana University</td>
 <td>US</td>
-<td><a href="https://kb.iu.edu/d/awrz">link</a></td>
+<td><a href="https://kb.iu.edu/d/awrz" class="external-link">link</a></td>
 </tr>
 <tr class="even">
 <td>Caltech HPC Center</td>
 <td>US</td>
-<td><a href="https://www.hpc.caltech.edu/documentation/slurm-commands">link</a></td>
+<td><a href="https://www.hpc.caltech.edu/documentation/slurm-commands" class="external-link">link</a></td>
 </tr>
 <tr class="odd">
 <td>Institute for Advanced Study</td>
 <td>US</td>
-<td><a href="https://www.ias.edu/sns/computing/slurm">link</a></td>
+<td><a href="https://www.ias.edu/sns/computing/slurm" class="external-link">link</a></td>
 </tr>
 <tr class="even">
 <td>UTSouthwestern Medical Center BioHPC</td>
 <td>US</td>
-<td><a href="https://portal.biohpc.swmed.edu/content/guides/slurm/">link</a></td>
+<td><a href="https://portal.biohpc.swmed.edu/content/guides/slurm/" class="external-link">link</a></td>
 </tr>
 <tr class="odd">
 <td>Vanderbilt University ACCRE</td>
 <td>US</td>
-<td><a href="https://www.vanderbilt.edu/accre/documentation/slurm/">link</a></td>
+<td><a href="https://www.vanderbilt.edu/accre/documentation/slurm/" class="external-link">link</a></td>
 </tr>
 <tr class="even">
 <td>University of Virginia Research Computing</td>
 <td>US</td>
-<td><a href="https://www.rc.virginia.edu/userinfo/rivanna/slurm/">link</a></td>
+<td><a href="https://www.rc.virginia.edu/userinfo/rivanna/slurm/" class="external-link">link</a></td>
 </tr>
 <tr class="odd">
 <td>Center for Advanced Computing</td>
 <td>CA</td>
-<td><a href="https://cac.queensu.ca/wiki/index.php/SLURM">link</a></td>
+<td><a href="https://cac.queensu.ca/wiki/index.php/SLURM" class="external-link">link</a></td>
 </tr>
 <tr class="even">
 <td>SciNet</td>
 <td>CA</td>
-<td><a href="https://docs.scinet.utoronto.ca/index.php/Slurm">link</a></td>
+<td><a href="https://docs.scinet.utoronto.ca/index.php/Slurm" class="external-link">link</a></td>
 </tr>
 <tr class="odd">
 <td>NLHPC</td>
 <td>CL</td>
-<td><a href="https://wiki.nlhpc.cl/P%C3%A1gina_principal">link</a></td>
+<td><a href="https://wiki.nlhpc.cl/P%C3%A1gina_principal" class="external-link">link</a></td>
 </tr>
 <tr class="even">
 <td>Kultrun</td>
 <td>CL</td>
-<td><a href="http://www.astro.udec.cl/kultrun/">link</a></td>
+<td><a href="http://www.astro.udec.cl/kultrun/" class="external-link">link</a></td>
 </tr>
 <tr class="odd">
 <td>Matbio</td>
 <td>CL</td>
-<td><a href="http://www.matbio.cl/cluster/">link</a></td>
+<td><a href="http://www.matbio.cl/cluster/" class="external-link">link</a></td>
 </tr>
 <tr class="even">
 <td>TIG MIT</td>
 <td>US</td>
-<td><a href="https://tig.csail.mit.edu/shared-computing/slurm/">link</a></td>
+<td><a href="https://tig.csail.mit.edu/shared-computing/slurm/" class="external-link">link</a></td>
 </tr>
 <tr class="odd">
 <td>MIT Supercloud</td>
 <td>US</td>
-<td><a href="https://supercloud.mit.edu/submitting-jobs">link</a></td>
+<td><a href="https://supercloud.mit.edu/submitting-jobs" class="external-link">link</a></td>
 </tr>
 <tr class="even">
 <td>Oxford’s ARC</td>
 <td>UK</td>
-<td><a href="https://www.arc.ox.ac.uk/job-scheduler-user-guide">link</a></td>
+<td><a href="https://www.arc.ox.ac.uk/job-scheduler-user-guide" class="external-link">link</a></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div id="funding" class="section level2">
-<h2 class="hasAnchor">
-<a href="#funding" class="anchor"></a>Funding</h2>
-<p>With project is supported by the National Cancer Institute, Grant #1P01CA196596.</p>
-<p>Computation for the work described in this paper was supported by the University of Southern California’s Center for High-Performance Computing (hpcc.usc.edu).</p>
+<div class="section level2">
+<h2 id="funding">Funding<a class="anchor" aria-label="anchor" href="#funding"></a>
+</h2>
+<p>With project is supported by the National Cancer Institute, Grant
+#1P01CA196596.</p>
+<p>Computation for the work described in this paper was supported by the
+University of Southern California’s Center for High-Performance
+Computing (hpcc.usc.edu).</p>
 </div>
 </div>
 
@@ -644,67 +721,71 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=slurmR">https://​cloud.r-project.org/​package=slurmR</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/USCbiostats/slurmR/">https://​github.com/​USCbiostats/​slurmR/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/USCbiostats/slurmR/issues">https://​github.com/​USCbiostats/​slurmR/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=slurmR" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/USCbiostats/slurmR/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/USCbiostats/slurmR/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
 <div class="community">
-<h2>Community</h2>
+<h2 data-toc-skip>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>
+
 <div class="citation">
-<h2>Citation</h2>
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html">Citing slurmR</a></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>George Vega Yon <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-3171-0844" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>National Cancer Institute (NCI) <br><small class="roles"> Funder </small>  <br><small>(Grant Number 5P01CA196569-02)</small>
-</li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="authors.html#citation">Citing slurmR</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li><a href="https://doi.org/10.21105/joss.01493"><img src="http://joss.theoj.org/papers/10.21105/joss.01493/status.svg" alt="DOI"></a></li>
-<li><a href="https://github.com/USCbiostats/slurmR/actions/workflows/ci.yml"><img src="https://github.com/USCbiostats/slurmR/actions/workflows/ci.yml/badge.svg" alt="R CI release"></a></li>
-<li><a href="https://codecov.io/gh/USCbiostats/slurmR"><img src="https://codecov.io/gh/USCbiostats/slurmR/branch/master/graph/badge.svg" alt="codecov"></a></li>
-<li><a href="https://CRAN.R-project.org/package=slurmR"><img src="https://www.r-pkg.org/badges/version/slurmR" alt="CRAN status"></a></li>
-<li><a href="https://cran.r-project.org/package=slurmR"><img src="http://cranlogs.r-pkg.org/badges/grand-total/slurmR" alt="CRAN downloads"></a></li>
-<li><a href="https://CRAN.R-project.org/package=slurmR"><img src="https://tinyverse.netlify.com/badge/slurmR" alt="status"></a></li>
-<li><a href="https://image.usc.edu"><img src="https://raw.githubusercontent.com/USCbiostats/badges/master/tommy-image-badge.svg" alt="Integrative Methods of Analysis for Genetic Epidemiology"></a></li>
+<li>George Vega Yon <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-3171-0844" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>National Cancer Institute (NCI) <br><small class="roles"> Funder </small>  </li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://doi.org/10.21105/joss.01493" class="external-link"><img src="http://joss.theoj.org/papers/10.21105/joss.01493/status.svg" alt="DOI"></a></li>
+<li><a href="https://github.com/USCbiostats/slurmR/actions/workflows/ci.yml" class="external-link"><img src="https://github.com/USCbiostats/slurmR/actions/workflows/ci.yml/badge.svg" alt="R CI release"></a></li>
+<li><a href="https://codecov.io/gh/USCbiostats/slurmR" class="external-link"><img src="https://codecov.io/gh/USCbiostats/slurmR/branch/master/graph/badge.svg" alt="codecov"></a></li>
+<li><a href="https://CRAN.R-project.org/package=slurmR" class="external-link"><img src="https://www.r-pkg.org/badges/version/slurmR" alt="CRAN status"></a></li>
+<li><a href="https://cran.r-project.org/package=slurmR" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/grand-total/slurmR" alt="CRAN downloads"></a></li>
+<li><a href="https://CRAN.R-project.org/package=slurmR" class="external-link"><img src="https://tinyverse.netlify.com/badge/slurmR" alt="status"></a></li>
+<li><a href="https://image.usc.edu" class="external-link"><img src="https://raw.githubusercontent.com/USCbiostats/badges/master/tommy-image-badge.svg" alt="Integrative Methods of Analysis for Genetic Epidemiology"></a></li>
+</ul>
 </div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by George Vega Yon, National Cancer Institute (NCI).</p>
+  <p></p>
+<p>Developed by George Vega Yon, National Cancer Institute (NCI).</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.</p>
 </div>
 
       </footer>
@@ -712,6 +793,8 @@
 
   
 
+
+  
 
   </body>
 </html>

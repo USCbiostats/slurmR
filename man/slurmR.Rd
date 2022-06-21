@@ -19,7 +19,9 @@ To cite slurmR in publications use:
 Vega Yon et al., (2019). slurmR: A lightweight wrapper for HPC with Slurm. Journal of Open Source Software,
 4(39), 1493, https://doi.org/10.21105/joss.01493
 
-A BibTeX entry for LaTeX users is\preformatted{ @Article\{,
+A BibTeX entry for LaTeX users is
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{ @Article\{,
   title = \{slurmR: A lightweight wrapper for HPC with Slurm\},
   author = \{George \{Vega Yon\} and Paul Marjoram\},
   journal = \{The Journal of Open Source Software\},
@@ -30,5 +32,5 @@ A BibTeX entry for LaTeX users is\preformatted{ @Article\{,
   doi = \{10.21105/joss.01493\},
   url = \{https://doi.org/10.21105/joss.01493\},
 \}
-}
+}\if{html}{\out{</div>}}
 }

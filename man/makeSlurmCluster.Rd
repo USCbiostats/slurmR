@@ -61,12 +61,16 @@ nodes in a Slurm environment. The name of the hosts are retrieved and passed
 later on to \link[parallel:makeCluster]{parallel::makePSOCKcluster}.
 
 It has been the case that R fails to create the cluster with the following
-message in the Slurm log file:\preformatted{srun: fatal: SLURM_MEM_PER_CPU, SLURM_MEM_PER_GPU, and SLURM_MEM_PER_NODE are mutually exclusive
-}
+message in the Slurm log file:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{srun: fatal: SLURM_MEM_PER_CPU, SLURM_MEM_PER_GPU, and SLURM_MEM_PER_NODE are mutually exclusive
+}\if{html}{\out{</div>}}
 
 In such cases, setting the memory, for example, upfront can solve the problem.
-For example:\preformatted{cl <- makeSlurmCluster(20, mem = 20)
-}
+For example:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{cl <- makeSlurmCluster(20, mem = 20)
+}\if{html}{\out{</div>}}
 
 If the problem persists, i.e., the cluster cannot be created, make sure that
 your Slurm cluster allows Socket connections between nodes.

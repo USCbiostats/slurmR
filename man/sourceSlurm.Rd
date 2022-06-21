@@ -62,15 +62,21 @@ read from the R script and added to the Slurm job file.
 
 The function \code{slurmr_cmd} writes a simple command that works as a wrapper
 of \code{sourceSlurm}. In particular, from command line, if the user wants to source an
-R script using \code{sourceSlurm}, we can either:\preformatted{$ Rscript -e "slurmR::sourceSlurm('path/to/the/script.R', plan = 'submit')"
-}
+R script using \code{sourceSlurm}, we can either:
 
-Or, after calling \code{slurmr_cmd} from within R, do the following instead\preformatted{$ ./slurmr path/to/the/script.R
-}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{$ Rscript -e "slurmR::sourceSlurm('path/to/the/script.R', plan = 'submit')"
+}\if{html}{\out{</div>}}
+
+Or, after calling \code{slurmr_cmd} from within R, do the following instead
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{$ ./slurmr path/to/the/script.R
+}\if{html}{\out{</div>}}
 
 And, if you used the option \code{add_alias = TRUE}, then, after restarting bash,
-you can run R scripts with Slurm as follows:\preformatted{$ slurmr path/to/the/script.R
-}
+you can run R scripts with Slurm as follows:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{$ slurmr path/to/the/script.R
+}\if{html}{\out{</div>}}
 
 The main side effect of this function is that it creates a file named \code{cmd_name}
 in the directory specified by \code{cmd_path}, and, if \code{add_alias = TRUE}. it will

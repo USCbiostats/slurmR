@@ -51,8 +51,10 @@ If missing, the function will save a NULL object. The \code{compress} argument
 is passed to \link{saveRDS}.
 \item \code{set_seed} Adds a vector of seeds to be used across the jobs. This vector
 of seeds should be of length \code{njobs}. The other two parameters of the
-function are passed to \link{set.seed}. By default the seed is picked as follows:\preformatted{seeds <- sample.int(.Machine$integer.max, njobs, replace = FALSE)
-}
+function are passed to \link{set.seed}. By default the seed is picked as follows:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{seeds <- sample.int(.Machine$integer.max, njobs, replace = FALSE)
+}\if{html}{\out{</div>}}
 \item \code{write} Finalizes the process by writing the R script in the corresponding
 folder to be used with Slurm.
 }

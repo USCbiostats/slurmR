@@ -1,4 +1,4 @@
-# slurmR dev
+# slurmR 0.5-2
 
 *  New integer method for `get_tmp_path`, `get_job_name`, and `get_job_id`. This
    is a fix for issue #29 (first reported by @thistleknot.)

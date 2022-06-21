@@ -1,4 +1,15 @@
-slurmR 0.5-1 (CRAN)
+
+
+SLURMR 0.5-2
+
+
+-   New integer method for get_tmp_path, get_job_name, and get_job_id.
+    This is a fix for issue #29 (first reported by @thistleknot.)
+
+
+
+SLURMR 0.5-1 (CRAN)
+
 
 -   sourceSlurm(plan = "collect") won’t wait forever.
 
@@ -17,9 +28,13 @@ slurmR 0.5-1 (CRAN)
 -   New functions slurmr_docker_* provide a wrapper to interact with the
     Dockerimage of slurmR.
 
-slurmR 0.4-3 (CRAN)
+
+
+SLURMR 0.4-3 (CRAN)
+
 
 Minor release.
+
 
 New features
 
@@ -32,22 +47,30 @@ New features
 
 -   Added the function opts_slurmR$reset().
 
+
 Bug fixes
 
 -   sourceSlurm() was using a file created at tempdir() which was
     deleted, and thus, unavailable to be used by sbatch. Tempfiles like
     those are now created at dirname(tempdir()).
 
-slurmR 0.4-2
+
+
+SLURMR 0.4-2
+
 
 Minor release.
+
 
 Bug fixes
 
 -   Fixes a user-message issue (not crucial) observed in Fedora and
     Solaris.
 
-slurmR 0.4-1 (CRAN)
+
+
+SLURMR 0.4-1 (CRAN)
+
 
 Bug fixes
 
@@ -61,6 +84,7 @@ Bug fixes
 
 -   slurmr_cmd now expands the cmd_path.
 
+
 Misc
 
 -   Increased code coverage.
@@ -73,14 +97,23 @@ Misc
     session, so now the user has a better description of possible
     errors, e.g. missing packages.
 
-slurmR 0.3-0
+
+
+SLURMR 0.3-0
+
 
 -   Name changed from sluRm to slurmR.
 
-slurmR 0.2-0
+
+
+SLURMR 0.2-0
+
 
 -   JOSS review (finalizing).
 
-slurmR 0.1-0
+
+
+SLURMR 0.1-0
+
 
 -   Added a NEWS.md file to track changes to the package.

@@ -38,7 +38,7 @@ While there are other alternatives such as `future.batchtools`, `batchtools`, `c
 
 3.  It provides a general framework for creating personalized own wrappers without using template files.
 
-4.  Is specialized on Slurm, meaning more flexibility (no need to modify template files), and, in the future, better debugging tools (e.g., job resubmission).
+4.  Is specialized on Slurm, meaning more flexibility (no need to modify template files) and debugging tools (e.g., job resubmission).
 
 5.  Provide a backend for the
     [parallel](https://CRAN.R-project.org/view=HighPerformanceComputing)
@@ -144,7 +144,7 @@ Take a look at the vignette [here](vignettes/getting-started.Rmd).
 
 The function `makeSlurmCluster` creates a PSOCK cluster within a Slurm HPC network,
 meaning that users can go beyond a single node cluster object and take advantage
-of Slurm to create a multi-node cluster object. This feature allows then using
+of Slurm to create a multi-node cluster object. This feature allows using
 `slurmR` with other R packages that support working with `SOCKcluster` class objects. Here are some examples
 
 With the [`future`](https://cran.r-project.org/package=future) package
@@ -269,7 +269,7 @@ dat$`Focus on [blank]` <- NULL
 knitr::kable(dat)
 ```
 
-(1) After errors, the part or the entire job can be resubmitted.
+(1) After errors, a part or the entire job can be resubmitted.
 (2) Functionality similar to the apply family in base R, e.g., lapply, sapply, mapply or similar.
 (3) Creating a cluster object using either MPI or Socket connection.
 

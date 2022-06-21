@@ -177,20 +177,20 @@ bibtex=TRUE)', 'toBibtex(.)', or set
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ans</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/Slurm_lapply.html">Slurm_lapply</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">mean</span>, plan <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span>
 <span class="co">#  Warning in normalizePath(file.path(tmp_path, job_name)): path[1]="/home/</span>
-<span class="co">#  george/Documents/development/slurmR/slurmr-job-27165393bf6bf": No such file or</span>
+<span class="co">#  george/Documents/development/slurmR/slurmr-job-2855312d50503": No such file or</span>
 <span class="co">#  directory</span>
 <span class="co">#  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:</span>
-<span class="co">#  sbatch --job-name=slurmr-job-27165393bf6bf /home/george/Documents/development/slurmR/slurmr-job-27165393bf6bf/01-bash.sh</span>
+<span class="co">#  sbatch --job-name=slurmr-job-2855312d50503 /home/george/Documents/development/slurmR/slurmr-job-2855312d50503/01-bash.sh</span>
 <span class="fu"><a href="reference/Slurm_clean.html">Slurm_clean</a></span><span class="op">(</span><span class="va">ans</span><span class="op">)</span> <span class="co"># Cleaning after you</span></code></pre></div>
 <p>Notice the <code>plan = "none"</code> option; this tells <code>Slurm_lapply</code> to only create the job object but do nothing with it, i.e., skip submission. To get more info, we can set the verbose mode on</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">opts_slurmR</span><span class="op">$</span><span class="fu">verbose_on</span><span class="op">(</span><span class="op">)</span>
 <span class="va">ans</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/Slurm_lapply.html">Slurm_lapply</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">mean</span>, plan <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span>
 <span class="co">#  Warning in normalizePath(file.path(tmp_path, job_name)): path[1]="/home/</span>
-<span class="co">#  george/Documents/development/slurmR/slurmr-job-27165393bf6bf": No such file or</span>
+<span class="co">#  george/Documents/development/slurmR/slurmr-job-2855312d50503": No such file or</span>
 <span class="co">#  directory</span>
 <span class="co">#  --------------------------------------------------------------------------------</span>
-<span class="co">#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-27165393bf6bf/00-rscript.r and has the following contents:</span>
+<span class="co">#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-2855312d50503/00-rscript.r and has the following contents:</span>
 <span class="co">#  --------------------------------------------------------------------------------</span>
 <span class="co">#  .libPaths(c("/home/george/R/x86_64-pc-linux-gnu-library/4.2", "/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))</span>
 <span class="co">#  message("[slurmR info] Loading variables and functions... ", appendLF = FALSE)</span>
@@ -218,7 +218,7 @@ bibtex=TRUE)', 'toBibtex(.)', or set
 <span class="co">#      sprintf("%s/%s/%s", tmp_path, job_name, type)</span>
 <span class="co">#  }</span>
 <span class="co">#  TMP_PATH  &lt;- "/home/george/Documents/development/slurmR"</span>
-<span class="co">#  JOB_NAME  &lt;- "slurmr-job-27165393bf6bf"</span>
+<span class="co">#  JOB_NAME  &lt;- "slurmr-job-2855312d50503"</span>
 <span class="co">#  </span>
 <span class="co">#  # The -tcq- function is a wrapper of tryCatch that on error tries to recover</span>
 <span class="co">#  # the message and saves the outcome so that slurmR can return OK.</span>
@@ -245,19 +245,19 @@ bibtex=TRUE)', 'toBibtex(.)', or set
 <span class="co">#  }</span>
 <span class="co">#  message("done loading variables and functions.")</span>
 <span class="co">#  tcq({</span>
-<span class="co">#    INDICES &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-27165393bf6bf/INDICES.rds")</span>
+<span class="co">#    INDICES &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-2855312d50503/INDICES.rds")</span>
 <span class="co">#  })</span>
 <span class="co">#  tcq({</span>
-<span class="co">#    X &lt;- readRDS(sprintf("/home/george/Documents/development/slurmR/slurmr-job-27165393bf6bf/X_%04d.rds", ARRAY_ID))</span>
+<span class="co">#    X &lt;- readRDS(sprintf("/home/george/Documents/development/slurmR/slurmr-job-2855312d50503/X_%04d.rds", ARRAY_ID))</span>
 <span class="co">#  })</span>
 <span class="co">#  tcq({</span>
-<span class="co">#    FUN &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-27165393bf6bf/FUN.rds")</span>
+<span class="co">#    FUN &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-2855312d50503/FUN.rds")</span>
 <span class="co">#  })</span>
 <span class="co">#  tcq({</span>
-<span class="co">#    mc.cores &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-27165393bf6bf/mc.cores.rds")</span>
+<span class="co">#    mc.cores &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-2855312d50503/mc.cores.rds")</span>
 <span class="co">#  })</span>
 <span class="co">#  tcq({</span>
-<span class="co">#    seeds &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-27165393bf6bf/seeds.rds")</span>
+<span class="co">#    seeds &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-2855312d50503/seeds.rds")</span>
 <span class="co">#  })</span>
 <span class="co">#  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)</span>
 <span class="co">#  tcq({</span>
@@ -267,24 +267,24 @@ bibtex=TRUE)', 'toBibtex(.)', or set
 <span class="co">#      mc.cores         = mc.cores</span>
 <span class="co">#  )</span>
 <span class="co">#  })</span>
-<span class="co">#  saveRDS(ans, sprintf("/home/george/Documents/development/slurmR/slurmr-job-27165393bf6bf/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)</span>
+<span class="co">#  saveRDS(ans, sprintf("/home/george/Documents/development/slurmR/slurmr-job-2855312d50503/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)</span>
 <span class="co">#  message("[slurmR info] job-status: OK.\n")</span>
 <span class="co">#  --------------------------------------------------------------------------------</span>
-<span class="co">#  The bash file that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-27165393bf6bf/01-bash.sh and has the following contents:</span>
+<span class="co">#  The bash file that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-2855312d50503/01-bash.sh and has the following contents:</span>
 <span class="co">#  --------------------------------------------------------------------------------</span>
 <span class="co">#  #!/bin/sh</span>
-<span class="co">#  #SBATCH --job-name=slurmr-job-27165393bf6bf</span>
-<span class="co">#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-27165393bf6bf/02-output-%A-%a.out</span>
+<span class="co">#  #SBATCH --job-name=slurmr-job-2855312d50503</span>
+<span class="co">#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-2855312d50503/02-output-%A-%a.out</span>
 <span class="co">#  #SBATCH --array=1-2</span>
-<span class="co">#  #SBATCH --job-name=slurmr-job-27165393bf6bf</span>
+<span class="co">#  #SBATCH --job-name=slurmr-job-2855312d50503</span>
 <span class="co">#  #SBATCH --cpus-per-task=1</span>
 <span class="co">#  #SBATCH --ntasks=1</span>
-<span class="co">#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-27165393bf6bf/00-rscript.r</span>
+<span class="co">#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-2855312d50503/00-rscript.r</span>
 <span class="co">#  --------------------------------------------------------------------------------</span>
 <span class="co">#  EOF</span>
 <span class="co">#  --------------------------------------------------------------------------------</span>
 <span class="co">#  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:</span>
-<span class="co">#  sbatch --job-name=slurmr-job-27165393bf6bf /home/george/Documents/development/slurmR/slurmr-job-27165393bf6bf/01-bash.sh</span>
+<span class="co">#  sbatch --job-name=slurmr-job-2855312d50503 /home/george/Documents/development/slurmR/slurmr-job-2855312d50503/01-bash.sh</span>
 <span class="fu"><a href="reference/Slurm_clean.html">Slurm_clean</a></span><span class="op">(</span><span class="va">ans</span><span class="op">)</span> <span class="co"># Cleaning after you</span></code></pre></div>
 </div>
 <div class="section level2">
@@ -386,15 +386,15 @@ bibtex=TRUE)', 'toBibtex(.)', or set
 <span class="co"># Printing out the bashfile</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">ans</span><span class="op">$</span><span class="va">bashfile</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span>
 <span class="co">#  #!/bin/sh</span>
-<span class="co">#  #SBATCH --job-name=slurmr-job-27165393bf6bf</span>
-<span class="co">#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-27165393bf6bf/02-output-%A-%a.out</span>
+<span class="co">#  #SBATCH --job-name=slurmr-job-2855312d50503</span>
+<span class="co">#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-2855312d50503/02-output-%A-%a.out</span>
 <span class="co">#  #SBATCH --array=1-2</span>
-<span class="co">#  #SBATCH --job-name=slurmr-job-27165393bf6bf</span>
+<span class="co">#  #SBATCH --job-name=slurmr-job-2855312d50503</span>
 <span class="co">#  #SBATCH --cpus-per-task=1</span>
 <span class="co">#  #SBATCH --ntasks=1</span>
 <span class="co">#  module load gcc/6.0</span>
 <span class="co">#  module load pandoc</span>
-<span class="co">#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-27165393bf6bf/00-rscript.r</span>
+<span class="co">#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-2855312d50503/00-rscript.r</span>
 
 <span class="fu"><a href="reference/Slurm_clean.html">Slurm_clean</a></span><span class="op">(</span><span class="va">ans</span><span class="op">)</span> <span class="co"># Cleaning after you</span></code></pre></div>
 </div>
@@ -696,7 +696,7 @@ bibtex=TRUE)', 'toBibtex(.)', or set
 <ul class="list-unstyled">
 <li><a href="https://doi.org/10.21105/joss.01493" class="external-link"><img src="http://joss.theoj.org/papers/10.21105/joss.01493/status.svg" alt="DOI"></a></li>
 <li><a href="https://github.com/USCbiostats/slurmR/actions/workflows/ci.yml" class="external-link"><img src="https://github.com/USCbiostats/slurmR/actions/workflows/ci.yml/badge.svg" alt="R CI release"></a></li>
-<li><a href="https://codecov.io/gh/USCbiostats/slurmR" class="external-link"><img src="https://codecov.io/gh/USCbiostats/slurmR/branch/master/graph/badge.svg" alt="codecov"></a></li>
+<li><a href="https://app.codecov.io/gh/USCbiostats/slurmR" class="external-link"><img src="https://codecov.io/gh/USCbiostats/slurmR/branch/master/graph/badge.svg" alt="codecov"></a></li>
 <li><a href="https://CRAN.R-project.org/package=slurmR" class="external-link"><img src="https://www.r-pkg.org/badges/version/slurmR" alt="CRAN status"></a></li>
 <li><a href="https://cran.r-project.org/package=slurmR" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/grand-total/slurmR" alt="CRAN downloads"></a></li>
 <li><a href="https://CRAN.R-project.org/package=slurmR" class="external-link"><img src="https://tinyverse.netlify.com/badge/slurmR" alt="status"></a></li>

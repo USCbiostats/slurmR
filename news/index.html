@@ -70,41 +70,31 @@
     </div>
 
     <div class="section level2">
+<h2 class="page-header" data-toc-text="0.5-2" id="slurmr-05-2">slurmR 0.5-2<a class="anchor" aria-label="anchor" href="#slurmr-05-2"></a></h2>
+<ul><li>New integer method for <code>get_tmp_path</code>, <code>get_job_name</code>, and <code>get_job_id</code>. This is a fix for issue <a href="https://github.com/USCbiostats/slurmR/issues/29" class="external-link">#29</a> (first reported by <a href="https://github.com/thistleknot" class="external-link">@thistleknot</a>.)</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="page-header" data-toc-text="0.5-1" id="slurmr-05-1-cran">slurmR 0.5-1 (CRAN)<small>2021-09-03</small><a class="anchor" aria-label="anchor" href="#slurmr-05-1-cran"></a></h2>
-<ul><li><p><code>sourceSlurm(plan = "collect")</code> won’t wait
-forever.</p></li>
-<li><p>More verbose error messages when <code>Slurm_collect</code>
-returns with errors.</p></li>
-<li><p>The function <code><a href="../reference/sbatch.html">sacct()</a></code> now doesn’t fail when
-accounting is not available.</p></li>
-<li><p>slurmR now has a Dockerimage that can be used to test with a
-Slurm cluster. The docker image can be started from within R (if Docker
-is available).</p></li>
-<li><p><code><a href="../reference/makeSlurmCluster.html">makeSlurmCluster()</a></code>s default tmp_path is now
-<code>opts_slurmR$get_tmp_path()</code>.</p></li>
-<li><p>New functions <code>slurmr_docker_*</code> provide a wrapper to
-interact with the Dockerimage of slurmR.</p></li>
+<ul><li><p><code>sourceSlurm(plan = "collect")</code> won’t wait forever.</p></li>
+<li><p>More verbose error messages when <code>Slurm_collect</code> returns with errors.</p></li>
+<li><p>The function <code><a href="../reference/sbatch.html">sacct()</a></code> now doesn’t fail when accounting is not available.</p></li>
+<li><p>slurmR now has a Dockerimage that can be used to test with a Slurm cluster. The docker image can be started from within R (if Docker is available).</p></li>
+<li><p><code><a href="../reference/makeSlurmCluster.html">makeSlurmCluster()</a></code>s default tmp_path is now <code>opts_slurmR$get_tmp_path()</code>.</p></li>
+<li><p>New functions <code>slurmr_docker_*</code> provide a wrapper to interact with the Dockerimage of slurmR.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4-3" id="slurmr-04-3-cran">slurmR 0.4-3 (CRAN)<a class="anchor" aria-label="anchor" href="#slurmr-04-3-cran"></a></h2>
 <p>Minor release.</p>
 <div class="section level3">
 <h3 id="new-features-0-4-3">New features<a class="anchor" aria-label="anchor" href="#new-features-0-4-3"></a></h3>
-<ul><li><p>Added a <code>preamble</code> option for Slurm batch scripts.
-This allows the user to specify commands that need to be added to the
-script, e.g., <code>module load</code>.</p></li>
-<li><p><code>preamble</code> can be specified via
-<code>opts_slurmR$set_preamble()</code> or directly when calling
-<code>Slurm_*apply</code>.</p></li>
+<ul><li><p>Added a <code>preamble</code> option for Slurm batch scripts. This allows the user to specify commands that need to be added to the script, e.g., <code>module load</code>.</p></li>
+<li><p><code>preamble</code> can be specified via <code>opts_slurmR$set_preamble()</code> or directly when calling <code>Slurm_*apply</code>.</p></li>
 <li><p>Added the function <code>opts_slurmR$reset()</code>.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-4-3">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-4-3"></a></h3>
 <ul><li>
-<code><a href="../reference/sourceSlurm.html">sourceSlurm()</a></code> was using a file created at
-<code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code> which was deleted, and thus, unavailable to be
-used by <code>sbatch</code>. Tempfiles like those are now created at
-<code>dirname(tempdir())</code>.</li>
+<code><a href="../reference/sourceSlurm.html">sourceSlurm()</a></code> was using a file created at <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code> which was deleted, and thus, unavailable to be used by <code>sbatch</code>. Tempfiles like those are now created at <code>dirname(tempdir())</code>.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -112,33 +102,22 @@ used by <code>sbatch</code>. Tempfiles like those are now created at
 <p>Minor release.</p>
 <div class="section level3">
 <h3 id="bug-fixes-0-4-2">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-4-2"></a></h3>
-<ul><li>Fixes a user-message issue (not crucial) observed in Fedora and
-Solaris.</li>
+<ul><li>Fixes a user-message issue (not crucial) observed in Fedora and Solaris.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4-1" id="slurmr-04-1-cran">slurmR 0.4-1 (CRAN)<small>2020-04-22</small><a class="anchor" aria-label="anchor" href="#slurmr-04-1-cran"></a></h2>
 <div class="section level3">
 <h3 id="bug-fixes-0-4-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-4-1"></a></h3>
-<ul><li><p>Fixed bug when collecting failed jobs. slurmR would fail to
-correctly list failed jobs and thus to collect outputs. This would also
-would affect when trying to collect partially resubmitted jobs.</p></li>
-<li><p>Slurm options passed via <code>opts_slurmR</code> are now passed
-to <code>Slurm_*apply</code> as documented. Thanks to Gregory Penn
-(gregorypenn) who reported the bug.</p></li>
-<li><p><code>slurmr_cmd</code> now expands the
-<code>cmd_path</code>.</p></li>
+<ul><li><p>Fixed bug when collecting failed jobs. slurmR would fail to correctly list failed jobs and thus to collect outputs. This would also would affect when trying to collect partially resubmitted jobs.</p></li>
+<li><p>Slurm options passed via <code>opts_slurmR</code> are now passed to <code>Slurm_*apply</code> as documented. Thanks to Gregory Penn (gregorypenn) who reported the bug.</p></li>
+<li><p><code>slurmr_cmd</code> now expands the <code>cmd_path</code>.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="misc-0-4-1">Misc<a class="anchor" aria-label="anchor" href="#misc-0-4-1"></a></h3>
 <ul><li><p>Increased code coverage.</p></li>
-<li><p>The function <code><a href="../reference/wait_slurm.html">wait_slurm()</a></code> is now exported and
-documented.</p></li>
-<li><p>Each line in the written R script is now wrapped with a custom
-<code>tryCatch</code> function (<code>tcq</code>). On error, this new
-function will collect both the expression called, the error message, and
-will quit the R session, so now the user has a better description of
-possible errors, e.g. missing packages.</p></li>
+<li><p>The function <code><a href="../reference/wait_slurm.html">wait_slurm()</a></code> is now exported and documented.</p></li>
+<li><p>Each line in the written R script is now wrapped with a custom <code>tryCatch</code> function (<code>tcq</code>). On error, this new function will collect both the expression called, the error message, and will quit the R session, so now the user has a better description of possible errors, e.g. missing packages.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -151,8 +130,7 @@ possible errors, e.g. missing packages.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.1-0" id="slurmr-01-0">slurmR 0.1-0<a class="anchor" aria-label="anchor" href="#slurmr-01-0"></a></h2>
-<ul><li>Added a <code>NEWS.md</code> file to track changes to the
-package.</li>
+<ul><li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
 </ul></div>
   </div>
 
@@ -168,8 +146,7 @@ package.</li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

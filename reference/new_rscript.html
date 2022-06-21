@@ -92,22 +92,33 @@ to write the R component in a batch job.</p>
 <dd><p>Integer. Number of jobs to use in the job-array. This specifies
 the number of R sessions to initialize. This does not specify the number of
 cores to be used.</p></dd>
+
+
 <dt>tmp_path</dt>
 <dd><p>Character. Path to the directory where all the data (including
 scripts) will be stored. Notice that this path must be accessible by all the
 nodes in the network (See <a href="opts_slurmR.html">opts_slurmR</a>).</p></dd>
+
+
 <dt>job_name</dt>
 <dd><p>Character. Name of the job to be passed to <code>Slurm</code>.</p></dd>
+
+
 <dt>pkgs</dt>
 <dd><p>A named list with packages to be included. Each element of the list
 must be a path to the R library, while the names of the list are the names of
 the R packages to be loaded.</p></dd>
+
+
 <dt>libPaths</dt>
 <dd><p>A character vector. See <a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An environment of class <code>slurmR_rscript</code>. This has the following accessible
+    
+
+<p>An environment of class <code>slurmR_rscript</code>. This has the following accessible
 components:</p><ul><li><p><code>add_rds</code> Add rds files to be loaded in each job.", <code>x</code> is a named list
 with the objects that should be loaded in the jobs. If <code>index = TRUE</code> the
 function assumes that the user will be accessing a particular subset of <code>x</code>
@@ -125,7 +136,8 @@ If missing, the function will save a NULL object. The <code>compress</code> argu
 is passed to <a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a>.</p></li>
 <li><p><code>set_seed</code> Adds a vector of seeds to be used across the jobs. This vector
 of seeds should be of length <code>njobs</code>. The other two parameters of the
-function are passed to <a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a>. By default the seed is picked as follows:</p><div class="sourceCode"><pre><code><span class="va">seeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample.int</a></span><span class="op">(</span><span class="va">.Machine</span><span class="op">$</span><span class="va">integer.max</span>, <span class="va">njobs</span>, replace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div></li>
+function are passed to <a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a>. By default the seed is picked as follows:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>seeds <span class="ot">&lt;-</span> <span class="fu">sample.int</span>(.Machine<span class="sc">$</span>integer.max, njobs, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span></code></pre><p></p></div></li>
 <li><p><code>write</code> Finalizes the process by writing the R script in the corresponding
 folder to be used with Slurm.</p></li>
 </ul></div>
@@ -142,8 +154,7 @@ folder to be used with Slurm.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

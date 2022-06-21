@@ -123,30 +123,47 @@ wrappers of calls to Slurm functions via <a href="https://rdrr.io/r/base/system2
     <dl><dt>x</dt>
 <dd><p>Either an object of class <code>slurm_job</code>, or, in some cases, an
 integer as a Slurm jobid. Note that some functions allow passing no arguments.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Further flags passed to the command line function.</p></dd>
+
+
 <dt>brief, parsable, allocations</dt>
 <dd><p>Logical. When <code>TRUE</code>, these are passed as flags directly
 to the command line function <code>sacct</code>.</p></dd>
+
+
 <dt>no_sacct</dt>
 <dd><p>Logical. Skip <code>sacct</code> directly (for internal use only.)</p></dd>
+
+
 <dt>wait</dt>
 <dd><p>Logical scalar. When <code>TRUE</code> the function will pass the <code>--wait</code>
 flag to <code>Slurm</code> and set <code>wait = TRUE</code> in the <a href="https://rdrr.io/r/base/system2.html" class="external-link">system2</a> call.</p></dd>
+
+
 <dt>submit</dt>
 <dd><p>Logical, when <code>TRUE</code> calls sbatch to submit the job to slurm.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>In the case of <code>sbatch</code>, depends on what <code>x</code> is:</p><ul><li><p>If <code>x</code> is of class <a href="slurm_job.html">slurm_job</a>, then it returns the same object including
+    
+
+<p>In the case of <code>sbatch</code>, depends on what <code>x</code> is:</p><ul><li><p>If <code>x</code> is of class <a href="slurm_job.html">slurm_job</a>, then it returns the same object including
 the Slurm job ID (if the job was submitted to the queue).</p></li>
 <li><p>If <code>x</code> is a file path (e.g. a bash script), an integer with the jobid number
 (again, if the job was submitted to Slurm).</p></li>
 </ul><p>The functions <code>squeue</code> and <code>sacct</code> return a data frame with the information
-returned by the command line utilities. The function <code>scancel</code> returns NULL.
-<code>slurm_available()</code> returns a logical scalar equal to <code>TRUE</code> if Slurm is
-available.
-<code>slurm.conf()</code> and <code>SchedulerParameters()</code> return information about the
+returned by the command line utilities. The function <code>scancel</code> returns NULL.</p>
+
+
+<p><code>slurm_available()</code> returns a logical scalar equal to <code>TRUE</code> if Slurm is
+available.</p>
+
+
+<p><code>slurm.conf()</code> and <code>SchedulerParameters()</code> return information about the
 Slurm cluster, if available.</p>
     </div>
     <div id="details">
@@ -220,8 +237,7 @@ script.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

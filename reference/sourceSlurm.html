@@ -98,33 +98,54 @@ and submitting it via <a href="sbatch.html">sbatch</a>.</p>
     <h2>Arguments</h2>
     <dl><dt>file</dt>
 <dd><p>Character. Path to the R script to source using Slurm.</p></dd>
+
+
 <dt>job_name</dt>
 <dd><p>Character. Name of the job to be passed to <code>Slurm</code>.</p></dd>
+
+
 <dt>tmp_path</dt>
 <dd><p>Character. Path to the directory where all the data (including
 scripts) will be stored. Notice that this path must be accessible by all the
 nodes in the network (See <a href="opts_slurmR.html">opts_slurmR</a>).</p></dd>
+
+
 <dt>rscript_opt</dt>
 <dd><p>List. Options to be passed to <code>Rscript</code>.</p></dd>
+
+
 <dt>plan</dt>
 <dd><p>A character scalar. (See <a href="the_plan.html">the_plan</a>).</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Further options passed to <a href="sbatch.html">sbatch</a>.</p></dd>
+
+
 <dt>cmd_path</dt>
 <dd><p>Character scalar. Path (directory) where to put the command function.
 This is usually your home directory.</p></dd>
+
+
 <dt>cmd_name</dt>
 <dd><p>Character scalar. Name of the command (of the file).</p></dd>
+
+
 <dt>add_alias, bashrc_path</dt>
 <dd><p>Logical scalar and character scalar. When
 <code>add_alias=TRUE</code> it will modify (or create, if non-existent) the <code>.bashrc</code>
 file to add an alias of the same name of <code>cmd_name</code>. The path to <code>.bashrc</code> can be
 specified via the <code>bashrc_path</code> option.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>In the case of <code>sourceSlurm</code>, Whatever <a href="sbatch.html">sbatch</a> returns.
-The function <code>slurmr_cmd</code> returns <code><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible()</a></code>.</p>
+    
+
+<p>In the case of <code>sourceSlurm</code>, Whatever <a href="sbatch.html">sbatch</a> returns.</p>
+
+
+<p>The function <code>slurmr_cmd</code> returns <code><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible()</a></code>.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -133,16 +154,13 @@ the R script starts with <code>#!/bin/</code> or similar, then <code>#SBATCH</co
 read from the R script and added to the Slurm job file.</p>
 <p>The function <code>slurmr_cmd</code> writes a simple command that works as a wrapper
 of <code>sourceSlurm</code>. In particular, from command line, if the user wants to source an
-R script using <code>sourceSlurm</code>, we can either:</p><div class="sourceCode"><pre><code>$ Rscript -e "slurmR::sourceSlurm('path/to/the/script.R', plan = 'submit')"
-</code></pre></div>
-
-<p>Or, after calling <code>slurmr_cmd</code> from within R, do the following instead</p><div class="sourceCode"><pre><code>$ ./slurmr path/to/the/script.R
-</code></pre></div>
-
+R script using <code>sourceSlurm</code>, we can either:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span> Rscript <span class="sc">-</span>e <span class="st">"slurmR::sourceSlurm('path/to/the/script.R', plan = 'submit')"</span></span></code></pre><p></p></div>
+<p>Or, after calling <code>slurmr_cmd</code> from within R, do the following instead</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span> .<span class="sc">/</span>slurmr path<span class="sc">/</span>to<span class="sc">/</span>the<span class="sc">/</span>script.R</span></code></pre><p></p></div>
 <p>And, if you used the option <code>add_alias = TRUE</code>, then, after restarting bash,
-you can run R scripts with Slurm as follows:</p><div class="sourceCode"><pre><code>$ slurmr path/to/the/script.R
-</code></pre></div>
-
+you can run R scripts with Slurm as follows:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span> slurmr path<span class="sc">/</span>to<span class="sc">/</span>the<span class="sc">/</span>script.R</span></code></pre><p></p></div>
 <p>The main side effect of this function is that it creates a file named <code>cmd_name</code>
 in the directory specified by <code>cmd_path</code>, and, if <code>add_alias = TRUE</code>. it will
 create (if not found) or modify (if found) the <code>.bashrc</code> file adding a line
@@ -202,8 +220,7 @@ with an alias. For more information on <code>.bashrc</code> see <a href="https:/
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

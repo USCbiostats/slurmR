@@ -125,52 +125,85 @@
 <dd><p>Integer. Number of jobs to use in the job-array. This specifies
 the number of R sessions to initialize. This does not specify the number of
 cores to be used.</p></dd>
+
+
 <dt>job_name</dt>
 <dd><p>Character. Name of the job to be passed to <code>Slurm</code>.</p></dd>
+
+
 <dt>tmp_path</dt>
 <dd><p>Character. Path to the directory where all the data (including
 scripts) will be stored. Notice that this path must be accessible by all the
 nodes in the network (See <a href="opts_slurmR.html">opts_slurmR</a>).</p></dd>
+
+
 <dt>plan</dt>
 <dd><p>A character scalar. (See <a href="the_plan.html">the_plan</a>).</p></dd>
+
+
 <dt>sbatch_opt</dt>
 <dd><p>List of options to be passed to <code>sbatch</code>. This is usually
 done by adding the flags <code>#SBATCH</code> to the bash file.</p></dd>
+
+
 <dt>rscript_opt</dt>
 <dd><p>List. Options to be passed to <code>Rscript</code>.</p></dd>
+
+
 <dt>seeds</dt>
 <dd><p>Integer vector of length <code>njobs</code>. Seeds to be passed to each
 job. When <code>NULL</code> (default), seeds will be picked automatically (see <a href="new_rscript.html">new_rscript</a>).</p></dd>
+
+
 <dt>compress</dt>
 <dd><p>Logical scalar (default <code>TRUE</code>). Passed to <a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a>. Setting
 this value to <code>FALSE</code> can be useful when the user requires faster read/write
 of R objects on disk.</p></dd>
+
+
 <dt>export</dt>
 <dd><p>A named list with objects to be included in the Spawned sessions.</p></dd>
+
+
 <dt>export_env</dt>
 <dd><p>An environment. Environment where the objects listed in
 <code>export</code> are located (default <code><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">parent.frame()</a></code>).</p></dd>
+
+
 <dt>libPaths</dt>
 <dd><p>A character vector. See <a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a>.</p></dd>
+
+
 <dt>hooks</dt>
 <dd><p>A list of functions (passed to <a href="slurm_job.html">new_slurm_job</a>).</p></dd>
+
+
 <dt>overwrite</dt>
 <dd><p>Logical scalar. When <code>TRUE</code>, if the path specified by
 <code>tmp_path/job_name</code> already exists, it will overwrite it, otherwise the
 function returns with an error.</p></dd>
+
+
 <dt>preamble</dt>
 <dd><p>Character vector. Each element is then added to the Slurm
 batch file between the <code>#SBATCH</code> options and the script's main call. A
 common example is adding required modules, e.g. <code>c("module load gcc/6.1.1")</code>.</p></dd>
+
+
 <dt>X, FUN, f, mc.cores, ...</dt>
 <dd><p>Arguments passed to either <a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">parallel::mclapply</a> or
 <a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">parallel::mcMap</a>.</p></dd>
+
+
 <dt>simplify, USE.NAMES</dt>
 <dd><p>Logical scalar. See <a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>If <code>plan == "collect"</code>, then whatever the analogous function returns,
+    
+
+<p>If <code>plan == "collect"</code>, then whatever the analogous function returns,
 otherwise, an object of class <a href="slurm_job.html">slurm_job</a>.</p>
     </div>
     <div id="details">
@@ -234,8 +267,7 @@ is collected, the function <a href="https://rdrr.io/r/base/lapply.html" class="e
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

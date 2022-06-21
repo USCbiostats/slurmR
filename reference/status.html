@@ -96,13 +96,18 @@ $(x, name)</code></pre></div>
     <dl><dt>x</dt>
 <dd><p>Either a Job id, an object of class <code>slurm_job</code>, or an object of
 class <code>slurm_status</code>.</p></dd>
+
+
 <dt>name</dt>
 <dd><p>Character scalar. List of status to retrieve. This can be any of
 <code>"done"</code>, <code>"failed"</code>, <code>"running"</code>, or <code>"pending"</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An integer with attributes of class <code>slurm_status</code>. The attributes
+    
+
+<p>An integer with attributes of class <code>slurm_status</code>. The attributes
 are integer vectors indicating which jobs fail in the categories of <code>done</code>,
 <code>failed</code>, <code>pending</code>, and <code>running</code> (see <a href="JOB_STATE_CODES.html">JOB_STATE_CODES</a>). Possible return
 values are:</p><ul><li><p><code>-1</code>: No job found. This may be a false negative as the job may still be
@@ -160,8 +165,7 @@ of the job (completed, failed, pending).</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

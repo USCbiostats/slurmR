@@ -88,35 +88,52 @@ makeSlurmCluster main feature is adding node addresses."><meta property="og:imag
 <span class="op">)</span>
 
 <span class="co"># S3 method for slurm_cluster</span>
-<span class="fu">stopCluster</span><span class="op">(</span><span class="va">cl</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">stopCluster</a></span><span class="op">(</span><span class="va">cl</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>n</dt>
 <dd><p>Integer scalar. Size of the cluster object (see details).</p></dd>
+
+
 <dt>job_name</dt>
 <dd><p>Character. Name of the job to be passed to <code>Slurm</code>.</p></dd>
+
+
 <dt>tmp_path</dt>
 <dd><p>Character. Path to the directory where all the data (including
 scripts) will be stored. Notice that this path must be accessible by all the
 nodes in the network (See <a href="opts_slurmR.html">opts_slurmR</a>).</p></dd>
+
+
 <dt>cluster_opt</dt>
 <dd><p>A list of arguments passed to <a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">parallel::makePSOCKcluster</a>.</p></dd>
+
+
 <dt>max_wait</dt>
 <dd><p>Integer scalar. Wait time before exiting with error while
 trying to read the nodes information.</p></dd>
+
+
 <dt>verb</dt>
 <dd><p>Logical scalar. If <code>TRUE</code>, the function will print messages on
 screen reporting on the status of the job submission.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Further arguments passed to <a href="Slurm_EvalQ.html">Slurm_EvalQ</a> via <code>sbatch_opt</code>.</p></dd>
+
+
 <dt>cl</dt>
 <dd><p>An object of class <code>slurm_cluster</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A object of class <code>c("slurm_cluster", "SOCKcluster", "cluster")</code>. It
+    
+
+<p>A object of class <code>c("slurm_cluster", "SOCKcluster", "cluster")</code>. It
 is the same as what is returned by <a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">parallel::makePSOCKcluster</a> with the main
 difference that it has two extra attributes:</p><ul><li><p><code>SLURM_JOBID</code> Which is the id of the Job that initialized that cluster.</p></li>
 </ul></div>
@@ -130,12 +147,11 @@ By means of this, we can create Socket, also known as "PSOCK", clusters across
 nodes in a Slurm environment. The name of the hosts are retrieved and passed
 later on to <a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">parallel::makePSOCKcluster</a>.</p>
 <p>It has been the case that R fails to create the cluster with the following
-message in the Slurm log file:</p><div class="sourceCode"><pre><code>srun: fatal: SLURM_MEM_PER_CPU, SLURM_MEM_PER_GPU, and SLURM_MEM_PER_NODE are mutually exclusive
-</code></pre></div>
-
+message in the Slurm log file:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>srun<span class="sc">:</span> fatal<span class="sc">:</span> SLURM_MEM_PER_CPU, SLURM_MEM_PER_GPU, and SLURM_MEM_PER_NODE are mutually exclusive</span></code></pre><p></p></div>
 <p>In such cases, setting the memory, for example, upfront can solve the problem.
-For example:</p><div class="sourceCode"><pre><code><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeSlurmCluster.html">makeSlurmCluster</a></span><span class="op">(</span><span class="fl">20</span>, mem <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></code></pre></div>
-
+For example:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeSlurmCluster</span>(<span class="dv">20</span>, <span class="at">mem =</span> <span class="dv">20</span>)</span></code></pre><p></p></div>
 <p>If the problem persists, i.e., the cluster cannot be created, make sure that
 your Slurm cluster allows Socket connections between nodes.</p>
 <p>The method <code>stopCluster</code> for <code>slurm_cluster</code> stops the cluster doing
@@ -165,15 +181,15 @@ may not be able to be created.</p>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Computing the mean of a 100 random uniforms within each worker</span></span>
 <span class="r-in"><span class="co"># for this we can use any of the function available in the parallel package.</span></span>
-<span class="r-in"><span class="va">ans</span> <span class="op">&lt;-</span> <span class="fu">parSapply</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">200</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">ans</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/parallel/clusterApply.html" class="external-link">parSapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">200</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># We simply call stopCluster as we would do with any other cluster</span></span>
 <span class="r-in"><span class="co"># object</span></span>
-<span class="r-in"><span class="fu">stopCluster</span><span class="op">(</span><span class="va">ans</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">stopCluster</a></span><span class="op">(</span><span class="va">ans</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># We can also specify SBATCH options directly (...)</span></span>
 <span class="r-in"><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeSlurmCluster</span><span class="op">(</span><span class="fl">200</span>, partition <span class="op">=</span> <span class="st">"thomas"</span>, time <span class="op">=</span> <span class="st">"02:00:00"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">stopCluster</span><span class="op">(</span><span class="va">cl</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">stopCluster</a></span><span class="op">(</span><span class="va">cl</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="op">}</span></span>
 <span class="r-in"></span>
@@ -191,8 +207,7 @@ may not be able to be created.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

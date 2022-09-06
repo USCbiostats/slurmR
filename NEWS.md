@@ -1,3 +1,8 @@
+# slurmR (dev)
+
+*  Fixed bug in command line tool `slurmr` that overwrites source file when
+   located in the same folder.
+
 # slurmR 0.5-2
 
 *  New integer method for `get_tmp_path`, `get_job_name`, and `get_job_id`. This

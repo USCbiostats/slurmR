@@ -101,7 +101,7 @@
                         <h4 data-toc-skip class="author">George G. Vega
 Yon</h4>
             
-            <h4 data-toc-skip class="date">2022-06-21 (Last revision Feb
+            <h4 data-toc-skip class="date">2022-09-06 (Last revision Feb
 13, 2020)</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/USCbiostats/slurmR/blob/HEAD/vignettes/debugging-re-submission.Rmd" class="external-link"><code>vignettes/debugging-re-submission.Rmd</code></a></small>
@@ -157,12 +157,12 @@ out what could be going on. Let’s see the following example:</p>
 <li>We are submitting a job that runs a complicated algorithm</li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USCbiostats/slurmR" class="external-link">slurmR</a></span><span class="op">)</span>
-<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Slurm_lapply.html">Slurm_lapply</a></span><span class="op">(</span>
-  <span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">complicated_algorithm</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,
-  njobs <span class="op">=</span> <span class="fl">4</span>,
-  plan <span class="op">=</span> <span class="st">"submit"</span>
-  <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USCbiostats/slurmR" class="external-link">slurmR</a></span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Slurm_lapply.html">Slurm_lapply</a></span><span class="op">(</span></span>
+<span>  <span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">complicated_algorithm</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,</span>
+<span>  njobs <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  plan <span class="op">=</span> <span class="st">"submit"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p>By printing the output, you may see something like this:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  Call<span class="sc">:</span></span>
@@ -196,14 +196,14 @@ and 3:</p>
 <code>Slurm_log</code>, for example, if we wanted to checkout the
 log-file of the first job of the array, we can type:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/Slurm_log.html">Slurm_log</a></span><span class="op">(</span><span class="va">x</span>, which. <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Slurm_log.html">Slurm_log</a></span><span class="op">(</span><span class="va">x</span>, which. <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p>By default, while in interactive mode, you will get a prompt telling
 you that <code>less</code> (the default) will be called using the
 <code>system2</code> command, and asking you if you wish to continue.
 You can change the way to checkout the log file by using an alternative
 command, like <code>cat</code>, e.g.:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/Slurm_log.html">Slurm_log</a></span><span class="op">(</span><span class="va">x</span>, which. <span class="op">=</span> <span class="fl">1</span>, cmd <span class="op">=</span> <span class="st">"cat"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Slurm_log.html">Slurm_log</a></span><span class="op">(</span><span class="va">x</span>, which. <span class="op">=</span> <span class="fl">1</span>, cmd <span class="op">=</span> <span class="st">"cat"</span><span class="op">)</span></span></code></pre></div>
 <p>Again, while in interactive mode, you will get a prompt asking you to
 enter <code>"y"</code> or <code>"n"</code>. If the command fails, it is
 usually due to a missing log, either you entered an invalid number in
@@ -220,8 +220,8 @@ to some unexpected error (the node failed), so we can resubmit the job,
 in order to do such, we can use the function <code>sbatch</code> like it
 follows:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Recall that x is a slurm_job object</span>
-<span class="fu"><a href="../reference/sbatch.html">sbatch</a></span><span class="op">(</span><span class="va">x</span>, array <span class="op">=</span> <span class="st">"1,3"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Recall that x is a slurm_job object</span></span>
+<span><span class="fu"><a href="../reference/sbatch.html">sbatch</a></span><span class="op">(</span><span class="va">x</span>, array <span class="op">=</span> <span class="st">"1,3"</span><span class="op">)</span></span></code></pre></div>
 <p>This will re-submit the job, but only the components 1 and 3. Once it
 is done, the user can collect the results using
 <code>Slurm_collect</code>. This will read in the results of all jobs,
@@ -231,11 +231,11 @@ the <code>slurm_job</code> object, users can always recover the
 <code>slurm_job</code> object by using the <code>read_slurm_job</code>
 function, e.g.:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Starting from a fresh session</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USCbiostats/slurmR" class="external-link">slurmR</a></span><span class="op">)</span>
-
-<span class="co"># By typing the path to the job folder, slurmR will recover the job</span>
-<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/slurm_job.html">read_slurm_job</a></span><span class="op">(</span><span class="st">"/path-to-the-temp-dir/path-to-the-job-name/"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Starting from a fresh session</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USCbiostats/slurmR" class="external-link">slurmR</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># By typing the path to the job folder, slurmR will recover the job</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/slurm_job.html">read_slurm_job</a></span><span class="op">(</span><span class="st">"/path-to-the-temp-dir/path-to-the-job-name/"</span><span class="op">)</span></span></code></pre></div>
 </div>
   </div>
 
@@ -256,7 +256,7 @@ function, e.g.:</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

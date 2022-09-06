@@ -77,21 +77,21 @@ and submitting it via <a href="sbatch.html">sbatch</a>.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">sourceSlurm</span><span class="op">(</span>
-  <span class="va">file</span>,
-  job_name <span class="op">=</span> <span class="cn">NULL</span>,
-  tmp_path <span class="op">=</span> <span class="va">opts_slurmR</span><span class="op">$</span><span class="fu">get_tmp_path</span><span class="op">(</span><span class="op">)</span>,
-  rscript_opt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>vanilla <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
-  plan <span class="op">=</span> <span class="st">"submit"</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">slurmr_cmd</span><span class="op">(</span>
-  <span class="va">cmd_path</span>,
-  cmd_name <span class="op">=</span> <span class="st">"slurmr"</span>,
-  add_alias <span class="op">=</span> <span class="cn">TRUE</span>,
-  bashrc_path <span class="op">=</span> <span class="st">"~/.bashrc"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sourceSlurm</span><span class="op">(</span></span>
+<span>  <span class="va">file</span>,</span>
+<span>  job_name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  tmp_path <span class="op">=</span> <span class="va">opts_slurmR</span><span class="op">$</span><span class="fu">get_tmp_path</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  rscript_opt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>vanilla <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  plan <span class="op">=</span> <span class="st">"submit"</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">slurmr_cmd</span><span class="op">(</span></span>
+<span>  <span class="va">cmd_path</span>,</span>
+<span>  cmd_name <span class="op">=</span> <span class="st">"slurmr"</span>,</span>
+<span>  add_alias <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  bashrc_path <span class="op">=</span> <span class="st">"~/.bashrc"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -169,11 +169,11 @@ with an alias. For more information on <code>.bashrc</code> see <a href="https:/
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># In this example we will be sourcing an R script that also has #SBATCH</span></span>
-<span class="r-in"><span class="co"># flags. Here are the contents</span></span>
-<span class="r-in"><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"example.R"</span>, package<span class="op">=</span><span class="st">"slurmR"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span>, sep<span class="op">=</span><span class="st">"\n"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># In this example we will be sourcing an R script that also has #SBATCH</span></span></span>
+<span class="r-in"><span><span class="co"># flags. Here are the contents</span></span></span>
+<span class="r-in"><span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"example.R"</span>, package<span class="op">=</span><span class="st">"slurmR"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span>, sep<span class="op">=</span><span class="st">"\n"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #!/bin/sh</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #SBATCH --account=lc_ggv</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #SBATCH --partition=scavenge</span>
@@ -183,29 +183,29 @@ with an alias. For more information on <code>.bashrc</code> see <a href="https:/
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sys.sleep(10)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> message("done.")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="co"># #!/bin/sh</span></span>
-<span class="r-in"><span class="co"># #SBATCH --account=lc_ggv</span></span>
-<span class="r-in"><span class="co"># #SBATCH --time=01:00:00</span></span>
-<span class="r-in"><span class="co"># #SBATCH --mem-per-cpu=4G</span></span>
-<span class="r-in"><span class="co"># #SBATCH --job-name=Waiting</span></span>
-<span class="r-in"><span class="co"># Sys.sleep(10)</span></span>
-<span class="r-in"><span class="co"># message("done.")</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># We can directly submit this R script as a job by calling `sourceSlurm`.</span></span>
-<span class="r-in"><span class="co"># (of course you need Slurm to do this!)</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">sourceSlurm</span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># The function will create a bash script that is used later to be submitted to</span></span>
-<span class="r-in"><span class="co"># the queue using `sbatch`. The resulting file looks something like this</span></span>
-<span class="r-in"><span class="co"># #!/bin/sh</span></span>
-<span class="r-in"><span class="co"># #SBATCH --job-name=Waiting</span></span>
-<span class="r-in"><span class="co"># #SBATCH --output=/home/vegayon/Documents/slurmR/Waiting.out</span></span>
-<span class="r-in"><span class="co"># #SBATCH --account=lc_ggv</span></span>
-<span class="r-in"><span class="co"># #SBATCH --time=01:00:00</span></span>
-<span class="r-in"><span class="co"># #SBATCH --mem-per-cpu=4G</span></span>
-<span class="r-in"><span class="co"># /usr/lib/R/bin/Rscript --vanilla /usr/local/lib/R/site-library/slurmR/example.R</span></span>
+<span class="r-in"><span><span class="co"># #!/bin/sh</span></span></span>
+<span class="r-in"><span><span class="co"># #SBATCH --account=lc_ggv</span></span></span>
+<span class="r-in"><span><span class="co"># #SBATCH --time=01:00:00</span></span></span>
+<span class="r-in"><span><span class="co"># #SBATCH --mem-per-cpu=4G</span></span></span>
+<span class="r-in"><span><span class="co"># #SBATCH --job-name=Waiting</span></span></span>
+<span class="r-in"><span><span class="co"># Sys.sleep(10)</span></span></span>
+<span class="r-in"><span><span class="co"># message("done.")</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># We can directly submit this R script as a job by calling `sourceSlurm`.</span></span></span>
+<span class="r-in"><span><span class="co"># (of course you need Slurm to do this!)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu">sourceSlurm</span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The function will create a bash script that is used later to be submitted to</span></span></span>
+<span class="r-in"><span><span class="co"># the queue using `sbatch`. The resulting file looks something like this</span></span></span>
+<span class="r-in"><span><span class="co"># #!/bin/sh</span></span></span>
+<span class="r-in"><span><span class="co"># #SBATCH --job-name=Waiting</span></span></span>
+<span class="r-in"><span><span class="co"># #SBATCH --output=/home/vegayon/Documents/slurmR/Waiting.out</span></span></span>
+<span class="r-in"><span><span class="co"># #SBATCH --account=lc_ggv</span></span></span>
+<span class="r-in"><span><span class="co"># #SBATCH --time=01:00:00</span></span></span>
+<span class="r-in"><span><span class="co"># #SBATCH --mem-per-cpu=4G</span></span></span>
+<span class="r-in"><span><span class="co"># /usr/lib/R/bin/Rscript --vanilla /usr/local/lib/R/site-library/slurmR/example.R</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -220,7 +220,7 @@ with an alias. For more information on <code>.bashrc</code> see <a href="https:/
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -75,23 +75,23 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">Slurm_EvalQ</span><span class="op">(</span>
-  <span class="va">expr</span>,
-  njobs <span class="op">=</span> <span class="fl">2L</span>,
-  job_name <span class="op">=</span> <span class="va">opts_slurmR</span><span class="op">$</span><span class="fu">get_job_name</span><span class="op">(</span><span class="op">)</span>,
-  tmp_path <span class="op">=</span> <span class="va">opts_slurmR</span><span class="op">$</span><span class="fu">get_tmp_path</span><span class="op">(</span><span class="op">)</span>,
-  plan <span class="op">=</span> <span class="st">"collect"</span>,
-  sbatch_opt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
-  rscript_opt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
-  seeds <span class="op">=</span> <span class="cn">NULL</span>,
-  compress <span class="op">=</span> <span class="cn">TRUE</span>,
-  export <span class="op">=</span> <span class="cn">NULL</span>,
-  export_env <span class="op">=</span> <span class="cn">NULL</span>,
-  libPaths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span>,
-  hooks <span class="op">=</span> <span class="cn">NULL</span>,
-  overwrite <span class="op">=</span> <span class="cn">TRUE</span>,
-  preamble <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">Slurm_EvalQ</span><span class="op">(</span></span>
+<span>  <span class="va">expr</span>,</span>
+<span>  njobs <span class="op">=</span> <span class="fl">2L</span>,</span>
+<span>  job_name <span class="op">=</span> <span class="va">opts_slurmR</span><span class="op">$</span><span class="fu">get_job_name</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  tmp_path <span class="op">=</span> <span class="va">opts_slurmR</span><span class="op">$</span><span class="fu">get_tmp_path</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  plan <span class="op">=</span> <span class="st">"collect"</span>,</span>
+<span>  sbatch_opt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  rscript_opt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  seeds <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  compress <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  export <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  export_env <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  libPaths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  hooks <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  overwrite <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  preamble <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -188,7 +188,7 @@ common example is adding required modules, e.g. <code>c("module load gcc/6.1.1")
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

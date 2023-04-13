@@ -1,4 +1,4 @@
-# slurmR (dev)
+# slurmR 0.5-3
 
 *  Fixed bug in command line tool `slurmr` that overwrites source file when
    located in the same folder.

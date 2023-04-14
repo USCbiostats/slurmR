@@ -176,20 +176,20 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ans</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/Slurm_lapply.html">Slurm_lapply</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">mean</span>, plan <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
 <span><span class="co">#  Warning in normalizePath(file.path(tmp_path, job_name)):</span></span>
-<span><span class="co">#  path[1]="/home/george/Documents/development/slurmR/slurmr-job-b1281b9ceb24": No</span></span>
-<span><span class="co">#  such file or directory</span></span>
+<span><span class="co">#  path[1]="/home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18":</span></span>
+<span><span class="co">#  No such file or directory</span></span>
 <span><span class="co">#  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:</span></span>
-<span><span class="co">#  sbatch --job-name=slurmr-job-b1281b9ceb24 /home/george/Documents/development/slurmR/slurmr-job-b1281b9ceb24/01-bash.sh</span></span>
+<span><span class="co">#  sbatch --job-name=slurmr-job-113bd5bca5b18 /home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/01-bash.sh</span></span>
 <span><span class="fu"><a href="reference/Slurm_clean.html">Slurm_clean</a></span><span class="op">(</span><span class="va">ans</span><span class="op">)</span> <span class="co"># Cleaning after you</span></span></code></pre></div>
 <p>Notice the <code>plan = "none"</code> option; this tells <code>Slurm_lapply</code> to only create the job object but do nothing with it, i.e., skip submission. To get more info, we can set the verbose mode on</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">opts_slurmR</span><span class="op">$</span><span class="fu">verbose_on</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">ans</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/Slurm_lapply.html">Slurm_lapply</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">mean</span>, plan <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
 <span><span class="co">#  Warning in normalizePath(file.path(tmp_path, job_name)):</span></span>
-<span><span class="co">#  path[1]="/home/george/Documents/development/slurmR/slurmr-job-b1281b9ceb24": No</span></span>
-<span><span class="co">#  such file or directory</span></span>
+<span><span class="co">#  path[1]="/home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18":</span></span>
+<span><span class="co">#  No such file or directory</span></span>
 <span><span class="co">#  --------------------------------------------------------------------------------</span></span>
-<span><span class="co">#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-b1281b9ceb24/00-rscript.r and has the following contents:</span></span>
+<span><span class="co">#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/00-rscript.r and has the following contents:</span></span>
 <span><span class="co">#  --------------------------------------------------------------------------------</span></span>
 <span><span class="co">#  .libPaths(c("/home/george/R/x86_64-pc-linux-gnu-library/4.2", "/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))</span></span>
 <span><span class="co">#  message("[slurmR info] Loading variables and functions... ", appendLF = FALSE)</span></span>
@@ -217,7 +217,7 @@
 <span><span class="co">#      sprintf("%s/%s/%s", tmp_path, job_name, type)</span></span>
 <span><span class="co">#  }</span></span>
 <span><span class="co">#  TMP_PATH  &lt;- "/home/george/Documents/development/slurmR"</span></span>
-<span><span class="co">#  JOB_NAME  &lt;- "slurmr-job-b1281b9ceb24"</span></span>
+<span><span class="co">#  JOB_NAME  &lt;- "slurmr-job-113bd5bca5b18"</span></span>
 <span><span class="co">#  </span></span>
 <span><span class="co">#  # The -tcq- function is a wrapper of tryCatch that on error tries to recover</span></span>
 <span><span class="co">#  # the message and saves the outcome so that slurmR can return OK.</span></span>
@@ -244,19 +244,19 @@
 <span><span class="co">#  }</span></span>
 <span><span class="co">#  message("done loading variables and functions.")</span></span>
 <span><span class="co">#  tcq({</span></span>
-<span><span class="co">#    INDICES &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-b1281b9ceb24/INDICES.rds")</span></span>
+<span><span class="co">#    INDICES &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/INDICES.rds")</span></span>
 <span><span class="co">#  })</span></span>
 <span><span class="co">#  tcq({</span></span>
-<span><span class="co">#    X &lt;- readRDS(sprintf("/home/george/Documents/development/slurmR/slurmr-job-b1281b9ceb24/X_%04d.rds", ARRAY_ID))</span></span>
+<span><span class="co">#    X &lt;- readRDS(sprintf("/home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/X_%04d.rds", ARRAY_ID))</span></span>
 <span><span class="co">#  })</span></span>
 <span><span class="co">#  tcq({</span></span>
-<span><span class="co">#    FUN &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-b1281b9ceb24/FUN.rds")</span></span>
+<span><span class="co">#    FUN &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/FUN.rds")</span></span>
 <span><span class="co">#  })</span></span>
 <span><span class="co">#  tcq({</span></span>
-<span><span class="co">#    mc.cores &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-b1281b9ceb24/mc.cores.rds")</span></span>
+<span><span class="co">#    mc.cores &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/mc.cores.rds")</span></span>
 <span><span class="co">#  })</span></span>
 <span><span class="co">#  tcq({</span></span>
-<span><span class="co">#    seeds &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-b1281b9ceb24/seeds.rds")</span></span>
+<span><span class="co">#    seeds &lt;- readRDS("/home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/seeds.rds")</span></span>
 <span><span class="co">#  })</span></span>
 <span><span class="co">#  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)</span></span>
 <span><span class="co">#  tcq({</span></span>
@@ -266,24 +266,24 @@
 <span><span class="co">#      mc.cores         = mc.cores</span></span>
 <span><span class="co">#  )</span></span>
 <span><span class="co">#  })</span></span>
-<span><span class="co">#  saveRDS(ans, sprintf("/home/george/Documents/development/slurmR/slurmr-job-b1281b9ceb24/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)</span></span>
+<span><span class="co">#  saveRDS(ans, sprintf("/home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)</span></span>
 <span><span class="co">#  message("[slurmR info] job-status: OK.\n")</span></span>
 <span><span class="co">#  --------------------------------------------------------------------------------</span></span>
-<span><span class="co">#  The bash file that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-b1281b9ceb24/01-bash.sh and has the following contents:</span></span>
+<span><span class="co">#  The bash file that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/01-bash.sh and has the following contents:</span></span>
 <span><span class="co">#  --------------------------------------------------------------------------------</span></span>
 <span><span class="co">#  #!/bin/sh</span></span>
-<span><span class="co">#  #SBATCH --job-name=slurmr-job-b1281b9ceb24</span></span>
-<span><span class="co">#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-b1281b9ceb24/02-output-%A-%a.out</span></span>
+<span><span class="co">#  #SBATCH --job-name=slurmr-job-113bd5bca5b18</span></span>
+<span><span class="co">#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/02-output-%A-%a.out</span></span>
 <span><span class="co">#  #SBATCH --array=1-2</span></span>
-<span><span class="co">#  #SBATCH --job-name=slurmr-job-b1281b9ceb24</span></span>
+<span><span class="co">#  #SBATCH --job-name=slurmr-job-113bd5bca5b18</span></span>
 <span><span class="co">#  #SBATCH --cpus-per-task=1</span></span>
 <span><span class="co">#  #SBATCH --ntasks=1</span></span>
-<span><span class="co">#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-b1281b9ceb24/00-rscript.r</span></span>
+<span><span class="co">#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/00-rscript.r</span></span>
 <span><span class="co">#  --------------------------------------------------------------------------------</span></span>
 <span><span class="co">#  EOF</span></span>
 <span><span class="co">#  --------------------------------------------------------------------------------</span></span>
 <span><span class="co">#  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:</span></span>
-<span><span class="co">#  sbatch --job-name=slurmr-job-b1281b9ceb24 /home/george/Documents/development/slurmR/slurmr-job-b1281b9ceb24/01-bash.sh</span></span>
+<span><span class="co">#  sbatch --job-name=slurmr-job-113bd5bca5b18 /home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/01-bash.sh</span></span>
 <span><span class="fu"><a href="reference/Slurm_clean.html">Slurm_clean</a></span><span class="op">(</span><span class="va">ans</span><span class="op">)</span> <span class="co"># Cleaning after you</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -385,15 +385,15 @@
 <span><span class="co"># Printing out the bashfile</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">ans</span><span class="op">$</span><span class="va">bashfile</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span>
 <span><span class="co">#  #!/bin/sh</span></span>
-<span><span class="co">#  #SBATCH --job-name=slurmr-job-b1281b9ceb24</span></span>
-<span><span class="co">#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-b1281b9ceb24/02-output-%A-%a.out</span></span>
+<span><span class="co">#  #SBATCH --job-name=slurmr-job-113bd5bca5b18</span></span>
+<span><span class="co">#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/02-output-%A-%a.out</span></span>
 <span><span class="co">#  #SBATCH --array=1-2</span></span>
-<span><span class="co">#  #SBATCH --job-name=slurmr-job-b1281b9ceb24</span></span>
+<span><span class="co">#  #SBATCH --job-name=slurmr-job-113bd5bca5b18</span></span>
 <span><span class="co">#  #SBATCH --cpus-per-task=1</span></span>
 <span><span class="co">#  #SBATCH --ntasks=1</span></span>
 <span><span class="co">#  module load gcc/6.0</span></span>
 <span><span class="co">#  module load pandoc</span></span>
-<span><span class="co">#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-b1281b9ceb24/00-rscript.r</span></span>
+<span><span class="co">#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/00-rscript.r</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/Slurm_clean.html">Slurm_clean</a></span><span class="op">(</span><span class="va">ans</span><span class="op">)</span> <span class="co"># Cleaning after you</span></span></code></pre></div>
 </div>
@@ -446,7 +446,7 @@
 <td align="left">-</td>
 <td align="left">on the fly</td>
 <td align="left"><a href="https://CRAN.R-project.org/package=rslurm" class="external-link"><img src="https://tinyverse.netlify.com/badge/rslurm" alt="status"></a></td>
-<td align="left"><a href="https://github.com/SESYNC-ci/rslurm" class="external-link"><img src="https://img.shields.io/github/last-commit/SESYNC-ci/rslurm" alt="Activity"></a></td>
+<td align="left"><a href="https://github.com/earthlab/rslurm" class="external-link"><img src="https://img.shields.io/github/last-commit/earthlab/rslurm" alt="Activity"></a></td>
 </tr>
 <tr class="even">
 <td align="left"><a href="https://cran.r-project.org/package=future.batchtools" class="external-link"><strong>future.batchtools</strong></a></td>
@@ -507,134 +507,139 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
+<td>University of Utah’s CHPC</td>
+<td>US</td>
+<td><a href="https://chpc.utah.edu/documentation/software/slurm.php" class="external-link">link</a></td>
+</tr>
+<tr class="even">
 <td>USC Center for Advance Research Computing</td>
 <td>US</td>
 <td><a href="https://carc.usc.edu/" class="external-link">link</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Princeton Research Computing</td>
 <td>US</td>
 <td><a href="https://researchcomputing.princeton.edu/support/knowledge-base/slurm" class="external-link">link</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Harvard FAS</td>
 <td>US</td>
 <td><a href="https://docs.rc.fas.harvard.edu/kb/quickstart-guide/" class="external-link">link</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Harvard HMS research computing</td>
 <td>US</td>
 <td><a href="https://rc.hms.harvard.edu/" class="external-link">link</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>UCSan Diego WM Keck Lab for Integrated Biology</td>
 <td>US</td>
 <td><a href="https://keck2.ucsd.edu/dokuwiki/doku.php/wiki:slurm" class="external-link">link</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Stanford Sherlock</td>
 <td>US</td>
 <td><a href="https://www.sherlock.stanford.edu/docs/overview/introduction/" class="external-link">link</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Stanford SCG Informatics Cluster</td>
 <td>US</td>
 <td><a href="https://login.scg.stanford.edu/tutorials/job_scripts/" class="external-link">link</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>UC Berkeley Open Computing Facility</td>
 <td>US</td>
 <td><a href="https://www.ocf.berkeley.edu/docs/services/hpc/slurm/" class="external-link">link</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>University of Utah CHPC</td>
 <td>US</td>
 <td><a href="https://www.chpc.utah.edu/documentation/software/slurm.php" class="external-link">link</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>University of Michigan Biostatistics cluster</td>
 <td>US</td>
 <td><a href="https://sph.umich.edu/biostat/computing/cluster/slurm.html" class="external-link">link</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>The University of Kansas Center for Research Computing</td>
 <td>US</td>
-<td><a href="https://crc.ku.edu/hpc/how-to" class="external-link">link</a></td>
+<td><a href="https://docs.crc.ku.edu/how-to/submitting-jobs/" class="external-link">link</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>University of Cambridge</td>
 <td>UK</td>
 <td><a href="https://www.ch.cam.ac.uk/computing/slurm-usage" class="external-link">link</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Indiana University</td>
 <td>US</td>
 <td><a href="https://kb.iu.edu/d/awrz" class="external-link">link</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Caltech HPC Center</td>
 <td>US</td>
 <td><a href="https://www.hpc.caltech.edu/documentation/slurm-commands" class="external-link">link</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Institute for Advanced Study</td>
 <td>US</td>
 <td><a href="https://www.ias.edu/sns/computing/slurm" class="external-link">link</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>UTSouthwestern Medical Center BioHPC</td>
 <td>US</td>
 <td><a href="https://portal.biohpc.swmed.edu/content/guides/slurm/" class="external-link">link</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Vanderbilt University ACCRE</td>
 <td>US</td>
 <td><a href="https://www.vanderbilt.edu/accre/documentation/slurm/" class="external-link">link</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>University of Virginia Research Computing</td>
 <td>US</td>
 <td><a href="https://www.rc.virginia.edu/userinfo/rivanna/slurm/" class="external-link">link</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Center for Advanced Computing</td>
 <td>CA</td>
 <td><a href="https://cac.queensu.ca/wiki/index.php/SLURM" class="external-link">link</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>SciNet</td>
 <td>CA</td>
 <td><a href="https://docs.scinet.utoronto.ca/index.php/Slurm" class="external-link">link</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>NLHPC</td>
 <td>CL</td>
 <td><a href="https://wiki.nlhpc.cl/P%C3%A1gina_principal" class="external-link">link</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Kultrun</td>
 <td>CL</td>
 <td><a href="http://www.astro.udec.cl/kultrun/" class="external-link">link</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Matbio</td>
 <td>CL</td>
 <td><a href="http://www.matbio.cl/cluster/" class="external-link">link</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>TIG MIT</td>
 <td>US</td>
 <td><a href="https://tig.csail.mit.edu/shared-computing/slurm/" class="external-link">link</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>MIT Supercloud</td>
 <td>US</td>
-<td><a href="https://supercloud.mit.edu/submitting-jobs" class="external-link">link</a></td>
+<td>supercloud.mit.edu/</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Oxford’s ARC</td>
 <td>UK</td>
-<td><a href="https://www.arc.ox.ac.uk/job-scheduler-user-guide" class="external-link">link</a></td>
+<td><a href="https://arc-user-guide.readthedocs.io/en/latest/slurm-reference.html" class="external-link">link</a></td>
 </tr>
 </tbody>
 </table>
@@ -699,7 +704,7 @@
 <li><a href="https://CRAN.R-project.org/package=slurmR" class="external-link"><img src="https://www.r-pkg.org/badges/version/slurmR" alt="CRAN status"></a></li>
 <li><a href="https://cran.r-project.org/package=slurmR" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/grand-total/slurmR" alt="CRAN downloads"></a></li>
 <li><a href="https://CRAN.R-project.org/package=slurmR" class="external-link"><img src="https://tinyverse.netlify.com/badge/slurmR" alt="status"></a></li>
-<li><a href="https://image.usc.edu" class="external-link"><img src="https://raw.githubusercontent.com/USCbiostats/badges/master/tommy-image-badge.svg" alt="Integrative Methods of Analysis for Genetic Epidemiology"></a></li>
+<li><a href="https://p01.uscbiostatistics.org/" class="external-link"><img src="https://raw.githubusercontent.com/USCbiostats/badges/master/tommy-image-badge.svg" alt="Integrative Methods of Analysis for Genetic Epidemiology"></a></li>
 </ul>
 </div>
 

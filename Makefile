@@ -10,7 +10,7 @@ install: slurmR_$(VERSION).tar.gz
 checkalloc: install clean
 	salloc --time=01:00:00 --cpus-per-task=4 --job-name=slurmR-pkg-check --mem-per-cpu=1G srun -n1 $(MAKE) check
 
-check: slurmR_$(VERSION).tar.gz clean
+check: clean slurmR_$(VERSION).tar.gz
 	R CMD check --as-cran slurmR_$(VERSION).tar.gz
 
 checknotest: clean slurmR_$(VERSION).tar.gz
@@ -18,7 +18,8 @@ checknotest: clean slurmR_$(VERSION).tar.gz
 
 clean:
 	rm -rf slurmr-job*; rm -rf slurm*.out; rm -rf docker/slurmR.Rcheck slurm*.Rcheck ; \
-		rm -f vignettes/*.R vignettes/*.html
+		rm -f vignettes/*.R vignettes/*.html; \
+		rm -f slurmR_$(VERSION).tar.gz
 
 docs: NAMESPACE README.md
 

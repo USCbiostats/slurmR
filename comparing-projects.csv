@@ -1,7 +1,7 @@
 Package,Rerun (1),*apply (2),makeCluster (3),Slurm options,Focus on [blank],System [blank],github
 slurmR,yes,yes,yes,on the fly,calls,specific,USCbiostats/slurmR
 drake,yes,-,-,by template,workflows,agnostic,ropensci/drake
-rslurm,-,yes,-,on the fly,calls,specific,SESYNC-ci/rslurm
+rslurm,-,yes,-,on the fly,calls,specific,earthlab/rslurm
 future.batchtools,-,yes,yes,by template,calls,agnostic,HenrikBengtsson/future.batchtools
 batchtools,yes,yes,-,by template,calls,agnostic,mllg/batchtools
 clustermq,-,-,-,by template,calls,agnostic,mschubert/clustermq

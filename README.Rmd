@@ -11,7 +11,7 @@ output:
 [![CRAN status](https://www.r-pkg.org/badges/version/slurmR)](https://CRAN.R-project.org/package=slurmR)
 [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/slurmR)](https://cran.r-project.org/package=slurmR)
 [![status](https://tinyverse.netlify.com/badge/slurmR)](https://CRAN.R-project.org/package=slurmR)
-[![Integrative Methods of Analysis for Genetic Epidemiology](https://raw.githubusercontent.com/USCbiostats/badges/master/tommy-image-badge.svg)](https://image.usc.edu)
+[![Integrative Methods of Analysis for Genetic Epidemiology](https://raw.githubusercontent.com/USCbiostats/badges/master/tommy-image-badge.svg)](https://p01.uscbiostatistics.org/)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -291,6 +291,7 @@ Here is a manually curated list of institutions using Slurm:
 
 |Institution | Country | Link |
 |------------|---------|------|
+| University of Utah's CHPC | US | [link](https://chpc.utah.edu/documentation/software/slurm.php) |
 | USC Center for Advance Research Computing | US | [link](https://carc.usc.edu/) |
 | Princeton Research Computing | US | [link](https://researchcomputing.princeton.edu/support/knowledge-base/slurm) |
 | Harvard FAS | US | [link](https://docs.rc.fas.harvard.edu/kb/quickstart-guide/)|
@@ -301,7 +302,7 @@ Here is a manually curated list of institutions using Slurm:
 | UC Berkeley Open Computing Facility | US | [link](https://www.ocf.berkeley.edu/docs/services/hpc/slurm/) |
 | University of Utah CHPC | US | [link](https://www.chpc.utah.edu/documentation/software/slurm.php) |
 | University of Michigan Biostatistics cluster| US | [link](https://sph.umich.edu/biostat/computing/cluster/slurm.html) |
-| The University of Kansas Center for Research Computing | US | [link](https://crc.ku.edu/hpc/how-to) |
+| The University of Kansas Center for Research Computing | US | [link](https://docs.crc.ku.edu/how-to/submitting-jobs/) |
 | University of Cambridge | UK | [link](https://www.ch.cam.ac.uk/computing/slurm-usage) |
 | Indiana University | US | [link](https://kb.iu.edu/d/awrz) |
 | Caltech HPC Center | US | [link](https://www.hpc.caltech.edu/documentation/slurm-commands) |
@@ -315,8 +316,8 @@ Here is a manually curated list of institutions using Slurm:
 | Kultrun | CL | [link](http://www.astro.udec.cl/kultrun/) |
 | Matbio | CL | [link](http://www.matbio.cl/cluster/) |
 | TIG MIT | US | [link](https://tig.csail.mit.edu/shared-computing/slurm/) |
-| MIT Supercloud | US | [link](https://supercloud.mit.edu/submitting-jobs) |
-| Oxford's ARC | UK | [link](https://www.arc.ox.ac.uk/job-scheduler-user-guide) |
+| MIT Supercloud | US | supercloud.mit.edu/ |
+| Oxford's ARC | UK | [link](https://arc-user-guide.readthedocs.io/en/latest/slurm-reference.html) |
 
 ## Funding
 

@@ -76,8 +76,8 @@ sourceSlurm <- function(
   if (!is.null(SBATCH$`job-name`) & is.null(job_name))
     job_name <- SBATCH$`job-name`
 
-  file        <- basename(normalizePath(file))
-  script_path <- gsub("\\.(r|R)$", ".\\1.sh", file)
+  file_name   <- basename(normalizePath(file))
+  script_path <- gsub("\\.(r|R)$", ".\\1.sh", file_name)
   script_path <- normalizePath(file.path(tmp_path, script_path))
 
   x <- new_bash(
@@ -93,7 +93,7 @@ sourceSlurm <- function(
   x$append(opts_slurmR$get_preamble())
 
   # Finalizing by setting the R call
-  x$Rscript(file = file, flags = rscript_opt)
+  x$Rscript(file = normalizePath(file), flags = rscript_opt)
 
   # Writing the script
   x$write()

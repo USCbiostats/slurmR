@@ -1,3 +1,8 @@
+# slurmR 0.5-4
+
+* Adressing [`roxygen2` issue #1491](https://github.com/r-lib/roxygen2/issues/1491).
+
+
 # slurmR 0.5-3
 
 *  Fixed bug in command line tool `slurmr` that overwrites source file when

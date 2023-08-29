@@ -1,6 +1,6 @@
 Package: slurmR
 Title: A Lightweight Wrapper for 'Slurm'
-Version: 0.5-3
+Version: 0.5-4
 Authors@R: c( person("George", "Vega Yon", email = "g.vegayon@gmail.com", role = c("aut",
           "cre"), comment = c(ORCID = "0000-0002-3171-0844")), person("Paul", "Marjoram",
           email = "pmarjora@usc.edu", role = c("ctb", "ths"), comment = c(ORCID =
@@ -9,6 +9,7 @@ Authors@R: c( person("George", "Vega Yon", email = "g.vegayon@gmail.com", role =
           role = "rev", comment = c(what = "JOSS reviewer", ORCID =
           "0000-0002-6862-5221")), person("Michel", "Lang", role = "rev", comment =
           c(what = "JOSS reviewer", ORCID = "0000-0001-9754-0393")) )
+Date: 2023-08-29
 Description: 'Slurm', Simple Linux Utility for Resource Management
           <https://slurm.schedmd.com/>, is a popular 'Linux' based software used to 
           schedule jobs in 'HPC' (High Performance Computing) clusters. This R package

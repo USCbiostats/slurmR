@@ -29,7 +29,7 @@
 #'   url = {https://doi.org/10.21105/joss.01493},
 #' }
 #' ```
-#' @docType package
+#' @aliases slurmR-package
 #' @name slurmR
 NULL
 

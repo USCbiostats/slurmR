@@ -1,15 +1,12 @@
-year <- sub("-.*", "", meta$Date)
-note <- sprintf("R package version %s", meta$Version)
+citation(auto = meta)
 
-citHeader("To cite slurmR in publications use:")
-
-citEntry(
-  entry  = "Article",
+bibentry(
+  bibtype = "Article",
   title = "slurmR: A lightweight wrapper for HPC with Slurm",
   author = c(
     person("George", "Vega Yon", email = "g.vegayon@gmail.com", role = c("aut", "cre"), comment  = c(ORCID = "0000-0002-3171-0844")),
     person("Paul", "Marjoram", email = "pmarjora@usc.edu", role = c("ctb", "ths"), comment = c(ORCID = "0000-0003-0824-7449"))
-    ),
+  ),
   journal = "The Journal of Open Source Software",
   year    = 2019,
   month   = "jul",
@@ -23,16 +20,3 @@ citEntry(
     "https://doi.org/10.21105/joss.01493"
   )
 )
-
-bibentry(bibtype = "Manual",
-         title = "{{slurmR: A Lightweight Wrapper for 'Slurm'}}",
-         author = c(
-	    person("George", "Vega Yon", email = "g.vegayon@gmail.com", role = c("aut", "cre"), comment  = c(ORCID = "0000-0002-3171-0844")),
-	    person("Paul", "Marjoram", email = "pmarjora@usc.edu", role = c("ctb", "ths"), comment = c(ORCID = "0000-0003-0824-7449"))
-          ),
-         year = year,
-         note = note,
-         url = "https://github.com/USCbiostats/slurmR",
-         header = "And the actual R package:")
-
-

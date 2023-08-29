@@ -24,7 +24,7 @@ to write the R component in a batch job."><meta property="og:image" content="/lo
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">slurmR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5-3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5-4</span>
       </span>
     </div>
 
@@ -137,7 +137,7 @@ is passed to <a href="https://rdrr.io/r/base/readRDS.html" class="external-link"
 <li><p><code>set_seed</code> Adds a vector of seeds to be used across the jobs. This vector
 of seeds should be of length <code>njobs</code>. The other two parameters of the
 function are passed to <a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a>. By default the seed is picked as follows:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>seeds <span class="ot">&lt;-</span> <span class="fu">sample.int</span>(.Machine<span class="sc">$</span>integer.max, njobs, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span></code></pre><p></p></div></li>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>seeds <span class="ot">&lt;-</span> <span class="fu">sample.int</span>(.Machine<span class="sc">$</span>integer.max, njobs, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span></code></pre><p></p></div></li>
 <li><p><code>write</code> Finalizes the process by writing the R script in the corresponding
 folder to be used with Slurm.</p></li>
 </ul></div>

@@ -46,7 +46,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">slurmR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5-3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5-4</span>
       </span>
     </div>
 
@@ -101,7 +101,7 @@
                         <h4 data-toc-skip class="author">George G Vega
 Yon</h4>
             
-            <h4 data-toc-skip class="date">2023-05-22</h4>
+            <h4 data-toc-skip class="date">2023-08-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/USCbiostats/slurmR/blob/HEAD/vignettes/working-with-slurm.Rmd" class="external-link"><code>vignettes/working-with-slurm.Rmd</code></a></small>
       <div class="hidden name"><code>working-with-slurm.Rmd</code></div>
@@ -216,18 +216,18 @@ Slurm with R can be found <a href="https://uscbiostats.github.io/slurmr-workshop
 function’s main argument is the name (path) to a bash script that holds
 the instructions (and sometimes options) associated to the program. Here
 is an example of an bash file to be submitted to Slurm</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=01:00:00</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name="A long job"</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=5GB</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=long-job.out</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /path/where/to/start/the/job</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># This may vary per HPC system. At USC's hpc system</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># we use: source /usr/usc/R/default/setup.sh</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load R</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> long-job-rscript.R</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#SBATCH --time=01:00:00</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">#SBATCH --job-name="A long job"</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#SBATCH --mem=5GB</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#SBATCH --output=long-job.out</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="bu">cd</span> /path/where/to/start/the/job</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co"># This may vary per HPC system. At USC's hpc system</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co"># we use: source /usr/usc/R/default/setup.sh</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="ex">module</span> load R</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> long-job-rscript.R</span></code></pre></div>
 <p>This example bash file, which we name “long-job-rscript.slurm”, has
 the following components:</p>
 <ul>
@@ -248,7 +248,7 @@ will be using R.</p></li>
 </ul>
 <p>This batch script can be submitted to Slurm using the
 <code>sbatch</code> command line tool:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sbatch long-job-rscript.slurm</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="ex">$</span> sbatch long-job-rscript.slurm</span></code></pre></div>
 <p>This is what happens under-the-hood in <code>slurmR</code>
 overall.</p>
 </div>

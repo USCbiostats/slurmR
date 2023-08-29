@@ -24,7 +24,7 @@ and submitting it via sbatch."><meta property="og:image" content="/logo.svg"><!-
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">slurmR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5-3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5-4</span>
       </span>
     </div>
 
@@ -155,12 +155,12 @@ read from the R script and added to the Slurm job file.</p>
 <p>The function <code>slurmr_cmd</code> writes a simple command that works as a wrapper
 of <code>sourceSlurm</code>. In particular, from command line, if the user wants to source an
 R script using <code>sourceSlurm</code>, we can either:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span> Rscript <span class="sc">-</span>e <span class="st">"slurmR::sourceSlurm('path/to/the/script.R', plan = 'submit')"</span></span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="sc">$</span> Rscript <span class="sc">-</span>e <span class="st">"slurmR::sourceSlurm('path/to/the/script.R', plan = 'submit')"</span></span></code></pre><p></p></div>
 <p>Or, after calling <code>slurmr_cmd</code> from within R, do the following instead</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span> .<span class="sc">/</span>slurmr path<span class="sc">/</span>to<span class="sc">/</span>the<span class="sc">/</span>script.R</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="sc">$</span> .<span class="sc">/</span>slurmr path<span class="sc">/</span>to<span class="sc">/</span>the<span class="sc">/</span>script.R</span></code></pre><p></p></div>
 <p>And, if you used the option <code>add_alias = TRUE</code>, then, after restarting bash,
 you can run R scripts with Slurm as follows:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span> slurmr path<span class="sc">/</span>to<span class="sc">/</span>the<span class="sc">/</span>script.R</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="sc">$</span> slurmr path<span class="sc">/</span>to<span class="sc">/</span>the<span class="sc">/</span>script.R</span></code></pre><p></p></div>
 <p>The main side effect of this function is that it creates a file named <code>cmd_name</code>
 in the directory specified by <code>cmd_path</code>, and, if <code>add_alias = TRUE</code>. it will
 create (if not found) or modify (if found) the <code>.bashrc</code> file adding a line

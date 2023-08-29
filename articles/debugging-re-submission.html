@@ -46,7 +46,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">slurmR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5-3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5-4</span>
       </span>
     </div>
 
@@ -101,7 +101,7 @@
                         <h4 data-toc-skip class="author">George G. Vega
 Yon</h4>
             
-            <h4 data-toc-skip class="date">2023-05-22 (Last revision Feb
+            <h4 data-toc-skip class="date">2023-08-29 (Last revision Feb
 13, 2020)</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/USCbiostats/slurmR/blob/HEAD/vignettes/debugging-re-submission.Rmd" class="external-link"><code>vignettes/debugging-re-submission.Rmd</code></a></small>
@@ -164,34 +164,34 @@ out what could be going on. Let’s see the following example:</p>
 <span>  plan <span class="op">=</span> <span class="st">"submit"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p>By printing the output, you may see something like this:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  Call<span class="sc">:</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">Slurm_lapply</span>(<span class="at">X =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, <span class="at">FUN =</span> <span class="cf">function</span>(x) <span class="fu">complicated_algorithm</span>(x), <span class="at">njobs =</span> <span class="dv">4</span>,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">plan =</span> <span class="st">"submit"</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>job_name <span class="sc">:</span> slurmr<span class="sc">-</span>job<span class="sc">-</span>5724cb1616</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>tmp_path <span class="sc">:</span> <span class="er">/</span>auto<span class="sc">/</span>rcf<span class="dv">-40</span><span class="sc">/</span>vegayon<span class="sc">/</span>slurmR<span class="sc">/</span>slurmr<span class="sc">-</span>job<span class="sc">-</span>5724cb1616</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>job ID   <span class="sc">:</span> <span class="dv">6163924</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>Status<span class="sc">:</span> All jobs are pending resource allocation or are on it<span class="st">'s way to start. (Code 1)</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="st">This is a job array. The status of each job, by array id, is the following:</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="st"> done      :  -</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="st"> failed    :  -</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="st"> pending   :  -</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="st"> running   :  1, 2, 3, 4.</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>x</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  Call<span class="sc">:</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a> <span class="fu">Slurm_lapply</span>(<span class="at">X =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, <span class="at">FUN =</span> <span class="cf">function</span>(x) <span class="fu">complicated_algorithm</span>(x), <span class="at">njobs =</span> <span class="dv">4</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>    <span class="at">plan =</span> <span class="st">"submit"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>job_name <span class="sc">:</span> slurmr<span class="sc">-</span>job<span class="sc">-</span>5724cb1616</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>tmp_path <span class="sc">:</span> <span class="er">/</span>auto<span class="sc">/</span>rcf<span class="dv">-40</span><span class="sc">/</span>vegayon<span class="sc">/</span>slurmR<span class="sc">/</span>slurmr<span class="sc">-</span>job<span class="sc">-</span>5724cb1616</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>job ID   <span class="sc">:</span> <span class="dv">6163924</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>Status<span class="sc">:</span> All jobs are pending resource allocation or are on it<span class="st">'s way to start. (Code 1)</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="st">This is a job array. The status of each job, by array id, is the following:</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="st"> done      :  -</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="st"> failed    :  -</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="st"> pending   :  -</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="st"> running   :  1, 2, 3, 4.</span></span></code></pre></div>
 <p>The problem is, what happens if one of these fails, for example, 1
 and 3:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  Call<span class="sc">:</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">Slurm_lapply</span>(<span class="at">X =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, <span class="at">FUN =</span> <span class="cf">function</span>(x) <span class="fu">complicated_algorithm</span>(x), <span class="at">njobs =</span> <span class="dv">4</span>,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">plan =</span> <span class="st">"submit"</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>job_name <span class="sc">:</span> slurmr<span class="sc">-</span>job<span class="sc">-</span>5724cb1616</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>tmp_path <span class="sc">:</span> <span class="er">/</span>auto<span class="sc">/</span>rcf<span class="dv">-40</span><span class="sc">/</span>vegayon<span class="sc">/</span>slurmR<span class="sc">/</span>slurmr<span class="sc">-</span>job<span class="sc">-</span>5724cb1616</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>job ID   <span class="sc">:</span> <span class="dv">6163924</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>Status<span class="sc">:</span> One or more jobs <span class="fu">failed.</span> (Code <span class="dv">99</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>This is a job array. The status of each job, by array id, is the following<span class="sc">:</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a> done      <span class="sc">:</span>  <span class="dv">2</span>, <span class="fl">4.</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a> failed    <span class="sc">:</span>  <span class="dv">1</span>, <span class="fl">3.</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a> pending   <span class="sc">:</span>  <span class="sc">-</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a> running   <span class="sc">:</span>  <span class="sc">-</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>x</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  Call<span class="sc">:</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a> <span class="fu">Slurm_lapply</span>(<span class="at">X =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, <span class="at">FUN =</span> <span class="cf">function</span>(x) <span class="fu">complicated_algorithm</span>(x), <span class="at">njobs =</span> <span class="dv">4</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>    <span class="at">plan =</span> <span class="st">"submit"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>job_name <span class="sc">:</span> slurmr<span class="sc">-</span>job<span class="sc">-</span>5724cb1616</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>tmp_path <span class="sc">:</span> <span class="er">/</span>auto<span class="sc">/</span>rcf<span class="dv">-40</span><span class="sc">/</span>vegayon<span class="sc">/</span>slurmR<span class="sc">/</span>slurmr<span class="sc">-</span>job<span class="sc">-</span>5724cb1616</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>job ID   <span class="sc">:</span> <span class="dv">6163924</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>Status<span class="sc">:</span> One or more jobs <span class="fu">failed.</span> (Code <span class="dv">99</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>This is a job array. The status of each job, by array id, is the following<span class="sc">:</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a> done      <span class="sc">:</span>  <span class="dv">2</span>, <span class="fl">4.</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a> failed    <span class="sc">:</span>  <span class="dv">1</span>, <span class="fl">3.</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a> pending   <span class="sc">:</span>  <span class="sc">-</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a> running   <span class="sc">:</span>  <span class="sc">-</span></span></code></pre></div>
 <p>We can check the log-files of the failed jobs using
 <code>Slurm_log</code>, for example, if we wanted to checkout the
 log-file of the first job of the array, we can type:</p>
@@ -210,7 +210,7 @@ usually due to a missing log, either you entered an invalid number in
 <code>which.</code>, or the job-array didn’t started the log-file. If
 the error has to do with the later, then you can always inspect the
 files located in the job folder using command line tools:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd /path-to-the-temp-dir/path-to-the-job-name/</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">$</span> cd /path-to-the-temp-dir/path-to-the-job-name/</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="job-resubmission">Job-resubmission<a class="anchor" aria-label="anchor" href="#job-resubmission"></a>

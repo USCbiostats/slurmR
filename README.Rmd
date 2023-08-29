@@ -299,9 +299,8 @@ Here is a manually curated list of institutions using Slurm:
 | UCSan Diego WM Keck Lab for Integrated Biology | US | [link](https://keck2.ucsd.edu/dokuwiki/doku.php/wiki:slurm) |
 | Stanford Sherlock | US | [link](https://www.sherlock.stanford.edu/docs/overview/introduction/) |
 | Stanford SCG Informatics Cluster | US | [link](https://login.scg.stanford.edu/tutorials/job_scripts/) |
-| UC Berkeley Open Computing Facility | US | [link](https://www.ocf.berkeley.edu/docs/services/hpc/slurm/) |
+| UC Berkeley Open Computing Facility | US | [link](https://www.ocf.berkeley.edu/docs/services/hpc/) |
 | University of Utah CHPC | US | [link](https://www.chpc.utah.edu/documentation/software/slurm.php) |
-| University of Michigan Biostatistics cluster| US | [link](https://sph.umich.edu/biostat/computing/cluster/slurm.html) |
 | The University of Kansas Center for Research Computing | US | [link](https://docs.crc.ku.edu/how-to/submitting-jobs/) |
 | University of Cambridge | UK | [link](https://www.ch.cam.ac.uk/computing/slurm-usage) |
 | Indiana University | US | [link](https://kb.iu.edu/d/awrz) |
@@ -310,7 +309,7 @@ Here is a manually curated list of institutions using Slurm:
 | UTSouthwestern Medical Center BioHPC | US | [link](https://portal.biohpc.swmed.edu/content/guides/slurm/) |
 | Vanderbilt University ACCRE | US | [link](https://www.vanderbilt.edu/accre/documentation/slurm/) |
 | University of Virginia Research Computing | US | [link](https://www.rc.virginia.edu/userinfo/rivanna/slurm/) |
-| Center for Advanced Computing | CA | [link](https://cac.queensu.ca/wiki/index.php/SLURM) |
+| Center for Advanced Computing | CA | [link](https://info.cac.queensu.ca) |
 | SciNet | CA | [link](https://docs.scinet.utoronto.ca/index.php/Slurm) |
 | NLHPC | CL | [link](https://wiki.nlhpc.cl/P%C3%A1gina_principal) |
 | Kultrun | CL | [link](http://www.astro.udec.cl/kultrun/) |

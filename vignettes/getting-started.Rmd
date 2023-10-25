@@ -48,11 +48,11 @@ cl <- makeSlurmCluster(100)
 
 # Computing the mean of a 100 random uniforms within each worker
 # for this we can use any of the function available in the parallel package.
-ans <- parSapply(1:200, function(x) mean(runif(100)))
+ans <- parSapply(cl, 1:200, function(x) mean(runif(100)))
 
 # We simply call stopCluster as we would do with any other cluster
 # object
-stopCluster(ans)
+stopCluster(cl)
 ```
 
 ## Job arrays using the *apply family

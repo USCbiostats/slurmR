@@ -45,6 +45,9 @@ NULL
 
 
 .onAttach <- function(libname, pkgname) {
+  packageStartupMessage(
+    "Using slurmR in your research? Please cite it: citation(\"slurmR\")"
+  )
 
   packageStartupMessage(
     "slurmR default option for `tmp_path` (used to store auxiliar files) set to:\n  ", opts_slurmR$get_tmp_path(),

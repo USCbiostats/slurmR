@@ -9,6 +9,11 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+<!-- how-to-cite -->
+> **How to cite.** If you use **slurmR** in published work, please cite it — run
+> `citation("slurmR")` in R for the full entry.
+<!-- how-to-cite -->
+
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,

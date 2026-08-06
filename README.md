@@ -15,6 +15,16 @@ Epidemiology](https://raw.githubusercontent.com/USCbiostats/badges/master/tommy-
 
 # slurmR: A Lightweight Wrapper for Slurm <img src="man/figures/logo.png" height="180px" align="right"/>
 
+
+<!-- how-to-cite -->
+> [!NOTE]
+> **How to cite slurmR.** If you use **slurmR** in published work, please cite it:
+>
+> Vega Yon GG, Marjoram P (2019). slurmR: A lightweight wrapper for HPC with Slurm. *Journal of Open Source Software*, 4(42), 1493. doi:[10.21105/joss.01493](https://doi.org/10.21105/joss.01493)
+>
+> Run `citation("slurmR")` in R for the BibTeX entry.
+<!-- how-to-cite -->
+
 Slurm Workload Manager is a popular HPC cluster job scheduler found in
 many of the top 500 supercomputers. The `slurmR` R package provides an R
 wrapper to it that matches the parallel package’s syntax, this is, just

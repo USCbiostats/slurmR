@@ -2,3 +2,6 @@ template:
   params:
     ganalytics: UA-108627422-2
 
+authors:
+  "George Vega Yon":
+    href: "https://ggvy.cl"

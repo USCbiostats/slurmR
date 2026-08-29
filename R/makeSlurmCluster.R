@@ -14,13 +14,28 @@ get_hosts <- function(
   fn   <- tempfile("slurmr-job-", tmpdir = opts_slurmR$get_tmp_path())
   jn   <- basename(fn)
   out  <- sprintf("%s/%s.out", tmp_path, jn)
+  hostfile <- sprintf("%s/%s.hostfile", tmp_path, jn)
 
   # Writing the script
   dots <- c(list(ntasks = ntasks, output = out), list(...))
+  
+  hostlist_script<-system.file(package="slurmR","hostlist")
+  hostlist_args<-"--append-slurm-tasks=$SLURM_TASKS_PER_NODE -d -e -a \\: $SLURM_NODELIST | \
+while IFS=':' read -ra array
+    do 
+        hostname=(\"${array[0]}\")
+        count=(\"${array[1]}\")
+        for i in `seq 1 $count`
+            do 
+                echo $hostname
+            done
+    done"
   dat  <- paste(
-    "#!/bin/sh",
+    "#!/bin/bash",
     paste0("#SBATCH ", parse_flags(dots), collapse = "\n"),
     paste(opts_slurmR$get_preamble(), collapse = "\n"),
+    paste(hostlist_script,"\\",collapse = "\n"),
+    paste(hostlist_args, ">", hostfile),
     "echo ==start-hostnames==",
     "srun hostname",
     "sleep infinity",
@@ -32,19 +47,26 @@ get_hosts <- function(
   # Submitting the job
   jobid <- sbatch(fn, wait = FALSE, submit = TRUE)
 
+  # # Returning
+  # while (!file.exists(hostfile)) {
+  #   Sys.sleep(1)
+  # }
+  # 
+  # hosts <- readLines(hostfile)
+  
   # Returning
   hosts <- function() {
     tryCatch({
-      hostnames <- suppressWarnings(readLines(out))
-      hostnames_start <- which(grepl("^==start-hostnames==$", hostnames)) + 1L
+      hostnames <- suppressWarnings(readLines(hostfile))
+      hostnames_start <- 1L
       ans <- hostnames[hostnames_start:(hostnames_start + ntasks - 1L)]
       if (any(is.na(ans)))
-         stop("Still reading...", call. = FALSE)
+        stop("Still reading...", call. = FALSE)
       ans
     }, error = function(e) e)
   }
-
-  clean <- function() suppressWarnings(file.remove(out))
+  
+  clean <- function() suppressWarnings(file.remove(c(out,hostfile)))
 
   structure(
     list(

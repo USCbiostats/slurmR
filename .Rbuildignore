@@ -32,3 +32,4 @@ slurmr-job*/
 comparing-projects.+
 ^docker$
 ^covr.*$
+^CITATION\.cff$

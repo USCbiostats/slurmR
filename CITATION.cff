@@ -1,0 +1,60 @@
+cff-version: 1.2.0
+message: 'To cite package "slurmR" in publications use:'
+type: software
+license: MIT
+title: 'slurmR: A Lightweight Wrapper for ''Slurm'''
+version: 0.5-4
+doi: 10.32614/CRAN.package.slurmR
+abstract: '''Slurm'', Simple Linux Utility for Resource Management <https://slurm.schedmd.com/>,
+  is a popular ''Linux'' based software used to schedule jobs in ''HPC'' (High Performance
+  Computing) clusters. This R package provides a specialized lightweight wrapper of
+  ''Slurm'' with a syntax similar to that found in the ''parallel'' R package. The
+  package also includes a method for creating socket cluster objects spanning multiple
+  nodes that can be used with the ''parallel'' package.'
+authors:
+- family-names: Vega Yon
+  given-names: George
+  email: g.vegayon@gmail.com
+  orcid: https://orcid.org/0000-0002-3171-0844
+preferred-citation:
+  type: article
+  title: 'slurmR: A lightweight wrapper for HPC with Slurm'
+  authors:
+  - family-names: Vega Yon
+    given-names: George
+    orcid: https://orcid.org/0000-0002-3171-0844
+    email: g.vegayon@gmail.com
+  - family-names: Marjoram
+    given-names: Paul
+    orcid: https://orcid.org/0000-0003-0824-7449
+  journal: Journal of Open Source Software
+  year: '2019'
+  month: '10'
+  volume: '4'
+  issue: '42'
+  doi: 10.21105/joss.01493
+  url: https://doi.org/10.21105/joss.01493
+  start: '1493'
+repository: https://CRAN.R-project.org/package=slurmR
+repository-code: https://github.com/USCbiostats/slurmR
+url: https://slurm.schedmd.com/
+date-released: '2023-08-29'
+contact:
+- family-names: Vega Yon
+  given-names: George
+  email: g.vegayon@gmail.com
+  orcid: https://orcid.org/0000-0002-3171-0844
+references:
+- type: manual
+  title: 'slurmR: A Lightweight Wrapper for ''Slurm'''
+  authors:
+  - family-names: Vega Yon
+    given-names: George
+    orcid: https://orcid.org/0000-0002-3171-0844
+  - family-names: Marjoram
+    given-names: Paul
+    orcid: https://orcid.org/0000-0003-0824-7449
+  year: '2023'
+  notes: R package version 0.5-4
+  url: https://github.com/USCbiostats/slurmR
+  doi: 10.32614/CRAN.package.slurmR

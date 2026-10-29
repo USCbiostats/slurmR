@@ -22,12 +22,28 @@ wait_slurm <- function(x, ...) UseMethod("wait_slurm")
 #' @export
 #' @rdname wait_slurm
 wait_slurm.slurm_job <- function(x, ...) {
-  wait_slurm.integer(get_job_id(x), ...)
+  # Keeping the job object so that status() can fall back to checking the
+  # output files if -sacct- fails (see #29 and #40).
+  wait_slurm_impl(get_job_id(x), job = x, ...)
 }
 
 #' @export
 #' @rdname wait_slurm
 wait_slurm.integer <- function(x, timeout = -1, freq = 0.1, force = TRUE, ...) {
+  wait_slurm_impl(x, timeout = timeout, freq = freq, force = force, ...)
+}
+
+#' @param job Either `NULL` or an object of class `slurm_job`. When not `NULL`,
+#' the status is checked using the job object instead of the job ID.
+#' @noRd
+wait_slurm_impl <- function(
+    x,
+    timeout = -1,
+    freq    = 0.1,
+    force   = TRUE,
+    job     = NULL,
+    ...
+) {
 
   # Checking if Slurm and debug mode
   if (opts_slurmR$get_debug()) {
@@ -45,7 +61,7 @@ wait_slurm.integer <- function(x, timeout = -1, freq = 0.1, force = TRUE, ...) {
 
     # Getting status, every freq secs
     Sys.sleep(freq)
-    s <- status(x)
+    s <- if (is.null(job)) status(x) else status(job)
 
     # The job has not been found. If force = TRUE, then, if the job has not
     # been found, then just retry until it finds the job. Otherwise, if no

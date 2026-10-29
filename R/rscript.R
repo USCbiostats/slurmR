@@ -66,13 +66,23 @@ tcq <- function(...) {
 
 }
 
-#' Creates an R script
+#' Creates the `library()` calls of the R script
 #' @noRd
-#' @param pkgs A named list of R packages to load.
-load_packages <- function(pkgs, tmp_path, job_name) {
+#' @param pkgs A named list of R packages to load. Each element is the library
+#' where the package was found in the current session.
+#' @param libPaths A character vector with library paths. These are appended to
+#' each package's library so that `library()` falls back to them when the
+#' detected location is not a library tree (e.g., the renv cache, see #43).
+load_packages <- function(pkgs, tmp_path, job_name, libPaths = NULL) {
 
-  # For testing purposes, the instalation of the package is somewhere else
-  sprintf("library(%s, lib.loc = \"%s\")", names(pkgs), unlist(pkgs))
+  vapply(names(pkgs), function(p) {
+    lib_loc <- unique(c(as.character(pkgs[[p]]), libPaths))
+    sprintf(
+      "library(%s, lib.loc = c(\"%s\"))",
+      p,
+      paste(lib_loc, collapse = "\", \"")
+    )
+  }, character(1), USE.NAMES = FALSE)
 
 }
 
@@ -129,7 +139,10 @@ save_objects <- function(
 #' @param pkgs A named list with packages to be included. Each element of the list
 #' must be a path to the R library, while the names of the list are the names of
 #' the R packages to be loaded.
-#' @param libPaths A character vector. See [.libPaths].
+#' @param libPaths A character vector. See [.libPaths]. Besides being set in the
+#' job script, these paths are appended to the `lib.loc` of every `library()`
+#' call, so packages are also searched for there (useful with renv, where the
+#' detected location of a package may be a cache rather than a library).
 #' @template job_name-tmp_path
 #'
 #' @return An environment of class `slurmR_rscript`. This has the following accessible
@@ -232,7 +245,12 @@ new_rscript <- function(
     )
 
   # We only load packages if loaded...
-  pkgs <- load_packages(pkgs, tmp_path = tmp_path, job_name = job_name)
+  pkgs <- load_packages(
+    pkgs,
+    tmp_path = tmp_path,
+    job_name = job_name,
+    libPaths = libPaths
+  )
   if (length(pkgs)) {
     env$append("message(\"[slurmR info] Loading packages ... \")", wrap = FALSE)
     env$append(pkgs)

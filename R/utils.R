@@ -291,6 +291,40 @@ check_full_path <- function(tmp_path, job_name, overwrite = FALSE) {
 
 }
 
+#' Check that objects listed in `export` do not clash with reserved names
+#'
+#' The R script that slurmR writes for each job defines a few objects of its
+#' own (see `RSCRIPT_RESERVED_NAMES`) and loads the function arguments (e.g.,
+#' `X`, `FUN`, `mc.cores`) under fixed names. Exporting an object with any of
+#' those names would overwrite them in the job, so we fail early, before
+#' anything is written to disk.
+#' @param export Character vector with the names of the objects to export.
+#' @param reserved Character vector with the reserved names.
+#' @noRd
+check_export <- function(export, reserved = RSCRIPT_RESERVED_NAMES) {
+
+  if (!length(export))
+    return(invisible())
+
+  if (!is.character(export))
+    stop("`export` must be a character vector of object names.",
+         call. = FALSE)
+
+  clash <- unique(intersect(export, reserved))
+  if (length(clash))
+    stop(
+      "The following object(s) listed in `export` clash with names that ",
+      "slurmR uses internally in the job's R script: ",
+      paste0("`", clash, "`", collapse = ", "),
+      ". Please rename them before exporting. Reserved names are: ",
+      paste0("`", sort(unique(reserved)), "`", collapse = ", "), ".",
+      call. = FALSE
+    )
+
+  invisible()
+
+}
+
 #' Returns with an error if Slurm is not available
 #' @noRd
 stopifnot_slurm <- function() {

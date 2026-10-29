@@ -51,6 +51,29 @@ expect_error(
   "unname"
   )
 
+# Exported objects cannot clash with reserved names (issue #49) ---------------
+nclash <- 0L
+for (v in c("seeds", "f", "mc.cores", "INDICES", "tcq", "x")) {
+  nclash <- nclash + 1L
+  jname  <- paste0("test-Slurm_map-clash", nclash)
+  assign(v, 1)
+  expect_error(
+    Slurm_Map(
+      function(x, y) x + y,
+      x        = 1:2,
+      y        = 1:2,
+      njobs    = 2,
+      export   = v,
+      plan     = "none",
+      job_name = jname
+    ),
+    pattern = v
+  )
+
+  # Nothing should be written to disk
+  expect_false(dir.exists(file.path(opts_slurmR$get_tmp_path(), jname)))
+}
+
 suppressMessages({
   opts_slurmR$debug_off()
 })

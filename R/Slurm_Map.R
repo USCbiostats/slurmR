@@ -56,6 +56,16 @@ Slurm_Map <- function(
   # Figuring out the plan
   plan <- the_plan(plan)
 
+  # Exported objects cannot clash with objects created in the R script. This
+  # must be checked before anything is written to disk.
+  dots <- list(...)
+  check_export(
+    export,
+    reserved = c(
+      RSCRIPT_RESERVED_NAMES, "INDICES", "f", "mc.cores", names(dots)
+    )
+  )
+
   # Checking the path
   check_full_path(
     tmp_path = tmp_path, job_name = job_name, overwrite = overwrite
@@ -74,13 +84,8 @@ Slurm_Map <- function(
   if (!is.function(f))
     stop("f should be a function, instead it is: ", class(f), call. = FALSE)
 
-  if (length(export) && !is.character(export))
-    stop("`export` must be a character vector of object names.",
-         call. = FALSE)
-
   # Checking function args
   FUNargs <- names(formals(f))
-  dots    <- list(...)
 
   # Checking names
   # All arguments in ... must be named

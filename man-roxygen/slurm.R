@@ -4,7 +4,15 @@
 #' of R objects on disk.
 #' @param seeds Integer vector of length `njobs`. Seeds to be passed to each
 #' job. When `NULL` (default), seeds will be picked automatically (see [new_rscript]).
-#' @param export A named list with objects to be included in the Spawned sessions.
+#' @param export A character vector with the names of the objects to be
+#' included in the spawned sessions (looked up in `export_env`). Names that
+#' slurmR uses internally in the job's R script are reserved and cannot be
+#' exported: `Slurm_env`, `ARRAY_ID`, `snames`, `TMP_PATH`, `JOB_NAME`, `tcq`,
+#' and `seeds`. In `Slurm_lapply` and `Slurm_sapply`, `INDICES`, `X`, `FUN`,
+#' and `mc.cores` are also reserved; in `Slurm_Map`, `INDICES`, `f`, and
+#' `mc.cores` are. Names of arguments passed via `...` cannot be exported
+#' either. The function returns with an error before writing anything to disk
+#' if any of the exported names clash with these.
 #' @param export_env An environment. Environment where the objects listed in
 #' `export` are located (default [parent.frame()]).
 #' @param libPaths A character vector. See [.libPaths].

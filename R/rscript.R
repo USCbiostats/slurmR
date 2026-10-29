@@ -121,6 +121,26 @@ save_objects <- function(
 
 }
 
+#' Names reserved by the R script written by slurmR
+#'
+#' Objects that [new_rscript()] defines in every job's R script: the
+#' constants and helper functions written at the top of the script
+#' (`Slurm_env`, `ARRAY_ID`, `snames`, `TMP_PATH`, `JOB_NAME`, `tcq`), and the
+#' vector of seeds added by `set_seed()` (`seeds`). Objects listed in `export`
+#' cannot use these names. Functions that load further objects (e.g.,
+#' `INDICES`, `X`, `FUN`) extend this vector. If you add a new object to the
+#' script in [new_rscript()], add its name here too (a test checks this).
+#' @noRd
+RSCRIPT_RESERVED_NAMES <- c(
+  "Slurm_env",
+  "ARRAY_ID",
+  "snames",
+  "TMP_PATH",
+  "JOB_NAME",
+  "tcq",
+  "seeds"
+)
+
 #' General purpose function to write R scripts
 #'
 #' This function will create an object of class `slurmR_rscript` that can be used

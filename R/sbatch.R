@@ -171,8 +171,8 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
 
   # Capturing jobname
   SBATCH   <- read_sbatch(x)
-  job_name <- SBATCH["job-name"]
-  if (is.na(job_name))
+  job_name <- SBATCH[["job-name"]]
+  if (!is.character(job_name))
     job_name <- basename(x)
 
   tmp_opts <- list(...)

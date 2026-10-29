@@ -27,7 +27,10 @@ nodes in the network (See \link{opts_slurmR}).}
 must be a path to the R library, while the names of the list are the names of
 the R packages to be loaded.}
 
-\item{libPaths}{A character vector. See \link{.libPaths}.}
+\item{libPaths}{A character vector. See \link{.libPaths}. Besides being set in the
+job script, these paths are appended to the \code{lib.loc} of every \code{library()}
+call, so packages are also searched for there (useful with renv, where the
+detected location of a package may be a cache rather than a library).}
 }
 \value{
 An environment of class \code{slurmR_rscript}. This has the following accessible

@@ -1,3 +1,7 @@
+# slurmR 0.5-5
+
+* Using [python-hostlist 1.23](https://www.nsc.liu.se/~kent/python-hostlist/) to no longer rely on SLURM output for extracting hostnames.
+
 # slurmR 0.5-4
 
 * Adressing [`roxygen2` issue #1491](https://github.com/r-lib/roxygen2/issues/1491).

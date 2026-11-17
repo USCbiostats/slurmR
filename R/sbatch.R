@@ -139,7 +139,7 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
     # Sometines it comes with infomration
     ans <- ans[grepl("^Submitted batch", ans)]
 
-    get_job_id(x) <- as.integer(gsub(pattern = ".+ (?=[[:digit:]]+$)", "", ans, perl=TRUE))
+    get_job_id(x) <- as.integer(sub("^Submitted batch job ([[:digit:]]+)( .*)?$", "\\1", ans))
 
     # We need to update the job file and the latest submitted job
     LAST_SUBMITTED_JOB$set(x)
@@ -221,7 +221,7 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
   # Sometines it comes with infomration
   ans <- ans[grepl("^Submitted batch", ans)]
 
-  jobid <- as.integer(gsub(pattern = ".+ (?=[[:digit:]]+$)", "", ans, perl=TRUE))
+  jobid <- as.integer(sub("^Submitted batch job ([[:digit:]]+)( .*)?$", "\\1", ans))
 
   if (wait)
     wait_slurm(jobid)

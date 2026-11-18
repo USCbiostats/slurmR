@@ -136,10 +136,7 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
   # Warning that the call has been made and storing the id
   if (!opts_slurmR$get_debug()) {
 
-    # Sometines it comes with infomration
-    ans <- ans[grepl("^Submitted batch", ans)]
-
-    get_job_id(x) <- as.integer(gsub(pattern = ".+ (?=[[:digit:]]+$)", "", ans, perl=TRUE))
+    get_job_id(x) <- parse_sbatch_jobid(ans)
 
     # We need to update the job file and the latest submitted job
     LAST_SUBMITTED_JOB$set(x)
@@ -218,14 +215,42 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
   ans <- silent_system2(opts_slurmR$get_cmd(), option, stdout = TRUE, stderr = TRUE)
   cat(ans, sep = "\n")
 
-  # Sometines it comes with infomration
-  ans <- ans[grepl("^Submitted batch", ans)]
-
-  jobid <- as.integer(gsub(pattern = ".+ (?=[[:digit:]]+$)", "", ans, perl=TRUE))
+  jobid <- if (!opts_slurmR$get_debug())
+    parse_sbatch_jobid(ans)
+  else NA_integer_
 
   if (wait)
     wait_slurm(jobid)
 
   invisible(jobid)
+
+}
+
+#' Extract the job id from the output of `sbatch`
+#'
+#' Handles both the standard output (`Submitted batch job 123`) and the one
+#' from federated clusters (`Submitted batch job 123 on cluster foo`).
+#' @param ans Character vector. Output captured from `sbatch`.
+#' @return An integer scalar with the job id. Fails with an error if no job id
+#' can be found.
+#' @noRd
+parse_sbatch_jobid <- function(ans) {
+
+  pattern <- "^\\s*Submitted batch job\\s+([[:digit:]]+)\\b.*$"
+  lines   <- ans[grepl(pattern, ans, perl = TRUE)]
+
+  if (length(lines)) {
+    jobid <- suppressWarnings(
+      as.integer(sub(pattern, "\\1", lines[1L], perl = TRUE))
+    )
+    if (!is.na(jobid))
+      return(jobid)
+  }
+
+  stop(
+    "Unable to parse the job id from the output of sbatch. The output was:\n",
+    paste(ans, collapse = "\n"),
+    call. = FALSE
+  )
 
 }

@@ -136,10 +136,7 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
   # Warning that the call has been made and storing the id
   if (!opts_slurmR$get_debug()) {
 
-    # Sometines it comes with infomration
-    ans <- ans[grepl("^Submitted batch", ans)]
-
-    get_job_id(x) <- as.integer(sub("^Submitted batch job ([[:digit:]]+)( .*)?$", "\\1", ans))
+    get_job_id(x) <- parse_sbatch_jobid(ans)
 
     # We need to update the job file and the latest submitted job
     LAST_SUBMITTED_JOB$set(x)
@@ -218,14 +215,46 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
   ans <- silent_system2(opts_slurmR$get_cmd(), option, stdout = TRUE, stderr = TRUE)
   cat(ans, sep = "\n")
 
-  # Sometines it comes with infomration
-  ans <- ans[grepl("^Submitted batch", ans)]
-
-  jobid <- as.integer(sub("^Submitted batch job ([[:digit:]]+)( .*)?$", "\\1", ans))
+  jobid <- if (!opts_slurmR$get_debug())
+    parse_sbatch_jobid(ans)
+  else NA_integer_
 
   if (wait)
     wait_slurm(jobid)
 
   invisible(jobid)
+
+}
+
+#' Extract the job id from the output of `sbatch`
+#'
+#' `sbatch` reports a successful submission with `Submitted batch job <id>`.
+#' When the job is sent to another cluster (`-M`/`--clusters`, e.g., federated
+#' or multi-cluster setups), Slurm appends ` on cluster <name>` to the message.
+#' Older versions only print the first form. Since `stderr` is captured along
+#' with `stdout`, the message may also be preceded by other lines (warnings,
+#' retries) or by an `sbatch: ` prefix, so we look for the message in any line
+#' instead of assuming its position.
+#'
+#' @param ans Character vector. Output captured from `sbatch`.
+#' @return An integer scalar with the job id. It stops with an informative
+#' error if no job id can be found.
+#' @noRd
+parse_sbatch_jobid <- function(ans) {
+
+  pattern <- "^\\s*(sbatch:\\s+)?Submitted batch job\\s+([[:digit:]]+)(\\s.*)?$"
+  lines   <- ans[grepl(pattern, ans)]
+
+  if (length(lines)) {
+    jobid <- suppressWarnings(as.integer(sub(pattern, "\\2", lines[1L])))
+    if (!is.na(jobid))
+      return(jobid)
+  }
+
+  stop(
+    "Unable to parse the job id from the output of sbatch. The output was:\n",
+    paste(ans, collapse = "\n"),
+    call. = FALSE
+  )
 
 }

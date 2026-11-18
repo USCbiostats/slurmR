@@ -1,5 +1,8 @@
 # slurmR 0.5-4
 
+* Fixed job id recovery when submitting to another cluster (`sbatch -M`), where Slurm
+  appends `on cluster <name>` to the success message (#59). A clear error is
+  now raised if the job id cannot be parsed.
 * Adressing [`roxygen2` issue #1491](https://github.com/r-lib/roxygen2/issues/1491).
 
 

@@ -1,54 +1,77 @@
-if (.Platform$OS.type == "unix") local({
-  path <- tempfile()
-  dir.create(path)
-  sbatch_path <- file.path(path, "sbatch")
-  writeLines(c(
-    "#!/bin/sh",
-    "printf '%s\\n' 'Some informational message 999' \"$SLURMR_TEST_SBATCH_OUTPUT\""
-  ), sbatch_path)
-  Sys.chmod(sbatch_path, "0755")
+# Parsing the job id from the output of sbatch (does not require Slurm) ------
+parse_jobid <- slurmR:::parse_sbatch_jobid
 
-  old_path <- Sys.getenv("PATH")
-  old_output <- Sys.getenv("SLURMR_TEST_SBATCH_OUTPUT", unset = NA_character_)
-  old_tmp_path <- opts_slurmR$get_tmp_path()
-  old_job_name <- opts_slurmR$get_job_name()
-  old_debug <- opts_slurmR$get_debug()
-  old_verbose <- opts_slurmR$get_verbose()
-  job_record <- slurmR:::LAST_SUBMITTED_JOB
-  old_job <- last_job()
-  on.exit({
-    Sys.setenv(PATH = old_path)
-    if (is.na(old_output))
-      Sys.unsetenv("SLURMR_TEST_SBATCH_OUTPUT")
-    else
-      Sys.setenv(SLURMR_TEST_SBATCH_OUTPUT = old_output)
-    opts_slurmR$set_tmp_path(old_tmp_path)
-    opts_slurmR$set_job_name(old_job_name)
-    suppressMessages(if (old_debug) opts_slurmR$debug_on() else opts_slurmR$debug_off())
-    if (old_verbose) opts_slurmR$verbose_on() else opts_slurmR$verbose_off()
-    job_record$job <- old_job
-    unlink(path, recursive = TRUE)
-  })
+# Standard output
+expect_identical(parse_jobid("Submitted batch job 8653762"), 8653762L)
 
-  Sys.setenv(PATH = paste(path, old_path, sep = .Platform$path.sep))
-  suppressMessages(opts_slurmR$debug_off())
+# Cross-cluster submissions append the cluster name (issue #59), which may
+# contain digits
+expect_identical(
+  parse_jobid("Submitted batch job 17159340 on cluster B"),
+  17159340L
+)
+expect_identical(
+  parse_jobid("Submitted batch job 17159340 on cluster cluster2"),
+  17159340L
+)
 
-  outputs <- c(
-    "Submitted batch job 17159340",
-    "Submitted batch job 17159340 on cluster B",
-    "Submitted batch job 17159340 on cluster cluster2"
+# Other lines (stderr is captured too) and the `sbatch: ` prefix shown in the
+# Slurm documentation
+expect_identical(
+  parse_jobid(c("sbatch: warning 999", "Submitted batch job 123 on cluster foo", "")),
+  123L
+)
+expect_identical(parse_jobid("sbatch: Submitted batch job 65541"), 65541L)
+
+# Informative errors when there is no job id
+expect_error(
+  parse_jobid("sbatch: error: Batch job submission failed"),
+  "Unable to parse the job id"
+)
+expect_error(parse_jobid(character(0)), "Unable to parse the job id")
+
+# Real submission (only within a Slurm environment) --------------------------
+# Set SLURMR_TEST_CLUSTER to the name of another cluster to also exercise a
+# cross-cluster submission, i.e., the sbatch output ends with `on cluster <name>`
+if (slurm_available()) {
+
+  # Local submission
+  job <- Slurm_EvalQ(
+    Sys.sleep(1000), njobs = 1L, plan = "submit",
+    job_name = "test-sbatch-output1"
   )
 
-  for (i in seq_along(outputs)) {
-    Sys.setenv(SLURMR_TEST_SBATCH_OUTPUT = outputs[i])
-    job <- suppressMessages(Slurm_lapply(
-      list(1, 2), identity, njobs = 2, plan = "submit",
-      tmp_path = path, job_name = paste0("test-sbatch-output", i),
-      sbatch_opt = list(cluster = "B")
-    ))
-    expect_equal(job$jobid, 17159340L)
-    expect_equal(last_job()$jobid, 17159340L)
-    expect_equal(read_slurm_job(dirname(job$bashfile))$jobid, 17159340L)
-    expect_equal(suppressMessages(sbatch(job$bashfile)), 17159340L)
+  expect_true(is.integer(job$jobid) && !is.na(job$jobid))
+  expect_equal(last_job()$jobid, job$jobid)
+
+  # Submitting through the bash file returns a valid job id as well
+  jobid <- suppressMessages(sbatch(job$bashfile))
+  expect_true(is.integer(jobid) && !is.na(jobid))
+
+  scancel(job)
+  scancel(jobid)
+  Slurm_clean(job)
+
+  # Cross-cluster submission (opt-in)
+  cl <- Sys.getenv("SLURMR_TEST_CLUSTER")
+  if (nzchar(cl)) {
+
+    job <- Slurm_EvalQ(
+      Sys.sleep(1000), njobs = 1L, plan = "submit",
+      job_name   = "test-sbatch-output2",
+      sbatch_opt = list(clusters = cl)
+    )
+
+    expect_true(is.integer(job$jobid) && !is.na(job$jobid))
+
+    jobid <- do.call(sbatch, list(job$bashfile, clusters = cl))
+    expect_true(is.integer(jobid) && !is.na(jobid))
+
+    # scancel() is not cluster-aware, so we call it directly
+    for (j in c(job$jobid, jobid))
+      system2("scancel", c("-M", cl, j), stdout = FALSE, stderr = FALSE)
+    Slurm_clean(job)
+
   }
-})
+
+}

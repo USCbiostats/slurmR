@@ -11,8 +11,13 @@ read_sbatch(x)
 a character vector.}
 }
 \value{
-A named vector of the options starting with \verb{#SBATCH} in the file.
-If no option is found, then returns a character vector length 0.
+A named list of the options starting with \verb{#SBATCH} in the file. The
+names are the option names without leading dashes (e.g., \code{"job-name"} for
+\code{--job-name}, or \code{"J"} for \code{-J}). Options with a value (e.g.,
+\code{--time=01:00:00}, \verb{--time 01:00:00}, or \verb{-N 2}) are stored as character
+scalars, while flags without a value (e.g., \code{--exclusive}) are stored as
+\code{TRUE}, so the list can be passed to \code{\link[=parse_flags]{parse_flags()}} to recover the options.
+If no option is found, then returns an empty list.
 }
 \description{
 Read a slurm batch file and capture the SBATCH options

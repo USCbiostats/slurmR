@@ -44,6 +44,8 @@ is the same as what is returned by \link[parallel:makeCluster]{parallel::makePSO
 difference that it has two extra attributes:
 \itemize{
 \item \code{SLURM_JOBID} Which is the id of the Job that initialized that cluster.
+\item \code{SLURM_CLUSTER} The name of the Slurm cluster where the job is running when
+it is not the local one (e.g., \code{clusters = "B"} was passed via \code{...}).
 }
 }
 \description{

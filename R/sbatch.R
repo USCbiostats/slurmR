@@ -60,7 +60,7 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
 
   # Checking the status of the job. If the job exists and it is completed,
   # then we can resubmit, otherwise, the user must actively cancell it
-  if (!is.na(get_job_id(x)) && (status(get_job_id(x)) %in% 1:2))
+  if (!is.na(get_job_id(x)) && (status(x) %in% 1:2))
     stop(
       "Job ", get_job_id(x)," is on the queue. If you wish to resubmit, ",
       "you first need to cancel the job by calling `scancel()`.",
@@ -136,17 +136,19 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
   # Warning that the call has been made and storing the id
   if (!opts_slurmR$get_debug()) {
 
-    # Sometines it comes with infomration
-    ans <- ans[grepl("^Submitted batch", ans)]
+    get_job_id(x) <- parse_sbatch_jobid(ans)
 
-    get_job_id(x) <- as.integer(gsub(pattern = ".+ (?=[[:digit:]]+$)", "", ans, perl=TRUE))
+    # The cluster (if any) is needed to query/cancel the job later on
+    x$cluster <- parse_sbatch_cluster(ans)
 
     # We need to update the job file and the latest submitted job
     LAST_SUBMITTED_JOB$set(x)
     write_slurm_job(x, snames("job", tmp_path = tmp_path, job_name = job_name))
 
-  } else
+  } else {
     get_job_id(x) <- NA_integer_
+    x$cluster     <- NULL
+  }
 
   if (wait)
     wait_slurm(x)
@@ -170,9 +172,9 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
     )
 
   # Capturing jobname
-  SBATCH   <- read_sbatch(x)
-  job_name <- SBATCH["job-name"]
-  if (is.na(job_name))
+  SBATCH   <- normalize_job_name(read_sbatch(x))
+  job_name <- SBATCH[["job-name"]]
+  if (!is.character(job_name))
     job_name <- basename(x)
 
   tmp_opts <- list(...)
@@ -218,14 +220,76 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
   ans <- silent_system2(opts_slurmR$get_cmd(), option, stdout = TRUE, stderr = TRUE)
   cat(ans, sep = "\n")
 
-  # Sometines it comes with infomration
-  ans <- ans[grepl("^Submitted batch", ans)]
-
-  jobid <- as.integer(gsub(pattern = ".+ (?=[[:digit:]]+$)", "", ans, perl=TRUE))
+  jobid   <- NA_integer_
+  cluster <- NULL
+  if (!opts_slurmR$get_debug()) {
+    jobid   <- parse_sbatch_jobid(ans)
+    cluster <- parse_sbatch_cluster(ans)
+  }
 
   if (wait)
-    wait_slurm(jobid)
+    wait_slurm_impl(jobid, clusters = cluster)
+
+  # Jobs sent to another cluster carry its name (needed to query/cancel them)
+  if (!is.null(cluster))
+    attr(jobid, "cluster") <- cluster
 
   invisible(jobid)
 
 }
+
+#' Extract the job id and the cluster from the output of `sbatch`
+#'
+#' `sbatch` reports a successful submission with `Submitted batch job <id>`.
+#' When the job is sent to another cluster (`-M`/`--clusters`, e.g., federated
+#' or multi-cluster setups), Slurm appends ` on cluster <name>` to the message.
+#' Older versions only print the first form. Since `stderr` is captured along
+#' with `stdout`, the message may also be preceded by other lines (warnings,
+#' retries) or by an `sbatch: ` prefix, so we look for the message in any line
+#' instead of assuming its position.
+#'
+#' @param ans Character vector. Output captured from `sbatch`.
+#' @return `parse_sbatch_jobid` returns an integer scalar with the job id. It
+#' stops with an informative error if no job id can be found.
+#' `parse_sbatch_cluster` returns the name of the cluster, or `NULL` if the
+#' message does not include one.
+#' @noRd
+parse_sbatch_jobid <- function(ans) {
+
+  lines <- ans[grepl(SBATCH_SUBMITTED, ans)]
+
+  if (length(lines)) {
+    jobid <- suppressWarnings(
+      as.integer(sub(SBATCH_SUBMITTED, "\\2", lines[1L]))
+    )
+    if (!is.na(jobid))
+      return(jobid)
+  }
+
+  stop(
+    "Unable to parse the job id from the output of sbatch. The output was:\n",
+    paste(ans, collapse = "\n"),
+    call. = FALSE
+  )
+
+}
+
+#' @noRd
+parse_sbatch_cluster <- function(ans) {
+
+  lines <- ans[grepl(SBATCH_SUBMITTED, ans)]
+
+  if (!length(lines))
+    return(NULL)
+
+  cluster <- sub(SBATCH_SUBMITTED, "\\4", lines[1L])
+
+  if (nzchar(cluster)) cluster else NULL
+
+}
+
+# Groups: 2 = job id, 4 = cluster name (only for cross-cluster submissions)
+SBATCH_SUBMITTED <- paste0(
+  "^\\s*(sbatch:\\s+)?Submitted batch job\\s+([[:digit:]]+)",
+  "(\\s+on cluster\\s+(\\S+))?(\\s.*)?$"
+)

@@ -66,14 +66,32 @@ tcq <- function(...) {
 
 }
 
-#' Creates an R script
+#' Creates the `library()` calls of the R script
 #' @noRd
-#' @param pkgs A named list of R packages to load.
-load_packages <- function(pkgs, tmp_path, job_name) {
+#' @param pkgs A named list of R packages to load. Each element is the library
+#' where the package was found in the current session.
+#' @param libPaths A character vector with library paths. These are appended to
+#' each package's library so that `library()` falls back to them when the
+#' detected location is not a library tree (e.g., the renv cache, see #43).
+load_packages <- function(pkgs, tmp_path, job_name, libPaths = NULL) {
 
-  # For testing purposes, the instalation of the package is somewhere else
-  sprintf("library(%s, lib.loc = \"%s\")", names(pkgs), unlist(pkgs))
+  vapply(names(pkgs), function(p) {
+    lib_loc <- unique(c(as.character(pkgs[[p]]), libPaths))
+    sprintf("library(%s, lib.loc = %s)", p, as_r_chr(lib_loc))
+  }, character(1), USE.NAMES = FALSE)
 
+}
+
+#' Character vector as R code
+#'
+#' Quotes and backslashes (e.g., Windows paths) are escaped so that the result
+#' can be safely written to the job script. Missing and empty entries are
+#' dropped.
+#' @noRd
+as_r_chr <- function(x) {
+  x <- as.character(x)
+  x <- x[!is.na(x) & nzchar(x)]
+  paste(deparse(x, width.cutoff = 500L), collapse = "")
 }
 
 save_objects <- function(
@@ -121,6 +139,26 @@ save_objects <- function(
 
 }
 
+#' Names reserved by the R script written by slurmR
+#'
+#' Objects that [new_rscript()] defines in every job's R script: the
+#' constants and helper functions written at the top of the script
+#' (`Slurm_env`, `ARRAY_ID`, `snames`, `TMP_PATH`, `JOB_NAME`, `tcq`), and the
+#' vector of seeds added by `set_seed()` (`seeds`). Objects listed in `export`
+#' cannot use these names. Functions that load further objects (e.g.,
+#' `INDICES`, `X`, `FUN`) extend this vector. If you add a new object to the
+#' script in [new_rscript()], add its name here too (a test checks this).
+#' @noRd
+RSCRIPT_RESERVED_NAMES <- c(
+  "Slurm_env",
+  "ARRAY_ID",
+  "snames",
+  "TMP_PATH",
+  "JOB_NAME",
+  "tcq",
+  "seeds"
+)
+
 #' General purpose function to write R scripts
 #'
 #' This function will create an object of class `slurmR_rscript` that can be used
@@ -129,7 +167,10 @@ save_objects <- function(
 #' @param pkgs A named list with packages to be included. Each element of the list
 #' must be a path to the R library, while the names of the list are the names of
 #' the R packages to be loaded.
-#' @param libPaths A character vector. See [.libPaths].
+#' @param libPaths A character vector. See [.libPaths]. Besides being set in the
+#' job script, these paths are appended to the `lib.loc` of every `library()`
+#' call, so packages are also searched for there (useful with renv, where the
+#' detected location of a package may be a cache rather than a library).
 #' @template job_name-tmp_path
 #'
 #' @return An environment of class `slurmR_rscript`. This has the following accessible
@@ -199,10 +240,7 @@ new_rscript <- function(
   if (length(libPaths)) {
 
     if (is.atomic(libPaths) && is.character(libPaths)) {
-      env$append(sprintf(
-        ".libPaths(c(\"%s\"))",
-        paste(libPaths, collapse="\", \"")
-        ), wrap = FALSE)
+      env$append(sprintf(".libPaths(%s)", as_r_chr(libPaths)), wrap = FALSE)
     } else {
 
       stop("The argument `libPaths` must be either a vector or a character scalar.",
@@ -232,7 +270,12 @@ new_rscript <- function(
     )
 
   # We only load packages if loaded...
-  pkgs <- load_packages(pkgs, tmp_path = tmp_path, job_name = job_name)
+  pkgs <- load_packages(
+    pkgs,
+    tmp_path = tmp_path,
+    job_name = job_name,
+    libPaths = libPaths
+  )
   if (length(pkgs)) {
     env$append("message(\"[slurmR info] Loading packages ... \")", wrap = FALSE)
     env$append(pkgs)

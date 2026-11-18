@@ -10,7 +10,7 @@ wait_slurm(x, ...)
 
 \method{wait_slurm}{slurm_job}(x, ...)
 
-\method{wait_slurm}{integer}(x, timeout = -1, freq = 0.1, force = TRUE, ...)
+\method{wait_slurm}{integer}(x, timeout = -1, freq = 0.1, force = TRUE, clusters = NULL, ...)
 }
 \arguments{
 \item{x}{Either a job id number, or an object of class \link{slurm_job}.}
@@ -25,6 +25,10 @@ then the command will only return when the job finishes.}
 \item{force}{Logical scalar. When \code{TRUE}, if the job is not found
 after checking for its status, the function will continue to wait
 still.}
+
+\item{clusters}{Character scalar. Name of the cluster where the job is. This
+is only needed when \code{x} is a job id and the job is not in the local cluster
+(\code{slurm_job} objects remember the cluster where they were submitted).}
 }
 \value{
 Invisible \code{NULL}.

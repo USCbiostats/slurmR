@@ -29,6 +29,10 @@ Slurm_EvalQ <- function(
   # Figuring out what are we doing.
   plan <- the_plan(plan)
 
+  # Exported objects cannot clash with objects created in the R script. This
+  # must be checked before anything is written to disk.
+  check_export(export)
+
   # Checking the path
   check_full_path(
     tmp_path = tmp_path, job_name = job_name, overwrite = overwrite
@@ -57,7 +61,7 @@ Slurm_EvalQ <- function(
 
   if (length(export)) {
     rscript$add_rds(
-      mget(export, envir = export_env), compress = compress, index = FALSE)
+      mget(export, envir = export_env), compress = compress, split = FALSE)
   }
 
   # Setting the seeds

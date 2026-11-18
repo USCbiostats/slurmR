@@ -6,6 +6,9 @@
 #' still.
 #' @param timeout Integer. Maximum wait time in seconds. If `timeout < 0`
 #' then the command will only return when the job finishes.
+#' @param clusters Character scalar. Name of the cluster where the job is. This
+#' is only needed when `x` is a job id and the job is not in the local cluster
+#' (`slurm_job` objects remember the cluster where they were submitted).
 #' @param ... Further arguments passed to the method
 #' @export
 #' @return Invisible `NULL`.
@@ -22,12 +25,43 @@ wait_slurm <- function(x, ...) UseMethod("wait_slurm")
 #' @export
 #' @rdname wait_slurm
 wait_slurm.slurm_job <- function(x, ...) {
-  wait_slurm.integer(get_job_id(x), ...)
+  # Keeping the job object so that status() can fall back to checking the
+  # output files if -sacct- fails (see #29 and #40).
+  wait_slurm_impl(get_job_id(x), job = x, ...)
 }
 
 #' @export
 #' @rdname wait_slurm
-wait_slurm.integer <- function(x, timeout = -1, freq = 0.1, force = TRUE, ...) {
+wait_slurm.integer <- function(
+    x,
+    timeout  = -1,
+    freq     = 0.1,
+    force    = TRUE,
+    clusters = NULL,
+    ...
+) {
+  wait_slurm_impl(
+    x,
+    timeout  = timeout,
+    freq     = freq,
+    force    = force,
+    clusters = clusters,
+    ...
+  )
+}
+
+#' @param job Either `NULL` or an object of class `slurm_job`. When not `NULL`,
+#' the status is checked using the job object instead of the job ID.
+#' @noRd
+wait_slurm_impl <- function(
+    x,
+    timeout  = -1,
+    freq     = 0.1,
+    force    = TRUE,
+    job      = NULL,
+    clusters = NULL,
+    ...
+) {
 
   # Checking if Slurm and debug mode
   if (opts_slurmR$get_debug()) {
@@ -45,30 +79,32 @@ wait_slurm.integer <- function(x, timeout = -1, freq = 0.1, force = TRUE, ...) {
 
     # Getting status, every freq secs
     Sys.sleep(freq)
-    s <- status(x)
+    s <- if (is.null(job)) status(x, clusters = clusters) else status(job)
 
     # The job has not been found. If force = TRUE, then, if the job has not
-    # been found, then just retry until it finds the job. Otherwise, if no
-    # forcing, then break out if no job has been found.
-    if (force && s == -1L) {
-      next
-    } else if (!force && s == -1L) {
+    # been found, then just retry until it finds the job (or until timeout).
+    # Otherwise, if no forcing, then break out if no job has been found.
+    if (!force && s == -1L) {
+
       print(s)
       break
-    }
 
-    # Is it a job array?
-    njobs <- attr(s, "njobs")
-    if (njobs > 1L) {
+    } else if (s != -1L) {
 
-      # End if either done or failed
-      ncompleted <- length(attr(s, "failed")) + length(attr(s, "done"))
-      if (ncompleted == njobs)
+      # Is it a job array?
+      njobs <- attr(s, "njobs")
+      if (njobs > 1L) {
+
+        # End if either done or failed
+        ncompleted <- length(attr(s, "failed")) + length(attr(s, "done"))
+        if (ncompleted == njobs)
+          break
+
+      } else if (s %in% c(0L, 99L))
+        # If it is not a job array (either failed or done)
         break
 
-    } else if (s %in% c(0L, 99L))
-      # If it is not a job array (either failed or done)
-      break
+    }
 
     if (timeout > 0) {
       seconds <- difftime(Sys.time(), time0, units = "secs")

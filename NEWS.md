@@ -1,5 +1,46 @@
 # slurmR 0.5-4
 
+* Fixed job id recovery when submitting to another cluster (`sbatch -M`) or a
+  federated cluster, where Slurm appends `on cluster <name>` to the success
+  message (#41, #59). A clear error is now raised if the job id cannot be
+  parsed.
+
+* Valueless `#SBATCH` flags (e.g., `--exclusive`) are now handled by
+  `read_sbatch()`, `sbatch()`, and `sourceSlurm()` (#44). **Breaking:**
+  `read_sbatch()` now returns a list instead of a character vector.
+
+* `read_sbatch()` now parses `#SBATCH` lines the way Slurm does: several
+  options per line, trailing `# comments`, nested quotes and backslash escapes,
+  empty values, clustered flags (`-Hs`), and it stops at the first command.
+  `parse_flags()` now quotes (and escapes) option values that have white space,
+  quotes, backslashes, `#`, or shell metacharacters (e.g.,
+  `--constraint=haswell|skylake` was run as a pipe); `$` is still expanded by the
+  shell. Empty values of short options are dropped with a warning, and values
+  with new lines are an error. `sourceSlurm()` and `sbatch()` now honor `-J` as
+  well as `--job-name`.
+
+* Jobs submitted to another cluster remember it (new `cluster` field of
+  `slurm_job` objects). `status()`, `wait_slurm()`, `sacct()`, `squeue()`, and
+  `scancel()` now query that cluster (`--clusters`); `scancel()` used to wait
+  forever for such jobs. `status()` and `wait_slurm()` gain the argument
+  `clusters` for job ids. `squeue()` ignores the `CLUSTER:` header line.
+  `sbatch(<file>)` returns the id with the attribute `cluster`, and
+  `makeSlurmCluster()` uses it (attribute `SLURM_CLUSTER` of the cluster).
+
+* `wait_slurm(timeout = )` is now honored even when the job cannot be found
+  (it used to wait forever when `force = TRUE`).
+
+* `library()` calls in job scripts now respect `libPaths`, which fixes
+  packages loaded from the `renv` cache (#43). Library paths are escaped in the
+  generated script, so quotes and backslashes are safe.
+
+* `Slurm_lapply()`, `Slurm_Map()`, and `Slurm_EvalQ()` now error early when
+  `export` contains names reserved by the job script (#49). Also fixed
+  `Slurm_EvalQ(export = ...)`, which failed with "unused argument".
+
+* `sacct()`/`status()`/`wait_slurm()` keep the `slurm_job` object when falling
+  back from `sacct` (#40).
+
 * Adressing [`roxygen2` issue #1491](https://github.com/r-lib/roxygen2/issues/1491).
 
 

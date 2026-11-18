@@ -6,6 +6,11 @@
 #'
 #' @param x Either a Job id, an object of class `slurm_job`, or an object of
 #' class `slurm_status`.
+#' @param clusters Character scalar. Name of the cluster where the job is (flag
+#' `--clusters` of `sacct`). Only needed when `x` is a job id and the job is
+#' not in the local cluster; `slurm_job` objects remember the cluster where they
+#' were submitted.
+#' @param ... Ignored.
 #'
 #' @return An integer with attributes of class `slurm_status`. The attributes
 #' are integer vectors indicating which jobs fail in the categories of `done`,
@@ -47,17 +52,29 @@
 #' # running   :  -
 #'
 #' }
-status <- function(x) UseMethod("status")
+status <- function(x, ...) UseMethod("status")
 
 #' @export
 #' @rdname status
-status.slurm_job <- function(x) {
-  status.default(get_job_id(x))
+status.slurm_job <- function(x, ...) {
+  # Passing the job object along so that, if -sacct- fails (e.g., no
+  # accounting), the fallback can still find the job's files (see #29 and #40).
+  status_impl(get_job_id(x), job = x)
 }
 
 #' @export
 #' @rdname status
-status.default <- function(x) {
+status.default <- function(x, clusters = NULL, ...) {
+  status_impl(x, clusters = clusters)
+}
+
+#' @param x A job ID.
+#' @param job Either `NULL` or an object of class `slurm_job`. When not `NULL`,
+#' it is passed to [sacct_] instead of `x`.
+#' @param clusters Either `NULL` or the name of the cluster where the job is
+#' (only used when `job` is `NULL`; otherwise the job's cluster is used).
+#' @noRd
+status_impl <- function(x, job = NULL, clusters = NULL) {
 
   wrap <- function(val, S) {
 
@@ -85,7 +102,13 @@ status.default <- function(x) {
   if (is.na(x))
     return(wrap(-1L, NULL))
 
-  dat <- sacct_(x, brief = TRUE, parsable = TRUE, allocations = TRUE)
+  dat <- sacct_(
+    if (is.null(job)) x else job,
+    brief       = TRUE,
+    parsable    = TRUE,
+    allocations = TRUE,
+    clusters    = clusters
+  )
 
   # We only need to keep the main line of the account
   if (!nrow(dat))

@@ -61,7 +61,7 @@ sourceSlurm <- function(
   # Reading in the first comments
   SBATCH <- readLines(file)
   SBATCH <- if (grepl("^#!/bin/", SBATCH[1])) {
-    as.list(read_sbatch(SBATCH))
+    normalize_job_name(read_sbatch(SBATCH))
   } else
     list()
 

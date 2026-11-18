@@ -37,9 +37,5 @@ covr:
 		Rscript -e 'pth <- normalizePath("~/slurmR/covr");Sys.setenv(SLURMR_TMP_PATH=pth);saveRDS(covr::package_coverage(quiet = FALSE, clean = FALSE, install_path = pth), "covr/dat.rds")' && \
 		echo "Now you can go ahead and upload the coverage"
 
-inst/NEWS: NEWS.md
-	Rscript -e "rmarkdown::pandoc_convert('NEWS.md', 'plain', output='inst/NEWS')" && \
-		head -n 80 inst/NEWS
-
 
 

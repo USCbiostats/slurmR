@@ -49,7 +49,15 @@ job. When \code{NULL} (default), seeds will be picked automatically (see \link{n
 this value to \code{FALSE} can be useful when the user requires faster read/write
 of R objects on disk.}
 
-\item{export}{A named list with objects to be included in the Spawned sessions.}
+\item{export}{A character vector with the names of the objects to be
+included in the spawned sessions (looked up in \code{export_env}). Names that
+slurmR uses internally in the job's R script are reserved and cannot be
+exported: \code{Slurm_env}, \code{ARRAY_ID}, \code{snames}, \code{TMP_PATH}, \code{JOB_NAME}, \code{tcq},
+and \code{seeds}. In \code{Slurm_lapply} and \code{Slurm_sapply}, \code{INDICES}, \code{X}, \code{FUN},
+and \code{mc.cores} are also reserved; in \code{Slurm_Map}, \code{INDICES}, \code{f}, and
+\code{mc.cores} are. Names of arguments passed via \code{...} cannot be exported
+either. The function returns with an error before writing anything to disk
+if any of the exported names clash with these.}
 
 \item{export_env}{An environment. Environment where the objects listed in
 \code{export} are located (default \code{\link[=parent.frame]{parent.frame()}}).}

@@ -90,6 +90,98 @@ expect_error(
   "unname"
   )
 
+# Exported objects cannot clash with reserved names (issue #49) ---------------
+nclash <- 0L
+for (v in c("seeds", "X", "FUN", "mc.cores", "INDICES", "tcq", "ARRAY_ID")) {
+  nclash <- nclash + 1L
+  jname  <- paste0("test-Slurm_lapply-clash", nclash)
+  assign(v, 1)
+  expect_error(
+    Slurm_lapply(
+      list(1, 2),
+      mean,
+      njobs    = 2,
+      export   = c("b", v),
+      plan     = "none",
+      job_name = jname
+    ),
+    pattern = v
+  )
+
+  # Nothing should be written to disk
+  expect_false(dir.exists(file.path(opts_slurmR$get_tmp_path(), jname)))
+}
+
+# Clashes with arguments passed via ...
+expect_error(
+  Slurm_lapply(
+    list(1, 2),
+    function(x, na.rm) mean(x, na.rm = na.rm),
+    na.rm    = TRUE,
+    njobs    = 2,
+    export   = "na.rm",
+    plan     = "none",
+    job_name = "test-Slurm_lapply-clash-dots"
+  ),
+  pattern = "na.rm"
+)
+
+# Slurm_sapply goes through Slurm_lapply
+expect_error(
+  Slurm_sapply(
+    list(1, 2),
+    mean,
+    njobs    = 2,
+    export   = "seeds",
+    plan     = "none",
+    job_name = "test-Slurm_sapply-clash"
+  ),
+  pattern = "seeds"
+)
+
+# The reserved names must cover every object the R script assigns at the top
+# level (besides `ans` and exported objects). This guards against adding new
+# objects to the script without updating `RSCRIPT_RESERVED_NAMES`.
+top_level_assignments <- function(e) {
+
+  if (is.expression(e) || (is.call(e) && identical(e[[1]], as.name("{"))))
+    return(unlist(lapply(as.list(e), top_level_assignments)))
+
+  if (!is.call(e))
+    return(NULL)
+
+  fun <- e[[1]]
+  if (identical(fun, as.name("function")))
+    return(NULL)
+
+  if (
+    (identical(fun, as.name("<-")) || identical(fun, as.name("="))) &&
+      is.name(e[[2]])
+  )
+    return(c(as.character(e[[2]]), top_level_assignments(e[[3]])))
+
+  unlist(lapply(as.list(e)[-1], top_level_assignments))
+
+}
+
+job <- Slurm_lapply(
+  list(1, 2),
+  function(x) mymean(x),
+  njobs    = 2,
+  export   = "mymean",
+  plan     = "none",
+  job_name = "test-Slurm_lapply-reserved"
+)
+
+assigned <- unique(top_level_assignments(parse(file = job$rscript)))
+reserved <- c(
+  slurmR:::RSCRIPT_RESERVED_NAMES, "INDICES", "X", "FUN", "mc.cores"
+)
+expect_equal(
+  sort(setdiff(assigned, c("ans", "mymean"))),
+  sort(reserved)
+)
+
 # If slurm is available
 
 

@@ -4,14 +4,14 @@ VERSION:=$(shell Rscript -e 'x<-readLines("DESCRIPTION");cat(gsub(".+[:]\\s*", "
 slurmR_$(VERSION).tar.gz: R/* DESCRIPTION inst/tinytest/* tests/* NAMESPACE
 	R CMD build . 
 
-install: slurmR_$(VERSION).tar.gz
-	R CMD REMOVE slurmR ; R CMD INSTALL --preclean slurmR_$(VERSION).tar.gz
+install: 
+	Rscript -e 'devtools::install()'
 
 checkalloc: install clean
 	salloc --time=01:00:00 --cpus-per-task=4 --job-name=slurmR-pkg-check --mem-per-cpu=1G srun -n1 $(MAKE) check
 
-check: clean slurmR_$(VERSION).tar.gz
-	R CMD check --as-cran slurmR_$(VERSION).tar.gz
+check:
+	Rscript -e 'devtools::check()'
 
 checknotest: clean slurmR_$(VERSION).tar.gz
 	R CMD check --as-cran --no-tests slurmR_$(VERSION).tar.gz
@@ -23,18 +23,14 @@ clean:
 
 docs: NAMESPACE README.md
 
-NAMESPACE: R/*.R
-	R -e "roxygen2::roxygenize()"
+NAMESPACE:
+	Rscript -e 'devtools::document()'
 
-README.md: README.Rmd
-	R -e "rmarkdown::render('README.Rmd')"
+README.md: README.qmd
+	quarto render README.qmd
 
 docs/index.html: NAMESPACE README.md
 	R -e "pkgdown::build_site()"
-
-man:
-	rm slurmR.pdf ; R CMD Rd2pdf --no-preview --output=slurmR.pdf . && \
-	  evince slurmR.pdf &
 
 covr: 
 	rm -rf covr || mkdir covr && \

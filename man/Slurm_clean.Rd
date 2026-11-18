@@ -31,18 +31,18 @@ Slurm_clean(job)
 }
 }
 \seealso{
-Other post submission: 
-\code{\link{Slurm_collect}()},
-\code{\link{Slurm_log}()},
-\code{\link{status}()}
+Other post submission:
+\code{\link[=Slurm_collect]{Slurm_collect()}},
+\code{\link[=Slurm_log]{Slurm_log()}},
+\code{\link[=status]{status()}}
 
-Other utilities: 
-\code{\link{Slurm_env}()},
-\code{\link{Slurm_log}()},
-\code{\link{WhoAmI}()},
-\code{\link{parse_flags}()},
-\code{\link{snames}()},
-\code{\link{status}()}
+Other utilities:
+\code{\link[=Slurm_env]{Slurm_env()}},
+\code{\link[=Slurm_log]{Slurm_log()}},
+\code{\link[=WhoAmI]{WhoAmI()}},
+\code{\link[=parse_flags]{parse_flags()}},
+\code{\link[=snames]{snames()}},
+\code{\link[=status]{status()}}
 }
 \concept{post submission}
 \concept{utilities}

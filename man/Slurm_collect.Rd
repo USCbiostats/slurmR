@@ -46,9 +46,9 @@ Slurm_collect(job)
 }
 }
 \seealso{
-Other post submission: 
-\code{\link{Slurm_clean}()},
-\code{\link{Slurm_log}()},
-\code{\link{status}()}
+Other post submission:
+\code{\link[=Slurm_clean]{Slurm_clean()}},
+\code{\link[=Slurm_log]{Slurm_log()}},
+\code{\link[=status]{status()}}
 }
 \concept{post submission}

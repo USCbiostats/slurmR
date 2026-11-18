@@ -26,7 +26,7 @@ makeSlurmCluster(
 scripts) will be stored. Notice that this path must be accessible by all the
 nodes in the network (See \link{opts_slurmR}).}
 
-\item{cluster_opt}{A list of arguments passed to \link[parallel:makeCluster]{parallel::makePSOCKcluster}.}
+\item{cluster_opt}{A list of arguments passed to \link[parallel:makePSOCKcluster]{parallel::makePSOCKcluster}.}
 
 \item{max_wait}{Integer scalar. Wait time before exiting with error while
 trying to read the nodes information.}
@@ -40,7 +40,7 @@ screen reporting on the status of the job submission.}
 }
 \value{
 A object of class \code{c("slurm_cluster", "SOCKcluster", "cluster")}. It
-is the same as what is returned by \link[parallel:makeCluster]{parallel::makePSOCKcluster} with the main
+is the same as what is returned by \link[parallel:makePSOCKcluster]{parallel::makePSOCKcluster} with the main
 difference that it has two extra attributes:
 \itemize{
 \item \code{SLURM_JOBID} Which is the id of the Job that initialized that cluster.
@@ -49,7 +49,7 @@ it is not the local one (e.g., \code{clusters = "B"} was passed via \code{...}).
 }
 }
 \description{
-This function is essentially a wrapper of the function \link[parallel:makeCluster]{parallel::makePSOCKcluster}.
+This function is essentially a wrapper of the function \link[parallel:makePSOCKcluster]{parallel::makePSOCKcluster}.
 \code{makeSlurmCluster} main feature is adding node addresses.
 }
 \details{
@@ -60,7 +60,7 @@ Once a job is submitted via Slurm, the user gets access to the nodes
 associated with it, which allows users to star new processes within those.
 By means of this, we can create Socket, also known as "PSOCK", clusters across
 nodes in a Slurm environment. The name of the hosts are retrieved and passed
-later on to \link[parallel:makeCluster]{parallel::makePSOCKcluster}.
+later on to \link[parallel:makePSOCKcluster]{parallel::makePSOCKcluster}.
 
 It has been the case that R fails to create the cluster with the following
 message in the Slurm log file:

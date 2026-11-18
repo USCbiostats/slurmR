@@ -4,7 +4,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
-^README\.Rmd$
+^README\.qmd$
 ^_pkgdown\.yml$
 ^docs$
 ^man-roxygen$

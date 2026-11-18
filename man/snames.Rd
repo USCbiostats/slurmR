@@ -29,12 +29,12 @@ By default, the parameters \code{tmp_path} and \code{job_name} are retrieved fro
 the current options specified in \link{opts_slurmR}.
 }
 \seealso{
-Other utilities: 
-\code{\link{Slurm_clean}()},
-\code{\link{Slurm_env}()},
-\code{\link{Slurm_log}()},
-\code{\link{WhoAmI}()},
-\code{\link{parse_flags}()},
-\code{\link{status}()}
+Other utilities:
+\code{\link[=Slurm_clean]{Slurm_clean()}},
+\code{\link[=Slurm_env]{Slurm_env()}},
+\code{\link[=Slurm_log]{Slurm_log()}},
+\code{\link[=WhoAmI]{WhoAmI()}},
+\code{\link[=parse_flags]{parse_flags()}},
+\code{\link[=status]{status()}}
 }
 \concept{utilities}

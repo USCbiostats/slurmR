@@ -7,3 +7,6 @@ codecov.yml
 doc
 Meta
 
+
+/.quarto/
+**/*.quarto_ipynb

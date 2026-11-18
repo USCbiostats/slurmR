@@ -21,12 +21,12 @@ This returns a named vector with the following variables:
 \code{whoami} is just an alias of \code{WhoAmI}.
 }
 \seealso{
-Other utilities: 
-\code{\link{Slurm_clean}()},
-\code{\link{Slurm_env}()},
-\code{\link{Slurm_log}()},
-\code{\link{parse_flags}()},
-\code{\link{snames}()},
-\code{\link{status}()}
+Other utilities:
+\code{\link[=Slurm_clean]{Slurm_clean()}},
+\code{\link[=Slurm_env]{Slurm_env()}},
+\code{\link[=Slurm_log]{Slurm_log()}},
+\code{\link[=parse_flags]{parse_flags()}},
+\code{\link[=snames]{snames()}},
+\code{\link[=status]{status()}}
 }
 \concept{utilities}

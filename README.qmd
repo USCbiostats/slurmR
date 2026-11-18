@@ -1,17 +1,16 @@
 ---
-output:
-  github_document:
-    md_extensions: -auto_identifiers+header_attributes
-    html_preview: false
+format: gfm
 ---
 
+```{=markdown}
 [![DOI](http://joss.theoj.org/papers/10.21105/joss.01493/status.svg)](https://doi.org/10.21105/joss.01493)
 [![R CI release](https://github.com/USCbiostats/slurmR/actions/workflows/ci.yml/badge.svg)](https://github.com/USCbiostats/slurmR/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/USCbiostats/slurmR/branch/master/graph/badge.svg)](https://app.codecov.io/gh/USCbiostats/slurmR)
 [![CRAN status](https://www.r-pkg.org/badges/version/slurmR)](https://CRAN.R-project.org/package=slurmR)
 [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/slurmR)](https://cran.r-project.org/package=slurmR)
-[![status](https://tinyverse.netlify.com/badge/slurmR)](https://CRAN.R-project.org/package=slurmR)
+[![status](https://tinyverse.netlify.app/badge/slurmR)](https://CRAN.R-project.org/package=slurmR)
 [![Integrative Methods of Analysis for Genetic Epidemiology](https://raw.githubusercontent.com/USCbiostats/badges/master/tommy-image-badge.svg)](https://p01.uscbiostatistics.org/)
+```
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -264,7 +263,7 @@ There are several ways to enhance R for HPC. Depending on what are your goals/re
 
 ```{r vs-table, echo = FALSE}
 dat <- read.csv("comparing-projects.csv", check.names = FALSE)
-dat$Dependencies <- sprintf("[![status](https://tinyverse.netlify.com/badge/%s)](https://CRAN.R-project.org/package=%1$s)", dat$Package)
+dat$Dependencies <- sprintf("[![status](https://tinyverse.netlify.app/badge/%s)](https://CRAN.R-project.org/package=%1$s)", dat$Package)
 dat$Activity <- sprintf("[![Activity](https://img.shields.io/github/last-commit/%s)](https://github.com/%1$s)", dat$github)
 
 dat$Package <- sprintf("[**%s**](https://cran.r-project.org/package=%1$s)", dat$Package)

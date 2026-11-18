@@ -1,29 +1,28 @@
 
+
 [![DOI](http://joss.theoj.org/papers/10.21105/joss.01493/status.svg)](https://doi.org/10.21105/joss.01493)
-[![R CI
-release](https://github.com/USCbiostats/slurmR/actions/workflows/ci.yml/badge.svg)](https://github.com/USCbiostats/slurmR/actions/workflows/ci.yml)
+[![R CI release](https://github.com/USCbiostats/slurmR/actions/workflows/ci.yml/badge.svg)](https://github.com/USCbiostats/slurmR/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/USCbiostats/slurmR/branch/master/graph/badge.svg)](https://app.codecov.io/gh/USCbiostats/slurmR)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/slurmR)](https://CRAN.R-project.org/package=slurmR)
-[![CRAN
-downloads](http://cranlogs.r-pkg.org/badges/grand-total/slurmR)](https://cran.r-project.org/package=slurmR)
-[![status](https://tinyverse.netlify.com/badge/slurmR)](https://CRAN.R-project.org/package=slurmR)
-[![Integrative Methods of Analysis for Genetic
-Epidemiology](https://raw.githubusercontent.com/USCbiostats/badges/master/tommy-image-badge.svg)](https://p01.uscbiostatistics.org/)
+[![CRAN status](https://www.r-pkg.org/badges/version/slurmR)](https://CRAN.R-project.org/package=slurmR)
+[![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/slurmR)](https://cran.r-project.org/package=slurmR)
+[![status](https://tinyverse.netlify.app/badge/slurmR)](https://CRAN.R-project.org/package=slurmR)
+[![Integrative Methods of Analysis for Genetic Epidemiology](https://raw.githubusercontent.com/USCbiostats/badges/master/tommy-image-badge.svg)](https://p01.uscbiostatistics.org/)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # slurmR: A Lightweight Wrapper for Slurm <img src="man/figures/logo.png" height="180px" align="right"/>
 
-
 <!-- how-to-cite -->
-> [!NOTE]
-> **How to cite slurmR.** If you use **slurmR** in published work, please cite it:
+
+> \[!NOTE\] **How to cite slurmR.** If you use **slurmR** in published
+> work, please cite it:
 >
-> Vega Yon GG, Marjoram P (2019). slurmR: A lightweight wrapper for HPC with Slurm. *Journal of Open Source Software*, 4(42), 1493. doi:[10.21105/joss.01493](https://doi.org/10.21105/joss.01493)
+> Vega Yon GG, Marjoram P (2019). slurmR: A lightweight wrapper for HPC
+> with Slurm. *Journal of Open Source Software*, 4(42), 1493.
+> doi:[10.21105/joss.01493](https://doi.org/10.21105/joss.01493)
 >
 > Run `citation("slurmR")` in R for the BibTeX entry.
-<!-- how-to-cite -->
+> <!-- how-to-cite -->
 
 Slurm Workload Manager is a popular HPC cluster job scheduler found in
 many of the top 500 supercomputers. The `slurmR` R package provides an R
@@ -77,18 +76,18 @@ devtools::install_github("USCbiostats/slurmR")
 
 # Citation
 
-
     To cite slurmR in publications use:
 
-      Vega Yon et al., (2019). slurmR: A lightweight wrapper for HPC with
-      Slurm. Journal of Open Source Software, 4(39), 1493,
+      Vega Yon GG, Marjoram P (2019). slurmR: A lightweight wrapper for HPC
+      with Slurm. Journal of Open Source Software, 4(42), 1493.
       https://doi.org/10.21105/joss.01493
 
-    And the actual R package:
+    And the R package itself:
 
-      Vega Yon G, Marjoram P (2022). _slurmR: A Lightweight Wrapper for
-      'Slurm'_. R package version 0.5-2,
-      <https://github.com/USCbiostats/slurmR>.
+      Vega Yon G, Marjoram P (2023). _slurmR: A Lightweight Wrapper for
+      'Slurm'_. doi:10.32614/CRAN.package.slurmR
+      <https://doi.org/10.32614/CRAN.package.slurmR>, R package version
+      0.5-4, <https://github.com/USCbiostats/slurmR>.
 
     To see these entries in BibTeX format, use 'print(<citation>,
     bibtex=TRUE)', 'toBibtex(.)', or set
@@ -107,7 +106,7 @@ repository](https://github.com/USCbiostats/slurmR), you can go to the
 session with slurmR and Slurm included.
 
 To test `slurmR` using docker, check the README.md file located at
-<https://github.com/USCbiostats/slurmR/tree/master/docker>.
+https://github.com/USCbiostats/slurmR/tree/master/docker.
 
 # Examples
 
@@ -116,8 +115,9 @@ To test `slurmR` using docker, check the README.md file located at
 ``` r
 library(slurmR)
 #  Loading required package: parallel
+#  Using slurmR in your research? Please cite it: citation("slurmR")
 #  slurmR default option for `tmp_path` (used to store auxiliar files) set to:
-#    /home/george/Documents/development/slurmR
+#    /Users/u6039184/Documents/software/slurmR
 #  You can change this and checkout other slurmR options using: ?opts_slurmR, or you could just type "opts_slurmR" on the terminal.
 
 # Suppose that we have 100 vectors of length 50 ~ Unif(0,1)
@@ -130,10 +130,10 @@ We can use the function `Slurm_lapply` to distribute computations
 ``` r
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  Warning in normalizePath(file.path(tmp_path, job_name)):
-#  path[1]="/home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18":
+#  path[1]="/Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88":
 #  No such file or directory
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=slurmr-job-113bd5bca5b18 /home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/01-bash.sh
+#  sbatch --job-name=slurmr-job-136571c419a88 /Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -145,12 +145,12 @@ get more info, we can set the verbose mode on
 opts_slurmR$verbose_on()
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  Warning in normalizePath(file.path(tmp_path, job_name)):
-#  path[1]="/home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18":
+#  path[1]="/Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88":
 #  No such file or directory
 #  --------------------------------------------------------------------------------
-#  [VERBOSE MODE ON] The R script that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/00-rscript.r and has the following contents:
+#  [VERBOSE MODE ON] The R script that will be used is located at: /Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/00-rscript.r and has the following contents:
 #  --------------------------------------------------------------------------------
-#  .libPaths(c("/home/george/R/x86_64-pc-linux-gnu-library/4.2", "/usr/local/lib/R/site-library", "/usr/lib/R/site-library", "/usr/lib/R/library"))
+#  .libPaths("/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library")
 #  message("[slurmR info] Loading variables and functions... ", appendLF = FALSE)
 #  Slurm_env <- function (x = "SLURM_ARRAY_TASK_ID") 
 #  {
@@ -175,8 +175,8 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #              call. = FALSE))
 #      sprintf("%s/%s/%s", tmp_path, job_name, type)
 #  }
-#  TMP_PATH  <- "/home/george/Documents/development/slurmR"
-#  JOB_NAME  <- "slurmr-job-113bd5bca5b18"
+#  TMP_PATH  <- "/Users/u6039184/Documents/software/slurmR"
+#  JOB_NAME  <- "slurmr-job-136571c419a88"
 #  
 #  # The -tcq- function is a wrapper of tryCatch that on error tries to recover
 #  # the message and saves the outcome so that slurmR can return OK.
@@ -203,19 +203,19 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #  }
 #  message("done loading variables and functions.")
 #  tcq({
-#    INDICES <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/INDICES.rds")
+#    INDICES <- readRDS("/Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/INDICES.rds")
 #  })
 #  tcq({
-#    X <- readRDS(sprintf("/home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/X_%04d.rds", ARRAY_ID))
+#    X <- readRDS(sprintf("/Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/X_%04d.rds", ARRAY_ID))
 #  })
 #  tcq({
-#    FUN <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/FUN.rds")
+#    FUN <- readRDS("/Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/FUN.rds")
 #  })
 #  tcq({
-#    mc.cores <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/mc.cores.rds")
+#    mc.cores <- readRDS("/Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/mc.cores.rds")
 #  })
 #  tcq({
-#    seeds <- readRDS("/home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/seeds.rds")
+#    seeds <- readRDS("/Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/seeds.rds")
 #  })
 #  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)
 #  tcq({
@@ -225,24 +225,24 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #      mc.cores         = mc.cores
 #  )
 #  })
-#  saveRDS(ans, sprintf("/home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
+#  saveRDS(ans, sprintf("/Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
 #  message("[slurmR info] job-status: OK.\n")
 #  --------------------------------------------------------------------------------
-#  The bash file that will be used is located at: /home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/01-bash.sh and has the following contents:
+#  The bash file that will be used is located at: /Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/01-bash.sh and has the following contents:
 #  --------------------------------------------------------------------------------
 #  #!/bin/sh
-#  #SBATCH --job-name=slurmr-job-113bd5bca5b18
-#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/02-output-%A-%a.out
+#  #SBATCH --job-name=slurmr-job-136571c419a88
+#  #SBATCH --output=/Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/02-output-%A-%a.out
 #  #SBATCH --array=1-2
-#  #SBATCH --job-name=slurmr-job-113bd5bca5b18
+#  #SBATCH --job-name=slurmr-job-136571c419a88
 #  #SBATCH --cpus-per-task=1
 #  #SBATCH --ntasks=1
-#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/00-rscript.r
+#  /Library/Frameworks/R.framework/Resources/bin/Rscript  /Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/00-rscript.r
 #  --------------------------------------------------------------------------------
 #  EOF
 #  --------------------------------------------------------------------------------
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=slurmr-job-113bd5bca5b18 /home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/01-bash.sh
+#  sbatch --job-name=slurmr-job-136571c419a88 /Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -389,15 +389,15 @@ ans <- Slurm_lapply(1:10, mean, plan = "none", preamble = "module load pandoc")
 # Printing out the bashfile
 cat(readLines(ans$bashfile), sep = "\n")
 #  #!/bin/sh
-#  #SBATCH --job-name=slurmr-job-113bd5bca5b18
-#  #SBATCH --output=/home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/02-output-%A-%a.out
+#  #SBATCH --job-name=slurmr-job-136571c419a88
+#  #SBATCH --output=/Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/02-output-%A-%a.out
 #  #SBATCH --array=1-2
-#  #SBATCH --job-name=slurmr-job-113bd5bca5b18
+#  #SBATCH --job-name=slurmr-job-136571c419a88
 #  #SBATCH --cpus-per-task=1
 #  #SBATCH --ntasks=1
 #  module load gcc/6.0
 #  module load pandoc
-#  /usr/lib/R/bin/Rscript  /home/george/Documents/development/slurmR/slurmr-job-113bd5bca5b18/00-rscript.r
+#  /Library/Frameworks/R.framework/Resources/bin/Rscript  /Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/00-rscript.r
 
 Slurm_clean(ans) # Cleaning after you
 ```
@@ -408,14 +408,14 @@ There are several ways to enhance R for HPC. Depending on what are your
 goals/restrictions/preferences, you can use any of the following from
 this **manually curated** list:
 
-| Package                                                                       | Rerun (1) | \*apply (2) | makeCluster (3) | Slurm options | Dependencies                                                                                                             | Activity                                                                                                                                         |
-|:------------------------------------------------------------------------------|:----------|:------------|:----------------|:--------------|:-------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------|
-| [**slurmR**](https://cran.r-project.org/package=slurmR)                       | yes       | yes         | yes             | on the fly    | [![status](https://tinyverse.netlify.com/badge/slurmR)](https://CRAN.R-project.org/package=slurmR)                       | [![Activity](https://img.shields.io/github/last-commit/USCbiostats/slurmR)](https://github.com/USCbiostats/slurmR)                               |
-| [**drake**](https://cran.r-project.org/package=drake)                         | yes       | \-          | \-              | by template   | [![status](https://tinyverse.netlify.com/badge/drake)](https://CRAN.R-project.org/package=drake)                         | [![Activity](https://img.shields.io/github/last-commit/ropensci/drake)](https://github.com/ropensci/drake)                                       |
-| [**rslurm**](https://cran.r-project.org/package=rslurm)                       | \-        | yes         | \-              | on the fly    | [![status](https://tinyverse.netlify.com/badge/rslurm)](https://CRAN.R-project.org/package=rslurm)                       | [![Activity](https://img.shields.io/github/last-commit/earthlab/rslurm)](https://github.com/earthlab/rslurm)                                     |
-| [**future.batchtools**](https://cran.r-project.org/package=future.batchtools) | \-        | yes         | yes             | by template   | [![status](https://tinyverse.netlify.com/badge/future.batchtools)](https://CRAN.R-project.org/package=future.batchtools) | [![Activity](https://img.shields.io/github/last-commit/HenrikBengtsson/future.batchtools)](https://github.com/HenrikBengtsson/future.batchtools) |
-| [**batchtools**](https://cran.r-project.org/package=batchtools)               | yes       | yes         | \-              | by template   | [![status](https://tinyverse.netlify.com/badge/batchtools)](https://CRAN.R-project.org/package=batchtools)               | [![Activity](https://img.shields.io/github/last-commit/mllg/batchtools)](https://github.com/mllg/batchtools)                                     |
-| [**clustermq**](https://cran.r-project.org/package=clustermq)                 | \-        | \-          | \-              | by template   | [![status](https://tinyverse.netlify.com/badge/clustermq)](https://CRAN.R-project.org/package=clustermq)                 | [![Activity](https://img.shields.io/github/last-commit/mschubert/clustermq)](https://github.com/mschubert/clustermq)                             |
+| Package | Rerun (1) | \*apply (2) | makeCluster (3) | Slurm options | Dependencies | Activity |
+|:---|:---|:---|:---|:---|:---|:---|
+| [**slurmR**](https://cran.r-project.org/package=slurmR) | yes | yes | yes | on the fly | [![status](https://tinyverse.netlify.app/badge/slurmR.png)](https://CRAN.R-project.org/package=slurmR) | [![Activity](https://img.shields.io/github/last-commit/USCbiostats/slurmR.png)](https://github.com/USCbiostats/slurmR) |
+| [**drake**](https://cran.r-project.org/package=drake) | yes | \- | \- | by template | [![status](https://tinyverse.netlify.app/badge/drake.png)](https://CRAN.R-project.org/package=drake) | [![Activity](https://img.shields.io/github/last-commit/ropensci/drake.png)](https://github.com/ropensci/drake) |
+| [**rslurm**](https://cran.r-project.org/package=rslurm) | \- | yes | \- | on the fly | [![status](https://tinyverse.netlify.app/badge/rslurm.png)](https://CRAN.R-project.org/package=rslurm) | [![Activity](https://img.shields.io/github/last-commit/earthlab/rslurm.png)](https://github.com/earthlab/rslurm) |
+| [**future.batchtools**](https://cran.r-project.org/package=future.batchtools) | \- | yes | yes | by template | [![status](https://tinyverse.netlify.app/badge/future.batchtools)](https://CRAN.R-project.org/package=future.batchtools) | [![Activity](https://img.shields.io/github/last-commit/HenrikBengtsson/future.batchtools)](https://github.com/HenrikBengtsson/future.batchtools) |
+| [**batchtools**](https://cran.r-project.org/package=batchtools) | yes | yes | \- | by template | [![status](https://tinyverse.netlify.app/badge/batchtools.png)](https://CRAN.R-project.org/package=batchtools) | [![Activity](https://img.shields.io/github/last-commit/mllg/batchtools.png)](https://github.com/mllg/batchtools) |
+| [**clustermq**](https://cran.r-project.org/package=clustermq) | \- | \- | \- | by template | [![status](https://tinyverse.netlify.app/badge/clustermq.png)](https://CRAN.R-project.org/package=clustermq) | [![Activity](https://img.shields.io/github/last-commit/mschubert/clustermq.png)](https://github.com/mschubert/clustermq) |
 
 1)  After errors, a part or the entire job can be resubmitted.
 2)  Functionality similar to the apply family in base R, e.g., lapply,
@@ -443,34 +443,34 @@ participating in this project, you agree to abide by its terms.
 
 Here is a manually curated list of institutions using Slurm:
 
-| Institution                                            | Country | Link                                                                         |
-|--------------------------------------------------------|---------|------------------------------------------------------------------------------|
-| University of Utah’s CHPC                              | US      | [link](https://chpc.utah.edu/documentation/software/slurm.php)               |
-| USC Center for Advance Research Computing              | US      | [link](https://carc.usc.edu/)                                                |
-| Princeton Research Computing                           | US      | [link](https://researchcomputing.princeton.edu/support/knowledge-base/slurm) |
-| Harvard FAS                                            | US      | [link](https://docs.rc.fas.harvard.edu/kb/quickstart-guide/)                 |
-| Harvard HMS research computing                         | US      | [link](https://rc.hms.harvard.edu/)                                          |
-| UCSan Diego WM Keck Lab for Integrated Biology         | US      | [link](https://keck2.ucsd.edu/dokuwiki/doku.php/wiki:slurm)                  |
-| Stanford Sherlock                                      | US      | [link](https://www.sherlock.stanford.edu/docs/overview/introduction/)        |
-| Stanford SCG Informatics Cluster                       | US      | [link](https://login.scg.stanford.edu/tutorials/job_scripts/)                |
-| UC Berkeley Open Computing Facility                    | US      | [link](https://www.ocf.berkeley.edu/docs/services/hpc/)                |
-| University of Utah CHPC                                | US      | [link](https://www.chpc.utah.edu/documentation/software/slurm.php)           |
-| The University of Kansas Center for Research Computing | US      | [link](https://docs.crc.ku.edu/how-to/submitting-jobs/)                      |
-| University of Cambridge                                | UK      | [link](https://www.ch.cam.ac.uk/computing/slurm-usage)                       |
-| Indiana University                                     | US      | [link](https://kb.iu.edu/d/awrz)                                             |
-| Caltech HPC Center                                     | US      | [link](https://www.hpc.caltech.edu/documentation/slurm-commands)             |
-| Institute for Advanced Study                           | US      | [link](https://www.ias.edu/sns/computing/slurm)                              |
-| UTSouthwestern Medical Center BioHPC                   | US      | [link](https://portal.biohpc.swmed.edu/content/guides/slurm/)                |
-| Vanderbilt University ACCRE                            | US      | [link](https://www.vanderbilt.edu/accre/documentation/slurm/)                |
-| University of Virginia Research Computing              | US      | [link](https://www.rc.virginia.edu/userinfo/rivanna/slurm/)                  |
-| Center for Advanced Computing                          | CA      | [link](https://info.cac.queensu.ca)                          |
-| SciNet                                                 | CA      | [link](https://docs.scinet.utoronto.ca/index.php/Slurm)                      |
-| NLHPC                                                  | CL      | [link](https://wiki.nlhpc.cl/P%C3%A1gina_principal)                          |
-| Kultrun                                                | CL      | [link](http://www.astro.udec.cl/kultrun/)                                    |
-| Matbio                                                 | CL      | [link](http://www.matbio.cl/cluster/)                                        |
-| TIG MIT                                                | US      | [link](https://tig.csail.mit.edu/shared-computing/slurm/)                    |
-| MIT Supercloud                                         | US      | supercloud.mit.edu/                                                          |
-| Oxford’s ARC                                           | UK      | [link](https://arc-user-guide.readthedocs.io/en/latest/slurm-reference.html) |
+| Institution | Country | Link |
+|----|----|----|
+| University of Utah’s CHPC | US | [link](https://chpc.utah.edu/documentation/software/slurm.php) |
+| USC Center for Advance Research Computing | US | [link](https://carc.usc.edu/) |
+| Princeton Research Computing | US | [link](https://researchcomputing.princeton.edu/support/knowledge-base/slurm) |
+| Harvard FAS | US | [link](https://docs.rc.fas.harvard.edu/kb/quickstart-guide/) |
+| Harvard HMS research computing | US | [link](https://rc.hms.harvard.edu/) |
+| UCSan Diego WM Keck Lab for Integrated Biology | US | [link](https://keck2.ucsd.edu/dokuwiki/doku.php/wiki:slurm) |
+| Stanford Sherlock | US | [link](https://www.sherlock.stanford.edu/docs/overview/introduction/) |
+| Stanford SCG Informatics Cluster | US | [link](https://login.scg.stanford.edu/tutorials/job_scripts/) |
+| UC Berkeley Open Computing Facility | US | [link](https://www.ocf.berkeley.edu/docs/services/hpc/) |
+| University of Utah CHPC | US | [link](https://www.chpc.utah.edu/documentation/software/slurm.php) |
+| The University of Kansas Center for Research Computing | US | [link](https://docs.crc.ku.edu/how-to/submitting-jobs/) |
+| University of Cambridge | UK | [link](https://www.ch.cam.ac.uk/computing/slurm-usage) |
+| Indiana University | US | [link](https://kb.iu.edu/d/awrz) |
+| Caltech HPC Center | US | [link](https://www.hpc.caltech.edu/documentation/slurm-commands) |
+| Institute for Advanced Study | US | [link](https://www.ias.edu/sns/computing/slurm) |
+| UTSouthwestern Medical Center BioHPC | US | [link](https://portal.biohpc.swmed.edu/content/guides/slurm/) |
+| Vanderbilt University ACCRE | US | [link](https://www.vanderbilt.edu/accre/documentation/slurm/) |
+| University of Virginia Research Computing | US | [link](https://www.rc.virginia.edu/userinfo/rivanna/slurm/) |
+| Center for Advanced Computing | CA | [link](https://info.cac.queensu.ca) |
+| SciNet | CA | [link](https://docs.scinet.utoronto.ca/index.php/Slurm) |
+| NLHPC | CL | [link](https://wiki.nlhpc.cl/P%C3%A1gina_principal) |
+| Kultrun | CL | [link](http://www.astro.udec.cl/kultrun/) |
+| Matbio | CL | [link](http://www.matbio.cl/cluster/) |
+| TIG MIT | US | [link](https://tig.csail.mit.edu/shared-computing/slurm/) |
+| MIT Supercloud | US | supercloud.mit.edu/ |
+| Oxford’s ARC | UK | [link](https://arc-user-guide.readthedocs.io/en/latest/slurm-reference.html) |
 
 ## Funding
 

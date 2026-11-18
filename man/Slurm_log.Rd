@@ -36,18 +36,18 @@ Slurm_log(x) # Checking the R log
 }
 }
 \seealso{
-Other post submission: 
-\code{\link{Slurm_clean}()},
-\code{\link{Slurm_collect}()},
-\code{\link{status}()}
+Other post submission:
+\code{\link[=Slurm_clean]{Slurm_clean()}},
+\code{\link[=Slurm_collect]{Slurm_collect()}},
+\code{\link[=status]{status()}}
 
-Other utilities: 
-\code{\link{Slurm_clean}()},
-\code{\link{Slurm_env}()},
-\code{\link{WhoAmI}()},
-\code{\link{parse_flags}()},
-\code{\link{snames}()},
-\code{\link{status}()}
+Other utilities:
+\code{\link[=Slurm_clean]{Slurm_clean()}},
+\code{\link[=Slurm_env]{Slurm_env()}},
+\code{\link[=WhoAmI]{WhoAmI()}},
+\code{\link[=parse_flags]{parse_flags()}},
+\code{\link[=snames]{snames()}},
+\code{\link[=status]{status()}}
 }
 \concept{post submission}
 \concept{utilities}

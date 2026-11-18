@@ -32,8 +32,22 @@ wait_slurm.slurm_job <- function(x, ...) {
 
 #' @export
 #' @rdname wait_slurm
-wait_slurm.integer <- function(x, timeout = -1, freq = 0.1, force = TRUE, ...) {
-  wait_slurm_impl(x, timeout = timeout, freq = freq, force = force, ...)
+wait_slurm.integer <- function(
+    x,
+    timeout  = -1,
+    freq     = 0.1,
+    force    = TRUE,
+    clusters = NULL,
+    ...
+) {
+  wait_slurm_impl(
+    x,
+    timeout  = timeout,
+    freq     = freq,
+    force    = force,
+    clusters = clusters,
+    ...
+  )
 }
 
 #' @param job Either `NULL` or an object of class `slurm_job`. When not `NULL`,

@@ -25,6 +25,10 @@ then the command will only return when the job finishes.}
 \item{force}{Logical scalar. When \code{TRUE}, if the job is not found
 after checking for its status, the function will continue to wait
 still.}
+
+\item{clusters}{Character scalar. Name of the cluster where the job is. This
+is only needed when \code{x} is a job id and the job is not in the local cluster
+(\code{slurm_job} objects remember the cluster where they were submitted).}
 }
 \value{
 Invisible \code{NULL}.

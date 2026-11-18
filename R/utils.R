@@ -60,13 +60,8 @@ parse_flags.list <- function(x, ...) {
       option[i] <- ""
     else if (!is.logical(x[[i]]) && !is.character(x[[i]]))
       vals[i] <- paste0(equal_sign, x[[i]])
-    else if (is.character(x[[i]])) {
-      if (grepl("\\s+", x[[i]]))
-        vals[i] <- sprintf("%s\"%s\"", equal_sign, x[[i]])
-      else
-        vals[i] <- sprintf("%s%s", equal_sign, x[[i]])
-
-    }
+    else if (is.character(x[[i]]))
+      vals[i] <- paste0(equal_sign, quote_flag_value(x[[i]]))
   }
 
   sprintf("%s%s", option, vals)
@@ -385,4 +380,19 @@ hline <- function(..., sep="\n") {
   message(paste(rep("-", options("width")), collapse=""))
   message(paste(..., collapse = "\n"))
   message(paste(rep("-", options("width")), collapse=""))
+}
+
+#' Quotes the value of a flag when needed
+#'
+#' Values that are empty, or have white space, quotes, `#`, or backslashes are
+#' wrapped in double quotes, escaping `"` and `\`. This is understood by both
+#' the shell and the parser of `#SBATCH` lines (where `#` starts a comment).
+#' @noRd
+quote_flag_value <- function(x) {
+
+  if (!nzchar(x) || grepl("[[:space:]\"'#\\\\]", x))
+    x <- paste0("\"", gsub("([\"\\\\])", "\\\\\\1", x), "\"")
+
+  x
+
 }

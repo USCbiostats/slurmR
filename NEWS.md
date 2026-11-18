@@ -9,6 +9,21 @@
   `read_sbatch()`, `sbatch()`, and `sourceSlurm()` (#44). **Breaking:**
   `read_sbatch()` now returns a list instead of a character vector.
 
+* `read_sbatch()` now parses `#SBATCH` lines the way Slurm does: several
+  options per line, trailing `# comments`, nested quotes and backslash escapes,
+  empty values, and it stops at the first command. `parse_flags()` escapes
+  quotes and backslashes in values (and quotes empty values and values with `#`).
+  `sourceSlurm()` and `sbatch()` now honor `-J` as well as `--job-name`.
+
+* Jobs submitted to another cluster remember it (new `cluster` field of
+  `slurm_job` objects). `status()`, `wait_slurm()`, `sacct()`, `squeue()`, and
+  `scancel()` now query that cluster (`--clusters`); `scancel()` used to wait
+  forever for such jobs. `status()` and `wait_slurm()` gain the argument
+  `clusters` for job ids. `squeue()` ignores the `CLUSTER:` header line.
+
+* `wait_slurm(timeout = )` is now honored even when the job cannot be found
+  (it used to wait forever when `force = TRUE`).
+
 * `library()` calls in job scripts now respect `libPaths`, which fixes
   packages loaded from the `renv` cache (#43). Library paths are escaped in the
   generated script, so quotes and backslashes are safe.

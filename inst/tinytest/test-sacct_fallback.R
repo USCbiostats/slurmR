@@ -11,7 +11,7 @@
 # -squeue-) fails, just like on a cluster without accounting. This test only
 # runs when Slurm is not installed, so the fake executables do not shadow a
 # real Slurm installation.
-if ((.Platform$OS.type == "unix") && !slurm_available()) {
+if ((.Platform$OS.type == "unix") && !slurm_available()) local({
 
   # Creating the fake Slurm binaries --------------------------------------------
   old_path <- Sys.getenv("PATH")
@@ -23,6 +23,15 @@ if ((.Platform$OS.type == "unix") && !slurm_available()) {
     Sys.chmod(f, mode = "0755")
   }
   Sys.setenv(PATH = paste(fake_bin, old_path, sep = .Platform$path.sep))
+
+  # Restoring the global state, even if the test fails midway
+  job_record <- slurmR:::LAST_SUBMITTED_JOB
+  old_job    <- job_record$job
+  on.exit({
+    Sys.setenv(PATH = old_path)
+    job_record$job <- old_job
+    unlink(fake_bin, recursive = TRUE)
+  })
 
   expect_true(slurm_available())
 
@@ -125,8 +134,6 @@ if ((.Platform$OS.type == "unix") && !slurm_available()) {
   )
 
   # Cleaning up ----------------------------------------------------------------
-  Sys.setenv(PATH = old_path)
-  unlink(fake_bin, recursive = TRUE)
   unlink(file.path(tmp_path, job_name), recursive = TRUE)
 
-}
+})

@@ -95,3 +95,93 @@ expect_warning(
 )
 
 unlink(tmp_dir, recursive = TRUE)
+
+# Parsing follows Slurm's rules (src/sbatch/opt.c, get_argument) ---------------
+
+# Several options in one line, and trailing comments
+expect_identical(
+  read_sbatch(c("#!/bin/sh", "#SBATCH --gres=gpu:1 --mem=4G  # a comment")),
+  list(gres = "gpu:1", mem = "4G")
+)
+expect_identical(
+  read_sbatch(c("#!/bin/sh", "#SBATCH -N2 -n 4 --exclusive # note")),
+  list(N = "2", n = "4", exclusive = TRUE)
+)
+expect_identical(
+  read_sbatch(c("#!/bin/sh", "#SBATCH --exclusive # note", "#SBATCH --hold")),
+  list(exclusive = TRUE, hold = TRUE)
+)
+
+# A # inside quotes, or escaped, is not a comment
+expect_identical(
+  read_sbatch(c("#!/bin/sh", "#SBATCH --comment=\"a # b\" --job-name=x\\#y")),
+  list(comment = "a # b", `job-name` = "x#y")
+)
+
+# Quotes are removed (and can be nested); backslashes escape
+expect_identical(
+  read_sbatch(c(
+    "#!/bin/sh",
+    "#SBATCH --comment='say \"hi\" there'",
+    "#SBATCH --export=ALL,X=\"a b\"",
+    "#SBATCH -J \"my\\ job\""
+  )),
+  list(comment = "say \"hi\" there", export = "ALL,X=a b", J = "my job")
+)
+
+# Empty values are kept (they are not flags without values)
+expect_identical(
+  read_sbatch(c("#!/bin/sh", "#SBATCH --mem= --chdir=\"\" --hold")),
+  list(mem = "", chdir = "", hold = TRUE)
+)
+
+# Slurm stops reading at the first command
+expect_identical(
+  read_sbatch(c(
+    "#!/bin/sh", "", "# a comment", "#SBATCH --hold", "echo hi",
+    "#SBATCH --exclusive"
+  )),
+  list(hold = TRUE)
+)
+
+# Round trip: what we read, is what we write (quoting/escaping included)
+opts <- list(
+  comment = "say \"hi\" there",
+  chdir   = "",
+  J       = "my job",
+  export  = "ALL,X=a b",
+  name    = "a#b",
+  hold    = TRUE
+)
+flags <- parse_flags(opts)
+expect_identical(
+  read_sbatch(c("#!/bin/sh", paste("#SBATCH", flags))),
+  opts
+)
+
+# The job name can be given as -J or --job-name (the last one wins)
+expect_identical(
+  slurmR:::normalize_job_name(list(J = "a", exclusive = TRUE)),
+  list(exclusive = TRUE, `job-name` = "a")
+)
+expect_identical(
+  slurmR:::normalize_job_name(list(`job-name` = "a", J = "b")),
+  list(`job-name` = "b")
+)
+expect_identical(slurmR:::normalize_job_name(list(hold = TRUE)), list(hold = TRUE))
+
+# sourceSlurm and sbatch pick the name given by -J
+tmp_dir <- tempfile("read_sbatch")
+dir.create(tmp_dir)
+rscript <- file.path(tmp_dir, "short-name.R")
+writeLines(c("#!/bin/sh", "#SBATCH -J myjob", "#SBATCH --hold", "print(1)"), rscript)
+
+suppressWarnings(suppressMessages(
+  sourceSlurm(rscript, tmp_path = tmp_dir, plan = "none")
+))
+sbatch_lines <- grep("^#SBATCH", readLines(file.path(tmp_dir, "short-name.R.sh")), value = TRUE)
+expect_true("#SBATCH --job-name=myjob" %in% sbatch_lines)
+expect_false(any(grepl("-J", sbatch_lines, fixed = TRUE)))
+expect_false(any(grepl("short-name", sbatch_lines, fixed = TRUE)))
+
+unlink(tmp_dir, recursive = TRUE)

@@ -27,6 +27,10 @@ slurm_available <- function() {
 squeue <- function(x = NULL, ...) UseMethod("squeue")
 
 #' @export
+#' @details When the job was submitted to another cluster (see the argument
+#' `clusters` of [sbatch]), the methods for `slurm_job` objects query that
+#' cluster (flag `--clusters`). The same flag can be passed directly to
+#' `squeue`, `sacct`, and `scancel` via `...`.
 #' @rdname sbatch
 squeue.default <- function(x = NULL, ...) {
 
@@ -38,6 +42,11 @@ squeue.default <- function(x = NULL, ...) {
 
   # message("Submitting job...")
   ans <- silent_system2("squeue", option, stdout = TRUE, stderr = TRUE)
+
+  # With -M/--clusters, squeue prints "CLUSTER: <name>" before the header (and
+  # repeats the header, after a blank line, for each cluster)
+  ans <- ans[nzchar(ans) & !grepl("^CLUSTER: ", ans)]
+  ans <- ans[!(duplicated(ans) & ans == ans[1L])]
 
   # Parsing the data
   ans <- lapply(ans, strsplit, split="|", fixed=TRUE)
@@ -55,7 +64,7 @@ squeue.default <- function(x = NULL, ...) {
 squeue.slurm_job <- function(x, ...) {
 
   stopifnot_submitted(get_job_id(x))
-  squeue.default(get_job_id(x), ...)
+  do.call(squeue.default, c(list(get_job_id(x)), with_cluster(x, ...)))
 
 }
 
@@ -74,7 +83,13 @@ scancel.default <- function(x = NULL, ...) {
   option <- c(parse_flags(...), x)
 
   ans <- silent_system2("scancel", option, stdout = TRUE, stderr = TRUE)
-  wait_slurm(x)
+
+  # If the job lives in another cluster, we need to wait for it there
+  cluster <- list(...)$clusters
+  if (is.null(cluster))
+    wait_slurm(x)
+  else
+    wait_slurm_impl(x, clusters = cluster)
 
   invisible()
 
@@ -85,7 +100,7 @@ scancel.default <- function(x = NULL, ...) {
 scancel.slurm_job <- function(x = NULL, ...) {
 
   stopifnot_submitted(get_job_id(x))
-  scancel.default(get_job_id(x), ...)
+  do.call(scancel.default, c(list(get_job_id(x)), with_cluster(x, ...)))
 
 }
 
@@ -132,7 +147,7 @@ sacct.default <- function(
 sacct.slurm_job <- function(x, ...) {
 
   stopifnot_submitted(get_job_id(x))
-  sacct.default(get_job_id(x), ...)
+  do.call(sacct.default, c(list(get_job_id(x)), with_cluster(x, ...)))
 
 }
 
@@ -195,4 +210,21 @@ SchedulerParameters <- function() {
       })
 
   return(as.list(values))
+}
+
+#' Options for querying a job, including its cluster
+#'
+#' Adds `clusters = x$cluster` to the options in `...` unless the user already
+#' specified the cluster (`clusters` or `M`).
+#' @param x A `slurm_job`.
+#' @noRd
+with_cluster <- function(x, ...) {
+
+  opts <- list(...)
+
+  if (is.null(opts$clusters) && is.null(opts$M) && !is.null(x$cluster))
+    opts$clusters <- x$cluster
+
+  opts
+
 }

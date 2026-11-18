@@ -80,7 +80,10 @@ sacct_ <- function(x = NULL, ..., no_sacct = FALSE) {
   )
 
   # Trying to capture the jobarray
-  array_state <- tryCatch(squeue(array = TRUE), error = function(e) e)
+  array_state <- tryCatch(
+    squeue(array = TRUE, clusters = x$cluster),
+    error = function(e) e
+  )
 
   # Going file by file
   for (i in seq_len(njobs)) {

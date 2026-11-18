@@ -9,13 +9,18 @@ jobs:
   build:
     runs-on: Ubuntu-latest
 
+    # This job runs code from the repository (including PR branches), so it
+    # only gets the permissions it needs to post the preview. Writing to
+    # gh-pages happens in the separate `deploy` job.
     permissions:
-      contents: write
+      contents: read
       pull-requests: write
       actions: read
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Container
         run: docker pull ${cntr}
@@ -25,8 +30,8 @@ jobs:
           docker run --rm -i -v ${PWD}:/home/mnt -w /home/mnt ${cntr} \
             Rscript -e 'install.packages(c("pkgdown"));system("R CMD INSTALL .");pkgdown::build_site(install=FALSE)'
 
-      - name: Upload website preview
-        if: ${{ github.event_name == 'pull_request' }}
+      # Used by the preview (PRs) and by the deploy job (pushes to master)
+      - name: Upload website
         uses: actions/upload-artifact@v4
         with:
           name: website
@@ -41,8 +46,21 @@ jobs:
           gh-token: ${{ secrets.GITHUB_TOKEN }}
           message: 'The pkgdown { artifact-name } preview for this PR is ready for download :point_right: [here]({ artifact-url }).'
 
+  deploy:
+    needs: build
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+    runs-on: Ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: website
+          path: ./docs
+
       - name: Deploy
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

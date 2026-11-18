@@ -22,6 +22,15 @@ If no option is found, then returns an empty list.
 \description{
 Read a slurm batch file and capture the SBATCH options
 }
+\details{
+The options are read the way Slurm does it: only the \verb{#SBATCH}
+lines located before the first command are used; a line can have more than
+one option (e.g., \verb{#SBATCH -N2 -n4}); quotes group characters (and are
+removed) and a backslash escapes the next character; and an unquoted,
+unescaped \verb{#} starts a comment that lasts until the end of the line. A
+token that does not start with a dash and follows an option is taken as its
+value (e.g., \verb{--time 01:00:00}).
+}
 \examples{
 
 # Reading in an example script

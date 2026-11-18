@@ -7,17 +7,24 @@
 \alias{$.slurm_status}
 \title{Check the status of a Slurm JOB}
 \usage{
-status(x)
+status(x, ...)
 
-\method{status}{slurm_job}(x)
+\method{status}{slurm_job}(x, ...)
 
-\method{status}{default}(x)
+\method{status}{default}(x, clusters = NULL, ...)
 
 \method{$}{slurm_status}(x, name)
 }
 \arguments{
 \item{x}{Either a Job id, an object of class \code{slurm_job}, or an object of
 class \code{slurm_status}.}
+
+\item{...}{Ignored.}
+
+\item{clusters}{Character scalar. Name of the cluster where the job is (flag
+\code{--clusters} of \code{sacct}). Only needed when \code{x} is a job id and the job is
+not in the local cluster; \code{slurm_job} objects remember the cluster where they
+were submitted.}
 
 \item{name}{Character scalar. List of status to retrieve. This can be any of
 \code{"done"}, \code{"failed"}, \code{"running"}, or \code{"pending"}.}

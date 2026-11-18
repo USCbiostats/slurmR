@@ -61,6 +61,11 @@ check_hooks <- function(x) {
 #' and [opts_slurmR]$get_r_opts() at the moment of the creation of the `slurm_job`.
 #' - `hooks` A list of functions to be called on the collected objects
 #' by [Slurm_collect].
+#' - `jobid` The job id assigned by Slurm (`NA` before submission).
+#' - `cluster` The name of the cluster where the job was submitted when it
+#' differs from the local one (e.g., using `sbatch_opt = list(clusters = "B")`),
+#' otherwise `NULL`. It is used by [status], [wait_slurm], [sacct], [squeue],
+#' and [scancel] to reach the job.
 #'
 new_slurm_job <- function(
   call,
@@ -86,6 +91,7 @@ new_slurm_job <- function(
       opts_job = opts_job,
       opts_r   = opts_r,
       jobid    = NA_integer_,
+      cluster  = NULL,
       hooks    = hooks
     ),
     envir = new.env(parent = emptyenv())

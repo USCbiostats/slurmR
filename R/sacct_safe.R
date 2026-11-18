@@ -27,13 +27,15 @@ sacct_ <- function(x = NULL, ..., no_sacct = FALSE) {
 
   # The fallback needs the slurm_job object (number of jobs, tmp path, and job
   # name). If only a job ID was passed, we can only recover it from the last
-  # submitted job (see #29 and #40).
+  # submitted job (see #29 and #40). Job IDs are only unique within a cluster,
+  # so the cluster has to match as well.
   if (!inherits(x, "slurm_job")) {
 
     job <- last_job()
     if (
       !is.null(job) && length(x) == 1L && !is.na(get_job_id(job)) &&
-      isTRUE(as.character(get_job_id(job)) == as.character(x))
+      isTRUE(as.character(get_job_id(job)) == as.character(x)) &&
+      identical(option_cluster(list(...)), job$cluster)
     ) {
       x <- job
     } else {
@@ -41,8 +43,8 @@ sacct_ <- function(x = NULL, ..., no_sacct = FALSE) {
         "Since -sacct- failed, the status of the job is inferred from its ",
         "output files, which requires an object of class `slurm_job`. Only ",
         "the job ID (", paste(x, collapse = ", "), ") was passed, and it does ",
-        "not match the last submitted job. Try passing the `slurm_job` object ",
-        "instead (see ?read_slurm_job).",
+        "not match the last submitted job (id and cluster). Try passing the ",
+        "`slurm_job` object instead (see ?read_slurm_job).",
         call. = FALSE
       )
     }

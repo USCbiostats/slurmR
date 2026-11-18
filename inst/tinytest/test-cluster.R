@@ -95,6 +95,19 @@ if ((.Platform$OS.type == "unix") && !slurm_available()) local({
   expect_equal(as.integer(status(555L, clusters = "B")), 0L)
   expect_silent(wait_slurm(555L, clusters = "B", timeout = 10))
 
+  # The fallback for bare job ids (-sacct- not available) only recovers the last
+  # submitted job if the cluster matches too, since ids repeat across clusters
+  fallback <- suppressWarnings(slurmR:::sacct_(555L, clusters = "B", no_sacct = TRUE))
+  expect_equal(nrow(fallback), 2L)
+  expect_error(
+    suppressWarnings(slurmR:::sacct_(555L, clusters = "Z", no_sacct = TRUE)),
+    "requires an object of class `slurm_job`"
+  )
+  expect_error(
+    suppressWarnings(slurmR:::sacct_(555L, no_sacct = TRUE)),
+    "requires an object of class `slurm_job`"
+  )
+
   # A job that cannot be found does not make us wait beyond the timeout
   expect_warning(
     wait_slurm(555L, clusters = "Z", timeout = 1),
@@ -150,10 +163,11 @@ if ((.Platform$OS.type == "unix") && !slurm_available()) local({
   hosts$clean()
 
   # A cluster name with digits (see #59) ---------------------------------------
-  Sys.setenv(FAKE_SBATCH_MSG = "Submitted batch job 555 on cluster B")
+  Sys.setenv(FAKE_SBATCH_MSG = "Submitted batch job 555 on cluster B2")
   job2 <- new_job("test-cluster-remote2")
   suppressMessages(sbatch(job2))
-  expect_equal(job2$cluster, "B")
+  expect_equal(job2$jobid, 555L)
+  expect_equal(job2$cluster, "B2")
 
   # Local submissions have no cluster -----------------------------------------
   Sys.setenv(FAKE_SBATCH_MSG = "Submitted batch job 777")

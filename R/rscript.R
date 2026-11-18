@@ -77,13 +77,21 @@ load_packages <- function(pkgs, tmp_path, job_name, libPaths = NULL) {
 
   vapply(names(pkgs), function(p) {
     lib_loc <- unique(c(as.character(pkgs[[p]]), libPaths))
-    sprintf(
-      "library(%s, lib.loc = c(\"%s\"))",
-      p,
-      paste(lib_loc, collapse = "\", \"")
-    )
+    sprintf("library(%s, lib.loc = %s)", p, as_r_chr(lib_loc))
   }, character(1), USE.NAMES = FALSE)
 
+}
+
+#' Character vector as R code
+#'
+#' Quotes and backslashes (e.g., Windows paths) are escaped so that the result
+#' can be safely written to the job script. Missing and empty entries are
+#' dropped.
+#' @noRd
+as_r_chr <- function(x) {
+  x <- as.character(x)
+  x <- x[!is.na(x) & nzchar(x)]
+  paste(deparse(x, width.cutoff = 500L), collapse = "")
 }
 
 save_objects <- function(
@@ -232,10 +240,7 @@ new_rscript <- function(
   if (length(libPaths)) {
 
     if (is.atomic(libPaths) && is.character(libPaths)) {
-      env$append(sprintf(
-        ".libPaths(c(\"%s\"))",
-        paste(libPaths, collapse="\", \"")
-        ), wrap = FALSE)
+      env$append(sprintf(".libPaths(%s)", as_r_chr(libPaths)), wrap = FALSE)
     } else {
 
       stop("The argument `libPaths` must be either a vector or a character scalar.",

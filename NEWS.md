@@ -1,8 +1,25 @@
 # slurmR 0.5-4
 
-* Fixed job id recovery when submitting to another cluster (`sbatch -M`), where Slurm
-  appends `on cluster <name>` to the success message (#59). A clear error is
-  now raised if the job id cannot be parsed.
+* Fixed job id recovery when submitting to another cluster (`sbatch -M`) or a
+  federated cluster, where Slurm appends `on cluster <name>` to the success
+  message (#41, #59). A clear error is now raised if the job id cannot be
+  parsed.
+
+* Valueless `#SBATCH` flags (e.g., `--exclusive`) are now handled by
+  `read_sbatch()`, `sbatch()`, and `sourceSlurm()` (#44). **Breaking:**
+  `read_sbatch()` now returns a list instead of a character vector.
+
+* `library()` calls in job scripts now respect `libPaths`, which fixes
+  packages loaded from the `renv` cache (#43). Library paths are escaped in the
+  generated script, so quotes and backslashes are safe.
+
+* `Slurm_lapply()`, `Slurm_Map()`, and `Slurm_EvalQ()` now error early when
+  `export` contains names reserved by the job script (#49). Also fixed
+  `Slurm_EvalQ(export = ...)`, which failed with "unused argument".
+
+* `sacct()`/`status()`/`wait_slurm()` keep the `slurm_job` object when falling
+  back from `sacct` (#40).
+
 * Adressing [`roxygen2` issue #1491](https://github.com/r-lib/roxygen2/issues/1491).
 
 

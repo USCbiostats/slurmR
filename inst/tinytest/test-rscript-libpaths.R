@@ -75,4 +75,31 @@ expect_equal(
   0L
 )
 
+# Paths with quotes, backslashes (Windows), or spaces must produce valid R code
+weird <- c("/a\"b/lib", "C:\\Users\\x\\lib", "/it's a/lib")
+calls <- slurmR:::load_packages(
+  list(stats = weird[1]),
+  tmp_path = tmp,
+  job_name = job_name,
+  libPaths = weird[-1]
+)
+parsed <- parse(text = calls)
+expect_equal(
+  as.character(eval(parsed[[1]][["lib.loc"]])),
+  weird
+)
+
+rscript <- slurmR:::new_rscript(
+  njobs    = 1L,
+  tmp_path = tmp,
+  job_name = job_name,
+  libPaths = weird
+)
+rscript$finalize("ans")
+rscript$write()
+script <- readLines(fn)
+expect_silent(parse(text = script))
+lp <- grep("^\\.libPaths\\(", script, value = TRUE)
+expect_equal(eval(parse(text = sub("^\\.libPaths", "c", lp))), weird)
+
 unlink(tmp, recursive = TRUE)

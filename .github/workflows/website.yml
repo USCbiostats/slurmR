@@ -9,6 +9,11 @@ jobs:
   build:
     runs-on: Ubuntu-latest
 
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: read
+
     steps:
       - uses: actions/checkout@v2
 
@@ -20,7 +25,24 @@ jobs:
           docker run --rm -i -v ${PWD}:/home/mnt -w /home/mnt ${cntr} \
             Rscript -e 'install.packages(c("pkgdown"));system("R CMD INSTALL .");pkgdown::build_site(install=FALSE)'
 
+      - name: Upload website preview
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: website
+          path: ./docs
+
+      # Fork PRs get a read-only token, so only post for same-repo PRs.
+      - name: Post website preview
+        if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+        uses: CDCgov/cfa-actions/post-artifact@v1.9.0
+        with:
+          artifact-name: website
+          gh-token: ${{ secrets.GITHUB_TOKEN }}
+          message: 'The pkgdown { artifact-name } preview for this PR is ready for download :point_right: [here]({ artifact-url }).'
+
       - name: Deploy
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,22 @@
+version: 1
+
+groups:
+  slurmR:
+    # Changes to any of these make the package count as touched, so the PR
+    # needs a version bump unless the current version is still unreleased.
+    paths:
+      - R/
+      - inst/
+      - man/
+      - DESCRIPTION
+      - NAMESPACE
+      - NEWS.md
+    consistency: identical
+    rules:
+      - preset: r-package
+        files: [DESCRIPTION]
+      # "# slurmR 0.5-4" headings. A "(development version)" heading has no
+      # version, so it is skipped instead of failing.
+      - preset: r-news-titled
+        files: [NEWS.md]
+        on-no-match: skip

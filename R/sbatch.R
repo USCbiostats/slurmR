@@ -60,7 +60,7 @@ sbatch.slurm_job <- function(x, wait = FALSE, submit = TRUE, ...) {
 
   # Checking the status of the job. If the job exists and it is completed,
   # then we can resubmit, otherwise, the user must actively cancell it
-  if (!is.na(get_job_id(x)) && (status(get_job_id(x)) %in% 1:2))
+  if (!is.na(get_job_id(x)) && (status(x) %in% 1:2))
     stop(
       "Job ", get_job_id(x)," is on the queue. If you wish to resubmit, ",
       "you first need to cancel the job by calling `scancel()`.",

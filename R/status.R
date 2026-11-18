@@ -52,12 +52,22 @@ status <- function(x) UseMethod("status")
 #' @export
 #' @rdname status
 status.slurm_job <- function(x) {
-  status.default(get_job_id(x))
+  # Passing the job object along so that, if -sacct- fails (e.g., no
+  # accounting), the fallback can still find the job's files (see #29 and #40).
+  status_impl(get_job_id(x), job = x)
 }
 
 #' @export
 #' @rdname status
 status.default <- function(x) {
+  status_impl(x)
+}
+
+#' @param x A job ID.
+#' @param job Either `NULL` or an object of class `slurm_job`. When not `NULL`,
+#' it is passed to [sacct_] instead of `x`.
+#' @noRd
+status_impl <- function(x, job = NULL) {
 
   wrap <- function(val, S) {
 
@@ -85,7 +95,12 @@ status.default <- function(x) {
   if (is.na(x))
     return(wrap(-1L, NULL))
 
-  dat <- sacct_(x, brief = TRUE, parsable = TRUE, allocations = TRUE)
+  dat <- sacct_(
+    if (is.null(job)) x else job,
+    brief       = TRUE,
+    parsable    = TRUE,
+    allocations = TRUE
+  )
 
   # We only need to keep the main line of the account
   if (!nrow(dat))

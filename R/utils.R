@@ -50,6 +50,21 @@ parse_flags.list <- function(x, ...) {
     paste0("--", names(x))
   )
 
+  # An empty value for a short option (e.g., -J "") is lost by Slurm when it
+  # is written in a #SBATCH line (the parser stops at the empty argument)
+  empty <- single_char & vapply(
+    x, function(z) is.character(z) && length(z) == 1L && !nzchar(z), logical(1)
+  )
+  if (any(empty)) {
+    warning(
+      "Dropping the option(s) with empty value: -",
+      paste(names(x)[empty], collapse = ", -"), call. = FALSE
+    )
+    x           <- x[!empty]
+    option      <- option[!empty]
+    single_char <- single_char[!empty]
+  }
+
   vals <- character(length(option))
   for (i in seq_along(x)) {
 
@@ -384,13 +399,19 @@ hline <- function(..., sep="\n") {
 
 #' Quotes the value of a flag when needed
 #'
-#' Values that are empty, or have white space, quotes, `#`, or backslashes are
-#' wrapped in double quotes, escaping `"` and `\`. This is understood by both
-#' the shell and the parser of `#SBATCH` lines (where `#` starts a comment).
+#' Values with characters other than letters, digits, and `_@%+=:,./~` (plus
+#' `$` and backticks, which are left for the shell to expand, as before) are
+#' wrapped in double quotes, escaping `"` and `\`. This protects white space,
+#' quotes, `#` (a comment in `#SBATCH` lines), and shell metacharacters such as
+#' `|`, `;`, `&`, `<`, `>`, `(`, `{`, `*` or `[`, and it is understood by both
+#' the shell and the parser of `#SBATCH` lines. Empty values are quoted too.
 #' @noRd
 quote_flag_value <- function(x) {
 
-  if (!nzchar(x) || grepl("[[:space:]\"'#\\\\]", x))
+  if (grepl("[\r\n]", x))
+    stop("Option values cannot contain new lines: ", x, call. = FALSE)
+
+  if (!nzchar(x) || grepl("[^A-Za-z0-9_@%+=:,./~$`-]", x))
     x <- paste0("\"", gsub("([\"\\\\])", "\\\\\\1", x), "\"")
 
   x

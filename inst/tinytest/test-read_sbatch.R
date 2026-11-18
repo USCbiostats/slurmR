@@ -185,3 +185,76 @@ expect_false(any(grepl("-J", sbatch_lines, fixed = TRUE)))
 expect_false(any(grepl("short-name", sbatch_lines, fixed = TRUE)))
 
 unlink(tmp_dir, recursive = TRUE)
+
+# Flags without values ---------------------------------------------------------
+
+# Clustered or repeated short flags
+expect_identical(
+  read_sbatch(c("#!/bin/sh", "#SBATCH -Hs -vvv -n 4")),
+  list(H = TRUE, s = TRUE, v = TRUE, v = TRUE, v = TRUE, n = "4")
+)
+expect_identical(
+  read_sbatch(c("#!/bin/sh", "#SBATCH -Hn4")),
+  list(H = TRUE, n = "4")
+)
+
+# Options without a value (or with an optional one) never take the next argument
+expect_identical(
+  read_sbatch(c("#!/bin/sh", "#SBATCH --requeue --time 01:00:00 --exclusive=user")),
+  list(requeue = TRUE, time = "01:00:00", exclusive = "user")
+)
+expect_identical(
+  read_sbatch(c("#!/bin/sh", "#SBATCH --nice=-5 --hold")),
+  list(nice = "-5", hold = TRUE)
+)
+
+# Only ASCII white space separates arguments (as in Slurm)
+expect_identical(
+  read_sbatch(c("#!/bin/sh", "#SBATCH --comment=a b -J x")),
+  list(comment = "a b", J = "x")
+)
+
+# An empty job name is ignored
+expect_identical(
+  slurmR:::normalize_job_name(list(`job-name` = "", hold = TRUE)),
+  list(hold = TRUE)
+)
+
+# Writing flags -----------------------------------------------------------------
+
+# New lines cannot be written, and empty values of short options are dropped
+expect_error(parse_flags(list(comment = "a\nb")), "new lines")
+expect_warning(
+  ans <- parse_flags(list(J = "", hold = TRUE)),
+  "empty value"
+)
+expect_identical(ans, "--hold")
+
+# Values reach the program as they are (shell metacharacters included), which
+# we check by passing them through the shell
+if (.Platform$OS.type == "unix") {
+
+  values <- c(
+    "haswell|skylake", "a;b", "a&b", "a<b>c", "(x)", "{a,b}", "node[1-3]",
+    "*", "it's", "say \"hi\"", "back\\slash", "a b", "a#b", "plain-1.2/x:y,z=w"
+  )
+  for (v in values) {
+    flag <- parse_flags(list(comment = v))
+    out  <- system(paste("printf '%s\\n'", flag), intern = TRUE)
+    expect_identical(out, paste0("--comment=", v), info = v)
+
+    # And Slurm reads them back as well
+    expect_identical(
+      read_sbatch(c("#!/bin/sh", paste("#SBATCH", flag)))$comment,
+      v,
+      info = v
+    )
+  }
+
+  # Variables are still expanded by the shell, as before
+  expect_identical(
+    system(paste("printf '%s\\n'", parse_flags(list(chdir = "$HOME/x"))), intern = TRUE),
+    paste0("--chdir=", Sys.getenv("HOME"), "/x")
+  )
+
+}

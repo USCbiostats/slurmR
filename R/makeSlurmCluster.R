@@ -5,9 +5,10 @@ get_hosts <- function(
   ) {
 
   # In case that the host retrival fails, this should be the exit mechanism
+  cluster <- NULL
   on.exit({
     if (exists("jobid") && !exists("clean"))
-      tryCatch(scancel(jobid), error = function(e) e)
+      tryCatch(scancel(jobid, clusters = cluster), error = function(e) e)
   })
 
   # Creating job name and file
@@ -30,7 +31,9 @@ get_hosts <- function(
   writeLines(dat, fn)
 
   # Submitting the job
-  jobid <- sbatch(fn, wait = FALSE, submit = TRUE)
+  jobid   <- sbatch(fn, wait = FALSE, submit = TRUE)
+  cluster <- attr(jobid, "cluster") # NULL unless sent to another cluster
+  jobid   <- as.integer(jobid)
 
   # Returning
   hosts <- function() {
@@ -48,8 +51,9 @@ get_hosts <- function(
 
   structure(
     list(
-      hosts  = hosts,
-      jobid  = jobid,
+      hosts   = hosts,
+      jobid   = jobid,
+      cluster = cluster,
       output = out,
       script = fn,
       clean  = clean
@@ -116,6 +120,9 @@ get_hosts <- function(
 #'
 #' - `SLURM_JOBID` Which is the id of the Job that initialized that cluster.
 #'
+#' - `SLURM_CLUSTER` The name of the Slurm cluster where the job is running when
+#'   it is not the local one (e.g., `clusters = "B"` was passed via `...`).
+#'
 #' @examples
 #' \dontrun{
 #'
@@ -181,7 +188,10 @@ makeSlurmCluster <- function(
       }
 
       e <- tryCatch(parallel::stopCluster(cl), error = function(e) e)
-      e <- tryCatch(scancel(get_job_id(job)), error = function(e) e)
+      e <- tryCatch(
+        scancel(get_job_id(job), clusters = job$cluster),
+        error = function(e) e
+      )
       if (inherits(e, "error") && !is.na(get_job_id(job))) {
         warning(
           "The job ", get_job_id(job), " is still running. Try canceling it using ",
@@ -231,17 +241,17 @@ makeSlurmCluster <- function(
     # In the case of debug mode on, we don't need to check for the job status.
     # we can go directly to the R sessions
     if (!opts_slurmR$get_debug())
-      s <- status(get_job_id(job))
+      s <- status(get_job_id(job), clusters = job$cluster)
 
     # One or more failed
     if (s == 99L) {
 
-      scancel(get_job_id(job))
+      scancel(get_job_id(job), clusters = job$cluster)
       stop(attr(s, "description"), call. = FALSE)
 
     } else if (s == 0L) {
 
-      scancel(get_job_id(job))
+      scancel(get_job_id(job), clusters = job$cluster)
       stop("The job was completed. This shouldn't happen!", call. = FALSE)
 
     } else if (s == 1L)
@@ -259,7 +269,7 @@ makeSlurmCluster <- function(
 
   if (inherits(nodenames, what = "error")) {
 
-    scancel(get_job_id(job))
+    scancel(get_job_id(job), clusters = job$cluster)
     stop(
       "While trying to read information regarding the created jobs, one or ",
       "more components failed.",
@@ -279,7 +289,8 @@ makeSlurmCluster <- function(
     c(list(names = nodenames), cluster_opt)
   )
 
-  attr(cl, "SLURM_JOBID") <- get_job_id(job)
+  attr(cl, "SLURM_JOBID")   <- get_job_id(job)
+  attr(cl, "SLURM_CLUSTER") <- job$cluster
   attr(cl, "class")       <- c("slurm_cluster", attr(cl, "class"))
 
   # The temp file is no longer needed
@@ -305,14 +316,16 @@ stopCluster.slurm_cluster <- function(cl) {
   # First, we need to stop the original processes, this will kill the cluster
   # right away!
   # Removing the first class, and calling stop cluster Again!
-  if (!opts_slurmR$get_debug())
-    jobid <- get_job_id(cl)
+  if (!opts_slurmR$get_debug()) {
+    jobid   <- get_job_id(cl)
+    cluster <- attr(cl, "SLURM_CLUSTER")
+  }
 
   class(cl) <- setdiff(class(cl), "slurm_cluster")
   parallel::stopCluster(cl)
 
   if (!opts_slurmR$get_debug())
-    scancel(jobid)
+    scancel(jobid, clusters = cluster)
 
   invisible()
 

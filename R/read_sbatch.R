@@ -16,7 +16,9 @@
 #' removed) and a backslash escapes the next character; and an unquoted,
 #' unescaped `#` starts a comment that lasts until the end of the line. A
 #' token that does not start with a dash and follows an option is taken as its
-#' value (e.g., `--time 01:00:00`).
+#' value (e.g., `--time 01:00:00`), except for options without a value or with
+#' an optional one (e.g., `--exclusive`, `--requeue`, `--nice`), which only take
+#' it attached (`--nice=5`). Flags can be clustered (e.g., `-Hs`).
 #' @examples
 #'
 #' # Reading in an example script
@@ -99,7 +101,7 @@ split_sbatch_line <- function(line) {
 
       break
 
-    } else if (grepl("[[:space:]]", ch)) {
+    } else if (ch %in% c(" ", "\t", "\n", "\r", "\f", "\v")) {
 
       if (active) {
         tokens <- c(tokens, paste(cur, collapse = ""))
@@ -139,6 +141,13 @@ parse_sbatch_tokens <- function(tokens) {
   i   <- 1L
   n   <- length(tokens)
 
+  push <- function(name, val) {
+    if (nzchar(name)) {
+      ans[length(ans) + 1L] <<- list(val)
+      names(ans)[length(ans)] <<- name
+    }
+  }
+
   while (i <= n) {
 
     tk <- tokens[i]
@@ -152,12 +161,26 @@ parse_sbatch_tokens <- function(tokens) {
       name <- if (eq > 0L) substr(tk, 3L, eq - 1L) else substring(tk, 3L)
       val  <- if (eq > 0L) substring(tk, eq + 1L) else NULL
 
+      # Flags never take the next argument as their value (see below)
+      if (is.null(val) && name %in% SBATCH_FLAGS_LONG)
+        val <- TRUE
+
     } else if (grepl("^-[^-]", tk)) {
 
-      # Short options: -n, -n value, -nvalue, or -n=value
-      name <- substr(tk, 2L, 2L)
-      val  <- substring(tk, 3L)
+      # Short options: -n, -n value, -nvalue, or -n=value. Flags without values
+      # can be clustered or repeated: -Hs, -vvv, -Hn4
+      chars <- strsplit(substring(tk, 2L), "", fixed = TRUE)[[1L]]
+      while (length(chars) > 1L && chars[1L] %in% SBATCH_FLAGS_SHORT) {
+        push(chars[1L], TRUE)
+        chars <- chars[-1L]
+      }
+
+      name <- chars[1L]
+      val  <- paste(chars[-1L], collapse = "")
       val  <- if (nzchar(val)) sub("^=", "", val) else NULL
+
+      if (is.null(val) && name %in% SBATCH_FLAGS_SHORT)
+        val <- TRUE
 
     } else
       next # Not an option, skip
@@ -174,16 +197,26 @@ parse_sbatch_tokens <- function(tokens) {
 
     }
 
-    if (nzchar(name))
-      ans[length(ans) + 1L] <- list(val)
-    if (nzchar(name))
-      names(ans)[length(ans)] <- name
+    push(name, val)
 
   }
 
   ans
 
 }
+
+# Options of sbatch that never take the next argument as their value: either
+# they have no value (e.g., --requeue) or the value is optional and, as in any
+# getopt_long call, it can only be attached (e.g., --exclusive=user, --nice=-5).
+# From the options listed in https://slurm.schedmd.com/sbatch.html
+SBATCH_FLAGS_LONG <- c(
+  "contiguous", "exclusive", "get-user-env", "help", "hold", "ignore-pbs",
+  "nice", "no-kill", "no-requeue", "overcommit", "oversubscribe", "parsable",
+  "propagate", "quiet", "reboot", "requeue", "spread-job", "test-only",
+  "usage", "use-min-nodes", "verbose", "version", "wait"
+)
+
+SBATCH_FLAGS_SHORT <- c("H", "k", "O", "Q", "s", "v", "W", "h", "V")
 
 #' Job name of a list of `#SBATCH` options
 #'
@@ -202,7 +235,7 @@ normalize_job_name <- function(opts) {
   name <- opts[[idx[length(idx)]]]
   opts <- opts[-idx]
 
-  if (is.character(name))
+  if (is.character(name) && nzchar(name))
     opts[["job-name"]] <- name
 
   opts

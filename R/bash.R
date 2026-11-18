@@ -85,7 +85,7 @@ scancel.default <- function(x = NULL, ...) {
   ans <- silent_system2("scancel", option, stdout = TRUE, stderr = TRUE)
 
   # If the job lives in another cluster, we need to wait for it there
-  cluster <- list(...)$clusters
+  cluster <- option_cluster(list(...))
   if (is.null(cluster))
     wait_slurm(x)
   else
@@ -222,9 +222,17 @@ with_cluster <- function(x, ...) {
 
   opts <- list(...)
 
-  if (is.null(opts$clusters) && is.null(opts$M) && !is.null(x$cluster))
-    opts$clusters <- x$cluster
+  if (is.null(option_cluster(opts)) && !is.null(x$cluster))
+    opts[["clusters"]] <- x$cluster
 
   opts
+
+}
+
+#' The cluster specified in a list of options (`clusters` or `M`), if any
+#' @noRd
+option_cluster <- function(opts) {
+
+  if (!is.null(opts[["clusters"]])) opts[["clusters"]] else opts[["M"]]
 
 }

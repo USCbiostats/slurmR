@@ -11,15 +11,21 @@
 
 * `read_sbatch()` now parses `#SBATCH` lines the way Slurm does: several
   options per line, trailing `# comments`, nested quotes and backslash escapes,
-  empty values, and it stops at the first command. `parse_flags()` escapes
-  quotes and backslashes in values (and quotes empty values and values with `#`).
-  `sourceSlurm()` and `sbatch()` now honor `-J` as well as `--job-name`.
+  empty values, clustered flags (`-Hs`), and it stops at the first command.
+  `parse_flags()` now quotes (and escapes) option values that have white space,
+  quotes, backslashes, `#`, or shell metacharacters (e.g.,
+  `--constraint=haswell|skylake` was run as a pipe); `$` is still expanded by the
+  shell. Empty values of short options are dropped with a warning, and values
+  with new lines are an error. `sourceSlurm()` and `sbatch()` now honor `-J` as
+  well as `--job-name`.
 
 * Jobs submitted to another cluster remember it (new `cluster` field of
   `slurm_job` objects). `status()`, `wait_slurm()`, `sacct()`, `squeue()`, and
   `scancel()` now query that cluster (`--clusters`); `scancel()` used to wait
   forever for such jobs. `status()` and `wait_slurm()` gain the argument
   `clusters` for job ids. `squeue()` ignores the `CLUSTER:` header line.
+  `sbatch(<file>)` returns the id with the attribute `cluster`, and
+  `makeSlurmCluster()` uses it (attribute `SLURM_CLUSTER` of the cluster).
 
 * `wait_slurm(timeout = )` is now honored even when the job cannot be found
   (it used to wait forever when `force = TRUE`).

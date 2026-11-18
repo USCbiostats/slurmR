@@ -29,7 +29,9 @@ one option (e.g., \verb{#SBATCH -N2 -n4}); quotes group characters (and are
 removed) and a backslash escapes the next character; and an unquoted,
 unescaped \verb{#} starts a comment that lasts until the end of the line. A
 token that does not start with a dash and follows an option is taken as its
-value (e.g., \verb{--time 01:00:00}).
+value (e.g., \verb{--time 01:00:00}), except for options without a value or with
+an optional one (e.g., \code{--exclusive}, \code{--requeue}, \code{--nice}), which only take
+it attached (\code{--nice=5}). Flags can be clustered (e.g., \code{-Hs}).
 }
 \examples{
 

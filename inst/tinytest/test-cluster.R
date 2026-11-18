@@ -123,8 +123,31 @@ if ((.Platform$OS.type == "unix") && !slurm_available()) local({
   expect_true(grepl("--clusters=B", last_call("scancel"), fixed = TRUE))
   expect_silent(scancel(555L, clusters = "B"))
 
+  # The short form of the option is understood too (it used to be sent to
+  # scancel but the wait still looked for the job in the local cluster)
+  res <- tryCatch({
+    setTimeLimit(elapsed = 20, transient = TRUE)
+    scancel(555L, M = "B")
+    NULL
+  }, error = function(e) e)
+  setTimeLimit(elapsed = Inf, transient = TRUE)
+  expect_null(res)
+  expect_true(grepl("-M B", last_call("scancel"), fixed = TRUE))
+
   # sbatch on a file also waits on the right cluster
-  expect_equal(suppressMessages(sbatch(job$bashfile, wait = TRUE)), 555L)
+  jobid <- suppressMessages(sbatch(job$bashfile, wait = TRUE))
+  expect_equal(as.integer(jobid), 555L)
+  expect_equal(attr(jobid, "cluster"), "B")
+
+  # The cluster is also kept for the jobs that host socket clusters
+  # (makeSlurmCluster), which are submitted from a file
+  hosts <- slurmR:::get_hosts(
+    ntasks = 1, tmp_path = tempdir(), clusters = "B"
+  )
+  expect_equal(hosts$jobid, 555L)
+  expect_equal(hosts$cluster, "B")
+  expect_true(any(grepl("#SBATCH --clusters=B", readLines(hosts$script), fixed = TRUE)))
+  hosts$clean()
 
   # A cluster name with digits (see #59) ---------------------------------------
   Sys.setenv(FAKE_SBATCH_MSG = "Submitted batch job 555 on cluster B")
@@ -138,6 +161,9 @@ if ((.Platform$OS.type == "unix") && !slurm_available()) local({
   suppressMessages(sbatch(job3))
   expect_equal(job3$jobid, 777L)
   expect_null(job3$cluster)
+
+  jobid <- suppressMessages(sbatch(job3$bashfile))
+  expect_null(attr(jobid, "cluster"))
 
   q <- squeue(job3)
   expect_equal(q$JOBID, "777_1")

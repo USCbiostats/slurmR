@@ -230,6 +230,10 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
   if (wait)
     wait_slurm_impl(jobid, clusters = cluster)
 
+  # Jobs sent to another cluster carry its name (needed to query/cancel them)
+  if (!is.null(cluster))
+    attr(jobid, "cluster") <- cluster
+
   invisible(jobid)
 
 }

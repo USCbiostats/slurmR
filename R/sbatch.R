@@ -228,21 +228,25 @@ sbatch.character <- function(x, wait = FALSE, submit = TRUE, ...) {
 
 #' Extract the job id from the output of `sbatch`
 #'
-#' Handles both the standard output (`Submitted batch job 123`) and the one
-#' from federated clusters (`Submitted batch job 123 on cluster foo`).
+#' `sbatch` reports a successful submission with `Submitted batch job <id>`.
+#' When the job is sent to another cluster (`-M`/`--clusters`, e.g., federated
+#' or multi-cluster setups), Slurm appends ` on cluster <name>` to the message.
+#' Older versions only print the first form. Since `stderr` is captured along
+#' with `stdout`, the message may also be preceded by other lines (warnings,
+#' retries) or by an `sbatch: ` prefix, so we look for the message in any line
+#' instead of assuming its position.
+#'
 #' @param ans Character vector. Output captured from `sbatch`.
-#' @return An integer scalar with the job id. Fails with an error if no job id
-#' can be found.
+#' @return An integer scalar with the job id. It stops with an informative
+#' error if no job id can be found.
 #' @noRd
 parse_sbatch_jobid <- function(ans) {
 
-  pattern <- "^\\s*Submitted batch job\\s+([[:digit:]]+)\\b.*$"
-  lines   <- ans[grepl(pattern, ans, perl = TRUE)]
+  pattern <- "^\\s*(sbatch:\\s+)?Submitted batch job\\s+([[:digit:]]+)(\\s.*)?$"
+  lines   <- ans[grepl(pattern, ans)]
 
   if (length(lines)) {
-    jobid <- suppressWarnings(
-      as.integer(sub(pattern, "\\1", lines[1L], perl = TRUE))
-    )
+    jobid <- suppressWarnings(as.integer(sub(pattern, "\\2", lines[1L])))
     if (!is.na(jobid))
       return(jobid)
   }

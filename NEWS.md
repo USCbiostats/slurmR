@@ -1,4 +1,4 @@
-# slurmR 0.5-4
+# slurmR 0.6-0
 
 * Fixed job id recovery when submitting to another cluster (`sbatch -M`) or a
   federated cluster, where Slurm appends `on cluster <name>` to the success

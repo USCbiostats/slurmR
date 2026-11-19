@@ -3,7 +3,7 @@ message: 'To cite package "slurmR" in publications use:'
 type: software
 license: MIT
 title: 'slurmR: A Lightweight Wrapper for ''Slurm'''
-version: 0.5-4
+version: 0.6-0
 doi: 10.32614/CRAN.package.slurmR
 abstract: '''Slurm'', Simple Linux Utility for Resource Management <https://slurm.schedmd.com/>,
   is a popular ''Linux'' based software used to schedule jobs in ''HPC'' (High Performance
@@ -55,6 +55,6 @@ references:
     given-names: Paul
     orcid: https://orcid.org/0000-0003-0824-7449
   year: '2023'
-  notes: R package version 0.5-4
+  notes: R package version 0.6-0
   url: https://github.com/USCbiostats/slurmR
   doi: 10.32614/CRAN.package.slurmR

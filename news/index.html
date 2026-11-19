@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">slurmR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5-4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6-0</span>
       </span>
     </div>
 
@@ -70,7 +70,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.5-4" id="slurmr-05-4">slurmR 0.5-4<small>2023-08-30</small><a class="anchor" aria-label="anchor" href="#slurmr-05-4"></a></h2>
+<h2 class="page-header" data-toc-text="0.6-0" id="slurmr-06-0">slurmR 0.6-0<a class="anchor" aria-label="anchor" href="#slurmr-06-0"></a></h2>
 <ul><li><p>Fixed job id recovery when submitting to another cluster (<code>sbatch -M</code>) or a federated cluster, where Slurm appends <code>on cluster &lt;name&gt;</code> to the success message (<a href="https://github.com/USCbiostats/slurmR/issues/41" class="external-link">#41</a>, <a href="https://github.com/USCbiostats/slurmR/issues/59" class="external-link">#59</a>). A clear error is now raised if the job id cannot be parsed.</p></li>
 <li><p>Valueless <code>#SBATCH</code> flags (e.g., <code>--exclusive</code>) are now handled by <code><a href="../reference/read_sbatch.html">read_sbatch()</a></code>, <code><a href="../reference/sbatch.html">sbatch()</a></code>, and <code><a href="../reference/sourceSlurm.html">sourceSlurm()</a></code> (<a href="https://github.com/USCbiostats/slurmR/issues/44" class="external-link">#44</a>). <strong>Breaking:</strong> <code><a href="../reference/read_sbatch.html">read_sbatch()</a></code> now returns a list instead of a character vector.</p></li>
 <li><p><code><a href="../reference/read_sbatch.html">read_sbatch()</a></code> now parses <code>#SBATCH</code> lines the way Slurm does: several options per line, trailing <code># comments</code>, nested quotes and backslash escapes, empty values, clustered flags (<code>-Hs</code>), and it stops at the first command. <code><a href="../reference/parse_flags.html">parse_flags()</a></code> now quotes (and escapes) option values that have white space, quotes, backslashes, <code>#</code>, or shell metacharacters (e.g., <code>--constraint=haswell|skylake</code> was run as a pipe); <code>$</code> is still expanded by the shell. Empty values of short options are dropped with a warning, and values with new lines are an error. <code><a href="../reference/sourceSlurm.html">sourceSlurm()</a></code> and <code><a href="../reference/sbatch.html">sbatch()</a></code> now honor <code>-J</code> as well as <code>--job-name</code>.</p></li>

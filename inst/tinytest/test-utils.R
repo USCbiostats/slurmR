@@ -1,4 +1,12 @@
 tmp <- file.path(opts_slurmR$get_tmp_path(), "test-utils")
+
+# A new job directory is normalized before it exists. This must not emit the
+# normalizePath "No such file or directory" warning.
+new_path <- file.path(tempdir(), "slurmr-new-path", "job")
+expect_silent(slurmR:::check_full_path(dirname(new_path), basename(new_path)))
+expect_true(dir.exists(new_path))
+unlink(file.path(tempdir(), "slurmr-new-path"), recursive = TRUE)
+
 x   <- suppressWarnings(
   Slurm_EvalQ(print("Hello"), plan = "none", tmp_path = tmp)
 )

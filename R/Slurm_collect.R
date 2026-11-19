@@ -65,36 +65,33 @@ Slurm_collect.slurm_job <- function(x, any. = FALSE, wait = 10L, ...) {
       )
     }
 
-    # Generating element-names
-    e_names <- paste0(x$jobid, "_", 1:x$njobs)
+    answer_files <- snames(
+      "rds",
+      array_id = seq_len(x$njobs),
+      tmp_path = tmp_path,
+      job_name = job_name
+    )
+
+    missing <- which(!file.exists(answer_files))
+    if (!any. && length(missing))
+      stop(
+        "Cannot collect job ", x$jobid, ": missing answer files for array ",
+        "task ID(s): ", paste(missing, collapse = ", "), ".\nMissing files:\n - ",
+        paste(answer_files[missing], collapse = "\n - "),
+        call. = FALSE
+      )
 
     if (S == 0L)
       do.call(
         "c",
-        lapply(
-          snames(
-            "rds",
-            array_id = 1:x$njobs,
-            tmp_path = tmp_path,
-            job_name = job_name
-            ),
-          readRDS
-        )
+        lapply(answer_files, readRDS)
       )
       
     else if (any.) {
 
       do.call(
         "c",
-        lapply(
-          snames(
-            "rds",
-            array_id = 1:x$njobs,
-            tmp_path = tmp_path,
-            job_name = job_name
-            ),
-          readRDS_trying
-        )
+        lapply(answer_files, readRDS_trying)
       )
 
     } else

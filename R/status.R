@@ -144,16 +144,73 @@ status_impl <- function(x, job = NULL, clusters = NULL) {
   JobID <- dat$JobID
   State <- dat$State
 
+  # A slurm_job remembers the array selection used by its most recent sbatch
+  # call. Some Slurm installations omit cancelled array elements from sacct,
+  # so rows returned by sacct alone do not define the expected array size.
+  expected <- NULL
+  if (!is.null(job)) {
+    expected <- job$array_ids
+    if (!length(expected))
+      expected <- seq_len(job$njobs) # Jobs saved by slurmR <= 0.6-0
+    expected <- as.integer(expected)
+  }
+
   STATE_CODES <- split(JOB_STATE_CODES$name, JOB_STATE_CODES$type)
 
 
-  # If it is an array (multiple rows)
-  if (nrow(dat) > 1L) {
-    # Getting the array id
-    JobID <- as.integer(gsub(".+[_]", "", JobID))
+  # Convert Slurm job IDs to array task IDs. A single unadorned job ID belongs
+  # to the sole expected task (normally task 1).
+  has_array_id <- grepl("_", JobID, fixed = TRUE)
+  JobID[has_array_id] <- sub(".+_", "", JobID[has_array_id])
+  if (length(expected) == 1L)
+    JobID[!has_array_id] <- expected
+  JobID <- suppressWarnings(as.integer(JobID))
+
+  if (length(expected)) {
+
+    # Ignore allocation rows that cannot be mapped to an array task, then ask
+    # squeue about expected IDs omitted by sacct. If an ID is in neither data
+    # source, it is no longer queued and did not complete, so it failed.
+    keep  <- !is.na(JobID) & JobID %in% expected
+    JobID <- JobID[keep]
+    State <- State[keep]
+
+    missing <- setdiff(expected, JobID)
+    if (length(missing)) {
+      queued <- tryCatch(squeue(job), error = function(e) e)
+      queued_ids <- integer(0)
+      queued_states <- character(0)
+
+      if (!inherits(queued, "error") && nrow(queued)) {
+        state_col <- intersect(c("STATE", "STATUS", "ST"), names(queued))
+        if (length(state_col) && "JOBID" %in% names(queued)) {
+          for (i in seq_len(nrow(queued))) {
+            ids <- expand_array_indexes(queued$JOBID[i])
+            ids <- suppressWarnings(as.integer(sub(".+_", "", ids)))
+            use <- !is.na(ids) & ids %in% missing
+            queued_ids <- c(queued_ids, ids[use])
+            queued_states <- c(
+              queued_states,
+              rep(queued[[state_col[1L]]][i], sum(use))
+            )
+          }
+        }
+      }
+
+      JobID <- c(JobID, queued_ids, setdiff(missing, queued_ids))
+      State <- c(
+        State,
+        queued_states,
+        rep("FAILED", length(setdiff(missing, queued_ids)))
+      )
+    }
+
+    ord <- match(expected, JobID)
+    JobID <- JobID[ord]
+    State <- State[ord]
   }
 
-  njobs <- length(State)
+  njobs <- if (length(expected)) length(expected) else length(State)
   State <- lapply(STATE_CODES, function(jsc) {
     m <- grepl(paste0(jsc, collapse = "|"), State)
     JobID[which(m)]

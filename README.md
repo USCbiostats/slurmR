@@ -84,10 +84,10 @@ devtools::install_github("USCbiostats/slurmR")
 
     And the R package itself:
 
-      Vega Yon G, Marjoram P (2023). _slurmR: A Lightweight Wrapper for
+      Vega Yon G, Marjoram P (2026). _slurmR: A Lightweight Wrapper for
       'Slurm'_. doi:10.32614/CRAN.package.slurmR
       <https://doi.org/10.32614/CRAN.package.slurmR>, R package version
-      0.5-4, <https://github.com/USCbiostats/slurmR>.
+      0.6-0, <https://github.com/USCbiostats/slurmR>.
 
     To see these entries in BibTeX format, use 'print(<citation>,
     bibtex=TRUE)', 'toBibtex(.)', or set
@@ -130,10 +130,10 @@ We can use the function `Slurm_lapply` to distribute computations
 ``` r
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  Warning in normalizePath(file.path(tmp_path, job_name)):
-#  path[1]="/Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88":
+#  path[1]="/Users/u6039184/Documents/software/slurmR/slurmr-job-16436492c2c21":
 #  No such file or directory
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=slurmr-job-136571c419a88 /Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/01-bash.sh
+#  sbatch --job-name=slurmr-job-16436492c2c21 /Users/u6039184/Documents/software/slurmR/slurmr-job-16436492c2c21/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -145,10 +145,10 @@ get more info, we can set the verbose mode on
 opts_slurmR$verbose_on()
 ans <- Slurm_lapply(x, mean, plan = "none")
 #  Warning in normalizePath(file.path(tmp_path, job_name)):
-#  path[1]="/Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88":
+#  path[1]="/Users/u6039184/Documents/software/slurmR/slurmr-job-16436492c2c21":
 #  No such file or directory
 #  --------------------------------------------------------------------------------
-#  [VERBOSE MODE ON] The R script that will be used is located at: /Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/00-rscript.r and has the following contents:
+#  [VERBOSE MODE ON] The R script that will be used is located at: /Users/u6039184/Documents/software/slurmR/slurmr-job-16436492c2c21/00-rscript.r and has the following contents:
 #  --------------------------------------------------------------------------------
 #  .libPaths("/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library")
 #  message("[slurmR info] Loading variables and functions... ", appendLF = FALSE)
@@ -176,7 +176,7 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #      sprintf("%s/%s/%s", tmp_path, job_name, type)
 #  }
 #  TMP_PATH  <- "/Users/u6039184/Documents/software/slurmR"
-#  JOB_NAME  <- "slurmr-job-136571c419a88"
+#  JOB_NAME  <- "slurmr-job-16436492c2c21"
 #  
 #  # The -tcq- function is a wrapper of tryCatch that on error tries to recover
 #  # the message and saves the outcome so that slurmR can return OK.
@@ -203,19 +203,19 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #  }
 #  message("done loading variables and functions.")
 #  tcq({
-#    INDICES <- readRDS("/Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/INDICES.rds")
+#    INDICES <- readRDS("/Users/u6039184/Documents/software/slurmR/slurmr-job-16436492c2c21/INDICES.rds")
 #  })
 #  tcq({
-#    X <- readRDS(sprintf("/Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/X_%04d.rds", ARRAY_ID))
+#    X <- readRDS(sprintf("/Users/u6039184/Documents/software/slurmR/slurmr-job-16436492c2c21/X_%04d.rds", ARRAY_ID))
 #  })
 #  tcq({
-#    FUN <- readRDS("/Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/FUN.rds")
+#    FUN <- readRDS("/Users/u6039184/Documents/software/slurmR/slurmr-job-16436492c2c21/FUN.rds")
 #  })
 #  tcq({
-#    mc.cores <- readRDS("/Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/mc.cores.rds")
+#    mc.cores <- readRDS("/Users/u6039184/Documents/software/slurmR/slurmr-job-16436492c2c21/mc.cores.rds")
 #  })
 #  tcq({
-#    seeds <- readRDS("/Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/seeds.rds")
+#    seeds <- readRDS("/Users/u6039184/Documents/software/slurmR/slurmr-job-16436492c2c21/seeds.rds")
 #  })
 #  set.seed(seeds[ARRAY_ID], kind = NULL, normal.kind = NULL)
 #  tcq({
@@ -225,24 +225,24 @@ ans <- Slurm_lapply(x, mean, plan = "none")
 #      mc.cores         = mc.cores
 #  )
 #  })
-#  saveRDS(ans, sprintf("/Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
+#  saveRDS(ans, sprintf("/Users/u6039184/Documents/software/slurmR/slurmr-job-16436492c2c21/03-answer-%03i.rds", ARRAY_ID), compress = TRUE)
 #  message("[slurmR info] job-status: OK.\n")
 #  --------------------------------------------------------------------------------
-#  The bash file that will be used is located at: /Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/01-bash.sh and has the following contents:
+#  The bash file that will be used is located at: /Users/u6039184/Documents/software/slurmR/slurmr-job-16436492c2c21/01-bash.sh and has the following contents:
 #  --------------------------------------------------------------------------------
 #  #!/bin/sh
-#  #SBATCH --job-name=slurmr-job-136571c419a88
-#  #SBATCH --output=/Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/02-output-%A-%a.out
+#  #SBATCH --job-name=slurmr-job-16436492c2c21
+#  #SBATCH --output=/Users/u6039184/Documents/software/slurmR/slurmr-job-16436492c2c21/02-output-%A-%a.out
 #  #SBATCH --array=1-2
-#  #SBATCH --job-name=slurmr-job-136571c419a88
+#  #SBATCH --job-name=slurmr-job-16436492c2c21
 #  #SBATCH --cpus-per-task=1
 #  #SBATCH --ntasks=1
-#  /Library/Frameworks/R.framework/Resources/bin/Rscript  /Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/00-rscript.r
+#  /Library/Frameworks/R.framework/Resources/bin/Rscript  /Users/u6039184/Documents/software/slurmR/slurmr-job-16436492c2c21/00-rscript.r
 #  --------------------------------------------------------------------------------
 #  EOF
 #  --------------------------------------------------------------------------------
 #  Warning: [submit = FALSE] The job hasn't been submitted yet. Use sbatch() to submit the job, or you can submit it via command line using the following:
-#  sbatch --job-name=slurmr-job-136571c419a88 /Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/01-bash.sh
+#  sbatch --job-name=slurmr-job-16436492c2c21 /Users/u6039184/Documents/software/slurmR/slurmr-job-16436492c2c21/01-bash.sh
 Slurm_clean(ans) # Cleaning after you
 ```
 
@@ -389,15 +389,15 @@ ans <- Slurm_lapply(1:10, mean, plan = "none", preamble = "module load pandoc")
 # Printing out the bashfile
 cat(readLines(ans$bashfile), sep = "\n")
 #  #!/bin/sh
-#  #SBATCH --job-name=slurmr-job-136571c419a88
-#  #SBATCH --output=/Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/02-output-%A-%a.out
+#  #SBATCH --job-name=slurmr-job-16436492c2c21
+#  #SBATCH --output=/Users/u6039184/Documents/software/slurmR/slurmr-job-16436492c2c21/02-output-%A-%a.out
 #  #SBATCH --array=1-2
-#  #SBATCH --job-name=slurmr-job-136571c419a88
+#  #SBATCH --job-name=slurmr-job-16436492c2c21
 #  #SBATCH --cpus-per-task=1
 #  #SBATCH --ntasks=1
 #  module load gcc/6.0
 #  module load pandoc
-#  /Library/Frameworks/R.framework/Resources/bin/Rscript  /Users/u6039184/Documents/software/slurmR/slurmr-job-136571c419a88/00-rscript.r
+#  /Library/Frameworks/R.framework/Resources/bin/Rscript  /Users/u6039184/Documents/software/slurmR/slurmr-job-16436492c2c21/00-rscript.r
 
 Slurm_clean(ans) # Cleaning after you
 ```

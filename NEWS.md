@@ -1,5 +1,14 @@
 # slurmR 0.6-0
 
+* New job directories no longer produce a spurious `normalizePath()` warning.
+
+* Array task IDs from the latest submission are retained. `status()` now
+  reconciles tasks omitted by `sacct` with `squeue`, preventing cancelled,
+  never-started tasks from making an incomplete array appear complete.
+
+* `Slurm_collect()` now checks all expected answer files before reading them
+  and reports every missing task ID and file together.
+
 * Fixed job id recovery when submitting to another cluster (`sbatch -M`) or a
   federated cluster, where Slurm appends `on cluster <name>` to the success
   message (#41, #59). A clear error is now raised if the job id cannot be

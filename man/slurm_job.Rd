@@ -68,6 +68,7 @@ and \link{opts_slurmR}$get_r_opts() at the moment of the creation of the \code{s
 \item \code{hooks} A list of functions to be called on the collected objects
 by \link{Slurm_collect}.
 \item \code{jobid} The job id assigned by Slurm (\code{NA} before submission).
+\item \code{array_ids} The array task IDs included in the most recent submission.
 \item \code{cluster} The name of the cluster where the job was submitted when it
 differs from the local one (e.g., using \code{sbatch_opt = list(clusters = "B")}),
 otherwise \code{NULL}. It is used by \link{status}, \link{wait_slurm}, \link{sacct}, \link{squeue},
